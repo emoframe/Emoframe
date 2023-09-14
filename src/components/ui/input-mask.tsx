@@ -1,51 +1,29 @@
-import {
-  useState,
-  forwardRef,
-  MutableRefObject,
-  useEffect,
-  ComponentProps,
-  ChangeEvent
-} from "react";
+import * as React from "react";
+import Mask, { Props } from "react-input-mask";
+import { UseControllerReturn } from "react-hook-form";
+import { cn } from "@/lib/utils";
 
-import { MaskedFunctionOptions } from "imask";
-import { useIMask } from "react-imask";
-import { Input } from "@/components/ui/input";
 
-export type MaskedInputProps = {
-  maskOptions: MaskedFunctionOptions
-} & ComponentProps<typeof Input>;
+interface MaskInputProps extends Props {
+  className?: string,
+  defaultValue?: string | number | readonly string[],
+  placeholder?: string,
+}
 
-export const InputMask = forwardRef<HTMLInputElement, MaskedInputProps>(
-  ({ maskOptions, onChange, ...props }, ref) => {
+export const InputMask: React.FC<MaskInputProps> = ({ className, mask, defaultValue, value, placeholder, ...props }) => {
+    return (
+      <Mask
+        className={cn(
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          className
+        )}
+        mask={mask} 
+        defaultValue={defaultValue}
+        value={value}
+        placeholder={placeholder}
+        {...props}
+      />
+    )
+};
 
-    const [opts, setOpts] = useState<MaskedFunctionOptions>(maskOptions);
-    const { ref: IMaskInput } = useIMask(opts, {
-      onAccept(value, maskRef, event?) {
-        if (!event) return;
-
-        onChange?.((event as unknown) as ChangeEvent<HTMLInputElement>);
-      }
-    });
-    const inputMaskRef = IMaskInput as MutableRefObject<HTMLInputElement>;
-
-    useEffect(() => {
-      setOpts(maskOptions);
-    }, [maskOptions]);
-
-    function handleRefs(instance: HTMLInputElement | null) {
-      if (ref) {
-        if (typeof ref === "function") {
-          ref(instance);
-        } else {
-          ref.current = instance;
-        }
-      }
-
-      if (instance) {
-        inputMaskRef.current = instance;
-      }
-    }
-
-    return <Input ref={handleRefs} {...props} />;
-  }
-);
+InputMask.displayName = "InputMask"

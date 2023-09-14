@@ -16,6 +16,9 @@ module.exports = {
       },
     },
     extend: {
+      spacing: {
+        'navbar': 'var(--navbar)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

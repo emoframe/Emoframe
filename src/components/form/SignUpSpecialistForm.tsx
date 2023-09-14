@@ -16,7 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Button } from '@/components/ui/button';
 import { isValidMobilePhone } from "@brazilian-utils/brazilian-utils";
 import Link from 'next/link';
-import { InputMask } from '../ui/input-mask';
+import { formatPhone } from '@/lib/utils';
 
 interface RadioItem {
   value: string;
@@ -45,12 +45,52 @@ const FormSchema = z
     surname: z.string().min(1, 'Sobrenome é obrigatório').max(100),
     social_name: z.string().max(100),
     specialty: z.enum([SpecialtyProps[0].value, ...SpecialtyProps.slice(1).map((p) => p.value)], {
-      required_error: "Você precisa selecionar uma opção",
+      errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
-    gender: z.enum([GenderProps[0].value, ...GenderProps.slice(1).map((p) => p.value)], {
-      required_error: "Você precisa selecionar uma opção",
+    connection: z.string().min(1, 'Vínculo é obrigatório').max(100),
+    phone: z.string().transform((data) => data.replace(/[^\d]/g, ""))
+    .superRefine((val, ctx) => {
+      if (val.length == 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.too_small,
+          minimum: 1,
+          type: "string",
+          inclusive: true,
+          message: "Telefone é obrigatório",
+        });
+      }
+
+      if (val.length < 8) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.too_small,
+          minimum: 1,
+          type: "string",
+          inclusive: true,
+          message: "Telefone está incompleto",
+        });
+      }
+    
+      if (val.length > 11) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.too_big,
+          maximum: 11,
+          type: "string",
+          inclusive: true,
+          message: "Telefone possui 11 caracteres no máximo",
+        });
+      }  
+
+      if (!isValidMobilePhone(val)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Não é um telefone válido",
+        });
+      }
     }),
-    phone: z.string().min(1, 'Email é obrigatório').email('Email inválido'),
+
+    gender: z.enum([GenderProps[0].value, ...GenderProps.slice(1).map((p) => p.value)],  {
+      errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
+    }),
     email: z.string().min(1, 'Email é obrigatório').email('Email inválido'),
     password: z
       .string()
@@ -71,8 +111,9 @@ const SignUpForm = () => {
       surname: '',
       social_name: '',
       specialty: '',
-      gender: '',
+      connection: '',
       phone: '',
+      gender: '',
       email: '',
       password: '',
       confirm_password: '',
@@ -85,177 +126,199 @@ const SignUpForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-        <div className='space-y-2'>
-          <FormField
-            control={form.control}
-            name='name'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome</FormLabel>
-                <FormControl>
-                  <Input placeholder='José' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='surname'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Sobrenome</FormLabel>
-                <FormControl>
-                  <Input placeholder='da Silva' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='social_name'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome Social</FormLabel>
-                <FormControl>
-                  <Input placeholder='José da Silva' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className='flex sm:flex-col lg:flex-row flex-wrap justify-center gap-6'>
+          <div className='flex-col gap-x-2'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome</FormLabel>
+                  <FormControl>
+                    <Input placeholder='José' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='surname'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sobrenome</FormLabel>
+                  <FormControl>
+                    <Input placeholder='da Silva' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='social_name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome Social</FormLabel>
+                  <FormControl>
+                    <Input placeholder='José da Silva' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="specialty"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Especialidade</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col space-y-1"
-                  > 
-                    {SpecialtyProps.map((specialty) => {
-                      return (
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value={specialty.value} />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {specialty.label}
-                          </FormLabel>
-                        </FormItem>
-                    )})}
-            
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="gender"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Gênero</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col space-y-1"
-                  > 
-                    {GenderProps.map((specialty) => {
-                      return (
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value={specialty.value} />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {specialty.label}
-                          </FormLabel>
-                        </FormItem>
-                    )})}
-            
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />  
-
-          <FormField
-            control={form.control}
-            name='phone'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefone</FormLabel>
-                <FormControl>
-                  <InputMask
-                    maskOptions={{
-                      mask: "(00) 00000-0000",
-                    }}
-                    placeholder='(16) 99999-9999' 
+          <div className='flex-col gap-x-2'>  
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder='mail@example.com' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='phone'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefone</FormLabel>
+                  <FormControl>
+                    <Input 
+                    placeholder='(99) 99999-9999' 
                     {...field} 
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />           
+                    onChange={(value: any): void => {
+                      field.onChange(formatPhone(value))
+                    }} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='connection'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Vínculo</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Universidade de São Paulo' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          
+          <div className='flex gap-x-4'>
+            <FormField
+              control={form.control}
+              name="specialty"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Especialidade</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    > 
+                      {SpecialtyProps.map((specialty, index) => {
+                        return (
+                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                            <FormControl>
+                              <RadioGroupItem value={specialty.value} />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {specialty.label}
+                            </FormLabel>
+                          </FormItem>
+                      )})}
+              
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder='Insira sua senha'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='confirm_password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirme sua senha</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='Confirme sua senha'
-                    type='password'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="gender"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Gênero</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    > 
+                      {GenderProps.map((specialty, index) => {
+                        return (
+                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                            <FormControl>
+                              <RadioGroupItem value={specialty.value} />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {specialty.label}
+                            </FormLabel>
+                          </FormItem>
+                      )})}
+              
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> 
+          </div>   
+
+          <div className='flex-col gap-x-2'>
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Senha</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='password'
+                      placeholder='Insira sua senha'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='confirm_password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirme sua senha</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='Confirme sua senha'
+                      type='password'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          
         </div>
         <Button className='w-full mt-6' type='submit'>
           Registre-se
@@ -265,7 +328,7 @@ const SignUpForm = () => {
         ou
       </div>
       <p className='text-center text-sm text-gray-600 mt-2'>
-        Se possuir uma conta, por favor
+        Se possuir uma conta, por favor&nbsp;
         <Link className='text-blue-500 hover:underline' href='/sign-in'>
           Entre
         </Link>

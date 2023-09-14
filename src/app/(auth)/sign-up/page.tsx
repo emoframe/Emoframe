@@ -2,8 +2,8 @@ import SignUpForm from '@/components/form/SignUpSpecialistForm';
 
 const page = () => {
   return (
-    <div className='w-full'>
-      <SignUpForm />
+    <div className='flex flex-col w-full'>
+      <SignUpForm/>
     </div>
   );
 };
