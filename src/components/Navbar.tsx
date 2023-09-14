@@ -10,7 +10,7 @@ const Navbar = () => {
                     Logo
                 </Link>
                 <Link className={buttonVariants()} href="/sign-in">
-                    Sign in
+                    Entre
                 </Link>
             </div>
         </div>

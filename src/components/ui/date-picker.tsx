@@ -13,13 +13,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { UseControllerReturn } from "react-hook-form"
+import { ControllerRenderProps } from "react-hook-form"
 
 
 const locale = br;
 
 interface DatePickerProps {
-    field: UseControllerReturn["field"],
+    field: ControllerRenderProps<any, any>,
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({ field }: DatePickerProps) => {
@@ -30,7 +30,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({ field }: DatePickerProps
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background justify-start text-left font-normal",
             !field.value && "text-muted-foreground"
           )}
         >
