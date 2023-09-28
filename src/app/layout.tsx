@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import SessionProvider from "@/components/provider/SessionProvider";
 import '@/styles/globals.css';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,10 +19,12 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <Navbar/>
-                <main className="flex flex-col justify-center items-center pt-[calc(5rem+var(--navbar))] pb-[5rem]">
-					{children}
-				</main>
+                <SessionProvider>
+                    <Navbar/>
+                    <main className="flex flex-col justify-center items-center pt-[calc(5rem+var(--navbar))] pb-[5rem]">
+                        {children}
+                    </main>
+                </SessionProvider>
             </body>
         </html>
     );

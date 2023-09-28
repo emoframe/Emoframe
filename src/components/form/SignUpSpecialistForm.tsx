@@ -1,6 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
+import { redirect } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -17,6 +18,8 @@ import { Button } from '@/components/ui/button';
 import { isValidMobilePhone } from "@brazilian-utils/brazilian-utils";
 import Link from 'next/link';
 import { formatPhone } from '@/lib/utils';
+import { createUser } from '@/lib/firebase';
+import { Specialist } from '@/types/users';
 
 interface RadioItem {
   value: string;
@@ -120,8 +123,11 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    let data = values as Specialist;
+    data.type = "specialist";
+    await createUser(data);
+    redirect("/");
   };
 
   return (

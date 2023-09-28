@@ -1,11 +1,24 @@
-import SignUpForm from '@/components/form/SignUpUserForm';
+'use client';
 
-const page = () => {
+import SignUpForm from '@/components/form/SignUpUserForm';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
+
+const SpecialistForm = () => {
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/');
+    },
+  });
+  
   return (
     <div className='flex flex-col w-full'>
-      <SignUpForm/>
+      <SignUpForm specialistId={session?.user.uid!}/>
     </div>
   );
 };
 
-export default page;
+export default SpecialistForm;
+
+SpecialistForm.requireAuth = true

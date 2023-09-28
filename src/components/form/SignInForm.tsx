@@ -13,7 +13,10 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email é obrigatório').email('Email invalido'),
@@ -33,7 +36,7 @@ const SignInForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+    signIn('credentials', { email: values.email, password: values.password, redirect: true, callbackUrl: '/specialist' });
   };
 
   return (

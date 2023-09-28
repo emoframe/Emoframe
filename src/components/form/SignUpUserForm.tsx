@@ -17,7 +17,11 @@ import { Button } from '@/components/ui/button';
 import { isValidMobilePhone } from "@brazilian-utils/brazilian-utils";
 import Link from 'next/link';
 import { formatPhone } from '@/lib/utils';
-import { DatePicker } from '../ui/date-picker';
+import { DatePicker, DateField } from '../ui/date-picker';
+import { getLocalTimeZone, parseDate, today } from "@internationalized/date"
+import { useRouter } from 'next/navigation';
+import { createUser } from '@/lib/firebase';
+import { User } from '@/types/users';
 
 interface RadioItem {
   value: string;
@@ -155,7 +159,7 @@ const FormSchema = z
     message: 'Senhas não batem',
   });
 
-const SignUpForm = () => {
+const SignUpForm = ({specialistId}) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -176,8 +180,14 @@ const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
+  const { push } = useRouter();
+
+  const onSubmit = async(values: z.infer<typeof FormSchema>) => {
+    let data = values as User;
+    data.type = "user";
+    data.specialistId = specialistId;
+    await createUser(data, specialistId);
+    push("/specialist");
   };
 
   return (
@@ -235,7 +245,9 @@ const SignUpForm = () => {
                   <FormItem>
                     <FormLabel>Data de aniversário</FormLabel>
                     <FormControl>
-                      <DatePicker field={field} />
+                      <DatePicker onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}>
+                        <DateField />
+                      </DatePicker>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -357,7 +369,38 @@ const SignUpForm = () => {
             /> 
           </div>
           
-          <div className='flex gap-x-4 items-center justify-between'>
+          <div className='flex gap-x-4 items-start justify-between'>
+            <FormField
+              control={form.control}
+              name="schooling"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Escolaridade</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    > 
+                      {SchoolingProps.map((schooling, index) => {
+                        return (
+                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                            <FormControl>
+                              <RadioGroupItem value={schooling.value} />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {schooling.label}
+                            </FormLabel>
+                          </FormItem>
+                      )})}
+              
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="race"
@@ -378,37 +421,6 @@ const SignUpForm = () => {
                             </FormControl>
                             <FormLabel className="font-normal">
                               {race.label}
-                            </FormLabel>
-                          </FormItem>
-                      )})}
-              
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="schooling"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Escolaridade</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    > 
-                      {RaceProps.map((schooling, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={schooling.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {schooling.label}
                             </FormLabel>
                           </FormItem>
                       )})}
