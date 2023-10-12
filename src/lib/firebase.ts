@@ -64,4 +64,32 @@ export async function getById (id: string, col: string) : Promise<any> {
   }
 }
 
+export async function search (key: string, value: string, col: string) : Promise<any> {
+  console.log(`${key} ${value} ${col}`);
+
+  const docRef = collection(db, col);
+  const q = query(docRef, where(key, "==", value));
+  const querySnapshot = await getDocs(q);
+  const res:any[] = []       
+  querySnapshot.forEach((doc) => {
+      const newObj: any = {
+          uid: doc.id,
+          ...doc.data(),
+      }
+      res.push(newObj);
+  });
+
+  res.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+
+  return res;
+}
+
 export { app, db, auth }

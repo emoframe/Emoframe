@@ -12,11 +12,11 @@ const Navbar = () => {
 
         if (session?.user) {
           return (
-            <button className={buttonVariants()} onClick={() => signOut()}>Sair</button>
+            <button className={buttonVariants({variant: "outline"})} onClick={() => signOut()}>Sair</button>
           )
         } else {
             return (
-                <Link className={buttonVariants()} href="/sign-in">
+                <Link className={buttonVariants({variant: "outline"})} href="/sign-in">
                     Entre
                 </Link> 
             )

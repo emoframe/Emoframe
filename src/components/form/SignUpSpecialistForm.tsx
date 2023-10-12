@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation';
 import {
   Form,
   FormControl,
@@ -123,11 +123,14 @@ const SignUpForm = () => {
     },
   });
 
+  
+  const router = useRouter();
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     let data = values as Specialist;
     data.type = "specialist";
-    await createUser(data);
-    redirect("/");
+    createUser(data).then(() => {
+      router.push("/");
+    })
   };
 
   return (

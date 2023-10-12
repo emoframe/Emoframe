@@ -15,28 +15,28 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from '@/lib/firebase';
+import { useRouter, redirect } from 'next/navigation';
 
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email é obrigatório').email('Email invalido'),
-  password: z
-    .string()
-    .min(1, 'Senha é obrigatória')
-    .min(8, 'Senha precisa possuir mais de 8 caracteres'),
 });
 
-const SignInForm = () => {
+const ForgotPasswordForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
+  const router = useRouter();
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    signIn('credentials', { email: values.email, password: values.password, redirect: true, callbackUrl: '/specialist' });
+    sendPasswordResetEmail(auth, values.email).then(() => {
+      router.push('/');
+    })
   };
 
   return (
@@ -56,26 +56,9 @@ const SignInForm = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder='Insira sua senha'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
         <Button className='w-full mt-6' type='submit'>
-          Entrar
+          Enviar
         </Button>
       </form>
       <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
@@ -87,14 +70,8 @@ const SignInForm = () => {
           Registre-se
         </Link>
       </p>
-      <p className='text-center text-sm text-gray-600 mt-2'>
-        Se esqueceu ou deseja trocar sua senha&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/forgot-password'>
-          Acesse
-        </Link>
-      </p>
     </Form>
   );
 };
 
-export default SignInForm;
+export default ForgotPasswordForm;
