@@ -3,6 +3,11 @@ import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
+const paths = {
+    specialist: ["/specialist"],
+    user: ["/user"],
+    logged: ["/profile"]
+}
 const both = ["/profile"];
 const types = ["specialist", "user"];
 const matcher = [...types.map((path) => `/${path}/:path*`), ...both.map((path) => `${path}/:path*`), "/sign-in"];
@@ -20,21 +25,14 @@ export default withAuth(
             )
         }
 
-        for(let role of types) {
-            if (pathname.startsWith(`/${role}`)
-            && type !== role) {
-                return NextResponse.rewrite(
-                    new URL("/denied", request.url)
-                )
-            }
-        }
-
-        for(let path of both) {
-            if (pathname.startsWith(path)
-            && !isAuth) {
-                return NextResponse.redirect(
-                    new URL("/", request.url)
-                )
+        for(let path in paths){
+            for(let role of paths[path]) {
+                if (pathname.startsWith(role)
+                && (type !== path && (path !== "logged" || !isAuth))) {
+                    return NextResponse.rewrite(
+                        new URL("/denied", request.url)
+                    )
+                }
             }
         }
     },
