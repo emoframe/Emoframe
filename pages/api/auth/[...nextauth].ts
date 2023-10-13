@@ -23,11 +23,11 @@ export const authOptions = {
             return new Error('invalid credentials');
           })
           .catch(error => (console.log(error)))
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(error);
-  });
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(error);
+        });
       }
     })
   ],
@@ -49,6 +49,8 @@ export const authOptions = {
         userData.social_name && (user.social_name = userData.social_name);
 
         token.user = user;
+
+        token.type = userData.type;
       }
       
       return Promise.resolve(token);

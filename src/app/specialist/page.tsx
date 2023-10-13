@@ -10,12 +10,7 @@ import { columns } from "./columns";
 import { search } from '@/lib/firebase';
 
 const SpecialistPage = () => {
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect('/');
-    },
-  });
+  const { data: session, status } = useSession();
   const uid = session?.user.uid!;
   const [data, setData] = useState(null);
 

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
+import UserMenu from "@/components/UserMenu";
 
 const Navbar = () => {
 
@@ -12,7 +13,7 @@ const Navbar = () => {
 
         if (session?.user) {
           return (
-            <button className={buttonVariants({variant: "outline"})} onClick={() => signOut()}>Sair</button>
+            <UserMenu/>
           )
         } else {
             return (

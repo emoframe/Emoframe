@@ -36,7 +36,7 @@ const SignInForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    signIn('credentials', { email: values.email, password: values.password, redirect: true, callbackUrl: '/specialist' });
+    signIn('credentials', { email: values.email, password: values.password});
   };
 
   return (
