@@ -8,9 +8,13 @@ const paths = {
     user: ["/user"],
     logged: ["/profile"]
 }
-const both = ["/profile"];
-const types = ["specialist", "user"];
-const matcher = [...types.map((path) => `/${path}/:path*`), ...both.map((path) => `${path}/:path*`), "/sign-in"];
+let matcher = ["/sign-in"];
+for(let path in paths){
+    for(let role of paths[path]) {
+        matcher.push(`${role}/:path*`);
+    }
+}
+
 
 export default withAuth(
     function middleware(request) {
