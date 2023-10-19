@@ -54,7 +54,13 @@ export async function getById (id: string, col: string) : Promise<any> {
   try {
     const docSnap = await getDoc(docRef);
     if(docSnap.exists()) {
-        return docSnap.data();
+        let data = docSnap.data();
+        data["uid"] = id;
+        
+        if(data["birthday"]) 
+          data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
+
+        return data;
     } else {
         console.log("Document does not exist");
     }
@@ -65,7 +71,6 @@ export async function getById (id: string, col: string) : Promise<any> {
 }
 
 export async function search (key: string, value: string, col: string) : Promise<any> {
-  console.log(`${key} ${value} ${col}`);
 
   const docRef = collection(db, col);
   const q = query(docRef, where(key, "==", value));

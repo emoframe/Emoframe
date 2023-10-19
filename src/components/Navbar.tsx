@@ -7,11 +7,10 @@ import { signOut, useSession } from "next-auth/react";
 import UserMenu from "@/components/UserMenu";
 
 const Navbar = () => {
+    const { data: session } = useSession();
 
     const IsLogged = () => {
-        const { data: session } = useSession();
-
-        if (session?.user) {
+        if(session?.user) {
           return (
             <UserMenu/>
           )
@@ -22,13 +21,23 @@ const Navbar = () => {
                 </Link> 
             )
         }
-      }
+    }
+
+    const redirect = () => {
+        const type = session?.user?.type;
+        let redirect = "/"
+        if (session?.user) {
+            (type == "specialist") ? redirect = "/specialist" : redirect = "/user"
+        } 
+
+        return redirect;
+    }
       
     
     return (
         <div className=" h-navbar bg-zinc-100 flex items-center justify-between border-b border-s-zinc-200 fixed w-full z-10 top-0">
             <div className="container flex items-center justify-between">
-                <Link href="/">
+                <Link href={redirect()}>
                     Logo
                 </Link>
                 <IsLogged/>

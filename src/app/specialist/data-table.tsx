@@ -2,7 +2,6 @@
 
 import {
   ColumnDef,
-  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -12,9 +11,6 @@ import {
   getSortedRowModel,
   useReactTable,
   FilterFn,
-  FilterFns,
-  SortingFn,
-  sortingFns,
 } from "@tanstack/react-table";
 
 import {

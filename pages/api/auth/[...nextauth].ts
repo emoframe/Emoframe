@@ -1,4 +1,5 @@
-import NextAuth from "next-auth"
+import NextAuth from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import { auth, getById } from "@/lib/firebase";
