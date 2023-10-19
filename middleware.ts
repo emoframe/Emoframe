@@ -1,5 +1,4 @@
 // Ref: https://next-auth.js.org/configuration/nextjs#advanced-usage
-import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
@@ -19,8 +18,14 @@ for(let path in paths){
 export default withAuth(
     function middleware(request) {
         const pathname = request.nextUrl.pathname;
+        const origin = request.nextUrl.origin;
         const type = request.nextauth.token?.type;
 
+        const requestHeaders = new Headers(request.headers);
+        requestHeaders.set('x-url', request.url);
+        requestHeaders.set('x-origin', origin);
+        requestHeaders.set('x-pathname', pathname);
+        
         const isAuth = !!type;
 
         if (pathname.startsWith("/sign-in") && isAuth){
@@ -39,6 +44,12 @@ export default withAuth(
                 }
             }
         }
+
+        return NextResponse.next({
+            request: {
+                headers: requestHeaders,
+            }
+        });
     },
     {
         callbacks: {

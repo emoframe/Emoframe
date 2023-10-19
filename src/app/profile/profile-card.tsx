@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'
+import { headers } from 'next/headers'
 
 const description = {
     uid: "ID",
@@ -58,6 +59,11 @@ const ProfileCard = async ({data, className, ...props}: any) => {
 
     const {essentials, userData, iterator} = await formatData(data, ["name", "surname", "uid", "email", "type"]);
 
+    const headersList = headers();
+    const header_url = headersList.get('x-url') || "";
+    const pathname = headersList.get('x-pathname');
+    const origin_url = headersList.get('x-origin');
+
     return (
         <Card className={cn("min-w-[600px]", className)} {...props}>
             <CardHeader>
@@ -76,7 +82,7 @@ const ProfileCard = async ({data, className, ...props}: any) => {
                 ))}
             </CardContent>
             <CardFooter>
-                <Link className={buttonVariants({ variant: "outline" })} href="/">
+                <Link className={buttonVariants({ variant: "outline" })} href={`${pathname}/edit/data`} replace>
                     Editar dados
                 </Link>
             </CardFooter>
