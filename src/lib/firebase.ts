@@ -1,6 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, deleteDoc } from "firebase/firestore";
+import { setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, deleteDoc } from "firebase/firestore";
 import { getFirestore,  } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
@@ -95,6 +95,23 @@ export async function search (key: string, value: string, col: string) : Promise
     });
 
   return res;
+}
+
+export async function updateById (data: any, id: string, col: string) : Promise<any> {
+  const docRef = doc(db, col, id);
+  const user = getValuable(data);
+  try {
+    updateDoc(docRef, user)
+    .then(docRef => {
+      console.log(`Document has been modified successfully`)
+    })
+    .catch((error) => {
+        console.log(error.code+": "+error.message);
+    });
+
+  } catch(error) {
+    console.log(error);
+  }
 }
 
 export { app, db, auth }

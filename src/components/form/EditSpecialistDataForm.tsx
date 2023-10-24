@@ -18,7 +18,7 @@ import { Button } from '@/components/ui/button';
 import { isValidMobilePhone } from "@brazilian-utils/brazilian-utils";
 import Link from 'next/link';
 import { formatPhone } from '@/lib/utils';
-import { createUser } from '@/lib/firebase';
+import { updateById } from '@/lib/firebase';
 import { Specialist } from '@/types/users';
 
 interface RadioItem {
@@ -26,18 +26,9 @@ interface RadioItem {
   label: string;
 }
 
-const SpecialtyProps: RadioItem[] = [
-  { value: "Gerontologia", label: "Gerontologia" },
-  { value: "Psicologia", label: "Psicologia" },
-  { value: "Fisioterapia", label: "Fisioterapia" },
-  { value: "Terapia Ocupacional", label: "Terapia Ocupacional" },
-  { value: "Computação", label: "Computação" },
-  { value: "Outra", label: "Outra" },
-];
-
 const GenderProps: RadioItem[] = [
   { value: "Feminino", label: "Feminino" },
-  { value: "Masculno", label: "Masculno" },
+  { value: "Masculino", label: "Masculino" },
   { value: "Não sei", label: "Não sei/Prefiro não dizer" },
   { value: "Outro", label: "Outro" },
 ];
@@ -46,10 +37,8 @@ const FormSchema = z
   .object({
     name: z.string().min(1, 'Nome é obrigatório').max(100),
     surname: z.string().min(1, 'Sobrenome é obrigatório').max(100),
-    social_name: z.string().max(100),
-    specialty: z.enum([SpecialtyProps[0].value, ...SpecialtyProps.slice(1).map((p) => p.value)], {
-      errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
-    }),
+    social_name: z.string().max(100).optional().or(z.literal('')),
+    specialty:  z.string().min(1, 'Especialidade é obrigatória').max(100),
     connection: z.string().min(1, 'Vínculo é obrigatório').max(100),
     phone: z.string().transform((data) => data.replace(/[^\d]/g, ""))
     .superRefine((val, ctx) => {
@@ -94,42 +83,27 @@ const FormSchema = z
     gender: z.enum([GenderProps[0].value, ...GenderProps.slice(1).map((p) => p.value)],  {
       errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
-    email: z.string().min(1, 'Email é obrigatório').email('Email inválido'),
-    password: z
-      .string()
-      .min(1, 'Senha é obrigatória')
-      .min(8, 'Senha precisa possuir mais de 8 caracteres'),
-    confirm_password: z.string().min(1, 'Confirmação de senha é obrigatória'),
-  })
-  .refine((data) => data.password === data.confirm_password, {
-    path: ['confirm_password'],
-    message: 'Senhas não batem',
   });
 
-const SignUpForm = () => {
+const EditSpecialistDataForm = ({ data }: any) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: '',
-      surname: '',
-      social_name: '',
-      specialty: '',
-      connection: '',
-      phone: '',
-      gender: '',
-      email: '',
-      password: '',
-      confirm_password: '',
+      name: data.name,
+      surname: data.surname,
+      social_name: data.social_name,
+      specialty: data.specialty,
+      connection: data.connection,
+      phone: formatPhone(data.phone),
+      gender: data.gender,
     },
   });
 
   
-  const router = useRouter();
+  const { push } = useRouter();
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    let data = values as Specialist;
-    data.type = "specialist";
-    createUser(data).then(() => {
-      router.push("/");
+    updateById(values, data.uid, "user").then(() => {
+      push('/profile');
     })
   };
 
@@ -182,19 +156,6 @@ const SignUpForm = () => {
           <div className='flex-col gap-x-2'>  
             <FormField
               control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder='mail@example.com' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name='phone'
               render={({ field }) => (
                 <FormItem>
@@ -225,40 +186,22 @@ const SignUpForm = () => {
                 </FormItem>
               )}
             />
-          </div>
-          
-          <div className='flex gap-x-4'>
             <FormField
               control={form.control}
-              name="specialty"
+              name='specialty'
               render={({ field }) => (
-                <FormItem className="space-y-3">
+                <FormItem>
                   <FormLabel>Especialidade</FormLabel>
                   <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    > 
-                      {SpecialtyProps.map((specialty, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={specialty.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {specialty.label}
-                            </FormLabel>
-                          </FormItem>
-                      )})}
-              
-                    </RadioGroup>
+                    <Input placeholder='Computação' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
+          </div>
+          
+          <div className='flex-col gap-x-2'>
             <FormField
               control={form.control}
               name="gender"
@@ -275,7 +218,8 @@ const SignUpForm = () => {
                         return (
                           <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
                             <FormControl>
-                              <RadioGroupItem value={specialty.value} />
+                              <RadioGroupItem value={specialty.value}/>
+                              {/*<RadioGroupItem value={specialty.value} checked={field.value === specialty.value}/>*/}
                             </FormControl>
                             <FormLabel className="font-normal">
                               {specialty.label}
@@ -290,60 +234,13 @@ const SignUpForm = () => {
               )}
             /> 
           </div>   
-
-          <div className='flex-col gap-x-2'>
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <Input
-                      type='password'
-                      placeholder='Insira sua senha'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='confirm_password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirme sua senha</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Confirme sua senha'
-                      type='password'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          
         </div>
         <Button className='w-full mt-6' type='submit'>
-          Registre-se
+          Editar
         </Button>
       </form>
-      <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-        ou
-      </div>
-      <p className='text-center text-sm text-gray-600 mt-2'>
-        Se possuir uma conta, por favor&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-in'>
-          Entre
-        </Link>
-      </p>
     </Form>
   );
 };
 
-export default SignUpForm;
+export default EditSpecialistDataForm;

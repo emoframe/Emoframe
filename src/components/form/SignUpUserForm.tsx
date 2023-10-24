@@ -74,7 +74,7 @@ const FamilyIncomeProps: RadioItem[] = [
 
 const GenderProps: RadioItem[] = [
   { value: "Feminino", label: "Feminino" },
-  { value: "Masculno", label: "Masculno" },
+  { value: "Masculino", label: "Masculino" },
   { value: "Não sei", label: "Não sei/Prefiro não dizer" },
   { value: "Outro", label: "Outro" },
 ];

@@ -5,10 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatPhone(event: React.ChangeEvent<HTMLInputElement>): string {
-  if (!event) return event;
+export function formatPhone(value: string): string {
+  //React.ChangeEvent<HTMLInputElement>
+  if (!value) return value;
 
-  const onlyNums: string = event.target.value.replace(/[^\d]/g, '');
+  const onlyNums: string = value.replace(/[^\d]/g, '');
   let newValue = onlyNums;
 
   if (onlyNums.length > 2)
