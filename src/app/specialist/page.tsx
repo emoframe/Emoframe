@@ -1,40 +1,20 @@
-'use client';
+import React from 'react'
 
-import React, { useEffect, useState } from 'react'
-
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 
 import UserDataTable from './data-table';
 import { columns } from "./columns";
 import { search } from '@/lib/firebase';
 
-const SpecialistPage = () => {
-  const { data: session, status } = useSession();
-  const uid = session?.user.uid!;
-  const [data, setData] = useState(null);
+const SpecialistPage = async () => {
+  const session: any = await getServerSession(authOptions);
+  const data = await search("specialistId", session?.user.uid!, "user");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await search("specialistId", uid, "user");
-      if(data) setData(data);
-      console.log(session?.user.uid!);
-      console.log(data);
-    }
-  
-    if(uid) fetchData().catch(console.error);
-  }, [status, uid]);
-
-  if (status === "loading" || !data) {
-    return <div>Carregando...</div>;
-  }
+  console.log("Data:", data);
 
   return (
-    <div>
-      <div className="container py-10 mx-auto">
-        <UserDataTable columns={columns} data={data} />
-      </div>
-    </div>
+    <UserDataTable columns={columns} data={data} />
   )
 }
 

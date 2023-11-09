@@ -102,11 +102,6 @@ export const columns: ColumnDef<User>[] = [
     header: "Aniversário",
     meta: {name: "Aniversário"},
     accessorKey: "birthday",
-    cell: ({ row }) => {
-      const birthday: any = row.getValue("birthday");
-      const formatted = birthday.toDate().toLocaleDateString('pt-BR');
-      return <div className="font-medium">{formatted}</div>;
-    },
   },
   {
     header: "ID",

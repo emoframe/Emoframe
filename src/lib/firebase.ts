@@ -81,6 +81,10 @@ export async function search (key: string, value: string, col: string) : Promise
           uid: doc.id,
           ...doc.data(),
       }
+
+      if(newObj["birthday"]) 
+        newObj["birthday"] = newObj["birthday"].toDate().toLocaleDateString('pt-BR');
+      
       res.push(newObj);
   });
 

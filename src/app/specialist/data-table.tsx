@@ -105,7 +105,7 @@ export function UserDataTable<TData, TValue>({
   return (
     <div>
       {/* input */}
-      <div className="flex items-center py-4 gap-4">
+      <div className="flex items-center pb-4 gap-4">
         <Input
           placeholder="Pesquise qualquer campo"
           value={globalFilter ?? ''}

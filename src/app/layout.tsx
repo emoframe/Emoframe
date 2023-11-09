@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import { ThemeProvider } from "@/components/ThemeProvider";
 import SessionProvider from "@/components/provider/SessionProvider";
 import '@/styles/globals.css';
 import type { Metadata } from "next";
@@ -13,21 +12,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-    children,
+    children
 }: {
     children: React.ReactNode;
 }) {
     return (
         <html lang="en">
             <body className={inter.className}>
-                    <SessionProvider>
-                        <Navbar />
-                        <main className="flex flex-col justify-center items-center pt-[calc(5rem+var(--navbar))] pb-[5rem]">
-                            {children}
-                        </main>
-                    </SessionProvider>
+                <SessionProvider>
+                    <Navbar />
+                    <main className="flex flex-col justify-center items-center min-h-screen pt-[var(--navbar)] w-full">
+                        {children}
+                    </main>
+                </SessionProvider>
             </body>
         </html>
     );
 }
- 

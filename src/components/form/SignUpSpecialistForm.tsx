@@ -47,9 +47,7 @@ const FormSchema = z
     name: z.string().min(1, 'Nome é obrigatório').max(100),
     surname: z.string().min(1, 'Sobrenome é obrigatório').max(100),
     social_name: z.string().max(100),
-    specialty: z.enum([SpecialtyProps[0].value, ...SpecialtyProps.slice(1).map((p) => p.value)], {
-      errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
-    }),
+    specialty:  z.string().min(1, 'Especialidade é obrigatória').max(100),
     connection: z.string().min(1, 'Vínculo é obrigatório').max(100),
     phone: z.string().transform((data) => data.replace(/[^\d]/g, ""))
     .superRefine((val, ctx) => {
@@ -230,37 +228,6 @@ const SignUpForm = () => {
           <div className='flex gap-x-4'>
             <FormField
               control={form.control}
-              name="specialty"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Especialidade</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    > 
-                      {SpecialtyProps.map((specialty, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={specialty.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {specialty.label}
-                            </FormLabel>
-                          </FormItem>
-                      )})}
-              
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="gender"
               render={({ field }) => (
                 <FormItem className="space-y-3">
@@ -292,6 +259,20 @@ const SignUpForm = () => {
           </div>   
 
           <div className='flex-col gap-x-2'>
+            <FormField
+              control={form.control}
+              name='specialty'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Especialidade</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Computação' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name='password'
