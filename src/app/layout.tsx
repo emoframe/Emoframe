@@ -1,4 +1,6 @@
-import "./globals.css";
+import Navbar from "@/components/Navbar";
+import SessionProvider from "@/components/provider/SessionProvider";
+import '@/styles/globals.css';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -10,16 +12,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-    children,
+    children
 }: {
     children: React.ReactNode;
 }) {
     return (
         <html lang="en">
             <body className={inter.className}>
-                <main className="h-screen flex flex-col justify-center items-center">{children}</main>
+                <SessionProvider>
+                    <Navbar />
+                    <main className="flex flex-col justify-center items-center min-h-screen pt-[var(--navbar)] w-full">
+                        {children}
+                    </main>
+                </SessionProvider>
             </body>
         </html>
     );
 }
- 
