@@ -11,13 +11,9 @@ const SpecialistPage = async () => {
   const session: any = await getServerSession(authOptions);
   const data = await search("specialistId", session?.user.uid!, "user");
 
-  console.log("Data:", data);
-
   return (
     <UserDataTable columns={columns} data={data} />
   )
 }
 
-export default SpecialistPage
-
-SpecialistPage.requireAuth = true;
+export default SpecialistPage;

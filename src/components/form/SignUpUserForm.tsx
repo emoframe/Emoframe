@@ -105,46 +105,46 @@ const FormSchema = z
     }),
 
     phone: z.string().transform((data) => data.replace(/[^\d]/g, ""))
-    .superRefine((val, ctx) => {
-      if (val.length == 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.too_small,
-          minimum: 1,
-          type: "string",
-          inclusive: true,
-          message: "Telefone é obrigatório",
-        });
-      }
+      .superRefine((val, ctx) => {
+        if (val.length == 0) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.too_small,
+            minimum: 1,
+            type: "string",
+            inclusive: true,
+            message: "Telefone é obrigatório",
+          });
+        }
 
-      if (val.length < 8) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.too_small,
-          minimum: 1,
-          type: "string",
-          inclusive: true,
-          message: "Telefone está incompleto",
-        });
-      }
-    
-      if (val.length > 11) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.too_big,
-          maximum: 11,
-          type: "string",
-          inclusive: true,
-          message: "Telefone possui 11 caracteres no máximo",
-        });
-      }  
+        if (val.length < 8) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.too_small,
+            minimum: 1,
+            type: "string",
+            inclusive: true,
+            message: "Telefone está incompleto",
+          });
+        }
 
-      if (!isValidMobilePhone(val)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Não é um telefone válido",
-        });
-      }
-    }),
+        if (val.length > 11) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.too_big,
+            maximum: 11,
+            type: "string",
+            inclusive: true,
+            message: "Telefone possui 11 caracteres no máximo",
+          });
+        }
 
-    gender: z.enum([GenderProps[0].value, ...GenderProps.slice(1).map((p) => p.value)],  {
+        if (!isValidMobilePhone(val)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Não é um telefone válido",
+          });
+        }
+      }),
+
+    gender: z.enum([GenderProps[0].value, ...GenderProps.slice(1).map((p) => p.value)], {
       errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
     email: z.string().min(1, 'Email é obrigatório').email('Email inválido'),
@@ -159,7 +159,7 @@ const FormSchema = z
     message: 'Senhas não batem',
   });
 
-const SignUpForm = ({specialistId}) => {
+const SignUpForm = ({ specialistId }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -182,7 +182,7 @@ const SignUpForm = ({specialistId}) => {
 
   const { push } = useRouter();
 
-  const onSubmit = async(values: z.infer<typeof FormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     let data = values as User;
     data.type = "user";
     data.specialistId = specialistId;
@@ -196,9 +196,9 @@ const SignUpForm = ({specialistId}) => {
 
         <div className='flex flex-col flex-wrap justify-center gap-6'>
 
-          <div className='flex lg:flex-row sm:flex-col flex-wrap justify-center gap-6'>
+          <div className='flex lg:flex-row sm:flex-col flex-wrap justify-between gap-6'>
 
-            <div className='flex-col gap-x-2'>
+            <div className='flex-col flex-1'>
               <FormField
                 control={form.control}
                 name='name'
@@ -238,7 +238,7 @@ const SignUpForm = ({specialistId}) => {
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name='birthday'
                 render={({ field }) => (
@@ -255,7 +255,7 @@ const SignUpForm = ({specialistId}) => {
               />
             </div>
 
-            <div className='flex-col gap-x-2'>  
+            <div className='flex-col flex-1'>
               <FormField
                 control={form.control}
                 name='email'
@@ -276,12 +276,12 @@ const SignUpForm = ({specialistId}) => {
                   <FormItem>
                     <FormLabel>Telefone</FormLabel>
                     <FormControl>
-                      <Input 
-                      placeholder='(99) 99999-9999' 
-                      {...field} 
-                      onChange={(value: any): void => {
-                        field.onChange(formatPhone(value))
-                      }} 
+                      <Input
+                        placeholder='(99) 99999-9999'
+                        {...field}
+                        onChange={(value: any): void => {
+                          field.onChange(formatPhone(value))
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -302,7 +302,7 @@ const SignUpForm = ({specialistId}) => {
                 )}
               />
             </div>
-            
+
           </div>
 
           <div className='flex gap-x-4 items-center justify-between'>
@@ -317,7 +317,7 @@ const SignUpForm = ({specialistId}) => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
-                    > 
+                    >
                       {IndividualIncomeProps.map((individual, index) => {
                         return (
                           <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
@@ -328,8 +328,9 @@ const SignUpForm = ({specialistId}) => {
                               {individual.label}
                             </FormLabel>
                           </FormItem>
-                      )})}
-              
+                        )
+                      })}
+
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -348,7 +349,7 @@ const SignUpForm = ({specialistId}) => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
-                    > 
+                    >
                       {FamilyIncomeProps.map((family, index) => {
                         return (
                           <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
@@ -359,16 +360,17 @@ const SignUpForm = ({specialistId}) => {
                               {family.label}
                             </FormLabel>
                           </FormItem>
-                      )})}
-              
+                        )
+                      })}
+
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> 
+            />
           </div>
-          
+
           <div className='flex gap-x-4 items-start justify-between'>
             <FormField
               control={form.control}
@@ -381,7 +383,7 @@ const SignUpForm = ({specialistId}) => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
-                    > 
+                    >
                       {SchoolingProps.map((schooling, index) => {
                         return (
                           <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
@@ -392,8 +394,9 @@ const SignUpForm = ({specialistId}) => {
                               {schooling.label}
                             </FormLabel>
                           </FormItem>
-                      )})}
-              
+                        )
+                      })}
+
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -412,7 +415,7 @@ const SignUpForm = ({specialistId}) => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
-                    > 
+                    >
                       {RaceProps.map((race, index) => {
                         return (
                           <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
@@ -423,8 +426,9 @@ const SignUpForm = ({specialistId}) => {
                               {race.label}
                             </FormLabel>
                           </FormItem>
-                      )})}
-              
+                        )
+                      })}
+
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -443,7 +447,7 @@ const SignUpForm = ({specialistId}) => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
-                    > 
+                    >
                       {GenderProps.map((specialty, index) => {
                         return (
                           <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
@@ -454,53 +458,59 @@ const SignUpForm = ({specialistId}) => {
                               {specialty.label}
                             </FormLabel>
                           </FormItem>
-                      )})}
-              
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> 
-          </div>   
+                        )
+                      })}
 
-          <div className='flex-col gap-x-2'>
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <Input
-                      type='password'
-                      placeholder='Insira sua senha'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='confirm_password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirme sua senha</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Confirme sua senha'
-                      type='password'
-                      {...field}
-                    />
+                    </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          
+
+          <div className='flex lg:flex-row sm:flex-col flex-wrap justify-between gap-x-6'>
+            <div className='flex-1'>
+              <FormField
+                control={form.control}
+                name='password'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Senha</FormLabel>
+                    <FormControl>
+                      <Input
+                        className='flex-1'
+                        type='password'
+                        placeholder='Insira sua senha'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='flex-1'>
+              <FormField
+                control={form.control}
+                name='confirm_password'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirme sua senha</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='Confirme sua senha'
+                        type='password'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
         </div>
         <Button className='w-full mt-6' type='submit'>
           Cadastrar

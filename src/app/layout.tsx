@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import SessionProvider from "@/components/provider/SessionProvider";
+import { Toaster } from "@/components/ui/toaster";
 import '@/styles/globals.css';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -24,6 +25,7 @@ export default function RootLayout({
                     <main className="flex flex-col justify-center items-center min-h-screen pt-[var(--navbar)] w-full">
                         {children}
                     </main>
+                    <Toaster/>
                 </SessionProvider>
             </body>
         </html>

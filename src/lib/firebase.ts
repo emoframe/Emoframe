@@ -1,10 +1,12 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, deleteDoc } from "firebase/firestore";
+import { setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { getFirestore,  } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
 import { getValuable } from "@/lib/utils";
+
+export const dynamic = 'force-dynamic'; //Resolve o problema de cache após atualização
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -113,6 +115,24 @@ export async function updateById (data: any, id: string, col: string) : Promise<
         console.log(error.code+": "+error.message);
     });
 
+  } catch(error) {
+    console.log(error);
+  }
+}
+
+export async function modifyArray (id: string, col: string, name: string, value: string, mode: "modify" | "remove") : Promise<any> {
+  const docRef = doc(db, col, id);
+  try {
+    if(mode == "modify") {
+      await updateDoc(docRef, {
+        [name]: arrayUnion(value) //[] permite que seja usado o valor da variável como o nome do campo
+      });
+    }
+    else if(mode == "remove") {
+      await updateDoc(docRef, {
+        [name]: arrayRemove(value)
+      });
+    }
   } catch(error) {
     console.log(error);
   }

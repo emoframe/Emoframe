@@ -3,7 +3,7 @@ import { getById } from '@/lib/firebase';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import EditSpecialistDataForm from '@/components/form/EditSpecialistDataForm';
-import EditUserDataForm from '@/components/form/EditUserDataForm';
+import EditUserDataForm from '@/components/form/EditUserDataForm';  
 
 const Data = async () => {
     const session: any = await getServerSession(authOptions);

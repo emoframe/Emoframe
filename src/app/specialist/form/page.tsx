@@ -1,24 +1,18 @@
-'use client';
-
 import SignUpForm from '@/components/form/SignUpUserForm';
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+import { search } from '@/lib/firebase';
 
-const SpecialistForm = () => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect('/');
-    },
-  });
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
+
+const SpecialistForm = async () => {
+  const session: any = await getServerSession(authOptions);
+  const data = await search("specialistId", session?.user.uid!, "user");
   
   return (
     <div className='flex flex-col w-full'>
-      <SignUpForm specialistId={session?.user.uid!}/>
+      <SignUpForm specialistId={data}/>
     </div>
   );
 };
 
 export default SpecialistForm;
-
-SpecialistForm.requireAuth = true

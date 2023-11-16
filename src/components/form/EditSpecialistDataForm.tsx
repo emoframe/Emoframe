@@ -17,7 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Button } from '@/components/ui/button';
 import { isValidMobilePhone } from "@brazilian-utils/brazilian-utils";
 import Link from 'next/link';
-import { formatPhone } from '@/lib/utils';
+import { formatPhone, sleep } from '@/lib/utils';
 import { updateById } from '@/lib/firebase';
 import { Specialist } from '@/types/users';
 
@@ -103,7 +103,7 @@ const EditSpecialistDataForm = ({ data }: any) => {
   const { push } = useRouter();
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     updateById(values, data.uid, "user").then(() => {
-      push('/profile');
+      push('/profile')
     })
   };
 

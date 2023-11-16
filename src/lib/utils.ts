@@ -41,3 +41,16 @@ export function getValuable<
     ),
   ) as V;
 }
+
+export function createQueryString(name: string, value: string): string {
+  const params = new URLSearchParams();
+  params.set(name, value);
+
+  return params.toString();
+};
+
+export function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
