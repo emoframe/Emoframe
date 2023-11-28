@@ -6,7 +6,6 @@ import { getFirestore,  } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
 import { getValuable } from "@/lib/utils";
 
-export const dynamic = 'force-dynamic'; //Resolve o problema de cache após atualização
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -62,6 +61,7 @@ export async function getById (id: string, col: string) : Promise<any> {
         if(data["birthday"]) 
           data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
 
+        console.log(data);
         return data;
     } else {
         console.log("Document does not exist");
@@ -120,10 +120,10 @@ export async function updateById (data: any, id: string, col: string) : Promise<
   }
 }
 
-export async function modifyArray (id: string, col: string, name: string, value: string, mode: "modify" | "remove") : Promise<any> {
+export async function modifyArray (id: string, col: string, name: string, value: string, mode: "add" | "remove") : Promise<any> {
   const docRef = doc(db, col, id);
   try {
-    if(mode == "modify") {
+    if(mode == "add") {
       await updateDoc(docRef, {
         [name]: arrayUnion(value) //[] permite que seja usado o valor da variável como o nome do campo
       });

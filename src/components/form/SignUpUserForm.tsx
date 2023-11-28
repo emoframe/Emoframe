@@ -279,7 +279,7 @@ const SignUpForm = ({ specialistId }) => {
                       <Input
                         placeholder='(99) 99999-9999'
                         {...field}
-                        onChange={(value: any): void => {
+                        onChange={(value: string): void => {
                           field.onChange(formatPhone(value))
                         }}
                       />

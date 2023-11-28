@@ -3,10 +3,13 @@ import SetForm from './form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
+export const dynamic = 'force-dynamic'; //Resolve o problema de cache após atualização
+export const revalidate = 0;
+
 const options = [
     {
-      value: "form1",
-      label: "Formulário 1",
+        value: "form1",
+        label: "Formulário 1",
     },
     {
         value: "form2",
@@ -16,7 +19,7 @@ const options = [
         value: "form3",
         label: "Formulário 3",
     },
-]  
+]
 
 const SetForms = async ({
     searchParams,
@@ -25,7 +28,7 @@ const SetForms = async ({
 }) => {
 
     const data = await getById(searchParams.uid as string, "user");
-
+    
     return (
         <Card className="min-w-[600px]">
             <CardHeader>
@@ -33,11 +36,19 @@ const SetForms = async ({
                 <CardDescription>{"uid: " + searchParams.uid}</CardDescription>
             </CardHeader>
             <Separator className="my-4" />
+
+            {data.forms &&
+                <CardContent>
+                    <ul>
+                        {data.forms.map((form) => <li>{options.find((option) => option.value == form )?.label}</li> )}
+                    </ul>
+                </CardContent>
+            }
             <CardContent>
-                <SetForm uid={searchParams.uid as string} options={options}/>
+                <SetForm uid={searchParams.uid as string} options={options} />
             </CardContent>
         </Card>
-        
+
     );
 };
 
