@@ -279,8 +279,8 @@ const SignUpForm = ({ specialistId }) => {
                       <Input
                         placeholder='(99) 99999-9999'
                         {...field}
-                        onChange={(value: string): void => {
-                          field.onChange(formatPhone(value))
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                          field.onChange(formatPhone(e.target.value as string))
                         }}
                       />
                     </FormControl>

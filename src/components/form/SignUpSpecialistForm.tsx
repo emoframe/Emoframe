@@ -37,7 +37,7 @@ const SpecialtyProps: RadioItem[] = [
 
 const GenderProps: RadioItem[] = [
   { value: "Feminino", label: "Feminino" },
-  { value: "Masculno", label: "Masculno" },
+  { value: "Masculino", label: "Masculino" },
   { value: "Não sei", label: "Não sei/Prefiro não dizer" },
   { value: "Outro", label: "Outro" },
 ];
@@ -201,9 +201,9 @@ const SignUpForm = () => {
                     <Input 
                     placeholder='(99) 99999-9999' 
                     {...field} 
-                    onChange={(value: string): void => {
-                      field.onChange(formatPhone(value))
-                    }} 
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                      field.onChange(formatPhone(e.target.value as string))
+                    }}
                     />
                   </FormControl>
                   <FormMessage />
