@@ -1,5 +1,5 @@
 import SamForm from '@/components/form/SamForm';
-import { authOptions } from '../../../pages/api/auth/[...nextauth]';
+import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
 
 const SamPage = async () => {

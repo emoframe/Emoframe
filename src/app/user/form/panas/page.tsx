@@ -1,6 +1,6 @@
 import PanasForm from '@/components/form/PanasForm';
-import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 
 const PanasPage = async () => {
   const session: any = await getServerSession(authOptions);
