@@ -12,25 +12,11 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
+import { forms } from '@/types/forms';
 
 //Resolve o problema de cache após atualização
-export const dynamic = 'force-dynamic'; 
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
-
-const options = [
-    {
-        value: "form1",
-        label: "Formulário 1",
-    },
-    {
-        value: "form2",
-        label: "Formulário 2",
-    },
-    {
-        value: "form3",
-        label: "Formulário 3",
-    },
-]
 
 const User = async () => {
     const session: any = await getServerSession(authOptions);
@@ -38,20 +24,23 @@ const User = async () => {
 
     return (
         <div className='px-16 grid grid-flow-row gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-            {data ? data.forms.map((form) => (
-                <Card className="y-8 rounded shadow-lg shadow-gray-200 bg-white duration-300 hover:-translate-y-1">
-                    <CardHeader>
-                        <CardTitle>{options.find((option) => option.value == form )?.label}</CardTitle>
-                        <CardDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</CardDescription>
-                    </CardHeader>
-                    <CardFooter>
-                        <Link className={buttonVariants({ variant: "outline" })} href={`/`} replace>
-                            Acessar
-                        </Link> 
-                    </CardFooter>
-                </Card>
+            {data ? data.forms.map((form) => {
+                const findForm = forms.find((option) => option.value == form);
+                return (
+                    <Card className="y-8 rounded shadow-lg shadow-gray-200 bg-white duration-300 hover:-translate-y-1">
+                        <CardHeader>
+                            <CardTitle>{findForm?.label}</CardTitle>
+                            <CardDescription>{findForm?.description}</CardDescription>
+                        </CardHeader>
+                        <CardFooter>
+                            <Link className={buttonVariants({ variant: "outline" })} href={`/user/form/${findForm?.value}`} replace>
+                                Acessar
+                            </Link>
+                        </CardFooter>
+                    </Card>
+                )
 
-            )): <p>Não há testes disponíveis</p>}
+            }) : <p>Não há testes disponíveis</p>}
         </div>
 
 
