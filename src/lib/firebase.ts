@@ -6,6 +6,8 @@ import { getFirestore,  } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
 import { getValuable } from "@/lib/utils";
 
+import { Sam, Panas } from "@/types/forms";
+
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -135,6 +137,20 @@ export async function modifyArray (id: string, col: string, name: string, value:
     }
   } catch(error) {
     console.log(error);
+  }
+}
+
+export async function createForm (data: Sam | Panas, userId: string, formType: string) : Promise<any> {
+  const docRef = doc(db, userId, formType);
+  const Form = getValuable(data)
+
+  try {
+    setDoc(docRef, Form)
+    .then((docRef) => console.log("Document has been inserted sucessfully!"))
+    .catch((error) => console.log(error.code + ": " + error.message))
+  }
+  catch(error) {
+    console.log(error)
   }
 }
 
