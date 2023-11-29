@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { useRouter, redirect } from 'next/navigation';
 import { modifyArray } from '@/lib/firebase';
 import { useToast } from "@/components/ui/use-toast";
-import { Router } from 'lucide-react';
+import { Forms } from '@/types/forms';
 
 const FormSchema = z.object({
     combobox: z.string().min(1, 'A seleção é obriogatória'),
@@ -27,7 +27,7 @@ const SetForm = ({
     uid, options
 }: {
     uid: string,
-    options: Array<{ value: string, label: string }>,
+    options: Array<Forms>,
 }) => {
 
     const form = useForm<z.infer<typeof FormSchema>>({

@@ -1,3 +1,22 @@
+export interface Forms {
+    label: string;
+    value: string;
+    description: string;
+}
+
+export const forms: Forms[] = [
+    {
+        label: "Panas",
+        value: "panas",
+        description: "Lorem ipsum dolor sit amet.",
+    },
+    {
+        label: "SAM",
+        value: "sam",
+        description: "Lorem ipsum dolor sit amet.",
+    },
+];
+
 export interface Sam {
     satisfaction: string;
     motivation: string;
