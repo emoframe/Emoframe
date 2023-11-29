@@ -3,7 +3,8 @@ import SetForm from './form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
-export const dynamic = 'force-dynamic'; //Resolve o problema de cache após atualização
+//Resolve o problema de cache após atualização
+export const dynamic = 'force-dynamic'; 
 export const revalidate = 0;
 
 const options = [
