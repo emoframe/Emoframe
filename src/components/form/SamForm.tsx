@@ -15,8 +15,8 @@ import { useRouter } from 'next/navigation';
 import { createForm } from '@/lib/firebase'; 
 import { Button } from '@/components/ui/button';
 import { ImageCard } from '@/components/ui/image'; 
+import { Progress } from '@/components/ui/loading';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoadingComp } from '@/components/ui/loading';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import Like from 'public/emojis/Like.png';
@@ -99,7 +99,7 @@ const SamForm = ({userId}) => {
   };
 
   return (
-    <React.Suspense fallback={<LoadingComp label="Loading" />}>
+    <React.Suspense fallback={<Progress />}>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} >
         <div className="flex flex-col flex-wrap justify-center gap-6">
