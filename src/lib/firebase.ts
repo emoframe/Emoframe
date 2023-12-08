@@ -6,7 +6,7 @@ import { getFirestore,  } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
 import { getValuable } from "@/lib/utils";
 
-import { Sam, Panas } from "@/types/forms";
+import { Sam, Panas, Brums, Sus, Eaz } from "@/types/forms";
 
 
 const firebaseConfig = {
@@ -140,7 +140,7 @@ export async function modifyArray (id: string, col: string, name: string, value:
   }
 }
 
-export async function createForm (data: Sam | Panas, userId: string, formType: string) : Promise<any> {
+export async function createForm (data: Sam | Panas | Brums | Sus | Eaz, userId: string, formType: string) : Promise<any> {
   const docRef = doc(db, userId, formType);
   const Form = getValuable(data)
 
