@@ -10,24 +10,16 @@ import {
     FormLabel,
     FormMessage,
   } from '../ui/form';
-import { 
-    Card, 
-    CardHeader, 
-    CardFooter, 
-    CardTitle, 
-    CardDescription, 
-    CardContent 
-} from '@/components/ui/card';
 import { z } from "zod";
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { createForm } from '@/lib/firebase'; 
 import { Button } from '@/components/ui/button';
+import { Progress } from "@/components/ui/loading";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { StepperComp, Step } from '@/components/ui/stepper';
-import { useSteps } from '@chakra-ui/react';
-import { LoadingComp } from "@/components/ui/loading";
+import { useStepper } from "@/components/ui/hooks/use-stepper";
+import { Steps, Step, StepConfig } from '@/components/ui/stepper';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface RadioItem {
     value: string;
@@ -42,10 +34,10 @@ const DefaultProps: RadioItem[] = [
     {value: '5', label: '5 (Extremamente)'},
 ]
 
-const StepProps: Step[] = [
-    {title: 'Parte 1', description: 'Teste 1'},
-    {title: 'Parte 2', description: 'Teste 2'},
-]
+const steps: StepConfig[] = [
+    {label: 'Passo 1'},
+    {label: 'Passo 2'},
+] 
 
 const PanasFormSchema = z.object({
     repulsion: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
@@ -103,17 +95,19 @@ const PanasForm = ({userId}) => {
         createForm(values, userId, "Panas").then(() => {push('/profile')})     
     }
 
-    const { activeStep, goToNext, goToPrevious } = useSteps({
-        index: 0,
-        count: StepProps.length,
+    const { activeStep, nextStep, prevStep } = useStepper({
+        initialStep: 0,
+        steps,
     })
 
     switch (activeStep) {
         case 0: 
             return (
-            <React.Suspense fallback={<LoadingComp label="Loading" />}>
+            <React.Suspense fallback={<Progress />}>
             <Form key={activeStep} {...form}>
-                <StepperComp steps={StepProps} activestep={activeStep} colorScheme="gray" />
+                <Steps activeStep={activeStep}>
+                    {steps.map((step, index) => ( <Step index={index} key={index} {...step} /> ))}
+                </Steps>
                 <form key={activeStep}>
                     <div className="flex flex-col flex-wrap justify-center gap-8">
                         <h1 className="font-bold text-4xl self-center"> PANAS </h1>
@@ -433,8 +427,21 @@ const PanasForm = ({userId}) => {
                         )}
                         />
                         <div className="flex flex-row justify-around mt-8">
-                            <Button className="basis-1/8 text-lg" type='button' onClick={() => {form.reset()}}>Limpar</Button>
-                            <Button className="basis-1/8 text-lg" type="button" onClick={() => {goToNext();}}>Próximo</Button>
+                            <Button className="basis-1/8 text-lg" type='button' onClick={() => {
+                                form.setValue('repulsion', '');
+                                form.setValue('tormented', '');
+                                form.setValue('scared', '');
+                                form.setValue('hearty', '');
+                                form.setValue('horny', '');
+                                form.setValue('guilty', '');
+                                form.setValue('enthusiastic', '');
+                                form.setValue('pleasantly_surprised', '');
+                                form.setValue('disturbed', '');
+                                form.setValue('trembling', '');
+                                form.setValue('active', ''); 
+                                window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                            }}>Limpar</Button>
+                            <Button className="basis-1/8 text-lg" type="button" onClick={() => {nextStep(); window.scrollTo({top: 0, left: 0, behavior: "smooth"})}}>Próximo</Button>
                         </div>
                     </div>
                 </form>
@@ -443,9 +450,11 @@ const PanasForm = ({userId}) => {
         )
         case 1:
             return (
-            <React.Suspense fallback={<LoadingComp label="Loading" />}>
+            <React.Suspense fallback={<Progress />}>
             <Form key={activeStep} {...form}>
-                <StepperComp steps={StepProps} activestep={activeStep} colorScheme="gray" />
+            <Steps activeStep={activeStep}>
+                    {steps.map((step, index) => ( <Step index={index} key={index} {...step} /> ))}
+                </Steps>
                 <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)}>
                     <div className="flex flex-col flex-wrap justify-center gap-8">
                         <h1 className="font-bold text-4xl self-center"> PANAS </h1>
@@ -765,8 +774,20 @@ const PanasForm = ({userId}) => {
                         )}
                         />
                         <div className="flex flex-row justify-around mt-8">
-                            <Button className="basis-1/8 text-lg" type="button" onClick={() => {goToPrevious();}}>Anterior</Button>
-                            <Button className="basis-1/8 text-lg" type='button' onClick={() => {form.reset(); goToPrevious();}}>Limpar</Button>
+                            <Button className="basis-1/8 text-lg" type="button" onClick={() => {prevStep();window.scrollTo({top: 0, left: 0, behavior: "smooth"});}}>Anterior</Button>
+                            <Button className="basis-1/8 text-lg" type='button' onClick={() => {
+                                form.setValue('proud', '');
+                                form.setValue('inspired', '');
+                                form.setValue('nervous', '');
+                                form.setValue('angry', '');
+                                form.setValue('trembling', '');
+                                form.setValue('determined', '');
+                                form.setValue('charmed', '');
+                                form.setValue('remorse', '');
+                                form.setValue('frightened', '');
+                                form.setValue('active', '');
+                                window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                            }}>Limpar</Button>
                             <Button className="basis-1/8 text-lg" type="submit">Enviar</Button>
                         </div>
                     </div>
