@@ -44,3 +44,30 @@ export interface Panas {
     remorse: string;
     frightened: string;
 }
+
+export interface Brums {
+    cheered_up: string,
+    irritated: string,
+    depressed: string,
+    terrified: string,
+    crestfallen: string,
+    broken_down: string,
+    confused: string,
+    exhausted: string,
+    anxious: string,
+    unhappy: string,
+    huffy: string,
+    worried: string,
+    sad: string,
+    sleepy: string,
+    insecure: string,
+    willing: string,
+    tense: string,
+    disoriented: string,
+    grumpy: string,
+    undecided: string,
+    tired: string,
+    energy: string,
+    angry: string,
+    alert: string,
+}
