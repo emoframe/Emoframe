@@ -55,3 +55,7 @@ export function sleep(ms: number) {
     setTimeout(resolve, ms);
   });
 }
+
+export function randomizeArray(array: any[]): any[] {
+  return array.sort(() => Math.random() - 0.5);
+}
