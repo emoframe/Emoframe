@@ -1,4 +1,5 @@
 // Ref: https://next-auth.js.org/configuration/nextjs#advanced-usage
+import { forms } from "@/types/forms"
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
@@ -14,12 +15,14 @@ for(let path in paths){
     }
 }
 
+const formValues = forms.map(form => form.value);
 
 export default withAuth(
     function middleware(request) {
         const pathname = request.nextUrl.pathname;
         const origin = request.nextUrl.origin;
-        const type = request.nextauth.token?.type;
+        const type = request.nextauth.token?.user.type;
+        const user = request.nextauth.token?.user;
 
         const requestHeaders = new Headers(request.headers);
         requestHeaders.set('x-url', request.url);
@@ -42,6 +45,21 @@ export default withAuth(
                         new URL("/denied", request.url)
                     )
                 }
+            }
+        }
+
+        let subtraction: any = [];
+        if(user?.type === "user") {
+            subtraction = formValues.filter(value => user.forms.indexOf(value) < 0);
+            console.log(subtraction);
+        }
+
+        for(let form in subtraction) {
+            if (pathname.startsWith(`/user/form/${form}`)) {
+                console.log(`TESTE /user/form/${form}`);
+                return NextResponse.rewrite(
+                    new URL("/denied", request.url)
+                )
             }
         }
 

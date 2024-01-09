@@ -55,3 +55,17 @@ export function sleep(ms: number) {
     setTimeout(resolve, ms);
   });
 }
+
+export function groupBy(arr, property) {
+  // Utiliza o método reduce para iterar sobre o array e acumular o resultado
+  return arr.reduce((acc, cur) => {
+    
+    // Utiliza a propriedade fornecida para acessar o valor correspondente no elemento atual
+    // Cria uma entrada no objeto de acumulador (acc) com a chave sendo o valor da propriedade
+    // Se a chave já existe, adiciona o elemento atual ao array existente, senão cria um novo array
+    acc[cur[property]] = [...acc[cur[property]] || [], cur];
+    
+    // Retorna o objeto acumulador atualizado para a próxima iteração
+    return acc;
+  }, {}); // O objeto inicial para acumulação é um objeto vazio
+}
