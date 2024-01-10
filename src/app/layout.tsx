@@ -4,8 +4,6 @@ import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import SessionProvider from "@/components/provider/SessionProvider";
-import ChakraUIProvider from "@/components/provider/ChakraUIProvider";
-import NextuiProvider from "@/components/provider/NextUIProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +20,6 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <ChakraUIProvider>
-                    <NextuiProvider>
                         <SessionProvider>
                             <Navbar />
                             <main className="flex flex-col justify-center items-center min-h-screen pt-[var(--navbar)] w-full">
@@ -31,8 +27,6 @@ export default function RootLayout({
                             </main>
                             <Toaster/>
                         </SessionProvider>
-                </NextuiProvider>
-                </ChakraUIProvider>
             </body>
         </html>
     );
