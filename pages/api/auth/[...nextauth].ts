@@ -46,12 +46,11 @@ export const authOptions = {
         user.type = userData.type;
         user.name = userData.name;
         user.surname = userData.surname;
+        user.forms = userData.forms ? userData.forms : null;
 
         userData.social_name && (user.social_name = userData.social_name);
 
         token.user = user;
-
-        token.type = userData.type;
       }
       
       return Promise.resolve(token);

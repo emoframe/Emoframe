@@ -1,6 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { getFirestore,  } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
@@ -74,12 +74,35 @@ export async function getById (id: string, col: string) : Promise<any> {
   }
 }
 
+export async function getSubsById (col: string, id: string, doc: string) : Promise<any> {
+  const docRef = collection(db, col, id, doc);
+  try {
+    const docSnap = await getDocs(docRef);
+    const res: any[] = []       
+    docSnap.forEach((doc) => {
+        const newObj: any = {
+            uid: doc.id,
+            type: doc.data().type,
+            ...doc.data(),
+        }
+  
+        res.push(newObj);
+    });
+
+    console.log("Documents has been got sucessfully!", res);
+    return res;
+
+  } catch(error) {
+    console.log(error);
+  }
+}
+
 export async function search (key: string, value: string, col: string) : Promise<any> {
 
   const docRef = collection(db, col);
   const q = query(docRef, where(key, "==", value));
   const querySnapshot = await getDocs(q);
-  const res:any[] = []       
+  const res: any[] = []       
   querySnapshot.forEach((doc) => {
       const newObj: any = {
           uid: doc.id,
@@ -140,13 +163,16 @@ export async function modifyArray (id: string, col: string, name: string, value:
   }
 }
 
-export async function createForm (data: Sam | Panas, userId: string, formType: string) : Promise<any> {
-  const docRef = doc(db, userId, formType);
-  const Form = getValuable(data)
+export async function createForm (data: Sam | Panas, id: string, formType: string) : Promise<any> {
+  const docRef = collection(db, "user", id, "form");
+  const form: any = {
+    type: formType,
+    ...getValuable(data),
+}
 
   try {
-    setDoc(docRef, Form)
-    .then((docRef) => console.log("Document has been inserted sucessfully!"))
+    addDoc(docRef, form)
+    .then((docRef) => console.log("Document has been inserted sucessfully!", form))
     .catch((error) => console.log(error.code + ": " + error.message))
   }
   catch(error) {

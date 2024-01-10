@@ -33,6 +33,7 @@ const description = {
     address: "Endereço",
     birthday: "Aniversário",
     specialistId: "ID do Especialista",
+    forms: "Formulários",
 }
 
 async function formatData(data, essentialsTypes) {
@@ -72,13 +73,13 @@ const ProfileCard = async ({data, className, ...props}: any) => {
             </CardHeader>
             <CardContent>
                 {iterator.map((key) => (
-                    <p>{`${description[key]}: ${essentials[key]}`}</p>
+                    <p key={key}>{`${description[key]}: ${essentials[key]}`}</p>
                 ))}
 
                 <Separator className="my-4"/>
 
                 {Object.keys(userData).map((key) => (
-                    <p>{`${description[key]}: ${userData[key]}`}</p>
+                    <p key={key}>{`${description[key]}: ${userData[key]}`}</p>
                 ))}
             </CardContent>
             <CardFooter>
