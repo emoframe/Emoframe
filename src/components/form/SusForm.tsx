@@ -33,6 +33,30 @@ const DefaultProps: RadioItem[] = [
     {value: '1', label: 'Discordo Totalmente'},
 ]
 
+// Write a type called FieldType getting all fields from SusFormSchema putting them as a string with | between them
+
+type FieldType = "solution_evaluation" | "app_useFrequency" | "app_useComplex" | "app_useEasy" | "app_useNeedHelp" | "app_functionIntegration" | "app_inconsistency" | "app_learningCurve" | "app_jumbled" | "app_confidence" | "app_learnSystem" 
+
+interface SusQuestionsProps {
+    field: FieldType,
+    question: string,
+}
+
+
+const SusQuestions: SusQuestionsProps[] = [
+    {field: "app_useFrequency", question: "Eu acho que gostaria de usar esse sistema com frequência."},
+    {field: "app_useComplex", question: "Eu acho o sistema desnecessariamente complexo."},
+    {field: "app_useEasy", question: "Eu achei o sistema fácil de usar."},
+    {field: "app_useNeedHelp", question: "Eu acho que precisaria de ajuda de uma pessoa com conhecimentos técnicos para usar o sistema."},
+    {field: "app_functionIntegration", question: "Eu acho que as várias funções do sistema estão muito bem integradas."},
+    {field: "app_inconsistency", question: "Eu acho que o sistema apresenta muita inconsistência."},
+    {field: "app_learningCurve", question: "Eu imagino que as pessoas aprenderão como usar esse sistema rapidamente."},
+    {field: "app_jumbled", question: "Eu achei o sistema atrapalhado de usar."},
+    {field: "app_confidence", question: "Eu me senti confiante ao usar o sistema."},
+    {field: "app_learnSystem", question: "Eu precisei aprender várias coisas novas antes de conseguir usar o sistema."},
+]
+
+
 const SusFormSchema = z.object({
     solution_evaluation: z.string().min(1, "Insira o nome da solução"),
     app_useFrequency: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
@@ -55,13 +79,13 @@ const SusForm = ({userId}) => {
             app_useFrequency: '',
             app_useComplex: '',
             app_useEasy: '',
-            app_useNeedHelp: '',
-            app_functionIntegration: '',
+            app_useNeedHelp: '', 
+            app_functionIntegration: '', 
             app_inconsistency: '',
             app_learningCurve: '',
-            app_jumbled: '',
+            app_jumbled: '', 
             app_confidence: '',
-            app_learnSystem: ''
+            app_learnSystem: '',
         }
     });
 
@@ -98,316 +122,40 @@ const SusForm = ({userId}) => {
                         <hr className="text-black bg-slate-300 h-0.5"/>
                     </div>
                     <h2 className="text-2xl self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
-                    <FormField
-                    control={form.control}
-                    name="app_useFrequency"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu acho que gostaria de usar esse sistema com frequência.</b></FormLabel>
+                    {SusQuestions.map((question, index) => (
+                        <>
+                        <FormField key={"formField" + index}
+                        control={form.control}
+                        name={question.field}
+                        render={({field}) => (
+                            <FormItem className="space-x-5 space-y-5 content-center">
+                                <p className="text-2xl"><b>{question.question}</b></p>
                             <FormControl>
                                 <RadioGroup
                                 onValueChange={field.onChange}
                                 defaultValue={field.value}
                                 value={field.value}
                                 className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_useFrequency, index) => (
+                                    {DefaultProps.map((defaultProp, index) => (
                                         <FormItem className="flex flex-col items-center space-y-2" key={index}>
                                             <FormControl>
-                                                <RadioGroupItem value={app_useFrequency.value}/> 
+                                                <RadioGroupItem value={defaultProp.value}/> 
                                             </FormControl>
                                             <FormLabel className="font-normal">
-                                                {app_useFrequency.label}
+                                                {defaultProp.label}
                                             </FormLabel>
                                         </FormItem>
                                     ))}
                                 </RadioGroup>
                                 </FormControl>
                                 <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_useComplex"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu acho o sistema desnecessariamente complexo.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_useComplex, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_useComplex.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_useComplex.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_useEasy"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu achei o sistema fácil de usar.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_useEasy, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_useEasy.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_useEasy.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_useNeedHelp"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu acho que precisaria de ajuda de uma pessoa com conhecimentos técnicos para usar o sistema.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_useNeedHelp, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_useNeedHelp.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_useNeedHelp.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_functionIntegration"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu acho que as várias funções do sistema estão muito bem integradas.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_functionIntegration, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_functionIntegration.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_functionIntegration.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_inconsistency"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu acho que o sistema apresenta muita inconsistência.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_inconsistency, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_inconsistency.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_inconsistency.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_learningCurve"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu imagino que as pessoas aprenderão como usar esse sistema rapidamente.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_learningCurve, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_learningCurve.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_learningCurve.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_jumbled"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu achei o sistema atrapalhado de usar.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_jumbled, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_jumbled.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_jumbled.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_confidence"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu me senti confiante ao usar o sistema.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_confidence, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_confidence.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_confidence.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
-                    <FormField
-                    control={form.control}
-                    name="app_learnSystem"
-                    render={({field}) => (
-                    <FormItem className="space-x-5 space-y-5 content-center">
-                            <FormLabel className="text-2xl"><b>Eu precisei aprender várias coisas novas antes de conseguir usar o sistema.</b></FormLabel>
-                            <FormControl>
-                                <RadioGroup
-                                onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                value={field.value}
-                                className="flex flex-row space-x-5 justify-between">
-                                    {DefaultProps.map((app_learnSystem, index) => (
-                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                            <FormControl>
-                                                <RadioGroupItem value={app_learnSystem.value}/> 
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                                {app_learnSystem.label}
-                                            </FormLabel>
-                                        </FormItem>
-                                    ))}
-                                </RadioGroup>
-                                </FormControl>
-                                <FormMessage />
-                        </FormItem>)
-                        }
-                    />
-                    <div>
-                        <hr className="text-black bg-black h-0.5"/>
-                    </div>
+                        </FormItem>
+                        )} />
+                        <div key={"div" + index}>
+                            <hr className="text-black bg-black h-0.5"/>
+                        </div>    
+                        </>
+                    ))}
                     <div className="flex flex-row justify-around mt-8">
                         <Button className="basis-1/8 text-lg" type='button' onClick={() => {form.reset()}}>Limpar</Button>
                         <Button className="basis-1/8 text-lg" type="submit">Enviar</Button>
