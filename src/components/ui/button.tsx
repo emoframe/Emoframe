@@ -23,6 +23,7 @@ const buttonVariants = cva(
           bg-indigo-100 text-indigo-800 text-sm
           invisible opacity-20 -translate-x-3 transition-all
           group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`,
+        expand: "p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100",
       },
       size: {
         default: "h-10 px-4 py-2",
