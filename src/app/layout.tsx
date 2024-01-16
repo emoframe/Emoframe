@@ -1,11 +1,12 @@
 import '@/styles/globals.css';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import SessionProvider from "@/components/provider/SessionProvider";
 import ChakraUIProvider from "@/components/provider/ChakraUIProvider";
 import NextuiProvider from "@/components/provider/NextUIProvider";
+import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,18 +22,14 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={inter.className}>
-                <ChakraUIProvider>
-                    <NextuiProvider>
-                        <SessionProvider>
-                            <Navbar />
-                            <main className="flex flex-col justify-center items-center min-h-screen pt-[var(--navbar)] w-full">
-                                {children}
-                            </main>
-                            <Toaster/>
-                        </SessionProvider>
-                </NextuiProvider>
-                </ChakraUIProvider>
+            <body className={cn("flex", inter.className)}>
+                <SessionProvider>
+                    <Sidebar/>
+                    <main className="flex flex-col justify-center items-center min-h-screen w-full">
+                        {children}
+                    </main>
+                    <Toaster/>
+                </SessionProvider>
             </body>
         </html>
     );
