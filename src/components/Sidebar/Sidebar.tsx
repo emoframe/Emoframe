@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLast, ChevronFirst, User } from "lucide-react";
+import { ChevronLast, ChevronFirst, User, Users, LucideIcon } from "lucide-react";
 import { useContext, createContext, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -94,7 +94,15 @@ const SidebarCore = ({ children }) => {
   )
 }
 
-const SidebarItem = ({ icon, text, active, alert, href }) => {
+interface SidebarItemType {
+  icon: React.ReactNode; 
+  text: string; 
+  href: string;
+  active?: boolean;
+  alert?: boolean;
+}
+
+const SidebarItem = ({ icon, text, href, active = false, alert = false}: SidebarItemType) => {
   const { expanded } = useContext(SidebarContext)
   
   return (
@@ -145,9 +153,17 @@ const SidebarItem = ({ icon, text, active, alert, href }) => {
 }
 
 const Sidebar = () => {
+  const { data: session } = useSession();
+
   return (
     <SidebarCore>
-
+      {
+        (session?.user.type == 'specialist') &&
+        <>
+          <SidebarItem icon={<Users size={20} />} text="Usuários" href="/specialist"/>
+        </>
+      }
+      <SidebarItem icon={<Users size={20} />} text="Teste" href="/"/>
     </SidebarCore>
   )
 }
