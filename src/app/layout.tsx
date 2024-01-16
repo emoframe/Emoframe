@@ -22,10 +22,10 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={cn("flex", inter.className)}>
+            <body className={cn("flex w-screen", inter.className)}>
                 <SessionProvider>
                     <Sidebar/>
-                    <main className="flex flex-col justify-center items-center min-h-screen w-full">
+                    <main className="flex flex-1 flex-col justify-center items-center pl-sidebar">
                         {children}
                     </main>
                     <Toaster/>

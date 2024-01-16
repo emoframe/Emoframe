@@ -63,7 +63,7 @@ const SidebarCore = ({ children }) => {
   }
   
   return (
-    <aside className="h-screen">
+    <aside className="h-screen fixed z-10 top-0">
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <Link href={redirect()}>
