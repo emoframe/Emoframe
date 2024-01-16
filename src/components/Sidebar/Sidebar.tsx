@@ -1,11 +1,16 @@
 "use client";
 
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
+import { ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { buttonVariants } from "./ui/button";
+import { buttonVariants } from "../ui/button";
 import Link from "next/link";
+import LoginMenu from "./LoginMenu";
+
+/*
+  Criar componente com items de user e specialist
+*/
 
 type SidebarContextType = {
     expanded: boolean;
@@ -22,14 +27,17 @@ const SidebarCore = ({ children }) => {
   const Login = () => {
     if(session?.user) {
       return (
-        <div className="leading-4">
-          <h4 className="font-semibold">{session?.user.name}</h4>
-          <span className="text-xs text-gray-600">{session?.user.email}</span>
-        </div>
+        <>
+          <div className="leading-4">
+            <h4 className="font-semibold">{session?.user.name}</h4>
+            <span className="text-xs text-gray-600">{session?.user.email}</span>
+          </div>
+          <LoginMenu/>
+        </>
       )
     } else {
         return (
-            <Link className={buttonVariants({variant: "outline"})} href="/sign-in">
+            <Link className={buttonVariants({variant: "sidebar"})} href="/sign-in">
                 Entre
             </Link> 
         )
@@ -72,7 +80,6 @@ const SidebarCore = ({ children }) => {
           `}
           >
             <Login/>
-            <MoreVertical size={20} />
           </div>
         </div>
       </nav>
