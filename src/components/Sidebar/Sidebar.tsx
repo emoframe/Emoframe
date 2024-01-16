@@ -1,6 +1,9 @@
 "use client";
 
-import { ChevronLast, ChevronFirst, User, Users, LucideIcon } from "lucide-react";
+import { ChevronLast, ChevronFirst, User, 
+         Users, LineChart, BookOpenText, BookUser,
+         Home
+} from "lucide-react";
 import { useContext, createContext, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -163,9 +166,12 @@ const Sidebar = () => {
         (session?.user.type == 'specialist') &&
         <>
           <SidebarItem icon={<Users size={20} />} text="Usuários" href="/specialist"/>
+          <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/specialist/evaluations"/>
+          <SidebarItem icon={<BookUser size={20} />} text="Instrumentos" href="/specialist/instruments"/>
+          <SidebarItem icon={<LineChart size={20} />} text="Resultados" href="/specialist/results"/>
         </>
       }
-      <SidebarItem icon={<Users size={20} />} text="Teste" href="/"/>
+      <SidebarItem icon={<Home size={20} />} text="Sobre" href="/about"/>
     </SidebarCore>
   )
 }
