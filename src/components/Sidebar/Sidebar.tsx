@@ -27,13 +27,12 @@ const SidebarCore = ({ children }) => {
   const Login = () => {
     if(session?.user) {
       return (
-        <div className="border-t flex p-3">
+        <>
           <User className="w-10 h-10 rounded-md"/>
           <div
             className={`
               flex justify-between items-center
-              overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
-          `}
+              overflow-hidden transition-all w-52 ml-3`}
           >
             <div className="leading-4">
               <h4 className="font-semibold">{session?.user.name}</h4>
@@ -41,7 +40,7 @@ const SidebarCore = ({ children }) => {
             </div>
             <LoginMenu/>
           </div>
-        </div>
+        </>
       )
     } else {
         return (
