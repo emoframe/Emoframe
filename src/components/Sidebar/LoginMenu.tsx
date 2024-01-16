@@ -27,7 +27,7 @@ const LoginMenu = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <MoreVertical size={20} />
+                <MoreVertical size={20} className="text-primary"/>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent className="w-56">

@@ -28,14 +28,14 @@ const SidebarCore = ({ children }) => {
     if(session?.user) {
       return (
         <>
-          <User className="w-10 h-10 rounded-md"/>
+          <User className="text-primary w-10 h-10 rounded-md"/>
           <div
             className={`
               flex justify-between items-center
               overflow-hidden transition-all w-52 ml-3`}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">{session?.user.name}</h4>
+              <h4 className="font-semibold text-primary">{session?.user.name}</h4>
               <span className="text-xs text-gray-600">{session?.user.email}</span>
             </div>
             <LoginMenu/>
@@ -67,9 +67,9 @@ const SidebarCore = ({ children }) => {
         <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
           <Link href={redirect()}>
             <img
-              src="https://img.logoipsum.com/243.svg"
+              src="images/emoframe-logo.png"
               className={`overflow-hidden transition-all ${
-                expanded ? "w-32" : "w-0"
+                expanded ? "h-12" : "w-0"
               }`}
               alt=""
             />
