@@ -44,7 +44,7 @@ const SidebarCore = ({ children }) => {
       )
     } else {
         return (
-            <Link className={buttonVariants({variant: "sidebar"})} href="/sign-in">
+            <Link className={buttonVariants({variant: "default"})} href="/sign-in">
                 Entre
             </Link> 
         )
@@ -115,8 +115,8 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
           transition-colors group
           ${
             active
-              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-              : "hover:bg-indigo-50 text-gray-600"
+              ? "bg-gradient-to-tr from-primary to-primary-foreground text-primary-background"
+              : "hover:bg-primary-foreground text-gray-600"
           }
           ${!expanded && "justify-center"}
       `}
@@ -131,7 +131,7 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
         </span>
         {alert && (
           <div
-            className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
+            className={`absolute right-2 w-2 h-2 rounded bg-primary-foreground ${
               expanded ? "" : "top-2"
             }`}
           />
@@ -141,7 +141,7 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
           <div
             className={`
             absolute left-full rounded-md px-2 py-1 ml-6
-            bg-indigo-100 text-indigo-800 text-sm
+            bg-primary-foreground text-gray-600 text-sm
             invisible opacity-20 -translate-x-3 transition-all
             group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
         `}
