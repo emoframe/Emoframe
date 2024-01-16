@@ -19,10 +19,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         sidebar: 
-          `absolute left-full rounded-md px-2 py-1 ml-6
-          bg-indigo-100 text-indigo-800 text-sm
-          invisible opacity-20 -translate-x-3 transition-all
-          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`,
+          `rounded-md px-2 py-1 bg-indigo-100 text-indigo-800 hover:bg-indigo-800 hover:text-indigo-100 text-sm`,
         expand: "p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100",
       },
       size: {

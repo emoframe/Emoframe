@@ -65,7 +65,7 @@ const SidebarCore = ({ children }) => {
   return (
     <aside className="h-screen fixed z-10 top-0">
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center">
+        <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
           <Link href={redirect()}>
             <img
               src="https://img.logoipsum.com/243.svg"
@@ -85,10 +85,12 @@ const SidebarCore = ({ children }) => {
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
+          <ul className=" px-3">{children}</ul>
         </SidebarContext.Provider>
 
-        <Login/>
+        <div className={`absolute bottom-0 w-full flex justify-center items-center border-t p-3 ${!expanded && "invisible"}`}>
+          <Login/>
+        </div>
       </nav>
     </aside>
   )
