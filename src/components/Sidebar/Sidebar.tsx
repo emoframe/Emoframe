@@ -11,10 +11,6 @@ import { buttonVariants, Button } from "../ui/button";
 import Link from "next/link";
 import LoginMenu from "./LoginMenu";
 
-/*
-  Criar componente com items de user e specialist
-*/
-
 type SidebarContextType = {
     expanded: boolean;
 }
@@ -162,6 +158,7 @@ const Sidebar = () => {
 
   return (
     <SidebarCore>
+      <SidebarItem icon={<Home size={20} />} text="Início" href="/"/>
       {
         (session?.user.type == 'specialist') &&
         <>
@@ -171,7 +168,6 @@ const Sidebar = () => {
           <SidebarItem icon={<LineChart size={20} />} text="Resultados" href="/specialist/results"/>
         </>
       }
-      <SidebarItem icon={<Home size={20} />} text="Sobre" href="/about"/>
     </SidebarCore>
   )
 }
