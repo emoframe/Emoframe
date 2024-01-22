@@ -7,7 +7,7 @@ import UserDataTable from './data-table';
 import { columns } from "./columns";
 import { search } from '@/lib/firebase';
 
-const SpecialistPage = async () => {
+const Users = async () => {
   const session: any = await getServerSession(authOptions);
   const data = await search("specialistId", session?.user.uid!, "user");
 
@@ -16,4 +16,4 @@ const SpecialistPage = async () => {
   )
 }
 
-export default SpecialistPage;
+export default Users;
