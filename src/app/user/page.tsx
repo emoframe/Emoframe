@@ -27,7 +27,7 @@ const User = async () => {
             {data ? data.forms.map((form) => {
                 const findForm = forms.find((option) => option.value == form);
                 return (
-                    <Card className="y-8 rounded shadow-lg shadow-gray-200 bg-white duration-300 hover:-translate-y-1">
+                    <Card key={findForm?.value} className="y-8 rounded shadow-lg shadow-gray-200 bg-white duration-300 hover:-translate-y-1">
                         <CardHeader>
                             <CardTitle>{findForm?.label}</CardTitle>
                             <CardDescription>{findForm?.description}</CardDescription>
