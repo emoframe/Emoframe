@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../pages/api/auth/[...nextauth]';
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
 
 import UserDataTable from './data-table';
 import { columns } from "./columns";
