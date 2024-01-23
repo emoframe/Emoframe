@@ -48,18 +48,21 @@ html, body {
   }
  
   .dark {
-    --background: 224 71.4% 4.1%;
+    /*--background: 224 71.4% 4.1%; /* Preto */
+    --background: 143 17% 15%; /* Verde bem escuro */
     --foreground: 210 20% 98%;
  
     --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
  
-    --popover: 224 71.4% 4.1%;
+    /*--popover: 224 71.4% 4.1%;*/
+    --popover: 143 17% 15%;
     --popover-foreground: 210 20% 98%;
  
     --primary: 105 36.62% 72.16%; /* Verde */
-    --primary-foreground: 105 52% 86%; /* Verde Claro */
-    --primary-background: 235 16% 30%; /* Preto */
+    --primary-foreground: 148 30% 60%; /* Verde */
+    /*--primary-background: 235 16% 30%; /* Azul escuro */
+    --primary-background: 146 28% 28%; /* Verde escuro */
 
     --content: 202 40% 96%; /*Texto Branco*/
  
@@ -69,7 +72,8 @@ html, body {
     --muted: 215 27.9% 16.9%;
     --muted-foreground: 217.9 10.6% 64.9%;
  
-    --accent: 215 27.9% 16.9%;
+    /*--accent: 215 27.9% 16.9%;*/
+    --accent: 148 30% 60%; /* Verde */
     --accent-foreground: 210 20% 98%;
  
     --destructive: 0 62.8% 30.6%;
