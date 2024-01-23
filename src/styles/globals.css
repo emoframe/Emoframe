@@ -59,9 +59,9 @@ html, body {
  
     --primary: 105 36.62% 72.16%; /* Verde */
     --primary-foreground: 105 52% 86%; /* Verde Claro */
-    --primary-background: 235 16% 30%; /* Branco */
+    --primary-background: 235 16% 30%; /* Preto */
 
-    --content: 202 40% 96%; /*Texto*/
+    --content: 202 40% 96%; /*Texto Branco*/
  
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;

@@ -11,6 +11,7 @@ import { buttonVariants, Button } from "../ui/button";
 import Link from "next/link";
 import LoginMenu from "./LoginMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "next-themes";
 
 type SidebarContextType = {
     expanded: boolean;
@@ -22,7 +23,9 @@ const SidebarCore = ({ children }) => {
 
   const { data: session } = useSession();
 
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(false);
+
+  const { theme } = useTheme();
 
   const Login = () => {
     if(session?.user) {
@@ -67,7 +70,7 @@ const SidebarCore = ({ children }) => {
         <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
             <Link href={redirect()}>
               <Image
-                src="/images/emoframe-logo.svg"
+                src={`/images/${theme == "light" ? "emoframe-logo" : "emoframe-logo-dark"}.svg`}
                 className={`overflow-hidden transition-all`}
                 alt=""
                 width={expanded ? 160 : 0}
