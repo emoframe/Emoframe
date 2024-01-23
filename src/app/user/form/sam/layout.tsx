@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 const SamLayout: FC<SamLayoutProps> = ({ children }) => {
-    return <div className='flex bg-slate-200 p-10 m-y-10 rounded-md'>{children}</div>;
+    return <div className='flex bg-primary-background p-10 m-y-10 rounded-md'>{children}</div>;
 }
 
 export default SamLayout;

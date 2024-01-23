@@ -117,7 +117,7 @@ export function UserDataTable<TData, TValue>({
 
         {/*<ThemeToggle />*/}
         <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "outline" })}>
+          <DropdownMenuTrigger className={buttonVariants({ variant: "default" })}>
             Colunas
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -140,7 +140,7 @@ export function UserDataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link className={buttonVariants({ variant: "outline" })} href="/specialist/form">
+        <Link className={buttonVariants({ variant: "default" })} href="/specialist/form">
           Cadastre
         </Link>
       </div>

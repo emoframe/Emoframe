@@ -62,7 +62,7 @@ const SidebarCore = ({ children }) => {
   
   return (
     <aside className="h-screen fixed z-10 top-0">
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+      <nav className="h-full flex flex-col bg-primary-background border-r shadow-sm">
         <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
           <Link href={redirect()}>
             <img
@@ -140,7 +140,7 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
           <div
             className={`
             absolute left-full rounded-md px-2 py-1 ml-6
-            bg-primary-foreground  text-sm
+            bg-primary-foreground text-sm
             invisible opacity-20 -translate-x-3 transition-all
             group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
         `}

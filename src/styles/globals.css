@@ -9,7 +9,7 @@ html, body {
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 95%;
     --foreground: 224 71.4% 4.1%;
 
     --card: 0 0% 100%;
@@ -20,9 +20,9 @@ html, body {
  
     --primary: 105 36.62% 72.16%; /* Verde */
     --primary-foreground: 105 52% 86%; /* Verde Claro */
-    --primary-background: 300 100% 98.04%; /* Branco */
+    --primary-background: 0 0% 98.86%; /* Branco */
 
-    --content: 210 3.36% 46.67%;
+    --content: 210 3.36% 46.67%; /*Texto*/
  
     --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9 39.3% 11%;

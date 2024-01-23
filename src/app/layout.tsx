@@ -21,7 +21,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <SessionProvider>
-                <body className={cn("flex flex-1 w-full min-h-full h-fit", inter.className)}>
+                <body className={cn("flex flex-1 w-full min-h-full h-fit bg-background", inter.className)}>
                     <Sidebar/>
                     <main className="flex flex-1 flex-col justify-center items-center pl-sidebar py-16">
                         {children}
