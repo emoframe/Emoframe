@@ -35,7 +35,7 @@ const SidebarCore = ({ children }) => {
           >
             <div className="leading-4">
               <h4 className="font-semibold text-primary">{session?.user.name}</h4>
-              <span className="text-xs text-gray-600">{session?.user.email}</span>
+              <span className="text-xs ">{session?.user.email}</span>
             </div>
             <LoginMenu/>
           </div>
@@ -115,7 +115,7 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
           ${
             active
               ? "bg-gradient-to-tr from-primary to-primary-foreground text-primary-background"
-              : "hover:bg-primary-foreground text-gray-600"
+              : "hover:bg-primary-foreground "
           }
           ${!expanded && "justify-center"}
       `}
@@ -140,7 +140,7 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
           <div
             className={`
             absolute left-full rounded-md px-2 py-1 ml-6
-            bg-primary-foreground text-gray-600 text-sm
+            bg-primary-foreground  text-sm
             invisible opacity-20 -translate-x-3 transition-all
             group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
         `}

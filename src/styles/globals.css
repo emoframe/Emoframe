@@ -21,6 +21,8 @@ html, body {
     --primary: 105 36.62% 72.16%; /* Verde */
     --primary-foreground: 105 52% 86%; /* Verde Claro */
     --primary-background: 300 100% 98.04%; /* Branco */
+
+    --content: 210 3.36% 46.67%;
  
     --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9 39.3% 11%;
@@ -81,6 +83,6 @@ html, body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-content;
   }
 }
