@@ -83,6 +83,7 @@ export function UserDataTable<TData, TValue>({
     filterFns: {
       fuzzy: fuzzyFilter,
     },
+    enableRowSelection: true,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -104,8 +105,8 @@ export function UserDataTable<TData, TValue>({
 
   return (
     <div>
-      {/* input */}
       <div className="flex items-center pb-4 gap-4">
+        {/* input */}
         <Input
           placeholder="Pesquise qualquer campo"
           value={globalFilter ?? ''}
@@ -140,9 +141,22 @@ export function UserDataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+
         <Link className={buttonVariants({ variant: "default" })} href="/specialist/form">
           Cadastre
         </Link>
+
+        {/* dialog */}
+        {Boolean(table.getFilteredSelectedRowModel().rows.length) && 
+          <Button
+            variant="default"
+            onClick={() => {
+              console.log(table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original));
+            }}
+          >
+            Selecionar Instrumentos
+          </Button>
+        }
       </div>
 
       {/* table */}
