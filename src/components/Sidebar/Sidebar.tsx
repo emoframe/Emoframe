@@ -4,7 +4,7 @@ import { ChevronLast, ChevronFirst, User,
          Users, LineChart, BookOpenText, BookUser,
          Home
 } from "lucide-react";
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { buttonVariants, Button } from "../ui/button";
@@ -26,6 +26,15 @@ const SidebarCore = ({ children }) => {
   const [expanded, setExpanded] = useState(false);
 
   const { theme } = useTheme();
+  const [themeState, setThemeState] = useState<string>();
+
+  useEffect(() => {
+    theme && setThemeState(theme); // Passa o valor do hook de theme pra um state
+  },[theme])
+  /* Explicação: passar o valor diretamente do hook para o JSX/view pode causar 
+  um valor inconsistente dentro do JSX/view, de modo que a renderização da página 
+  também não pode ser consistente e haverá um valor diferente entre o valor no SSR 
+  e no cliente. */
 
   const Login = () => {
     if(session?.user) {
@@ -68,15 +77,15 @@ const SidebarCore = ({ children }) => {
     <aside className="h-screen fixed z-10 top-0">
       <nav className="h-full flex flex-col bg-primary-background border-r shadow-sm">
         <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
-            <Link href={redirect()}>
-              <Image
-                src={`/images/${theme == "light" ? "emoframe-logo" : "emoframe-logo-dark"}.svg`}
-                className={`overflow-hidden transition-all`}
-                alt=""
-                width={expanded ? 160 : 0}
-                height={expanded ? 40 : 0}
-              />
-            </Link>
+          <Link href={redirect()}>
+            <Image
+              src={`/images/emoframe-logo-${themeState}.svg`}
+              className={`overflow-hidden transition-all`}
+              alt=""
+              width={expanded ? 160 : 0}
+              height={expanded ? 40 : 0}
+            />
+          </Link>
 
           <div className="flex flex-col flex-wrap justify-between items-center gap-2">
             <Button
