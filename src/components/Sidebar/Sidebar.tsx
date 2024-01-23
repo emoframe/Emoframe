@@ -65,12 +65,12 @@ const SidebarCore = ({ children }) => {
       <nav className="h-full flex flex-col bg-primary-background border-r shadow-sm">
         <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
           <Link href={redirect()}>
-            <img
-              src="images/emoframe-logo.png"
-              className={`overflow-hidden transition-all ${
-                expanded ? "h-12" : "w-0"
-              }`}
+            <Image
+              src="/images/emoframe-logo.png"
+              className={`overflow-hidden transition-all`}
               alt=""
+              width={expanded ? 50 : 0}
+              height={expanded ? 50 : 0}
             />
           </Link>
           
