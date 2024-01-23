@@ -1,7 +1,7 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { getFirestore,  } from 'firebase/firestore';
+import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch } from "firebase/firestore";
+import { getFirestore } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
 import { getValuable } from "@/lib/utils";
@@ -145,21 +145,47 @@ export async function updateById (data: any, id: string, col: string) : Promise<
   }
 }
 
-export async function modifyArray (id: string, col: string, name: string, value: string, mode: "add" | "remove") : Promise<any> {
-  const docRef = doc(db, col, id);
-  try {
-    if(mode == "add") {
-      await updateDoc(docRef, {
-        [name]: arrayUnion(value) //[] permite que seja usado o valor da variável como o nome do campo
-      });
+export async function modifyArray (id: string | string[], col: string, name: string, value: string, mode: "add" | "remove") : Promise<any> {
+  if(typeof id === "string") {
+    const docRef = doc(db, col, id);
+    try {
+      if(mode == "add") {
+        await updateDoc(docRef, {
+          [name]: arrayUnion(value) //[] permite que seja usado o valor da variável como o nome do campo
+        });
+      }
+      else if(mode == "remove") {
+        await updateDoc(docRef, {
+          [name]: arrayRemove(value)
+        });
+      }
+    } catch(error) {
+      console.log(error);
     }
-    else if(mode == "remove") {
-      await updateDoc(docRef, {
-        [name]: arrayRemove(value)
-      });
-    }
-  } catch(error) {
-    console.log(error);
+  } else {
+    // Novo lote
+    const batch = writeBatch(db);
+
+    id.forEach((user) => {
+      const docRef = doc(db, col, user);
+      try {
+        if(mode == "add") {
+          batch.update(docRef, { //Insere transação de atualização no lote
+            [name]: arrayUnion(value) //[] permite que seja usado o valor da variável como o nome do campo
+          });
+        }
+        else if(mode == "remove") {
+          batch.update(docRef, {
+            [name]: arrayRemove(value)
+          });
+        }
+      } catch(error) {
+        console.log(error);
+      }
+    });
+
+    // Commita o lote
+    await batch.commit();
   }
 }
 

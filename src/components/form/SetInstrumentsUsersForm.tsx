@@ -26,7 +26,7 @@ const FormSchema = z.object({
 const SetInstrumentsUsersForm = ({
     uid, options
 }: {
-    uid: string,
+    uid: string | string[],
     options: Array<Forms>,
 }) => {
 
