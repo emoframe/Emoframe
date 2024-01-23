@@ -10,6 +10,7 @@ import Image from "next/image";
 import { buttonVariants, Button } from "../ui/button";
 import Link from "next/link";
 import LoginMenu from "./LoginMenu";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 type SidebarContextType = {
     expanded: boolean;
@@ -64,22 +65,25 @@ const SidebarCore = ({ children }) => {
     <aside className="h-screen fixed z-10 top-0">
       <nav className="h-full flex flex-col bg-primary-background border-r shadow-sm">
         <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
-          <Link href={redirect()}>
-            <Image
-              src="/images/emoframe-logo.svg"
-              className={`overflow-hidden transition-all`}
-              alt=""
-              width={expanded ? 160 : 0}
-              height={expanded ? 40 : 0}
-            />
-          </Link>
-          
-          <Button
-            onClick={() => setExpanded((curr) => !curr)}
-            variant="expand"
-          >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
-          </Button>
+            <Link href={redirect()}>
+              <Image
+                src="/images/emoframe-logo.svg"
+                className={`overflow-hidden transition-all`}
+                alt=""
+                width={expanded ? 160 : 0}
+                height={expanded ? 40 : 0}
+              />
+            </Link>
+
+          <div className="flex flex-col flex-wrap justify-between items-center gap-2">
+            <Button
+              onClick={() => setExpanded((curr) => !curr)}
+              variant="expand"
+            >
+              {expanded ? <ChevronFirst /> : <ChevronLast />}
+            </Button>
+            <ThemeToggle />
+          </div>
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>

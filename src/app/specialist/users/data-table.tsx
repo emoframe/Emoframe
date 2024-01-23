@@ -127,8 +127,7 @@ export function UserDataTable<TData, TValue>({
           }}
           className="max-w-sm"
         />
-
-        {/*<ThemeToggle />*/}
+        
         <DropdownMenu>
           <DropdownMenuTrigger className={buttonVariants({ variant: "default" })}>
             Colunas
