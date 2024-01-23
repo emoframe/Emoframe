@@ -57,8 +57,11 @@ html, body {
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
  
-    --primary: 210 20% 98%;
-    --primary-foreground: 220.9 39.3% 11%;
+    --primary: 105 36.62% 72.16%; /* Verde */
+    --primary-foreground: 105 52% 86%; /* Verde Claro */
+    --primary-background: 235 16% 30%; /* Branco */
+
+    --content: 202 40% 96%; /*Texto*/
  
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
