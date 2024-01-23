@@ -9,6 +9,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -28,7 +30,12 @@ export function ThemeToggle({
             <span className="sr-only">Toggle theme</span>
           </Button>
         </DropdownMenuTrigger>
+
         <DropdownMenuContent align="end">
+
+        <DropdownMenuLabel>Temas</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        
           <DropdownMenuItem onClick={() => setTheme("light")}>
             Diúrno
           </DropdownMenuItem>
