@@ -49,6 +49,8 @@ import {
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Label } from "@/components/ui/label";
+import SetInstrumentsUsersForm from "@/components/form/SetInstrumentsUsersForm";
+import { forms } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -162,33 +164,19 @@ export function UserDataTable<TData, TValue>({
             <DialogTrigger asChild>
               <Button variant="default">Selecionar Instrumentos</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle>Selecione um instrumento</DialogTitle>
                 <DialogDescription>
                   O instrumento selecionado será adicionado/removido para os usuários previamente escolhidos.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
-                  </Label>
-                  <Input id="name" value="Pedro Duarte" className="col-span-3" />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Username
-                  </Label>
-                  <Input id="username" value="@peduarte" className="col-span-3" />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">Save changes</Button>
-              </DialogFooter>
+              <SetInstrumentsUsersForm
+							uid={table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid)}
+							options={forms}
+						/>
             </DialogContent>
           </Dialog>
-        //table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original
         }
       </div>
 
