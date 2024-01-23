@@ -23,7 +23,7 @@ const FormSchema = z.object({
     mode: z.union([z.literal('add'), z.literal('remove')]),
 });
 
-const SetForm = ({
+const SetInstrumentsUsersForm = ({
     uid, options
 }: {
     uid: string,
@@ -92,4 +92,4 @@ const SetForm = ({
     )
 }
 
-export default SetForm;
+export default SetInstrumentsUsersForm;

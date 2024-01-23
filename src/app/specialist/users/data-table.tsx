@@ -166,7 +166,7 @@ export function UserDataTable<TData, TValue>({
               <DialogHeader>
                 <DialogTitle>Selecione um instrumento</DialogTitle>
                 <DialogDescription>
-                  O instrumento selecionado será adicionado/removido para os usuários escolhidos.
+                  O instrumento selecionado será adicionado/removido para os usuários previamente escolhidos.
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
