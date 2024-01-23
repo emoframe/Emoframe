@@ -37,8 +37,18 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Label } from "@/components/ui/label";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -148,14 +158,37 @@ export function UserDataTable<TData, TValue>({
 
         {/* dialog */}
         {Boolean(table.getFilteredSelectedRowModel().rows.length) && 
-          <Button
-            variant="default"
-            onClick={() => {
-              console.log(table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original));
-            }}
-          >
-            Selecionar Instrumentos
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="default">Selecionar Instrumentos</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Selecione um instrumento</DialogTitle>
+                <DialogDescription>
+                  O instrumento selecionado será adicionado/removido para os usuários escolhidos.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="name" className="text-right">
+                    Name
+                  </Label>
+                  <Input id="name" value="Pedro Duarte" className="col-span-3" />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="username" className="text-right">
+                    Username
+                  </Label>
+                  <Input id="username" value="@peduarte" className="col-span-3" />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        //table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original
         }
       </div>
 
