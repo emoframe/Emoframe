@@ -23,7 +23,7 @@ export default function RootLayout({
             <SessionProvider>
                 <body className={cn("flex flex-1 w-full h-fit", inter.className)}>
                     <Sidebar/>
-                    <main className="flex flex-1 flex-col justify-center items-center pl-sidebar">
+                    <main className="flex flex-1 flex-col justify-center items-center pl-sidebar py-16">
                         {children}
                     </main>
                     <Toaster/>

@@ -196,7 +196,7 @@ const SignUpForm = ({ specialistId }) => {
 
         <div className='flex flex-col flex-wrap justify-center gap-6'>
 
-          <div className='flex lg:flex-row sm:flex-col flex-wrap justify-between gap-6'>
+          <div className='flex flex-col md:flex-row flex-wrap justify-between gap-6'>
 
             <div className='flex-col flex-1'>
               <FormField
