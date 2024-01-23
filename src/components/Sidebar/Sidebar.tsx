@@ -162,7 +162,7 @@ const Sidebar = () => {
       {
         (session?.user.type == 'specialist') &&
         <>
-          <SidebarItem icon={<Users size={20} />} text="Usuários" href="/specialist"/>
+          <SidebarItem icon={<Users size={20} />} text="Usuários" href="/specialist/users"/>
           <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/specialist/evaluations"/>
           <SidebarItem icon={<BookUser size={20} />} text="Instrumentos" href="/specialist/instruments"/>
           <SidebarItem icon={<LineChart size={20} />} text="Resultados" href="/specialist/results"/>

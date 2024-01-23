@@ -19,7 +19,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Forms } from '@/types/forms';
 
 const FormSchema = z.object({
-    combobox: z.string().min(1, 'A seleção é obriogatória'),
+    combobox: z.string().min(1, 'A seleção é obrigatória'),
     mode: z.union([z.literal('add'), z.literal('remove')]),
 });
 

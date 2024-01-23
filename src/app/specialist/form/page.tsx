@@ -9,9 +9,7 @@ const SpecialistForm = async () => {
   const data = await search("specialistId", session?.user.uid!, "user");
   
   return (
-    <div className='flex flex-col w-full'>
-      <SignUpForm specialistId={data}/>
-    </div>
+    <SignUpForm specialistId={data}/>
   );
 };
 

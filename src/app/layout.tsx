@@ -4,8 +4,6 @@ import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import SessionProvider from "@/components/provider/SessionProvider";
-import ChakraUIProvider from "@/components/provider/ChakraUIProvider";
-import NextuiProvider from "@/components/provider/NextUIProvider";
 import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,15 +20,15 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={cn("flex w-screen", inter.className)}>
-                <SessionProvider>
+            <SessionProvider>
+                <body className={cn("flex flex-1 w-full h-fit", inter.className)}>
                     <Sidebar/>
                     <main className="flex flex-1 flex-col justify-center items-center pl-sidebar">
                         {children}
                     </main>
                     <Toaster/>
-                </SessionProvider>
-            </body>
+                </body>
+            </SessionProvider>
         </html>
     );
 }
