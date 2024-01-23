@@ -44,12 +44,12 @@ const SetInstrumentsUsersForm = ({
 
         let title, description;
         if (values.mode == "add") {
-            title = "Pedido registrado!";
-            description = "O usuário selecionado agora poderá preencher o formulário escolhido.";
+            title = "Socilitação registrada!";
+            description = "O instrumento foi adicionado.";
         }
         else {
-            title = "Pedido removido!";
-            description = "O usuário selecionado agora não poderá preencher esse formulário.";
+            title = "Solicitação removida!";
+            description = "O instrumento foi removido.";
         }
         modifyArray(uid, "user", "forms", values.combobox, values.mode).then(() => {
             toast({
