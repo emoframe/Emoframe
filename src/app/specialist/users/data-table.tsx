@@ -161,11 +161,11 @@ export function UserDataTable<TData, TValue>({
         {Boolean(table.getFilteredSelectedRowModel().rows.length) && 
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">Selecionar Instrumentos</Button>
+              <Button variant="default">Selecionar Instrumento</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Selecione um instrumento</DialogTitle>
+                <DialogTitle>Selecione um Instrumento de Autorrelato</DialogTitle>
                 <DialogDescription>
                   O instrumento selecionado será adicionado/removido para os usuários previamente escolhidos.
                 </DialogDescription>
