@@ -37,8 +37,20 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Label } from "@/components/ui/label";
+import SetInstrumentsUsersForm from "@/components/form/SetInstrumentsUsersForm";
+import { forms } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -83,6 +95,7 @@ export function UserDataTable<TData, TValue>({
     filterFns: {
       fuzzy: fuzzyFilter,
     },
+    enableRowSelection: true,
     globalFilterFn: fuzzyFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -104,8 +117,8 @@ export function UserDataTable<TData, TValue>({
 
   return (
     <div>
-      {/* input */}
       <div className="flex items-center pb-4 gap-4">
+        {/* input */}
         <Input
           placeholder="Pesquise qualquer campo"
           value={globalFilter ?? ''}
@@ -114,10 +127,9 @@ export function UserDataTable<TData, TValue>({
           }}
           className="max-w-sm"
         />
-
-        {/*<ThemeToggle />*/}
+        
         <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "outline" })}>
+          <DropdownMenuTrigger className={buttonVariants({ variant: "default" })}>
             Colunas
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -140,9 +152,31 @@ export function UserDataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link className={buttonVariants({ variant: "outline" })} href="/specialist/form">
+
+        <Link className={buttonVariants({ variant: "default" })} href="/specialist/form">
           Cadastre
         </Link>
+
+        {/* dialog */}
+        {Boolean(table.getFilteredSelectedRowModel().rows.length) && 
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="default">Selecionar Instrumento</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Selecione um Instrumento de Autorrelato</DialogTitle>
+                <DialogDescription>
+                  O instrumento selecionado será adicionado/removido para os usuários previamente escolhidos.
+                </DialogDescription>
+              </DialogHeader>
+              <SetInstrumentsUsersForm
+							uid={table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid)}
+							options={forms}
+						/>
+            </DialogContent>
+          </Dialog>
+        }
       </div>
 
       {/* table */}

@@ -19,14 +19,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { Forms } from '@/types/forms';
 
 const FormSchema = z.object({
-    combobox: z.string().min(1, 'A seleção é obriogatória'),
+    combobox: z.string().min(1, 'A seleção é obrigatória'),
     mode: z.union([z.literal('add'), z.literal('remove')]),
 });
 
-const SetForm = ({
+const SetInstrumentsUsersForm = ({
     uid, options
 }: {
-    uid: string,
+    uid: string | string[],
     options: Array<Forms>,
 }) => {
 
@@ -44,12 +44,12 @@ const SetForm = ({
 
         let title, description;
         if (values.mode == "add") {
-            title = "Pedido registrado!";
-            description = "O usuário selecionado agora poderá preencher o formulário escolhido.";
+            title = "Socilitação registrada!";
+            description = "O instrumento foi adicionado.";
         }
         else {
-            title = "Pedido removido!";
-            description = "O usuário selecionado agora não poderá preencher esse formulário.";
+            title = "Solicitação removida!";
+            description = "O instrumento foi removido.";
         }
         modifyArray(uid, "user", "forms", values.combobox, values.mode).then(() => {
             toast({
@@ -92,4 +92,4 @@ const SetForm = ({
     )
 }
 
-export default SetForm;
+export default SetInstrumentsUsersForm;

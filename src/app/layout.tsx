@@ -1,11 +1,11 @@
 import '@/styles/globals.css';
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import { Inter, The_Girl_Next_Door } from "next/font/google";
+import Sidebar from "@/components/Sidebar/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import SessionProvider from "@/components/provider/SessionProvider";
-import ChakraUIProvider from "@/components/provider/ChakraUIProvider";
-import NextuiProvider from "@/components/provider/NextUIProvider";
+import { cn } from '@/lib/utils';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,19 +21,17 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={inter.className}>
-                <ChakraUIProvider>
-                    <NextuiProvider>
-                        <SessionProvider>
-                            <Navbar />
-                            <main className="flex flex-col justify-center items-center min-h-screen pt-[var(--navbar)] w-full">
-                                {children}
-                            </main>
-                            <Toaster/>
-                        </SessionProvider>
-                </NextuiProvider>
-                </ChakraUIProvider>
-            </body>
+            <SessionProvider>
+                <body className={cn("flex flex-1 w-full min-h-full h-fit bg-background", inter.className)}>
+                    <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
+                        <Sidebar/>
+                        <main className="flex flex-1 flex-col justify-center items-center pl-sidebar py-16">
+                            {children}
+                        </main>
+                        <Toaster/>
+                    </ThemeProvider>
+                </body>
+            </SessionProvider>
         </html>
     );
 }

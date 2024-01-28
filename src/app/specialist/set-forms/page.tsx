@@ -1,5 +1,5 @@
 import { getById, getSubsById } from "@/lib/firebase";
-import SetForm from "./form";
+import SetInstrumentsUsersForm from "@/components/form/SetInstrumentsUsersForm";
 import {
 	Card,
 	CardContent,
@@ -96,7 +96,7 @@ const SetForms = async ({
 						</CardContent>
 					)}
 					<CardContent>
-						<SetForm
+						<SetInstrumentsUsersForm
 							uid={searchParams.uid as string}
 							options={forms}
 						/>

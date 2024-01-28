@@ -1,16 +1,19 @@
-import SignUpForm from '@/components/form/SignUpUserForm';
-import { search } from '@/lib/firebase';
+import React from 'react'
 
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
 
-const SpecialistForm = async () => {
+import UserDataTable from './data-table';
+import { columns } from "./columns";
+import { search } from '@/lib/firebase';
+
+const Users = async () => {
   const session: any = await getServerSession(authOptions);
   const data = await search("specialistId", session?.user.uid!, "user");
-  
-  return (
-    <SignUpForm specialistId={data}/>
-  );
-};
 
-export default SpecialistForm;
+  return (
+    <UserDataTable columns={columns} data={data} />
+  )
+}
+
+export default Users;

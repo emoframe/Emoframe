@@ -18,6 +18,7 @@ module.exports = {
     extend: {
       spacing: {
         'navbar': 'var(--navbar)',
+        'sidebar': 'var(--sidebar)',
       },
       colors: {
         border: "hsl(var(--border))",
@@ -29,10 +30,14 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          background: "hsl(var(--primary-background))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+        },
+        content: {
+          DEFAULT: "hsl(var(--content))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
