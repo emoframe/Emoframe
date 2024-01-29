@@ -35,7 +35,7 @@ const FormSchema = z.object({
     date: z.date({
         required_error: "Selecione uma data",
         invalid_type_error: "Data inválida",
-    }).min(new Date(), { message: "Datas passadas não são permitidas" }),
+    }).min(new Date(new Date().setDate(new Date().getDate() - 1)), { message: "Datas passadas não são permitidas" }), // Data de ontem
     method: z.enum([MethodProps[0].value, ...MethodProps.slice(1).map((p) => p.value)], { // Garante que o array não é nulo
         errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
