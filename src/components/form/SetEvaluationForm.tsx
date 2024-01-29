@@ -100,7 +100,7 @@ const SetEvaluationForm = ({
 
         console.log(output)
     
-        if (output) return
+        if (!output) return
     
         if (currentStep < steps.length - 1) {
           setPreviousStep(currentStep)
@@ -201,6 +201,7 @@ const SetEvaluationForm = ({
                                             <Combobox
                                                 className="min-w-[400px]"
                                                 onSelect={(value) => field.onChange(value)}
+                                                defaultValue={field.value}
                                                 options={forms}
                                                 placeholder="Método de Avaliação"
                                             />
