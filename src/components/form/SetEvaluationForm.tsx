@@ -20,6 +20,7 @@ import { Evaluation, forms, RadioItem } from '@/types/forms';
 import { Input } from '@/components/ui/input';
 import { DateField, DatePicker } from '@/components/ui/date-picker';
 import { getLocalTimeZone } from '@internationalized/date';
+import { motion } from 'framer-motion';
 
 const MethodProps: RadioItem[] = [
     { value: "Autorrelato", label: "Autorrelato" },
@@ -31,7 +32,7 @@ const FormSchema = z.object({
     date: z.date({
         required_error: "Selecione uma data",
         invalid_type_error: "Data inválida",
-    }).min(new Date(), { message: "Não se " }),
+    }).min(new Date(), { message: "Datas passadas não são permitidas" }),
     method: z.enum([MethodProps[0].value, ...MethodProps.slice(1).map((p) => p.value)], { // Garante que o array não é nulo
         errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
@@ -110,61 +111,117 @@ const SetEvaluationForm = ({
     }
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-                <div className='flex flex-col flex-wrap justify-center gap-6'>
-                    <FormField
-                        control={form.control}
-                        name='identification'
-                        render={({ field }) => (
+        <section className='flex flex-col justify-between p-6'>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+                    {currentStep === 0 && (
+                        <motion.div
+                        initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className='flex flex-col flex-wrap justify-center gap-6'
+                        >
+                            <FormField
+                                control={form.control}
+                                name='identification'
+                                render={({ field }) => (
+                                    <FormItem>
+                                    <FormLabel>Identificação da Avaliação</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                            control={form.control}
+                            name='date'
+                            render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Identificação da Avaliação</FormLabel>
-                            <FormControl>
-                                <Input placeholder='' {...field} />
-                            </FormControl>
-                            <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                    control={form.control}
-                    name='date'
-                    render={({ field }) => (
-                    <FormItem>
-                        <FormLabel>Data da Avaliação</FormLabel>
-                        <FormControl>
-                        <DatePicker onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}>
-                            <DateField />
-                        </DatePicker>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                    )}
-                />
-                    <FormField
-                        control={form.control}
-                        name='instrument'
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Método de Avaliação</FormLabel>
+                                <FormLabel>Data da Avaliação</FormLabel>
                                 <FormControl>
-                                    <Combobox
-                                        className="min-w-[400px]"
-                                        onSelect={(value) => field.onChange(value)}
-                                        options={forms}
-                                        placeholder="Método de Avaliação"
-                                    />
+                                <DatePicker onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}>
+                                    <DateField />
+                                </DatePicker>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        )}
-                    />
-                    <Button className='w-full mt-6' type='submit'>
-                        Confirmar
-                    </Button>
+                            )}
+                        />
+                            <FormField
+                                control={form.control}
+                                name='instrument'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Método de Avaliação</FormLabel>
+                                        <FormControl>
+                                            <Combobox
+                                                className="min-w-[400px]"
+                                                onSelect={(value) => field.onChange(value)}
+                                                options={forms}
+                                                placeholder="Método de Avaliação"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button className='w-full mt-6' type='submit'>
+                                Confirmar
+                            </Button>
+                        </motion.div>
+                    )}   
+                </form>
+            </Form>
+            {/* Navigation */}
+            <div className='mt-8 pt-5'>
+                <div className='flex justify-between'>
+                    <button
+                    type='button'
+                    onClick={prev}
+                    disabled={currentStep === 0}
+                    className='rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50'
+                    >
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth='1.5'
+                        stroke='currentColor'
+                        className='h-6 w-6'
+                    >
+                        <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M15.75 19.5L8.25 12l7.5-7.5'
+                        />
+                    </svg>
+                    </button>
+                    <button
+                    type='button'
+                    onClick={next}
+                    disabled={currentStep === steps.length - 1}
+                    className='rounded bg-white px-2 py-1 text-sm font-semibold text-sky-900 shadow-sm ring-1 ring-inset ring-sky-300 hover:bg-sky-50 disabled:cursor-not-allowed disabled:opacity-50'
+                    >
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth='1.5'
+                        stroke='currentColor'
+                        className='h-6 w-6'
+                    >
+                        <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M8.25 4.5l7.5 7.5-7.5 7.5'
+                        />
+                    </svg>
+                    </button>
                 </div>
-            </form>
-        </Form>
+            </div>
+        </section>
     )
 }
 
