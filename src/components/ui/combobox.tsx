@@ -36,7 +36,7 @@ const Combobox = ({ onSelect, options, placeholder, className }:
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className={cn("justify-between", className)}
+                    className={cn("w-full justify-between text-left font-normal", className)}
                 >
                     {
                         value

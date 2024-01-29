@@ -111,9 +111,10 @@ const SetEvaluationForm = ({
                         name='instrument'
                         render={({ field }) => (
                             <FormItem>
+                                <FormLabel>Método de Avaliação</FormLabel>
                                 <FormControl>
                                     <Combobox
-                                        className="w-[400px]"
+                                        className="min-w-[400px]"
                                         onSelect={(value) => field.onChange(value)}
                                         options={forms}
                                         placeholder="Método de Avaliação"
