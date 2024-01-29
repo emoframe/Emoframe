@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Combobox from '@/components/ui/combobox';
 import { useForm } from 'react-hook-form';
 import {
@@ -17,6 +17,9 @@ import { useRouter, redirect } from 'next/navigation';
 import { modifyArray } from '@/lib/firebase';
 import { useToast } from "@/components/ui/use-toast";
 import { forms, RadioItem } from '@/types/forms';
+import { Input } from '@/components/ui/input';
+import { DateField, DatePicker } from '@/components/ui/date-picker';
+import { getLocalTimeZone } from '@internationalized/date';
 
 const MethodProps: RadioItem[] = [
     { value: "Autorrelato", label: "Autorrelato" },
@@ -51,6 +54,10 @@ const SetEvaluationForm = ({
         },
     });
 
+    const [previousStep, setPreviousStep] = useState(0);
+    const [currentStep, setCurrentStep] = useState(0);
+    const delta = currentStep - previousStep;
+
     const { toast } = useToast();
     const { refresh } = useRouter();
     const onSubmit = async (values: z.infer<typeof FormSchema>) => {
@@ -64,7 +71,7 @@ const SetEvaluationForm = ({
             title = "Solicitação removida!";
             description = "O instrumento foi removido.";
         }
-        modifyArray(uid, "user", "forms", values.combobox, values.mode).then(() => {
+        modifyArray(specialistId, "user", "forms", values.combobox, values.mode).then(() => {
             toast({
                 title: title,
                 description: description,
@@ -79,6 +86,34 @@ const SetEvaluationForm = ({
             <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
                 <FormField
                     control={form.control}
+                    name='identification'
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Identificação da Avaliação</FormLabel>
+                        <FormControl>
+                            <Input placeholder='' {...field} />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                control={form.control}
+                name='date'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Data da Avaliação</FormLabel>
+                    <FormControl>
+                      <DatePicker onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}>
+                        <DateField />
+                      </DatePicker>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+                <FormField
+                    control={form.control}
                     name='combobox'
                     render={({ field }) => (
                         <FormItem>
@@ -87,7 +122,7 @@ const SetEvaluationForm = ({
                                     className="w-[400px]"
                                     onSelect={(value) => field.onChange(value)}
                                     options={forms}
-                                    placeholder="Selecione um formulário"
+                                    placeholder="Método de Avaliação"
                                 />
                             </FormControl>
                             <FormMessage />
@@ -96,9 +131,6 @@ const SetEvaluationForm = ({
                 />
                 <Button className='w-full mt-6' type='submit' onClick={() => form.setValue('mode', 'add')}>
                     Confirmar
-                </Button>
-                <Button className='w-full mt-6' type='submit' onClick={() => form.setValue('mode', 'remove')}>
-                    Remover
                 </Button>
             </form>
         </Form>

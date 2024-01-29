@@ -22,6 +22,16 @@ export interface RadioItem {
     label: string;
 }
 
+export interface Evaluation {
+    uid?: string,
+    specialist: string,
+    users: string[],
+    identification: string,
+    date: Date,
+    method: string,
+    instrument: string,
+}
+
 export interface Sam {
     satisfaction: string;
     motivation: string;
