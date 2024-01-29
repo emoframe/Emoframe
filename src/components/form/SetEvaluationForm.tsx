@@ -14,9 +14,9 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { useRouter, redirect } from 'next/navigation';
-import { modifyArray } from '@/lib/firebase';
+import { createEvaluation } from '@/lib/firebase';
 import { useToast } from "@/components/ui/use-toast";
-import { forms, RadioItem } from '@/types/forms';
+import { Evaluation, forms, RadioItem } from '@/types/forms';
 import { Input } from '@/components/ui/input';
 import { DateField, DatePicker } from '@/components/ui/date-picker';
 import { getLocalTimeZone } from '@internationalized/date';
@@ -62,19 +62,12 @@ const SetEvaluationForm = ({
     const { refresh } = useRouter();
     const onSubmit = async (values: z.infer<typeof FormSchema>) => {
 
-        let title, description;
-        if (values.mode == "add") {
-            title = "Socilitação registrada!";
-            description = "O instrumento foi adicionado.";
-        }
-        else {
-            title = "Solicitação removida!";
-            description = "O instrumento foi removido.";
-        }
-        modifyArray(specialistId, "user", "forms", values.combobox, values.mode).then(() => {
+        let data = values as Evaluation;
+        data.specialist = specialistId;
+        createEvaluation(data).then(() => {
             toast({
-                title: title,
-                description: description,
+                title: "Socilitação registrada!",
+                description: "A avaliação foi adicionada.",
             });
         })
         form.reset();
@@ -84,54 +77,56 @@ const SetEvaluationForm = ({
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-                <FormField
-                    control={form.control}
-                    name='identification'
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Identificação da Avaliação</FormLabel>
-                        <FormControl>
-                            <Input placeholder='' {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                control={form.control}
-                name='date'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Data da Avaliação</FormLabel>
-                    <FormControl>
-                      <DatePicker onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}>
-                        <DateField />
-                      </DatePicker>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-                <FormField
-                    control={form.control}
-                    name='instrument'
-                    render={({ field }) => (
-                        <FormItem>
+                <div className='flex flex-col flex-wrap justify-center gap-6'>
+                    <FormField
+                        control={form.control}
+                        name='identification'
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Identificação da Avaliação</FormLabel>
                             <FormControl>
-                                <Combobox
-                                    className="w-[400px]"
-                                    onSelect={(value) => field.onChange(value)}
-                                    options={forms}
-                                    placeholder="Método de Avaliação"
-                                />
+                                <Input placeholder='' {...field} />
                             </FormControl>
                             <FormMessage />
-                        </FormItem>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name='date'
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Data da Avaliação</FormLabel>
+                        <FormControl>
+                        <DatePicker onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}>
+                            <DateField />
+                        </DatePicker>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
                     )}
                 />
-                <Button className='w-full mt-6' type='submit' onClick={() => form.setValue('mode', 'add')}>
-                    Confirmar
-                </Button>
+                    <FormField
+                        control={form.control}
+                        name='instrument'
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Combobox
+                                        className="w-[400px]"
+                                        onSelect={(value) => field.onChange(value)}
+                                        options={forms}
+                                        placeholder="Método de Avaliação"
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <Button className='w-full mt-6' type='submit'>
+                        Confirmar
+                    </Button>
+                </div>
             </form>
         </Form>
     )
