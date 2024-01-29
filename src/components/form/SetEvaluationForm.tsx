@@ -19,9 +19,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { Evaluation, forms, RadioItem } from '@/types/forms';
 import { Input } from '@/components/ui/input';
 import { DateField, DatePicker } from '@/components/ui/date-picker';
-import { getLocalTimeZone } from '@internationalized/date';
+import { getLocalTimeZone, parseDate } from '@internationalized/date';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { DateValue } from 'react-aria';
 
 const MethodProps: RadioItem[] = [
     { value: "Autorrelato", label: "Autorrelato" },
@@ -95,8 +97,10 @@ const SetEvaluationForm = ({
     const next = async () => {
         const fields = steps[currentStep].fields
         const output = await form.trigger(fields as FieldName[], { shouldFocus: true })
+
+        console.log(output)
     
-        if (!output) return
+        if (output) return
     
         if (currentStep < steps.length - 1) {
           setPreviousStep(currentStep)
@@ -115,6 +119,7 @@ const SetEvaluationForm = ({
         <section className='flex flex-col justify-between p-6'>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+                    {/* Form */}
                     {currentStep === 0 && (
                         <motion.div
                         initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
@@ -127,29 +132,65 @@ const SetEvaluationForm = ({
                                 name='identification'
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>Identificação da Avaliação</FormLabel>
+                                        <FormLabel>Identificação da Avaliação</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder='' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='date'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Data da Avaliação</FormLabel>
+                                        <FormControl>
+                                            <DatePicker 
+                                                onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}
+                                                value={parseDate(field.value.toISOString().split('T')[0])}
+                                            >
+                                                <DateField />
+                                            </DatePicker>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                            )}
+                            />
+                            
+                            <FormField
+                                control={form.control}
+                                name="method"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-3">
+                                    <FormLabel>Método de Avaliação</FormLabel>
                                     <FormControl>
-                                        <Input placeholder='' {...field} />
+                                        <RadioGroup
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                            className="flex flex-col space-y-1" 
+                                        >
+                                        {MethodProps.map((individual, index) => {
+                                            return (
+                                            <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                                                <FormControl>
+                                                <RadioGroupItem value={individual.value} />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                {individual.label}
+                                                </FormLabel>
+                                            </FormItem>
+                                            )
+                                        })}
+
+                                        </RadioGroup>
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                            control={form.control}
-                            name='date'
-                            render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Data da Avaliação</FormLabel>
-                                <FormControl>
-                                <DatePicker onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}>
-                                    <DateField />
-                                </DatePicker>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                            )}
-                        />
+
                             <FormField
                                 control={form.control}
                                 name='instrument'
@@ -168,18 +209,25 @@ const SetEvaluationForm = ({
                                     </FormItem>
                                 )}
                             />
+                        </motion.div>
+                    )}   
+                    {currentStep === 1 && (
+                        <motion.div
+                        initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className='flex flex-col flex-wrap justify-center gap-6'
+                        >
                             <Button className='w-full mt-6' type='submit'>
                                 Confirmar
                             </Button>
                         </motion.div>
-                    )}   
+                    )}
                 </form>
             </Form>
             {/* Navigation */}
-            <div className='mt-8 pt-5'>
-                <div className='flex justify-between'>
+                <div className='flex justify-between mt-8'>
                     <Button
-                        type='button'
                         variant='icon'
                         onClick={prev}
                         disabled={currentStep === 0}
@@ -187,7 +235,6 @@ const SetEvaluationForm = ({
                         <ChevronLeft/>
                     </Button>
                     <Button
-                        type='button'
                         variant='icon'
                         onClick={next}
                         disabled={currentStep === steps.length - 1}
@@ -195,7 +242,6 @@ const SetEvaluationForm = ({
                         <ChevronRight/>
                     </Button>
                 </div>
-            </div>
         </section>
     )
 }
