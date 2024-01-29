@@ -6,7 +6,7 @@ import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
 import { getValuable } from "@/lib/utils";
 
-import { Sam, Panas } from "@/types/forms";
+import { Sam, Panas, Evaluation } from "@/types/forms";
 
 
 const firebaseConfig = {
@@ -199,6 +199,20 @@ export async function createForm (data: Sam | Panas, id: string, formType: strin
   try {
     addDoc(docRef, form)
     .then((docRef) => console.log("Document has been inserted sucessfully!", form))
+    .catch((error) => console.log(error.code + ": " + error.message))
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
+export async function createEvaluation(data: Evaluation) : Promise<any> {
+  const docRef = collection(db, "evaluation");
+  const evaluation = getValuable(data);
+
+  try {
+    addDoc(docRef, evaluation)
+    .then((docRef) => console.log("Evaluation has been inserted sucessfully!"))
     .catch((error) => console.log(error.code + ": " + error.message))
   }
   catch(error) {

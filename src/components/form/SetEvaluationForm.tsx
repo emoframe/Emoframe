@@ -35,7 +35,7 @@ const FormSchema = z.object({
     method: z.enum([MethodProps[0].value, ...MethodProps.slice(1).map((p) => p.value)], { // Garante que o array não é nulo
         errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
-    combobox: z.string().min(1, 'A seleção é obrigatória'),
+    instrument: z.string().min(1, 'A seleção é obrigatória'),
 });
 
 const SetEvaluationForm = ({
@@ -50,7 +50,7 @@ const SetEvaluationForm = ({
             identification: '',
             date: new Date(),
             method: '',
-            combobox: '',
+            instrument: '',
         },
     });
 
@@ -114,7 +114,7 @@ const SetEvaluationForm = ({
               />
                 <FormField
                     control={form.control}
-                    name='combobox'
+                    name='instrument'
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
