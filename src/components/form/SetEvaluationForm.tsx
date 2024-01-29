@@ -38,13 +38,29 @@ const FormSchema = z.object({
     instrument: z.string().min(1, 'A seleção é obrigatória'),
 });
 
+type Inputs = z.infer<typeof FormSchema>
+type FieldName = keyof Inputs
+
+const steps = [
+  {
+    id: 'Step 1',
+    name: 'Informações Gerais',
+    fields: ['identification', 'date', 'method', 'instrument']
+  },
+  {
+    id: 'Step 2',
+    name: 'Usuários',
+    fields: []
+  }
+]
+
 const SetEvaluationForm = ({
     specialistId
 }: {
     specialistId: string,
 }) => {
 
-    const form = useForm<z.infer<typeof FormSchema>>({
+    const form = useForm<Inputs>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             identification: '',
@@ -60,7 +76,7 @@ const SetEvaluationForm = ({
 
     const { toast } = useToast();
     const { refresh } = useRouter();
-    const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const onSubmit = async (values: Inputs) => {
 
         let data = values as Evaluation;
         data.specialist = specialistId;
@@ -73,6 +89,25 @@ const SetEvaluationForm = ({
         form.reset();
         refresh();
     };
+
+    const next = async () => {
+        const fields = steps[currentStep].fields
+        const output = await form.trigger(fields as FieldName[], { shouldFocus: true })
+    
+        if (!output) return
+    
+        if (currentStep < steps.length - 1) {
+          setPreviousStep(currentStep)
+          setCurrentStep(step => step + 1)
+        }
+    }
+    
+    const prev = () => {
+        if (currentStep > 0) {
+          setPreviousStep(currentStep)
+          setCurrentStep(step => step - 1)
+        }
+    }
 
     return (
         <Form {...form}>
