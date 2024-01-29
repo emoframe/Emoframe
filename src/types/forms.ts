@@ -17,6 +17,11 @@ export const forms: Forms[] = [
     },
 ];
 
+export interface RadioItem {
+    value: string;
+    label: string;
+}
+
 export interface Sam {
     satisfaction: string;
     motivation: string;

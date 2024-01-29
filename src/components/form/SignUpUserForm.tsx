@@ -22,11 +22,7 @@ import { getLocalTimeZone, parseDate, today } from "@internationalized/date"
 import { useRouter } from 'next/navigation';
 import { createUser } from '@/lib/firebase';
 import { User } from '@/types/users';
-
-interface RadioItem {
-  value: string;
-  label: string;
-}
+import { RadioItem } from '@/types/forms';
 
 const RaceProps: RadioItem[] = [
   { value: "Amarelo", label: "Amarelo" },
