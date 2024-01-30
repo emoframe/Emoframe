@@ -84,7 +84,6 @@ const SetEvaluationForm = ({
     const delta = currentStep - previousStep;
 
     const { toast } = useToast();
-    const { refresh } = useRouter();
     const onSubmit = async (values: Inputs) => {
 
         let data = values as Evaluation;
@@ -94,9 +93,9 @@ const SetEvaluationForm = ({
                 title: "Socilitação registrada!",
                 description: "A avaliação foi adicionada.",
             });
+            form.reset();
+            setCurrentStep(0);
         })
-        form.reset();
-        refresh();
     };
 
     const next = async () => {
