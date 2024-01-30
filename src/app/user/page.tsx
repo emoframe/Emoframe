@@ -23,27 +23,30 @@ const User = async () => {
     const data = await getById(session?.user?.uid! as string, "user");
 
     return (
-        <div className='px-16 grid grid-flow-row gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-            {data ? data.forms.map((form) => {
-                const findForm = forms.find((option) => option.value == form);
-                return (
-                    <Card key={findForm?.value} className="y-8 rounded shadow-lg shadow-gray-200 bg-primary-background duration-300 hover:-translate-y-1">
-                        <CardHeader>
-                            <CardTitle>{findForm?.label}</CardTitle>
-                            <CardDescription>{findForm?.description}</CardDescription>
-                        </CardHeader>
-                        <CardFooter>
-                            <Link className={buttonVariants({ variant: "outline" })} href={`/user/form/${findForm?.value}`} replace>
-                                Acessar
-                            </Link>
-                        </CardFooter>
-                    </Card>
-                )
-
-            }) : <p>Não há testes disponíveis</p>}
-        </div>
-
-
+        <>
+            {data.forms ?
+            <div className='px-16 grid grid-flow-row gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+                {   
+                    data.forms.map((form) => {
+                    const findForm = forms.find((option) => option.value == form);
+                        return (
+                            <Card key={findForm?.value} className="y-8 rounded shadow-lg shadow-gray-200 bg-primary-background duration-300 hover:-translate-y-1">
+                                <CardHeader>
+                                    <CardTitle>{findForm?.label}</CardTitle>
+                                    <CardDescription>{findForm?.description}</CardDescription>
+                                </CardHeader>
+                                <CardFooter>
+                                    <Link className={buttonVariants({ variant: "outline" })} href={`/user/form/${findForm?.value}`} replace>
+                                        Acessar
+                                    </Link>
+                                </CardFooter>
+                            </Card>
+                        )
+                    })
+                }
+            </div>
+            : <p>Não há testes disponíveis</p>}
+        </>
     )
 }
 
