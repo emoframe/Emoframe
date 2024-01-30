@@ -49,17 +49,17 @@ export default withAuth(
         }
 
         let subtraction: any = [];
-        if(user?.type === "user") {
+        if(user?.type === "user" && user?.forms) {
             subtraction = formValues.filter(value => user.forms.indexOf(value) < 0);
             console.log(subtraction);
-        }
 
-        for(let form in subtraction) {
-            if (pathname.startsWith(`/user/form/${form}`)) {
-                console.log(`TESTE /user/form/${form}`);
-                return NextResponse.rewrite(
-                    new URL("/denied", request.url)
-                )
+            for(let form in subtraction) {
+                if (pathname.startsWith(`/user/form/${form}`)) {
+                    console.log(`TESTE /user/form/${form}`);
+                    return NextResponse.rewrite(
+                        new URL("/denied", request.url)
+                    )
+                }
             }
         }
 
