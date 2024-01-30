@@ -16,14 +16,15 @@ import { Button } from '@/components/ui/button';
 import { useRouter, redirect } from 'next/navigation';
 import { createEvaluation } from '@/lib/firebase';
 import { useToast } from "@/components/ui/use-toast";
-import { Evaluation, forms, RadioItem } from '@/types/forms';
+import { DataTableProps, Evaluation, forms, RadioItem } from '@/types/forms';
 import { Input } from '@/components/ui/input';
 import { DateField, DatePicker } from '@/components/ui/date-picker';
 import { getLocalTimeZone, parseDate } from '@internationalized/date';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { DateValue } from 'react-aria';
+import UserDataTable from '@/app/specialist/evaluations/data-table';
+import { User } from '@/types/users';
 
 const MethodProps: RadioItem[] = [
     { value: "Autorrelato", label: "Autorrelato" },
@@ -59,9 +60,10 @@ const steps = [
 ]
 
 const SetEvaluationForm = ({
-    specialistId
+    specialistId, dataTable
 }: {
     specialistId: string,
+    dataTable: DataTableProps<User, string>
 }) => {
 
     const form = useForm<Inputs>({
@@ -226,11 +228,12 @@ const SetEvaluationForm = ({
                     )}   
                     {currentStep === 1 && (
                         <motion.div
-                        initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className='flex flex-col flex-wrap justify-center gap-6'
                         >
+                            <UserDataTable columns={dataTable.columns} data={dataTable.data} />
                             <Button className='w-full mt-6' type='submit'>
                                 Confirmar
                             </Button>
