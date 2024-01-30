@@ -41,6 +41,7 @@ const FormSchema = z.object({
         errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
     instrument: z.string().min(1, 'A seleção é obrigatória'),
+    users: z.string().array().min(1, 'Pelo menos um usuário deve ser selecionado')
 });
 
 type Inputs = z.infer<typeof FormSchema>
@@ -235,12 +236,25 @@ const SetEvaluationForm = ({
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className='flex flex-col flex-wrap justify-center gap-6'
                         >
-                            <UserDataTable 
-                                data={dataTable.data} 
-                                columns={dataTable.columns}
-                                users={users} 
-                                setUsers={setUsers}
+                            <FormField
+                                control={form.control}
+                                name='users'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Usuários</FormLabel>
+                                        <FormControl>
+                                        <UserDataTable 
+                                            data={dataTable.data} 
+                                            columns={dataTable.columns}
+                                            defaultValue={field.value}
+                                            onSelect={(value) => field.onChange(value)}
+                                        />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
+                            
                             <Button className='w-full mt-6' type='submit'>
                                 Confirmar
                             </Button>

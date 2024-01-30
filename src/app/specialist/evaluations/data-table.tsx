@@ -43,8 +43,8 @@ declare module '@tanstack/table-core' {
 }
 
 interface UsersState {
-  users: object[],
-  setUsers: Dispatch<SetStateAction<object[]>>,
+  defaultValue?: string[],
+  onSelect: (currentValue: string[]) => void,
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -61,7 +61,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 }
 
 export function UserDataTable<TData, TValue>( 
-  { data, columns, users, setUsers } : DataTableProps<TData, TValue> & UsersState) {
+  { data, columns, defaultValue, onSelect } : DataTableProps<TData, TValue> & UsersState) {
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState([]);
@@ -98,8 +98,8 @@ export function UserDataTable<TData, TValue>(
   const length = table.getFilteredSelectedRowModel().rows.length;
   useEffect(() => {
     const uids = table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid);
-    setUsers(uids ? uids : []);
-  }, [length, setUsers])
+    onSelect(uids ? uids : []);
+  }, [length])
 
   return (
     <div>
