@@ -111,7 +111,6 @@ export function UserDataTable<TData, TValue>(
           onChange={(e) => {
            setGlobalFilter(e.target.value);
           }}
-          className="max-w-sm"
         />
       </div>
 

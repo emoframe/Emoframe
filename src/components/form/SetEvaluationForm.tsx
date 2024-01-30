@@ -120,7 +120,7 @@ const SetEvaluationForm = ({
     }
 
     return (
-        <section className='flex flex-col justify-between p-6'>
+        <section className='flex flex-col justify-between p-6 lg:w-[600px]'>
             {/* steps */}
             <nav aria-label='Progress' className='mb-6'>
                 <ol role='list' className='space-y-4 md:flex md:space-x-8 md:space-y-0'>
