@@ -28,7 +28,7 @@ import {
   compareItems,
 } from '@tanstack/match-sorter-utils'
 
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableProps } from '@/types/forms';
@@ -94,6 +94,12 @@ export function UserDataTable<TData, TValue>(
       rowSelection,
     },
   });
+
+  const length = table.getFilteredSelectedRowModel().rows.length;
+  useEffect(() => {
+    const uids = table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid);
+    setUsers(uids ? uids : []);
+  }, [length, setUsers])
 
   return (
     <div>
