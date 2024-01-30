@@ -47,12 +47,12 @@ type FieldName = keyof Inputs
 
 const steps = [
   {
-    id: 'Step 1',
+    id: 'Etapa 1',
     name: 'Informações Gerais',
     fields: ['identification', 'date', 'method', 'instrument']
   },
   {
-    id: 'Step 2',
+    id: 'Etapa 2',
     name: 'Usuários',
     fields: []
   }
@@ -117,6 +117,18 @@ const SetEvaluationForm = ({
 
     return (
         <section className='flex flex-col justify-between p-6'>
+            {/* steps */}
+            <nav aria-label='Progress' className='mb-6'>
+                <ol role='list' className='space-y-4 md:flex md:space-x-8 md:space-y-0'>
+                {steps.map((step, index) => (
+                    <li key={step.name} className='md:flex-1'>
+                        <div className={`group flex w-full flex-col border-l-4 ${currentStep >= index ? 'border-primary' : 'border-content'} py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4`}>
+                            <span className={`text-sm font-medium transition-colors ${currentStep >= index ? 'text-primary' : 'text-content'}`}>{step.id} - {step.name}</span>
+                        </div>
+                    </li>
+                ))}
+                </ol>
+            </nav>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
                     {/* Form */}
@@ -233,14 +245,14 @@ const SetEvaluationForm = ({
                         onClick={prev}
                         disabled={currentStep === 0}
                     >
-                        <ChevronLeft/>
+                        <ChevronLeft/> Anterior
                     </Button>
                     <Button
                         variant='icon'
                         onClick={next}
                         disabled={currentStep === steps.length - 1}
                     >
-                        <ChevronRight/>
+                        Próximo <ChevronRight/>
                     </Button>
                 </div>
         </section>
