@@ -76,6 +76,8 @@ const SetEvaluationForm = ({
         },
     });
 
+    const [users, setUsers] = useState<object[]>([]);
+
     const [previousStep, setPreviousStep] = useState(0);
     const [currentStep, setCurrentStep] = useState(0);
     const delta = currentStep - previousStep;
@@ -233,7 +235,12 @@ const SetEvaluationForm = ({
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className='flex flex-col flex-wrap justify-center gap-6'
                         >
-                            <UserDataTable columns={dataTable.columns} data={dataTable.data} />
+                            <UserDataTable 
+                                data={dataTable.data} 
+                                columns={dataTable.columns}
+                                users={users} 
+                                setUsers={setUsers}
+                            />
                             <Button className='w-full mt-6' type='submit'>
                                 Confirmar
                             </Button>

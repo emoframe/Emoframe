@@ -28,7 +28,7 @@ import {
   compareItems,
 } from '@tanstack/match-sorter-utils'
 
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableProps } from '@/types/forms';
@@ -40,6 +40,11 @@ declare module '@tanstack/table-core' {
   interface FilterMeta {
     itemRank: RankingInfo
   }
+}
+
+interface UsersState {
+  users: object[],
+  setUsers: Dispatch<SetStateAction<object[]>>,
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -55,10 +60,9 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed
 }
 
-export function UserDataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function UserDataTable<TData, TValue>( 
+  { data, columns, users, setUsers } : DataTableProps<TData, TValue> & UsersState) {
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState([]);
   const [rowSelection, setRowSelection] = React.useState({});
