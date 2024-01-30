@@ -141,7 +141,7 @@ const SetEvaluationForm = ({
                         initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className='flex flex-col flex-wrap justify-center gap-6'
+                        className='flex flex-col flex-wrap justify-center gap-1'
                         >
                             <FormField
                                 control={form.control}
@@ -233,7 +233,7 @@ const SetEvaluationForm = ({
                             initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className='flex flex-col flex-wrap justify-center gap-6'
+                        className='flex flex-col flex-wrap justify-center gap-1'
                         >
                             <FormField
                                 control={form.control}
