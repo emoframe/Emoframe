@@ -13,11 +13,13 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { createForm } from '@/lib/firebase'; 
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { ImageCard } from '@/components/ui/image'; 
 import { Progress } from '@/components/ui/loading';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
 
 import Like from 'public/emojis/Like.png';
 import Sono from 'public/emojis/Sono.png';
@@ -31,6 +33,7 @@ import Criativo from 'public/emojis/Criativo.png';
 import Entediado from 'public/emojis/Entediado.png';
 import Frustrado from 'public/emojis/Frustrado.png';
 import Inteligente from 'public/emojis/Inteligente.png';
+import Breadcrumb from '@/components/ui/breadcrumb';
 
 
 interface RadioItem {
@@ -92,6 +95,8 @@ const SamForm = ({userId}) => {
   },});
 
   const { push } = useRouter();
+  const path = usePathname()!;
+
   const onSubmit = async (values: z.infer<typeof SamFormSchema>) => {
     createForm(values, userId, "Sam").then(() => {
       push('/profile');
@@ -99,6 +104,8 @@ const SamForm = ({userId}) => {
   };
 
   return (
+    <>
+    <Breadcrumb path={path} />
     <React.Suspense fallback={<Progress />}>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} >
@@ -204,6 +211,7 @@ const SamForm = ({userId}) => {
       </form>
       </Form>
       </React.Suspense>
+      </>
   )
 }
 
