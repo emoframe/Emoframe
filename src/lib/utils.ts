@@ -55,3 +55,22 @@ export function sleep(ms: number) {
     setTimeout(resolve, ms);
   });
 }
+
+export function randomizeArray(array: any[]): any[] {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+function fetchPage<T>(url: string): Promise<T> {
+    return fetch(url).then((res) => {
+      if(res.ok) return res.json();
+      else throw new Error("404 - Not Found", {cause: res})
+    }).catch((err) => err.cause);
+}
+
+export function mapPathToLink(progressivePath: string[]) {
+  progressivePath.map(async (path) => {
+      const page = await fetchPage(path)
+      console.log(page)
+      return !page ? '#' : page!.status === 200 ? path : '#'
+  })
+}
