@@ -2,7 +2,8 @@ import React from 'react'
 
 import { cn } from "@/lib/utils"
 import Link from 'next/link';
-import { mapPathToLink } from '@/lib/utils';
+import { set } from 'date-fns';
+import { count } from 'console';
 
 export interface BreadcrumbProps {
     className?: string,
@@ -11,34 +12,55 @@ export interface BreadcrumbProps {
 
 const Breadcrumb = ({ className, path } : BreadcrumbProps) => {
 
-    const progressivePath = path.split('/').slice(1).map((_, index, array) => (`/${array.slice(0, index + 1).join('/')}`))
-    
+    const [progressivePath, setProgressivePath] = React.useState(path.split('/').slice(1).map((_, index, array) => (`/${array.slice(0, index + 1).join('/')}`)))
+    const [countReadyPaths, setcountReadyPaths] = React.useState(0)
+
     React.useEffect(() => {
-        mapPathToLink(progressivePath);
-        console.log(`After use Effect ${progressivePath}`)
-    }, [])  
+        progressivePath.forEach((path, index) => {
+            fetch(path)
+            .then(response => {
+                !response.ok ? 
+                setProgressivePath((progressivePath) => {
+                progressivePath[index] = '#'
+                return progressivePath
+                })  
+            : 
+                setProgressivePath((progressivePath) =>{
+                progressivePath[index] = path
+                return progressivePath
+                })        
+                setcountReadyPaths((countReadyPaths) => countReadyPaths + 1)
+            })
+        })
 
-    const CapitalPath = path.split('/').slice(1).map(currentPath => currentPath.charAt(0).toUpperCase() + currentPath.slice(1))
-
+        console.log(countReadyPaths)
+        return () => {
+            setcountReadyPaths(0)
+        }
+    }, [progressivePath])
+    
+    const capitalPath = path.split('/').slice(1).map(currentPath => currentPath.charAt(0).toUpperCase() + currentPath.slice(1))
+    
     // console.log(progressivePath)
     // console.log(CapitalPath)
-
-    return (
+    
+    if(countReadyPaths < progressivePath.length) return null
+    else return (
         <div className={cn("flex items-center space-x-2 text-md bg-slate-300 w-fit px-2 py-1 rounded-md", className)}>
-            {CapitalPath.map((path, index) => (
+            {progressivePath.map((path, index) => (
                     <div className="flex flex-row space-x-2 items-center" key={index}>
                     {
-                        progressivePath[index] === '#' ? 
+                        path === '#' ? 
                         <BreadcrumbItem key={`Item${index}`}>
-                            <BreadCrumbLink key={`Link${index}`} className="text-md" href={progressivePath[index]}>{path}</BreadCrumbLink>
+                            <BreadCrumbDeadLink key={`Link${index}`}>{capitalPath[index]}</BreadCrumbDeadLink>
                         </BreadcrumbItem>
                         :
                         <BreadcrumbItem key={`Item${index}`}>
-                            <BreadCrumbLink key={`Link${index}`} className="text-md underline underline-offset-1" href={progressivePath[index]}>{path}</BreadCrumbLink>
+                            <BreadCrumbLink key={`Link${index}`} className="text-md underline underline-offset-1" href={path}>{capitalPath[index]}</BreadCrumbLink>
                         </BreadcrumbItem>
                     }
                     {
-                        index < CapitalPath.length - 1 ? 
+                        index < capitalPath.length - 1 ? 
                         <BreadCrumbSeparator key={`Sep${index}`}>
                             {">"}
                         </BreadCrumbSeparator> : null
@@ -73,6 +95,19 @@ const BreadCrumbLink = React.forwardRef<
     />
 ))
 BreadCrumbLink.displayName = "BreadCrumbLink"
+
+const BreadCrumbDeadLink = React.forwardRef<
+    HTMLParagraphElement,
+    React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+    <p
+    ref={ref}
+    className={cn("text-md text-muted-foreground", className)}
+    {...props}
+    />
+
+))
+BreadCrumbDeadLink.displayName = "BreadCrumbDeadLink"
 
 const BreadCrumbSeparator = React.forwardRef<
     HTMLDivElement,
