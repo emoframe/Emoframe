@@ -184,6 +184,12 @@ const Sidebar = () => {
           <SidebarItem icon={<LineChart size={20} />} text="Resultados" href="/specialist/results"/>
         </>
       }
+      {
+        (session?.user.type == 'user') &&
+        <>
+          <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/user/evaluations"/>
+        </>
+      }
     </SidebarCore>
   )
 }
