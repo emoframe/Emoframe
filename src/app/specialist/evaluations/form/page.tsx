@@ -2,7 +2,7 @@ import React from 'react'
 
 import { search } from '@/lib/firebase';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
+import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import SetEvaluationForm from '@/components/form/SetEvaluationForm';
 import { columns } from './columns';
 import { DataTableProps } from '@/types/forms';
