@@ -11,7 +11,7 @@ import { User } from '@/types/users';
 
 const EvaluationsForm = async () => {
   const session: any = await getServerSession(authOptions);
-  const data = await search("specialistId", session?.user.uid!, "user");
+  const data = await search("user", "specialistId", session?.user.uid!);
   
   const dataTable: DataTableProps<User, string> = {
     columns: columns,

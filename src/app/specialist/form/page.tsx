@@ -6,7 +6,7 @@ import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
 
 const SpecialistForm = async () => {
   const session: any = await getServerSession(authOptions);
-  const data = await search("specialistId", session?.user.uid!, "user");
+  const data = await search("user", "specialistId", session?.user.uid!);
   
   return (
     <SignUpForm specialistId={data}/>

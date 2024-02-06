@@ -97,7 +97,7 @@ export async function getSubsById (col: string, id: string, doc: string) : Promi
   }
 }
 
-export async function search (key: string, value: string, col: string) : Promise<any> {
+export async function search (col: string, key: string, value: string) : Promise<any> {
 
   const docRef = collection(db, col);
   const q = query(docRef, where(key, "==", value));

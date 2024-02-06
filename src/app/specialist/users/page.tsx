@@ -9,7 +9,7 @@ import { search } from '@/lib/firebase';
 
 const Users = async () => {
   const session: any = await getServerSession(authOptions);
-  const data = await search("specialistId", session?.user.uid!, "user");
+  const data = await search("user", "specialistId", session?.user.uid!);
 
   return (
     <UserDataTable columns={columns} data={data} />
