@@ -7,11 +7,18 @@ import SetEvaluationForm from '@/components/form/SetEvaluationForm';
 import { columns } from './columns';
 import { DataTableProps } from '@/types/forms';
 import { User } from '@/types/users';
+import { Search } from '@/types/firebase';
 
 
 const EvaluationsForm = async () => {
   const session: any = await getServerSession(authOptions);
-  const data = await search("user", "specialistId", session?.user.uid!);
+  const parameters: Search = {
+    col: "user", 
+    field: "specialistId", 
+    operation: "==", 
+    value: session?.user.uid!
+  };
+  const data = await search(parameters);
   
   const dataTable: DataTableProps<User, string> = {
     columns: columns,
