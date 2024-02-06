@@ -80,7 +80,7 @@ export const columns: ColumnDef<Evaluation>[] = [
         </Button>
       );
     },
-    cell: info => info.getValue(),
+    cell: info => <span className="pl-4">{`${info.getValue()}`}</span>,
     footer: props => props.column.id,
     filterFn: 'fuzzy',
     sortingFn: fuzzySort,
@@ -102,7 +102,7 @@ export const columns: ColumnDef<Evaluation>[] = [
         </Button>
       );
     },
-    cell: info => info.getValue(),
+    cell: info => <span className="pl-4">{`${info.getValue()}`}</span>,
     footer: props => props.column.id,
     filterFn: 'fuzzy',
     sortingFn: fuzzySort,
@@ -124,7 +124,7 @@ export const columns: ColumnDef<Evaluation>[] = [
         </Button>
       );
     },
-    cell: info => info.getValue(),
+    cell: info => <span className="pl-4">{`${info.getValue()}`}</span>,
     footer: props => props.column.id,
     filterFn: 'fuzzy',
     sortingFn: fuzzySort,
