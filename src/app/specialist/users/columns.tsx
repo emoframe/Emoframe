@@ -106,11 +106,6 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "birthday",
   },
   {
-    header: "ID",
-    meta: {name: "ID"},
-    accessorKey: "uid",
-  },
-  {
     id: "actions",
     meta: {name: "Ações"},
 
