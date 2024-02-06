@@ -4,9 +4,12 @@ import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateD
 import { getFirestore } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
+import { Sam, Panas, Evaluation } from "@/types/forms";
+import { Search } from "@/types/firebase";
+
 import { getValuable } from "@/lib/utils";
 
-import { Sam, Panas, Evaluation } from "@/types/forms";
+
 
 
 const firebaseConfig = {
@@ -97,10 +100,10 @@ export async function getSubsById (col: string, id: string, doc: string) : Promi
   }
 }
 
-export async function search (col: string, field: string, value: string) : Promise<any> {
+export async function search ({col, field, operation, value}: Search) : Promise<any> {
 
   const docRef = collection(db, col);
-  const q = query(docRef, where(field, "==", value));
+  const q = query(docRef, where(field, operation, value));
   const querySnapshot = await getDocs(q);
   const res: any[] = []       
   querySnapshot.forEach((doc) => {

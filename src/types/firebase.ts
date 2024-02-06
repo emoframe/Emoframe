@@ -12,7 +12,7 @@ enum Operations {
 }
 
 export interface Search {
-    collection: string, 
+    col: string, 
     field: string, 
     operation: keyof typeof Operations,
     value: string
