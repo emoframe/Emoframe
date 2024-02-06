@@ -1,6 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch } from "firebase/firestore";
+import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
@@ -55,25 +55,24 @@ export async function createUser (data : User | Specialist, specialistId?: strin
     });
 } 
 
-export async function getById (id: string, col: string) : Promise<any> {
-  const docRef = doc(db, col, id);
-  try {
-    const docSnap = await getDoc(docRef);
+export async function getById (id: string | string[], col: string) : Promise<any> {
+  const ids = (typeof id === "string") ? [id] : [...id];
+  const collectionRef = collection(db, col);
+
+  const q = query(collectionRef, where(documentId(), "in", ids));
+
+  const docSnaps = await getDocs(q);
+  docSnaps.forEach((docSnap) => {
     if(docSnap.exists()) {
-        let data = docSnap.data();
-        data["uid"] = id;
-        
-        if(data["birthday"]) 
-          data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
+      let data = docSnap.data();
+      data["uid"] = id;
+      
+      if(data["birthday"]) 
+        data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
 
-        return data;
-    } else {
-        console.log("Document does not exist");
+      return data;
     }
-
-  } catch(error) {
-    console.log(error);
-  }
+  })
 }
 
 export async function getSubsById (col: string, id: string, doc: string) : Promise<any> {
@@ -129,7 +128,7 @@ export async function search ({col, field, operation, value}: Search) : Promise<
       }
       return 0;
     });
-    
+
   return res;
 }
 
