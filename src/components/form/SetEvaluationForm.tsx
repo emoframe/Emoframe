@@ -23,7 +23,7 @@ import { getLocalTimeZone, parseDate } from '@internationalized/date';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import UserDataTable from '@/app/specialist/evaluations/data-table';
+import UserDataTable from '@/app/specialist/evaluations/form/data-table';
 import { User } from '@/types/users';
 
 const MethodProps: RadioItem[] = [
@@ -212,7 +212,7 @@ const SetEvaluationForm = ({
                                 name='instrument'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Método de Avaliação</FormLabel>
+                                        <FormLabel>Instrumento de Avaliação</FormLabel>
                                         <FormControl>
                                             <Combobox
                                                 className="min-w-[400px]"
