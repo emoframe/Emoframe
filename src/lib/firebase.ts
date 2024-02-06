@@ -109,9 +109,12 @@ export async function search (key: string, value: string, col: string) : Promise
           ...doc.data(),
       }
 
-      if(newObj["birthday"]) 
-        newObj["birthday"] = newObj["birthday"].toDate().toLocaleDateString('pt-BR');
-      
+      let keys = ['birthday', 'date']
+      Object.keys(newObj).some(key => {
+        if(keys.includes(key))
+          newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+      })
+        
       res.push(newObj);
   });
 
@@ -124,7 +127,7 @@ export async function search (key: string, value: string, col: string) : Promise
       }
       return 0;
     });
-
+  console.log(res.toString());
   return res;
 }
 

@@ -86,7 +86,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     sortingFn: fuzzySort,
   },
   {
-    accessorFn: row => {row.identification},
+    accessorFn: row => {row.instrument},
     id: 'instrument',
     meta: {name: "Instrumento"},
     header: ({ column }) => {
@@ -108,7 +108,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     sortingFn: fuzzySort,
   },
   {
-    accessorFn: row => {row.identification},
+    accessorFn: row => {row.method},
     id: 'method',
     meta: {name: "Método"},
     header: ({ column }) => {
