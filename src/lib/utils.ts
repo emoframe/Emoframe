@@ -7,7 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatPhone(value: string): string {
   //React.ChangeEvent<HTMLInputElement>
-  console.log(value)
   if (!value) return value;
 
   const onlyNums: string = value.replace(/[^\d]/g, '');

@@ -101,8 +101,6 @@ const SetEvaluationForm = ({
     const next = async () => {
         const fields = steps[currentStep].fields
         const output = await form.trigger(fields as FieldName[], { shouldFocus: true })
-
-        console.log(output)
     
         if (!output) return
     

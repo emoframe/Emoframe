@@ -45,7 +45,6 @@ export function DatePicker({ children, ...props }: DatePickerProps) {
     onChange: (dateValue) => {
       props.onChange?.(dateValue)
       setDate(dateValue?.toDate(getLocalTimeZone()))
-      console.log(date);
     },
   })
   const ref = React.useRef(null)

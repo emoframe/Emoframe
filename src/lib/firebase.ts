@@ -66,7 +66,6 @@ export async function getById (id: string, col: string) : Promise<any> {
         if(data["birthday"]) 
           data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
 
-        console.log(data);
         return data;
     } else {
         console.log("Document does not exist");
@@ -130,7 +129,7 @@ export async function search ({col, field, operation, value}: Search) : Promise<
       }
       return 0;
     });
-  console.log(res.toString());
+    
   return res;
 }
 
