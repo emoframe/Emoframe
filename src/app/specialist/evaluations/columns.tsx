@@ -14,6 +14,7 @@ import { compareItems } from "@tanstack/match-sorter-utils";
 import Link from "next/link";
 import { useEvaluationStore } from '@/store/evaluationStore';
 import { Evaluation } from "@/types/forms";
+import { saveSelectedEvaluation } from "@/lib/actions";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -149,12 +150,9 @@ export const columns: ColumnDef<Evaluation>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>              
-              <DropdownMenuItem 
-                onClick={() => {
-                  useEvaluationStore.setState(() => ({selected: evaluation}));
-                  console.log(useEvaluationStore.getState().selected?.users);
-                }}
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={async () => await saveSelectedEvaluation(evaluation)}
               >
                 Ver detalhes
               </DropdownMenuItem>
