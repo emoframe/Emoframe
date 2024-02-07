@@ -74,11 +74,9 @@ export async function getById (id: string | string[], col: string) : Promise<any
           
           res.push(data);
         }
-        console.log(res);
       });
     }
     
-    console.log(res)
     console.log("Documents has been got sucessfully!", res);
     return typeof id === "string" ? res[0] : res;
 
