@@ -12,7 +12,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import Link from "next/link";
-import { createQueryString } from "@/lib/utils";
+import { useEvaluationStore } from '@/store/evaluationStore';
 import { Evaluation } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
@@ -35,6 +35,8 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
 }
+
+
 
 export const columns: ColumnDef<Evaluation>[] = [
   {
@@ -147,12 +149,15 @@ export const columns: ColumnDef<Evaluation>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <Link href={"/specialist/evaluations/details" + "?" + createQueryString("uid", evaluation.uid!)}>
-              <DropdownMenuItem>
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>              
+              <DropdownMenuItem 
+                onClick={() => {
+                  useEvaluationStore.setState(() => ({selected: evaluation}));
+                  console.log(useEvaluationStore.getState().selected?.users);
+                }}
+              >
                 Ver detalhes
               </DropdownMenuItem>
-            </Link>
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(evaluation.uid!.toString());
