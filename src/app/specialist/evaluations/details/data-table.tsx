@@ -60,7 +60,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed
 }
 
-export function EvaluationsDataTable<TData, TValue>({
+export function EvaluationsDetailsDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -214,4 +214,4 @@ export function EvaluationsDataTable<TData, TValue>({
   );
 }
 
-export default EvaluationsDataTable;
+export default EvaluationsDetailsDataTable;
