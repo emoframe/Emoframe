@@ -7,7 +7,7 @@ import { Specialist, User } from "@/types/users";
 import { Sam, Panas, Evaluation } from "@/types/forms";
 import { Search } from "@/types/firebase";
 
-import { getValuable } from "@/lib/utils";
+import { chunk, getValuable } from "@/lib/utils";
 
 
 
@@ -56,23 +56,27 @@ export async function createUser (data : User | Specialist, specialistId?: strin
 } 
 
 export async function getById (id: string | string[], col: string) : Promise<any> {
-  const ids = (typeof id === "string") ? [id] : [...id];
+  const ids = (typeof id === "string") ? chunk([id], 10) : chunk(id, 10); // Separa em grupos de 10 ids
   const collectionRef = collection(db, col);
+  const res: any[] = [] 
 
-  const q = query(collectionRef, where(documentId(), "in", ids));
+  ids.forEach(async (ids) => { // Faz a query pra cada grupo
+    const q = query(collectionRef, where(documentId(), "in", ids));
+    const docSnaps = await getDocs(q);
 
-  const docSnaps = await getDocs(q);
-  docSnaps.forEach((docSnap) => {
-    if(docSnap.exists()) {
-      let data = docSnap.data();
-      data["uid"] = id;
-      
-      if(data["birthday"]) 
-        data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
+    docSnaps.forEach((docSnap) => {
+      if(docSnap.exists()) {
+        let data = docSnap.data();
+        data["uid"] = id;
+        
+        if(data["birthday"]) 
+          data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
 
-      return data;
-    }
+        res.push(data);
+      }
+    })
   })
+  
 }
 
 export async function getSubsById (col: string, id: string, doc: string) : Promise<any> {
