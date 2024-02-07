@@ -1,6 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId } from "firebase/firestore";
+import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
@@ -56,26 +56,35 @@ export async function createUser (data : User | Specialist, specialistId?: strin
 } 
 
 export async function getById (id: string | string[], col: string) : Promise<any> {
-  const ids = (typeof id === "string") ? chunk([id], 10) : chunk(id, 10); // Separa em grupos de 10 ids
-  const collectionRef = collection(db, col);
-  const res: any[] = [] 
+  try {
+    const groups = (typeof id === "string") ? [[id]] : chunk(id, 10); // Separa em grupos de 10 ids
+    const collectionRef = collection(db, col);
+    const res: DocumentData = new Array(); 
+    for await (const ids of groups) { // Faz a query pra cada grupo
+      const q = query(collectionRef, where(documentId(), "in", ids));
+      const docSnaps = await getDocs(q);
+  
+      docSnaps.forEach((docSnap) => {
+        if(docSnap.exists()) {
+          let data = docSnap.data();
+          data["uid"] = id;
+          
+          if(data["birthday"]) 
+            data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
+          
+          res.push(data);
+        }
+        console.log(res);
+      });
+    }
+    
+    console.log(res)
+    console.log("Documents has been got sucessfully!", res);
+    return typeof id === "string" ? res[0] : res;
 
-  ids.forEach(async (ids) => { // Faz a query pra cada grupo
-    const q = query(collectionRef, where(documentId(), "in", ids));
-    const docSnaps = await getDocs(q);
-
-    docSnaps.forEach((docSnap) => {
-      if(docSnap.exists()) {
-        let data = docSnap.data();
-        data["uid"] = id;
-        
-        if(data["birthday"]) 
-          data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
-
-        res.push(data);
-      }
-    })
-  })
+  } catch(error) {
+    console.log(error);
+  }
   
 }
 
