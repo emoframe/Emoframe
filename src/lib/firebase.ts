@@ -60,6 +60,7 @@ export async function getById (id: string | string[], col: string) : Promise<any
     const groups = (typeof id === "string") ? [[id]] : chunk(id, 10); // Separa em grupos de 10 ids
     const collectionRef = collection(db, col);
     const res: DocumentData = new Array(); 
+    /* "for await... of" permite um loop iterando sobre objetos assíncronos. ES 2018 */
     for await (const ids of groups) { // Faz a query pra cada grupo
       const q = query(collectionRef, where(documentId(), "in", ids));
       const docSnaps = await getDocs(q);
@@ -76,7 +77,7 @@ export async function getById (id: string | string[], col: string) : Promise<any
         }
       });
     }
-    
+
     console.log("Documents has been got sucessfully!", res);
     return typeof id === "string" ? res[0] : res;
 
