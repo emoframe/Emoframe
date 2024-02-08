@@ -11,7 +11,7 @@ export async function appRedirect(route: string) {
 export async function setSelectedEvaluationUsers(evaluation: Evaluation) {
 
     try {
-        cookies().set('evaluationUsers', JSON.stringify(evaluation.users))
+        cookies().set('evaluationUsers', JSON.stringify(evaluation.users), { maxAge: 0 })
     } catch (error){
         console.log("ERRO: " + error);
     }
