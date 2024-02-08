@@ -133,10 +133,6 @@ export function EvaluationsDetailsDataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <Link className={buttonVariants({ variant: "default" })} href="/specialist/evaluations/form">
-          Cadastre
-        </Link>
       </div>
 
       {/* table */}
