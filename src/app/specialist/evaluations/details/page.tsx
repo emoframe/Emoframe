@@ -18,7 +18,10 @@ const Details = async () => {
   }
 
   return (
-    <EvaluationsDetailsDataTable columns={columns} data={data}/>
+    <div className='flex flex-col gap-4'>
+      <h3 className='text-2xl font-semibold leading-none tracking-tight'>Usuários</h3>
+      <EvaluationsDetailsDataTable columns={columns} data={data}/>
+    </div>
   );
 };
 

@@ -152,7 +152,7 @@ export const columns: ColumnDef<Evaluation>[] = [
               <DropdownMenuItem
                 onClick={async () => await setSelectedEvaluationUsers(evaluation)}
               >
-                Ver detalhes
+                Ver usuários
               </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {

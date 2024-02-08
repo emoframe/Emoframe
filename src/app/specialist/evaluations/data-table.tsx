@@ -135,7 +135,7 @@ export function EvaluationsDataTable<TData, TValue>({
         </DropdownMenu>
 
         <Link className={buttonVariants({ variant: "default" })} href="/specialist/evaluations/form">
-          Cadastre
+          Nova Avaliação
         </Link>
       </div>
 

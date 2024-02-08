@@ -35,7 +35,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 import { DataTableProps } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
