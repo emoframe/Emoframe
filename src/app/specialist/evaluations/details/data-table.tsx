@@ -107,31 +107,6 @@ export function EvaluationsDetailsDataTable<TData, TValue>({
           }}
           className="max-w-sm"
         />
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "default" })}>
-            Colunas
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value: boolean) => {
-                      column.toggleVisibility(!!value);
-                    }}
-                  >
-                    {column.columnDef.meta?.name}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
 
       {/* table */}

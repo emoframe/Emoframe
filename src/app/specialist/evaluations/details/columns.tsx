@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { User } from "@/types/users";
 import { ColumnDef, RowData, SortingFn, sortingFns } from "@tanstack/react-table";
@@ -70,7 +71,7 @@ export const columns: ColumnDef<User>[] = [
         </Button>
       );
     },
-    cell: info => info.getValue(),
+    cell: info => <span className="pl-4">{`${info.getValue()}`}</span>,
     footer: props => props.column.id,
     filterFn: 'fuzzy',
     sortingFn: fuzzySort,
