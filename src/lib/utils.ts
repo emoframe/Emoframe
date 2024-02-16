@@ -7,7 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatPhone(value: string): string {
   //React.ChangeEvent<HTMLInputElement>
-  console.log(value)
   if (!value) return value;
 
   const onlyNums: string = value.replace(/[^\d]/g, '');
@@ -68,4 +67,19 @@ export function groupBy(arr, property) {
     // Retorna o objeto acumulador atualizado para a próxima iteração
     return acc;
   }, {}); // O objeto inicial para acumulação é um objeto vazio
+}
+
+export function chunk<T>(arr: T[], batchSize: number): T[][] {
+  // Utiliza o método reduce no array de entrada (arr)
+  return arr.reduce((batches, curr, i) => {
+      // Verifica se o índice atual (i) é divisível pelo tamanho do lote (batchSize)
+      if (i % batchSize === 0) {
+          // Se for divisível, adiciona um novo array vazio ao array de lotes (batches)
+          batches.push([]);
+      }
+      // Adiciona o elemento atual (curr) ao último lote (batch) no array de lotes
+      batches[batches.length - 1].push(arr[i]);
+      // Retorna os lotes atualizados
+      return batches;
+  }, [] as T[][]); // Inicializa o array de lotes com um array vazio
 }

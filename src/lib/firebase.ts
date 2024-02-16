@@ -1,12 +1,15 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch } from "firebase/firestore";
+import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
-import { getValuable } from "@/lib/utils";
+import { Sam, Panas, Evaluation } from "@/types/forms";
+import { Search } from "@/types/firebase";
 
-import { Sam, Panas } from "@/types/forms";
+import { chunk, getValuable } from "@/lib/utils";
+
+
 
 
 const firebaseConfig = {
@@ -52,26 +55,36 @@ export async function createUser (data : User | Specialist, specialistId?: strin
     });
 } 
 
-export async function getById (id: string, col: string) : Promise<any> {
-  const docRef = doc(db, col, id);
+export async function getById (id: string | string[], col: string) : Promise<any> {
   try {
-    const docSnap = await getDoc(docRef);
-    if(docSnap.exists()) {
-        let data = docSnap.data();
-        data["uid"] = id;
-        
-        if(data["birthday"]) 
-          data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
-
-        console.log(data);
-        return data;
-    } else {
-        console.log("Document does not exist");
+    const groups = (typeof id === "string") ? [[id]] : chunk(id, 10); // Separa em grupos de 10 ids
+    const collectionRef = collection(db, col);
+    const res: DocumentData = new Array(); 
+    /* "for await... of" permite um loop iterando sobre objetos assíncronos. ES 2018 */
+    for await (const ids of groups) { // Faz a query pra cada grupo
+      const q = query(collectionRef, where(documentId(), "in", ids));
+      const docSnaps = await getDocs(q);
+  
+      docSnaps.forEach((docSnap) => {
+        if(docSnap.exists()) {
+          let data = docSnap.data();
+          data["uid"] = id;
+          
+          if(data["birthday"]) 
+            data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
+          
+          res.push(data);
+        }
+      });
     }
+
+    console.log("Documents has been got sucessfully!", res);
+    return typeof id === "string" ? res[0] : res;
 
   } catch(error) {
     console.log(error);
   }
+  
 }
 
 export async function getSubsById (col: string, id: string, doc: string) : Promise<any> {
@@ -97,10 +110,10 @@ export async function getSubsById (col: string, id: string, doc: string) : Promi
   }
 }
 
-export async function search (key: string, value: string, col: string) : Promise<any> {
+export async function search ({col, field, operation, value}: Search) : Promise<any> {
 
   const docRef = collection(db, col);
-  const q = query(docRef, where(key, "==", value));
+  const q = query(docRef, where(field, operation, value));
   const querySnapshot = await getDocs(q);
   const res: any[] = []       
   querySnapshot.forEach((doc) => {
@@ -109,9 +122,12 @@ export async function search (key: string, value: string, col: string) : Promise
           ...doc.data(),
       }
 
-      if(newObj["birthday"]) 
-        newObj["birthday"] = newObj["birthday"].toDate().toLocaleDateString('pt-BR');
-      
+      let keys = ['birthday', 'date']
+      Object.keys(newObj).some(key => {
+        if(keys.includes(key))
+          newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+      })
+        
       res.push(newObj);
   });
 
@@ -199,6 +215,20 @@ export async function createForm (data: Sam | Panas, id: string, formType: strin
   try {
     addDoc(docRef, form)
     .then((docRef) => console.log("Document has been inserted sucessfully!", form))
+    .catch((error) => console.log(error.code + ": " + error.message))
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
+export async function createEvaluation(data: Evaluation) : Promise<any> {
+  const docRef = collection(db, "evaluation");
+  const evaluation = getValuable(data);
+
+  try {
+    addDoc(docRef, evaluation)
+    .then((docRef) => console.log("Evaluation has been inserted sucessfully!"))
     .catch((error) => console.log(error.code + ": " + error.message))
   }
   catch(error) {

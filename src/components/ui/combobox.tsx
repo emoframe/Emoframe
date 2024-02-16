@@ -18,16 +18,17 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-const Combobox = ({ onSelect, options, placeholder, className }:
+const Combobox = ({ onSelect, defaultValue, options, placeholder, className }:
     {
         onSelect: (currentValue: string) => void,
+        defaultValue?: string,
         options: Array<{ value: string, label: string }>,
         placeholder: string,
         className?: string
     }
 ) => {
     const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState("")
+    const [value, setValue] = React.useState(defaultValue ? defaultValue : "")
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -36,7 +37,7 @@ const Combobox = ({ onSelect, options, placeholder, className }:
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className={cn("justify-between", className)}
+                    className={cn("w-full justify-between text-left font-normal", className)}
                 >
                     {
                         value

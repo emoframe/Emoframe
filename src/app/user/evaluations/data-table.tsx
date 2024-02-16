@@ -47,7 +47,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import Link from "next/link";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { Label } from "@/components/ui/label";
 import SetInstrumentsUsersForm from "@/components/form/SetInstrumentsUsersForm";
 import { forms, DataTableProps } from "@/types/forms";
@@ -74,7 +73,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed
 }
 
-export function UserDataTable<TData, TValue>({
+export function EvaluationsDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -147,31 +146,6 @@ export function UserDataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <Link className={buttonVariants({ variant: "default" })} href="/specialist/form">
-          Cadastre
-        </Link>
-
-        {/* dialog */}
-        {Boolean(table.getFilteredSelectedRowModel().rows.length) && 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="default">Selecionar Instrumento</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Selecione um Instrumento de Autorrelato</DialogTitle>
-                <DialogDescription>
-                  O instrumento selecionado será adicionado/removido para os usuários previamente escolhidos.
-                </DialogDescription>
-              </DialogHeader>
-              <SetInstrumentsUsersForm
-							uid={table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid)}
-							options={forms}
-						/>
-            </DialogContent>
-          </Dialog>
-        }
       </div>
 
       {/* table */}
@@ -249,4 +223,4 @@ export function UserDataTable<TData, TValue>({
   );
 }
 
-export default UserDataTable;
+export default EvaluationsDataTable;

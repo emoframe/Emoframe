@@ -1,3 +1,5 @@
+import { ColumnDef } from "@tanstack/react-table";
+
 export interface Forms {
     label: string;
     value: string;
@@ -16,6 +18,26 @@ export const forms: Forms[] = [
         description: "Lorem ipsum dolor sit amet.",
     },
 ];
+
+export interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
+}
+
+export interface RadioItem {
+    value: string;
+    label: string;
+}
+
+export interface Evaluation {
+    uid?: string,
+    specialist: string,
+    users: string[],
+    identification: string,
+    date: Date,
+    method: string,
+    instrument: string,
+}
 
 export interface Sam {
     satisfaction: string;

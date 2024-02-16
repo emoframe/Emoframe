@@ -4,7 +4,6 @@ import { getServerSession } from 'next-auth/next';
 
 const SamPage = async () => {
   const session: any = await getServerSession(authOptions);
-  console.log(session);
 
   return (
     <div className="container py-10 mx-auto">

@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ColumnDef,
   SortingState,
   VisibilityState,
   flexRender,
@@ -25,32 +24,12 @@ import {
 import {
   RankingInfo,
   rankItem,
-  compareItems,
 } from '@tanstack/match-sorter-utils'
 
-import React from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import React, { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import Link from "next/link";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { Label } from "@/components/ui/label";
-import SetInstrumentsUsersForm from "@/components/form/SetInstrumentsUsersForm";
-import { forms, DataTableProps } from "@/types/forms";
+import { DataTableProps } from '@/types/forms';
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -59,6 +38,11 @@ declare module '@tanstack/table-core' {
   interface FilterMeta {
     itemRank: RankingInfo
   }
+}
+
+interface UsersState {
+  defaultValue?: string[],
+  onSelect: (currentValue: string[]) => void,
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -74,10 +58,9 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed
 }
 
-export function UserDataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function UserDataTable<TData, TValue>( 
+  { data, columns, defaultValue, onSelect } : DataTableProps<TData, TValue> & UsersState) {
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = React.useState([]);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -110,6 +93,12 @@ export function UserDataTable<TData, TValue>({
     },
   });
 
+  const length = table.getFilteredSelectedRowModel().rows.length;
+  useEffect(() => {
+    const uids = table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid);
+    onSelect(uids ? uids : []);
+  }, [length])
+
   return (
     <div>
       <div className="flex items-center pb-4 gap-4">
@@ -120,58 +109,7 @@ export function UserDataTable<TData, TValue>({
           onChange={(e) => {
            setGlobalFilter(e.target.value);
           }}
-          className="max-w-sm"
         />
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "default" })}>
-            Colunas
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value: boolean) => {
-                      column.toggleVisibility(!!value);
-                    }}
-                  >
-                    {column.columnDef.meta?.name}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <Link className={buttonVariants({ variant: "default" })} href="/specialist/form">
-          Cadastre
-        </Link>
-
-        {/* dialog */}
-        {Boolean(table.getFilteredSelectedRowModel().rows.length) && 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="default">Selecionar Instrumento</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Selecione um Instrumento de Autorrelato</DialogTitle>
-                <DialogDescription>
-                  O instrumento selecionado será adicionado/removido para os usuários previamente escolhidos.
-                </DialogDescription>
-              </DialogHeader>
-              <SetInstrumentsUsersForm
-							uid={table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid)}
-							options={forms}
-						/>
-            </DialogContent>
-          </Dialog>
-        }
       </div>
 
       {/* table */}

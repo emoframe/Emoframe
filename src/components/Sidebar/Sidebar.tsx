@@ -90,7 +90,7 @@ const SidebarCore = ({ children }) => {
           <div className="flex flex-col flex-wrap justify-between items-center gap-2">
             <Button
               onClick={() => setExpanded((curr) => !curr)}
-              variant="expand"
+              variant="icon"
             >
               {expanded ? <ChevronFirst /> : <ChevronLast />}
             </Button>
@@ -182,6 +182,12 @@ const Sidebar = () => {
           <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/specialist/evaluations"/>
           <SidebarItem icon={<BookUser size={20} />} text="Instrumentos" href="/specialist/instruments"/>
           <SidebarItem icon={<LineChart size={20} />} text="Resultados" href="/specialist/results"/>
+        </>
+      }
+      {
+        (session?.user.type == 'user') &&
+        <>
+          <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/user/evaluations"/>
         </>
       }
     </SidebarCore>
