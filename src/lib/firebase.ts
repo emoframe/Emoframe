@@ -8,6 +8,7 @@ import { Sam, Panas, Evaluation } from "@/types/forms";
 import { Search } from "@/types/firebase";
 
 import { chunk, getValuable } from "@/lib/utils";
+import { Sam, Panas, Brums, Sus, Eaz } from "@/types/forms";
 
 
 
