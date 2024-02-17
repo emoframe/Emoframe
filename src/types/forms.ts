@@ -65,7 +65,7 @@ export interface Panas {
     tormented: string;
     scared: string;
     hearty: string;
-    horny: string;
+    excited: string;
     guilty: string;
     enthusiastic: string;
     pleasantly_surprised: string;

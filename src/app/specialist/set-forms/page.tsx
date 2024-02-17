@@ -44,7 +44,7 @@ const SetForms = async ({
 			+form.determined +
 			+form.enthusiastic +
 			+form.hearty +
-			+form.horny +
+			+form.excited +
 			+form.inspired +
 			+form.interested +
 			+form.pleasantly_surprised +

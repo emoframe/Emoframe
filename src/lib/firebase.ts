@@ -4,11 +4,10 @@ import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateD
 import { getFirestore } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
-import { Sam, Panas, Evaluation } from "@/types/forms";
+import { Panas, Evaluation } from "@/types/forms";
 import { Search } from "@/types/firebase";
 
 import { chunk, getValuable } from "@/lib/utils";
-import { Sam, Panas, Brums, Sus, Eaz } from "@/types/forms";
 
 
 
@@ -206,16 +205,13 @@ export async function modifyArray (id: string | string[], col: string, name: str
   }
 }
 
-export async function createForm (data: Sam | Panas, id: string, formType: string) : Promise<any> {
-  const docRef = collection(db, "user", id, "form");
-  const form: any = {
-    type: formType,
-    ...getValuable(data),
-}
+export async function saveAnswer (data: Panas, EvaluationId: string, UserId: string) : Promise<any> {
+  const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
+  const answer = getValuable(data);
 
   try {
-    addDoc(docRef, form)
-    .then((docRef) => console.log("Document has been inserted sucessfully!", form))
+    setDoc(docRef, answer)
+    .then((docRef) => console.log("Document has been inserted sucessfully!", answer))
     .catch((error) => console.log(error.code + ": " + error.message))
   }
   catch(error) {
