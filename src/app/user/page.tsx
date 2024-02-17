@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card"
 import { search } from '@/lib/firebase';
 import { Search } from '@/types/firebase';
-import { forms } from '@/types/forms';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 import { buttonVariants } from '@/components/ui/button';
@@ -29,9 +28,11 @@ const User = async () => {
         value: session?.user.uid!
     };
     const data = await search(parameters);
-    const evaluations = data.filter((evaluation) => evaluation.date == new Date().toLocaleDateString('pt-BR'))
-    .sort((a, b) => a.identification.toLowerCase().localeCompare(b.identification.toLowerCase()))
 
+    const evaluations = data.filter((evaluation) => {
+        return (evaluation.date == new Date().toLocaleDateString('pt-BR') && 
+        !(evaluation.answered && evaluation?.answered.includes(session?.user.uid!))); 
+    }).sort((a, b) => a.identification.toLowerCase().localeCompare(b.identification.toLowerCase()))
 
     return (
         <>

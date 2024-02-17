@@ -28,9 +28,9 @@ const FillEvaluation = async ({
   
   try {
     evaluation = await getById(searchParams.evaluation as string, "evaluation");
-    answer = await getById(session?.user?.uid! as string, `evaluation/${searchParams.evaluation}/answers`);  
 
-    (!evaluation || answer) && await appRedirect('/denied');
+    (!evaluation || (evaluation.answered && evaluation?.answered.includes(session?.user.uid!))) 
+    && await appRedirect('/denied');
 
   } catch(error) {
     await appRedirect('/denied');
