@@ -5,7 +5,7 @@ import { getFirestore } from 'firebase/firestore';
 
 import { Specialist, User } from "@/types/users";
 import { Panas, Evaluation } from "@/types/forms";
-import { Search } from "@/types/firebase";
+import { GetById, Search } from "@/types/firebase";
 
 import { chunk, getValuable } from "@/lib/utils";
 
@@ -55,7 +55,38 @@ export async function createUser (data : User | Specialist, specialistId?: strin
     });
 } 
 
-export async function getById (id: string | string[], col: string) : Promise<any> {
+export async function saveAnswer (data: Panas, EvaluationId: string, UserId: string) : Promise<any> {
+  const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
+  const answer: any = {
+    datetime: new Date(),
+    ...getValuable(data),
+  }
+
+  try {
+    setDoc(docRef, answer)
+    .then((docRef) => console.log("Document has been inserted sucessfully!", answer))
+    .catch((error) => console.log(error.code + ": " + error.message))
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
+export async function createEvaluation(data: Evaluation) : Promise<any> {
+  const docRef = collection(db, "evaluation");
+  const evaluation = getValuable(data);
+
+  try {
+    addDoc(docRef, evaluation)
+    .then((docRef) => console.log("Evaluation has been inserted sucessfully!"))
+    .catch((error) => console.log(error.code + ": " + error.message))
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
+export async function getById ({id, col}: GetById) : Promise<any> {
   try {
     const groups = (typeof id === "string") ? [[id]] : chunk(id, 10); // Separa em grupos de 10 ids
     const collectionRef = collection(db, col);
@@ -67,7 +98,7 @@ export async function getById (id: string | string[], col: string) : Promise<any
   
       docSnaps.forEach((doc) => {
         if(doc.exists()) {
-          
+
           const newObj: any = {
             uid: doc.id,
             ...doc.data(),
@@ -93,33 +124,10 @@ export async function getById (id: string | string[], col: string) : Promise<any
   
 }
 
-export async function getSubsById (col: string, id: string, doc: string) : Promise<any> {
-  const docRef = collection(db, col, id, doc);
-  try {
-    const docSnap = await getDocs(docRef);
-    const res: any[] = []       
-    docSnap.forEach((doc) => {
-        const newObj: any = {
-            uid: doc.id,
-            type: doc.data().type,
-            ...doc.data(),
-        }
-  
-        res.push(newObj);
-    });
-
-    console.log("Documents has been got sucessfully!", res);
-    return res;
-
-  } catch(error) {
-    console.log(error);
-  }
-}
-
 export async function search ({col, field, operation, value}: Search) : Promise<any> {
 
-  const docRef = collection(db, col);
-  const q = query(docRef, where(field, operation, value));
+  const collectionRef = collection(db, col);
+  const q = query(collectionRef, where(field, operation, value));
   const querySnapshot = await getDocs(q);
   const res: any[] = []       
   querySnapshot.forEach((doc) => {
@@ -167,6 +175,29 @@ export async function updateById (data: any, id: string, col: string) : Promise<
   }
 }
 
+export async function getSubsById (col: string, id: string, doc: string) : Promise<any> {
+  const docRef = collection(db, col, id, doc);
+  try {
+    const docSnap = await getDocs(docRef);
+    const res: any[] = []       
+    docSnap.forEach((doc) => {
+        const newObj: any = {
+            uid: doc.id,
+            type: doc.data().type,
+            ...doc.data(),
+        }
+  
+        res.push(newObj);
+    });
+
+    console.log("Documents has been got sucessfully!", res);
+    return res;
+
+  } catch(error) {
+    console.log(error);
+  }
+}
+
 export async function modifyArray (id: string | string[], col: string, name: string, value: string, mode: "add" | "remove") : Promise<any> {
   if(typeof id === "string") {
     const docRef = doc(db, col, id);
@@ -208,37 +239,6 @@ export async function modifyArray (id: string | string[], col: string, name: str
 
     // Commita o lote
     await batch.commit();
-  }
-}
-
-export async function saveAnswer (data: Panas, EvaluationId: string, UserId: string) : Promise<any> {
-  const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
-  const answer: any = {
-    datetime: new Date(),
-    ...getValuable(data),
-  }
-
-  try {
-    setDoc(docRef, answer)
-    .then((docRef) => console.log("Document has been inserted sucessfully!", answer))
-    .catch((error) => console.log(error.code + ": " + error.message))
-  }
-  catch(error) {
-    console.log(error)
-  }
-}
-
-export async function createEvaluation(data: Evaluation) : Promise<any> {
-  const docRef = collection(db, "evaluation");
-  const evaluation = getValuable(data);
-
-  try {
-    addDoc(docRef, evaluation)
-    .then((docRef) => console.log("Evaluation has been inserted sucessfully!"))
-    .catch((error) => console.log(error.code + ": " + error.message))
-  }
-  catch(error) {
-    console.log(error)
   }
 }
 
