@@ -65,15 +65,21 @@ export async function getById (id: string | string[], col: string) : Promise<any
       const q = query(collectionRef, where(documentId(), "in", ids));
       const docSnaps = await getDocs(q);
   
-      docSnaps.forEach((docSnap) => {
-        if(docSnap.exists()) {
-          let data = docSnap.data();
-          data["uid"] = id;
+      docSnaps.forEach((doc) => {
+        if(doc.exists()) {
           
-          if(data["birthday"]) 
-            data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
+          const newObj: any = {
+            uid: doc.id,
+            ...doc.data(),
+          }
+
+          let keys = ['birthday', 'date']
+          Object.keys(newObj).some(key => {
+            if(keys.includes(key))
+              newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+          })
           
-          res.push(data);
+          res.push(newObj);
         }
       });
     }
