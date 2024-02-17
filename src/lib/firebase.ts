@@ -207,7 +207,10 @@ export async function modifyArray (id: string | string[], col: string, name: str
 
 export async function saveAnswer (data: Panas, EvaluationId: string, UserId: string) : Promise<any> {
   const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
-  const answer = getValuable(data);
+  const answer: any = {
+    datetime: new Date(),
+    ...getValuable(data),
+  }
 
   try {
     setDoc(docRef, answer)
