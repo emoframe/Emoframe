@@ -2,15 +2,10 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
-
 import { Specialist, User } from "@/types/users";
 import { Panas, Evaluation } from "@/types/forms";
-import { GetById, Search } from "@/types/firebase";
-
+import { Search } from "@/types/firebase";
 import { chunk, getValuable } from "@/lib/utils";
-
-
-
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -86,7 +81,10 @@ export async function createEvaluation(data: Evaluation) : Promise<any> {
   }
 }
 
-export async function getById ({id, col}: GetById) : Promise<any> {
+export async function getById (
+  id: string | string[], 
+  col: string
+) : Promise<any> {
   try {
     const groups = (typeof id === "string") ? [[id]] : chunk(id, 10); // Separa em grupos de 10 ids
     const collectionRef = collection(db, col);

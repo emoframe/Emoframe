@@ -82,6 +82,11 @@ export interface Panas {
     frightened: string;
 }
 
+export interface FillEvaluationForm {
+    userId: string;
+    evaluationId: string;
+}
+
 export interface Brums {
     cheered_up: string,
     irritated: string,

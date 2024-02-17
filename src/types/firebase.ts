@@ -17,8 +17,3 @@ export interface Search {
     operation: keyof typeof Operations,
     value: string
 }
-
-export interface GetById {
-    id: string | string[], 
-    col: string
-}

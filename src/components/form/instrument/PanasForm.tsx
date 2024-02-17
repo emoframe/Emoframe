@@ -21,6 +21,7 @@ import { useStepper } from "@/components/ui/hooks/use-stepper";
 import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { randomizeArray } from '@/lib/utils';
+import { FillEvaluationForm } from '@/types/forms';
 
 interface RadioItem {
     value: string;
@@ -101,7 +102,7 @@ const PanasFormSchema = z.object({
     interested: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
 })
 
-const PanasForm = ({userId}) => {
+const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const form = useForm<z.infer<typeof PanasFormSchema>>({
         resolver: zodResolver(PanasFormSchema),
         defaultValues: {
