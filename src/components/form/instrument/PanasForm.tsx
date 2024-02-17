@@ -132,7 +132,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const { push } = useRouter();
 
     const onSubmit = async (values: z.infer<typeof PanasFormSchema>) => {
-        createForm(values, userId, "Panas").then(() => {push('/profile')})     
+        saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
     }
 
     const [isReady, setIsReady] = React.useState(false);

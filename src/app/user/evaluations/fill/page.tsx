@@ -21,7 +21,7 @@ const FillEvaluation = async ({
   let evaluation, answer;
 
   const ConditionalRendering = () => {
-    return (evaluation?.users.includes(session?.user?.uid!) && (new Date(evaluation?.date) >= new Date()) && !answer) ?
+    return (evaluation.users.includes(session?.user?.uid!) && (evaluation.date == new Date().toLocaleDateString('pt-BR')) && !answer) ?
       instruments.find((i) => i.id === evaluation?.instrument)?.component :
       null
   }
