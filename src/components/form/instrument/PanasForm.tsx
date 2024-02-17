@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { saveAnswer } from '@/lib/firebase'; 
 import { Button } from '@/components/ui/button';
-import { Progress } from "@/components/ui/loading";
+import { Progress } from "@/components/ui/progress";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useStepper } from "@/components/ui/hooks/use-stepper";
 import { Steps, Step, StepConfig } from '@/components/ui/stepper';
