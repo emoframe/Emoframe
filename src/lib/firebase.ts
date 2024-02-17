@@ -52,15 +52,18 @@ export async function createUser (data : User | Specialist, specialistId?: strin
 
 export async function saveAnswer (data: Panas, EvaluationId: string, UserId: string) : Promise<any> {
   const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
+  const docRef2 = doc(db, "evaluation", EvaluationId);
   const answer: any = {
     datetime: new Date(),
     ...getValuable(data),
   }
 
   try {
-    setDoc(docRef, answer)
-    .then((docRef) => console.log("Document has been inserted sucessfully!", answer))
-    .catch((error) => console.log(error.code + ": " + error.message))
+    await setDoc(docRef, answer);
+    await updateDoc(docRef2, {
+      answered: arrayUnion(UserId) //[] permite que seja usado o valor da variável como o nome do campo
+    });
+
   }
   catch(error) {
     console.log(error)
