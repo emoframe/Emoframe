@@ -169,76 +169,75 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
 
                 <React.Suspense key={activeStep} fallback={<Progress />}>
                     <Form key={activeStep} {...form}>
-                        {
-                            PanasQuestions[activeStep].map((question, index) => (
-                                <>
-                                    <FormField key={"formField" + index}
-                                    control={form.control}
-                                    name={question.field}
-                                    render={({field}) => (
-                                        <FormItem className="space-x-5 space-y-5 content-center">
-                                            <p className="text-xl"><b>{question.question}</b></p>
-                                        <FormControl>
-                                            <RadioGroup
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                            value={field.value}
-                                            className="flex flex-row space-x-5 justify-between">
-                                                {DefaultProps.map((defaultProp, index) => (
-                                                    <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                                        <FormControl>
-                                                            <RadioGroupItem value={defaultProp.value}/> 
-                                                        </FormControl>
-                                                        <FormLabel className="font-normal text-md">
-                                                            {defaultProp.label}
-                                                        </FormLabel>
-                                                    </FormItem>
-                                                ))}
-                                            </RadioGroup>
-                                            </FormControl>
-                                            <FormMessage />
-                                    </FormItem>
-                                    )} />
-                                    <div key={"div" + index}>
-                                        <hr className="text-black bg-black h-0.5"/>
-                                    </div>    
-                                </>
-                            ))
-                        }
+                        <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)}>
+                            {
+                                PanasQuestions[activeStep].map((question, index) => (
+                                    <>
+                                        <FormField key={"formField" + index}
+                                        control={form.control}
+                                        name={question.field}
+                                        render={({field}) => (
+                                            <FormItem className="space-x-5 space-y-5 content-center">
+                                                <p className="text-xl"><b>{question.question}</b></p>
+                                            <FormControl>
+                                                <RadioGroup
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                                value={field.value}
+                                                className="flex flex-row space-x-5 justify-between">
+                                                    {DefaultProps.map((defaultProp, index) => (
+                                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
+                                                            <FormControl>
+                                                                <RadioGroupItem value={defaultProp.value}/> 
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal text-md">
+                                                                {defaultProp.label}
+                                                            </FormLabel>
+                                                        </FormItem>
+                                                    ))}
+                                                </RadioGroup>
+                                                </FormControl>
+                                                <FormMessage />
+                                        </FormItem>
+                                        )} />
+                                        <div key={"div" + index}>
+                                            <hr className="text-black bg-black h-0.5"/>
+                                        </div>    
+                                    </>
+                                ))
+                            }
+                            <div key="buttons" className="flex flex-row justify-around mt-8">
+                                { 
+                                    (activeStep != 0) && 
+                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
+                                        prevStep();
+                                        window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                    }}>Anterior</Button>
+                                }
+                                
+                                <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
+                                    PanasQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
+                                    window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                }}>Limpar</Button>
+
+                                { 
+                                    (activeStep != 1) ?
+                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
+                                        const values = form.getValues(PanasQuestions[activeStep].map((question, index) => (question.field)));
+                                        const hasNull = Object.values(values).some((value) => value === "");
+                                        
+                                        if (hasNull) {
+                                            alert("Preencha todos os campos!");
+                                        }
+                                        else{
+                                        nextStep();
+                                    }}}>Próximo</Button>
+                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
+                                }
+                            </div>
+                        </form>
                     </Form>
                 </React.Suspense>
-
-                <div key="buttons" className="flex flex-row justify-around mt-8">
-                    { 
-                        (activeStep != 0) && 
-                        <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
-                            prevStep();
-                            window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                        }}>Anterior</Button>
-                    }
-                    
-                    <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                        PanasQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
-                        window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                    }}>Limpar</Button>
-
-
-                    { 
-                        (activeStep != 1) ?
-                        <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
-                            const values = form.getValues(PanasQuestions[activeStep].map((question, index) => (question.field)));
-                            const hasNull = Object.values(values).some((value) => value === "");
-                            
-                            if (hasNull) {
-                                alert("Preencha todos os campos!");
-                            }
-                            else{
-                            nextStep();
-                        }}}>Próximo</Button>
-                        : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
-                    }
-
-                </div>
             </div>
        </div>
     );
