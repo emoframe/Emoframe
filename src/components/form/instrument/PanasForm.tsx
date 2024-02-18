@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
     Form,
@@ -135,9 +135,9 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
         saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
     }
 
-    const [isReady, setIsReady] = React.useState(false);
+    const [isReady, setIsReady] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         PanasQuestions.forEach((questions) => (randomizeArray(questions)))
         console.log(PanasQuestions[0])
         setIsReady(true);
@@ -155,19 +155,19 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                 <React.Suspense fallback={<Progress />}>
                     <Form key={activeStep} {...form}>
                         <Steps activeStep={activeStep}>
-                            {steps.map((step, index) => ( <Step index={index} key={index} {...step} /> ))}
+                            {steps.map((step, index) => ( <Step index={index} key={index} additionalClassName={{label: "text-md"}} {...step} /> ))}
                         </Steps>
                         <form key={activeStep}>
                             <div className="flex flex-col flex-wrap justify-center gap-8">
                                 <h1 className="font-bold text-4xl self-center"> PANAS </h1>
-                                <h2 className="text-2xl self-center"> Esta escala consiste num conjunto de palavras que descrevem diferentes sentimentos e emoções. Leia cada palavra e marque a resposta adequada a palavra. Veja a escala e exemplos de preenchimento abaixo: </h2>
+                                <h2 className="text-md self-center"> Esta escala consiste num conjunto de palavras que descrevem diferentes sentimentos e emoções. Leia cada palavra e marque a resposta adequada a palavra. Veja a escala e exemplos de preenchimento abaixo: </h2>
                                 <div className="flex flex-row justify-around">
-                                    <Button className="basis-full" type="button">Exemplos</Button>
+                                    <Button className="text-lg basis-1/3" type="button" size="lg">Exemplos</Button>
                                 </div>
                                 <div>
                                     <hr className="text-black bg-slate-300 h-0.5"/>
                                 </div>
-                                <h2 className="text-2xl self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
+                                <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
                                 {PanasQuestions[activeStep].map((question, index) => (
                                     <>
                                     <FormField key={"formField" + index}
@@ -175,7 +175,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                     name={question.field}
                                     render={({field}) => (
                                         <FormItem className="space-x-5 space-y-5 content-center">
-                                            <p className="text-2xl"><b>{question.question}</b></p>
+                                            <p className="text-xl"><b>{question.question}</b></p>
                                         <FormControl>
                                             <RadioGroup
                                             onValueChange={field.onChange}
@@ -187,7 +187,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                                         <FormControl>
                                                             <RadioGroupItem value={defaultProp.value}/> 
                                                         </FormControl>
-                                                        <FormLabel className="font-normal">
+                                                        <FormLabel className="font-normal text-md">
                                                             {defaultProp.label}
                                                         </FormLabel>
                                                     </FormItem>
@@ -203,11 +203,11 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                     </>
                                 ))}
                                 <div key="buttons" className="flex flex-row justify-around mt-8">
-                                    <Button className="basis-1/8 text-lg" type='button' onClick={() => {
+                                    <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
                                         PanasQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
                                         window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                     }}>Limpar</Button>
-                                    <Button className="basis-1/8 text-lg" type="button" onClick={() => {
+                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                         const values = form.getValues(PanasQuestions[activeStep].map((question, index) => (question.field)));
                                         const hasNull = Object.values(values).some((value) => value === "");
                                         
@@ -233,14 +233,14 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                     <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)}>
                         <div className="flex flex-col flex-wrap justify-center gap-8">
                             <h1 className="font-bold text-4xl self-center"> PANAS </h1>
-                            <h2 className="text-2xl self-center"> Esta escala consiste num conjunto de palavras que descrevem diferentes sentimentos e emoções. Leia cada palavra e marque a resposta adequada a palavra. Veja a escala e exemplos de preenchimento abaixo: </h2>
+                            <h2 className="text-md self-center"> Esta escala consiste num conjunto de palavras que descrevem diferentes sentimentos e emoções. Leia cada palavra e marque a resposta adequada a palavra. Veja a escala e exemplos de preenchimento abaixo: </h2>
                             <div className="flex flex-row justify-around">
-                                <Button className="basis-full" type="button">Exemplos</Button>
+                                <Button className="text-lg basis-1/3" type="button" size="lg">Exemplos</Button>
                             </div>
                             <div>
                                 <hr className="text-black bg-slate-300 h-0.5"/>
                             </div>
-                            <h2 className="text-2xl self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
+                            <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
                             {PanasQuestions[activeStep].map((question, index) => (
                                 <>
                                 <FormField
@@ -276,7 +276,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                 </>
                             ))}
                             <div className="flex flex-row justify-around mt-8">
-                                <Button className="basis-1/8 text-lg" type="button" onClick={() => {    
+                                <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
                                     prevStep();
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                 }}>Anterior</Button>
