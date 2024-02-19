@@ -14,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import Link from "next/link";
 import { createQueryString } from "@/lib/utils";
-import { Evaluation } from "@/types/forms";
+import { Evaluation, forms } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     sortingFn: fuzzySort,
   },
   {
-    accessorFn: row => row.instrument,
+    accessorFn: row => forms.find((instrument) => instrument.value === row.instrument)?.label,
     id: 'instrument',
     meta: {name: "Instrumento"},
     header: ({ column }) => {

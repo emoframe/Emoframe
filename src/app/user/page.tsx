@@ -13,6 +13,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../../pages/api/auth/[...nextauth]";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { forms } from "@/types/forms";
 
 //Resolve o problema de cache após atualização
 export const dynamic = "force-dynamic";
@@ -52,9 +53,9 @@ const User = async () => {
               >
                 <CardHeader>
                   <CardTitle>{evaluation.identification}</CardTitle>
-                  <CardDescription>{`${evaluation.instrument} - ${evaluation.method}`}</CardDescription>
+                  <CardDescription>{`${forms.find((instrument) => instrument.value === evaluation.instrument)?.label} - ${evaluation.method}`}</CardDescription>
                 </CardHeader>
-                <CardFooter className="justify-center">
+                <CardContent className="flex justify-center">
                   <Link
                     className={buttonVariants({ variant: "default" })}
                     href={`/user/evaluations/fill?evaluation=${evaluation.uid}`}
@@ -62,7 +63,7 @@ const User = async () => {
                   >
                     Acessar
                   </Link>
-                </CardFooter>
+                </CardContent>
               </Card>
             );
           })}

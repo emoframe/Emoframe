@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useState } from "react"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -17,18 +18,24 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { Forms } from "@/types/forms"
+
 
 const Combobox = ({ onSelect, defaultValue, options, placeholder, className }:
     {
         onSelect: (currentValue: string) => void,
         defaultValue?: string,
-        options: Array<{ value: string, label: string }>,
+        options: Forms[],
         placeholder: string,
         className?: string
     }
 ) => {
-    const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState(defaultValue ? defaultValue : "")
+    const [open, setOpen] = useState(false)
+    const [value, setValue] = useState(defaultValue ? defaultValue : "")
+
+    React.useEffect(() => {
+        console.log(value);
+    },[value])
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -40,7 +47,7 @@ const Combobox = ({ onSelect, defaultValue, options, placeholder, className }:
                     className={cn("w-full justify-between text-left font-normal", className)}
                 >
                     {
-                        value
+                        value // value fica em lowercase
                         ? options.find((option) => option.value === value)?.label
                         : placeholder
                     }

@@ -1,37 +1,19 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 export interface Forms {
+    value: Lowercase<string>;
     label: string;
-    value: string;
-    description: string;
 }
 
 export const forms: Forms[] = [
-    {
-        label: "Panas",
+    {  
         value: "panas",
-        description: "Lorem ipsum dolor sit amet.",
+        label: "PANAS",
     },
-    {
-        label: "SAM",
+    {  
         value: "sam",
-        description: "Lorem ipsum dolor sit amet.",
+        label: "SAM",
     },
-    {
-        label: "BRUMS",
-        value: "brums",
-        description: "Lorem ipsum dolor sit amet.",
-    },
-    {
-        label: "SUS",
-        value: "sus",
-        description: "Lorem ipsum dolor sit amet.",
-    },
-    {
-        label: "EAZ",
-        value: "eaz",
-        description: "Lorem ipsum dolor sit amet.",
-    }
 ];
 
 export interface DataTableProps<TData, TValue> {

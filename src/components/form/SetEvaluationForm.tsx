@@ -28,7 +28,6 @@ import { User } from '@/types/users';
 
 const MethodProps: RadioItem[] = [
     { value: "Autorrelato", label: "Autorrelato" },
-    { value: "Autorrelato + Sensores", label: "Autorrelato + Sensores" },
 ];
 
 const FormSchema = z.object({

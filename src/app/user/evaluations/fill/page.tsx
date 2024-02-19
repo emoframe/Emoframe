@@ -16,11 +16,11 @@ const FillEvaluation = async ({
 
   const instruments = [
     {
-      id: "Panas",
+      value: "panas",
       component: <PanasForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
     },
     {
-      id: "Sam",
+      value: "sam",
       component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
     }
   ]
@@ -29,7 +29,7 @@ const FillEvaluation = async ({
 
   const ConditionalRendering = () => {
     return (evaluation.users.includes(session?.user?.uid!) && (evaluation.date == new Date().toLocaleDateString('pt-BR')) && !answer) ?
-      instruments.find((i) => i.id === evaluation?.instrument)?.component :
+      instruments.find((i) => i.value === evaluation?.instrument)?.component :
       null
   }
   
