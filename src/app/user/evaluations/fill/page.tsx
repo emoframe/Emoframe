@@ -4,6 +4,7 @@ import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import { getById } from '@/lib/firebase';
 import { appRedirect } from '@/lib/actions';
 import PanasForm from '@/components/form/instrument/PanasForm';
+import SamForm from '@/components/form/instrument/SamForm';
 
 const FillEvaluation = async ({
 	searchParams,
@@ -13,10 +14,16 @@ const FillEvaluation = async ({
 
   const session: any = await getServerSession(authOptions);
 
-  const instruments = [{
-    id: "Panas",
-    component: <PanasForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-  }]
+  const instruments = [
+    {
+      id: "Panas",
+      component: <PanasForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    },
+    {
+      id: "Sam",
+      component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    }
+  ]
 
   let evaluation, answer;
 

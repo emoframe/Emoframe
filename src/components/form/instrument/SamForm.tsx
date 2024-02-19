@@ -12,25 +12,15 @@ import { z } from "zod";
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { createForm } from '@/lib/firebase'; 
+import { saveAnswer } from '@/lib/firebase'; 
 import { Button } from '@/components/ui/button';
 import { ImageCard } from '@/components/ui/image'; 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LoadingComp } from '@/components/ui/loading';
+import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-import Like from 'public/emojis/Like.png';
-import Sono from 'public/emojis/Sono.png';
-import Triste from 'public/emojis/Triste.png';
-import Neutro from 'public/emojis/Neutro.png';
-import Sorriso from 'public/emojis/Sorriso.png';
-import Deslike from 'public/emojis/Deslike.png';
-import Confuso from 'public/emojis/Confuso.png';
-import Radiante from 'public/emojis/Radiante.png';
-import Criativo from 'public/emojis/Criativo.png';
-import Entediado from 'public/emojis/Entediado.png';
-import Frustrado from 'public/emojis/Frustrado.png';
-import Inteligente from 'public/emojis/Inteligente.png';
+import { FillEvaluationForm } from '@/types/forms';
+import { Progress } from '@/components/ui/progress';
 
 
 interface RadioItem {
@@ -41,39 +31,39 @@ interface RadioItem {
 // TODO: Add emotions to Satisfaction, Motivation and WillPower
 
 const SatisfactionProps: RadioItem[] = [
-  { value: '1', label: <ImageCard src={Like} alt={"Talvez"} height={100} width={100} />},
+  { value: '1', label: <ImageCard src={"/emojis/Like.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '2', label: <div className={"m-10"}></div> },
-  { value: '3', label: <ImageCard src={Sorriso} alt={"Emoji"} height={100} width={100} />},
+  { value: '3', label: <ImageCard src={"/emojis/Sorriso.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '4', label: <div className={"m-10"}></div>},
-  { value: '5', label: <ImageCard src={Neutro} alt={"Emoji"} height={100} width={100} />},
+  { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '6', label: <div className={"m-10"}></div>},
-  { value: '7', label: <ImageCard src={Triste} alt={"Emoji"} height={100} width={100} />},
+  { value: '7', label: <ImageCard src={"/emojis/Triste.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '8', label: <div className={"m-10"}></div>},
-  { value: '9', label: <ImageCard src={Deslike} alt={"Emoji"} height={100} width={100} />},
+  { value: '9', label: <ImageCard src={"/emojis/Deslike.png"} alt={"Emoji"} height={100} width={100} />},
 ];
 
 const MotivationProps: RadioItem[] = [
-  { value: '1', label: <ImageCard src={Criativo} alt={"Talvez"} height={100} width={100} />},
+  { value: '1', label: <ImageCard src={"/emojis/Criativo.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '2', label: <div className={"m-10"}></div> },
-  { value: '3', label: <ImageCard src={Radiante} alt={"Emoji"} height={100} width={100} />},
+  { value: '3', label: <ImageCard src={"/emojis/Radiante.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '4', label: <div className={"m-10"}></div>},
-  { value: '5', label: <ImageCard src={Neutro} alt={"Emoji"} height={100} width={100} />},
+  { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '6', label: <div className={"m-10"}></div>},
-  { value: '7', label: <ImageCard src={Entediado} alt={"Emoji"} height={100} width={100} />},
+  { value: '7', label: <ImageCard src={"/emojis/Entediado.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '8', label: <div className={"m-10"}></div>},
-  { value: '9', label: <ImageCard src={Sono} alt={"Emoji"} height={100} width={100} />},
+  { value: '9', label: <ImageCard src={"/emojis/Sono.png"} alt={"Emoji"} height={100} width={100} />},
 ]
 
 const WillPowerProps: RadioItem[] = [
-  { value: '9', label: <ImageCard src={Inteligente} alt={"Emoji"} height={100} width={100} />},
+  { value: '9', label: <ImageCard src={"/emojis/Inteligente.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '8', label: <div className={"m-10"}></div>},
-  { value: '7', label: <ImageCard src={Sorriso} alt={"Emoji"} height={100} width={100} />},
+  { value: '7', label: <ImageCard src={"/emojis/Sorriso.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '6', label: <div className={"m-10"}></div>},
-  { value: '5', label: <ImageCard src={Neutro} alt={"Emoji"} height={100} width={100} />},
+  { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '4', label: <div className={"m-10"}></div>},
-  { value: '3', label: <ImageCard src={Confuso} alt={"Emoji"} height={100} width={100} />},
+  { value: '3', label: <ImageCard src={"/emojis/Confuso.png"} alt={"Emoji"} height={100} width={100} />},
   { value: '2', label: <div className={"m-10"}></div> },
-  { value: '1', label: <ImageCard src={Frustrado} alt={"Talvez"} height={100} width={100} />},
+  { value: '1', label: <ImageCard src={"/emojis/Frustrado.png"} alt={"Emoji"} height={100} width={100} />},
 ];
 
 const SamFormSchema = z.object({
@@ -82,7 +72,7 @@ const SamFormSchema = z.object({
   willpower: z.enum([WillPowerProps[0].value, ...WillPowerProps.slice(0).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
 });
 
-const SamForm = ({userId}) => {
+const SamForm = ({userId, evaluationId}: FillEvaluationForm) => {
   const form = useForm<z.infer<typeof SamFormSchema>>({
     resolver: zodResolver(SamFormSchema),
     defaultValues: {
@@ -93,13 +83,11 @@ const SamForm = ({userId}) => {
 
   const { push } = useRouter();
   const onSubmit = async (values: z.infer<typeof SamFormSchema>) => {
-    createForm(values, userId, "Sam").then(() => {
-      push('/profile');
-    })
+    saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
   };
 
   return (
-    <React.Suspense fallback={<LoadingComp label="Loading" />}>
+    <React.Suspense fallback={<Progress />}>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} >
         <div className="flex flex-col flex-wrap justify-center gap-6">
