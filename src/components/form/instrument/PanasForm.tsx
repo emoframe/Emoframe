@@ -22,6 +22,7 @@ import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { randomizeArray } from '@/lib/utils';
 import { FillEvaluationForm } from '@/types/forms';
+import { Separator } from '@/components/ui/separator';
 
 interface RadioItem {
     value: string;
@@ -162,9 +163,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                 <div className="flex flex-row justify-around">
                     <Button className="text-lg basis-1/3" type="button" size="lg">Exemplos</Button>
                 </div>
-                <div>
-                    <hr className="text-black bg-slate-300 h-0.5"/>
-                </div>
+                <Separator className="my-4"/>   
                 <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
 
                 <React.Suspense key={activeStep} fallback={<Progress />}>
@@ -200,9 +199,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                                 <FormMessage />
                                         </FormItem>
                                         )} />
-                                        <div key={"div" + index}>
-                                            <hr className="text-black bg-black h-0.5"/>
-                                        </div>    
+                                        <Separator className="mb-8"/>   
                                     </>
                                 ))
                             }
