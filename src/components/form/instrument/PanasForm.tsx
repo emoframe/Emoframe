@@ -228,7 +228,9 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                         }
                                         else{
                                         nextStep();
-                                    }}}>Próximo</Button>
+                                        window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                        }
+                                    }}>Próximo</Button>
                                     : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
                                 }
                             </div>
