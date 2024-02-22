@@ -2,15 +2,10 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
-
 import { Specialist, User } from "@/types/users";
-import { Sam, Panas, Evaluation } from "@/types/forms";
+import { Panas, Evaluation, Sam } from "@/types/forms";
 import { Search } from "@/types/firebase";
-
 import { chunk, getValuable } from "@/lib/utils";
-
-
-
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -55,7 +50,44 @@ export async function createUser (data : User | Specialist, specialistId?: strin
     });
 } 
 
-export async function getById (id: string | string[], col: string) : Promise<any> {
+export async function saveAnswer (data: Panas | Sam, EvaluationId: string, UserId: string) : Promise<any> {
+  const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
+  const docRef2 = doc(db, "evaluation", EvaluationId);
+  const answer: any = {
+    datetime: new Date(),
+    ...getValuable(data),
+  }
+
+  try {
+    await setDoc(docRef, answer);
+    await updateDoc(docRef2, {
+      answered: arrayUnion(UserId) //[] permite que seja usado o valor da variável como o nome do campo
+    });
+
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
+export async function createEvaluation(data: Evaluation) : Promise<any> {
+  const docRef = collection(db, "evaluation");
+  const evaluation = getValuable(data);
+
+  try {
+    addDoc(docRef, evaluation)
+    .then((docRef) => console.log("Evaluation has been inserted sucessfully!"))
+    .catch((error) => console.log(error.code + ": " + error.message))
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
+export async function getById (
+  id: string | string[], 
+  col: string
+) : Promise<any> {
   try {
     const groups = (typeof id === "string") ? [[id]] : chunk(id, 10); // Separa em grupos de 10 ids
     const collectionRef = collection(db, col);
@@ -65,15 +97,21 @@ export async function getById (id: string | string[], col: string) : Promise<any
       const q = query(collectionRef, where(documentId(), "in", ids));
       const docSnaps = await getDocs(q);
   
-      docSnaps.forEach((docSnap) => {
-        if(docSnap.exists()) {
-          let data = docSnap.data();
-          data["uid"] = id;
+      docSnaps.forEach((doc) => {
+        if(doc.exists()) {
+
+          const newObj: any = {
+            uid: doc.id,
+            ...doc.data(),
+          }
+
+          let keys = ['birthday', 'date']
+          Object.keys(newObj).some(key => {
+            if(keys.includes(key))
+              newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+          })
           
-          if(data["birthday"]) 
-            data["birthday"] = data["birthday"].toDate().toLocaleDateString('pt-BR');
-          
-          res.push(data);
+          res.push(newObj);
         }
       });
     }
@@ -87,33 +125,10 @@ export async function getById (id: string | string[], col: string) : Promise<any
   
 }
 
-export async function getSubsById (col: string, id: string, doc: string) : Promise<any> {
-  const docRef = collection(db, col, id, doc);
-  try {
-    const docSnap = await getDocs(docRef);
-    const res: any[] = []       
-    docSnap.forEach((doc) => {
-        const newObj: any = {
-            uid: doc.id,
-            type: doc.data().type,
-            ...doc.data(),
-        }
-  
-        res.push(newObj);
-    });
-
-    console.log("Documents has been got sucessfully!", res);
-    return res;
-
-  } catch(error) {
-    console.log(error);
-  }
-}
-
 export async function search ({col, field, operation, value}: Search) : Promise<any> {
 
-  const docRef = collection(db, col);
-  const q = query(docRef, where(field, operation, value));
+  const collectionRef = collection(db, col);
+  const q = query(collectionRef, where(field, operation, value));
   const querySnapshot = await getDocs(q);
   const res: any[] = []       
   querySnapshot.forEach((doc) => {
@@ -161,6 +176,29 @@ export async function updateById (data: any, id: string, col: string) : Promise<
   }
 }
 
+export async function getSubsById (col: string, id: string, doc: string) : Promise<any> {
+  const docRef = collection(db, col, id, doc);
+  try {
+    const docSnap = await getDocs(docRef);
+    const res: any[] = []       
+    docSnap.forEach((doc) => {
+        const newObj: any = {
+            uid: doc.id,
+            type: doc.data().type,
+            ...doc.data(),
+        }
+  
+        res.push(newObj);
+    });
+
+    console.log("Documents has been got sucessfully!", res);
+    return res;
+
+  } catch(error) {
+    console.log(error);
+  }
+}
+
 export async function modifyArray (id: string | string[], col: string, name: string, value: string, mode: "add" | "remove") : Promise<any> {
   if(typeof id === "string") {
     const docRef = doc(db, col, id);
@@ -202,37 +240,6 @@ export async function modifyArray (id: string | string[], col: string, name: str
 
     // Commita o lote
     await batch.commit();
-  }
-}
-
-export async function createForm (data: Sam | Panas, id: string, formType: string) : Promise<any> {
-  const docRef = collection(db, "user", id, "form");
-  const form: any = {
-    type: formType,
-    ...getValuable(data),
-}
-
-  try {
-    addDoc(docRef, form)
-    .then((docRef) => console.log("Document has been inserted sucessfully!", form))
-    .catch((error) => console.log(error.code + ": " + error.message))
-  }
-  catch(error) {
-    console.log(error)
-  }
-}
-
-export async function createEvaluation(data: Evaluation) : Promise<any> {
-  const docRef = collection(db, "evaluation");
-  const evaluation = getValuable(data);
-
-  try {
-    addDoc(docRef, evaluation)
-    .then((docRef) => console.log("Evaluation has been inserted sucessfully!"))
-    .catch((error) => console.log(error.code + ": " + error.message))
-  }
-  catch(error) {
-    console.log(error)
   }
 }
 

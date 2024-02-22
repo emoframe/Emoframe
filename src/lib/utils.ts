@@ -83,3 +83,7 @@ export function chunk<T>(arr: T[], batchSize: number): T[][] {
       return batches;
   }, [] as T[][]); // Inicializa o array de lotes com um array vazio
 }
+
+export function randomizeArray(array: any[]): any[] {
+  return array.sort(() => Math.random() - 0.5);
+}

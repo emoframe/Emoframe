@@ -21,7 +21,7 @@ module.exports = {
         'sidebar': 'var(--sidebar)',
       },
       colors: {
-        border: "hsl(var(--border))",
+        border: "var(--border)",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -58,6 +58,9 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        shadow_color: {
+          DEFAULT: "var(--shadow_color)",
         },
       },
       borderRadius: {

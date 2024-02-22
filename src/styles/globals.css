@@ -36,7 +36,7 @@ html, body {
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
 
-    --border: 220 13% 91%;
+    --border: rgba(229, 231, 235, 1);
     --input: 220 13% 91%;
     --ring: 224 71.4% 4.1%;
  
@@ -45,6 +45,8 @@ html, body {
     --sidebar: 88px;
 
     --brand: 156 100% 52%;
+
+    --shadow_color: rgba(60, 60, 60, 0.25);
   }
  
   .dark {
@@ -79,9 +81,11 @@ html, body {
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
  
-    --border: 143 17% 15%;
+    --border: rgba(32, 45, 37, 1);
     --input: 143 17% 15%;
     --ring: 216 12.2% 83.9%;
+
+    --shadow_color: rgba(30, 30, 30, 0.5);
   }
 }
  
