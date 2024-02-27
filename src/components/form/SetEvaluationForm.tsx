@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { useRouter, redirect } from 'next/navigation';
 import { createEvaluation } from '@/lib/firebase';
 import { useToast } from "@/components/ui/use-toast";
-import { DataTableProps, Evaluation, forms, RadioItem } from '@/types/forms';
+import { DataTableProps, Evaluation, instruments, RadioItem } from '@/types/forms';
 import { Input } from '@/components/ui/input';
 import { DateField, DatePicker } from '@/components/ui/date-picker';
 import { getLocalTimeZone, parseDate } from '@internationalized/date';
@@ -215,7 +215,7 @@ const SetEvaluationForm = ({
                                                 className="min-w-[400px]"
                                                 onSelect={(value) => field.onChange(value)}
                                                 defaultValue={field.value}
-                                                options={forms}
+                                                options={instruments}
                                                 placeholder="Método de Avaliação"
                                             />
                                         </FormControl>

@@ -23,6 +23,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { randomizeArray } from '@/lib/utils';
 import { FillEvaluationForm } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/components/ui/use-toast';
 
 interface RadioItem {
     value: string;
@@ -128,7 +129,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
     });
 
     const { push } = useRouter();
-
+    const { toast } = useToast();
     const onSubmit = async (values: z.infer<typeof PanasFormSchema>) => {
         saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
     }
@@ -221,7 +222,10 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                         const hasNull = Object.values(values).some((value) => value === "");
                                         
                                         if (hasNull) {
-                                            alert("Preencha todos os campos!");
+                                            toast({
+                                                title: "Socilitação negada",
+                                                description: "Preencha todos os campos!",
+                                            });
                                         }
                                         else{
                                         nextStep();
