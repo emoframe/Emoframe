@@ -6,6 +6,7 @@ import { appRedirect } from '@/lib/actions';
 import PanasForm from '@/components/form/instrument/PanasForm';
 import SamForm from '@/components/form/instrument/SamForm';
 import SusForm from '@/components/form/instrument/SusForm';
+import EazForm from '@/components/form/instrument/EazForm';
 
 const FillEvaluation = async ({
 	searchParams,
@@ -27,6 +28,10 @@ const FillEvaluation = async ({
     {
       value: "sus",
       component: <SusForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    },
+    {
+      value: "eaz",
+      component: <EazForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
     }
   ]
 
