@@ -13,7 +13,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../../pages/api/auth/[...nextauth]";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import { forms } from "@/types/forms";
+import { instruments } from "@/types/forms";
 
 //Resolve o problema de cache após atualização
 export const dynamic = "force-dynamic";
@@ -53,7 +53,7 @@ const User = async () => {
               >
                 <CardHeader>
                   <CardTitle>{evaluation.identification}</CardTitle>
-                  <CardDescription>{`${forms.find((instrument) => instrument.value === evaluation.instrument)?.label} - ${evaluation.method}`}</CardDescription>
+                  <CardDescription>{`${instruments.find((instrument) => instrument.value === evaluation.instrument)?.label} - ${evaluation.method}`}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center">
                   <Link

@@ -11,7 +11,7 @@ import {
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
-import { Evaluation, forms } from "@/types/forms";
+import { Evaluation, instruments } from "@/types/forms";
 import { setSelectedEvaluationUsers } from "@/lib/actions";
 
 declare module '@tanstack/table-core' {
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     sortingFn: fuzzySort,
   },
   {
-    accessorFn: row => forms.find((instrument) => instrument.value === row.instrument)?.label,
+    accessorFn: row => instruments.find((instrument) => instrument.value === row.instrument)?.label,
     id: 'instrument',
     meta: {name: "Instrumento"},
     header: ({ column }) => {
