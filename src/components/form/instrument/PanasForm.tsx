@@ -49,36 +49,32 @@ interface PanasQuestionsProps {
     question: string,
 }
 
-const PanasQuestionsFirstPage: PanasQuestionsProps[] = [
-    {field: "repulsion", question: "Estou me sentindo REPULSO(A)."},
-    {field: "tormented", question: "Estou me sentindo ATORMENTADO(A)."},
-    {field: "scared", question: "Estou me sentindo ASSUSTADO(A)."},
-    {field: "hearty", question: "Estou me sentindo CALOROSO(A)."},
-    {field: "excited", question: "Estou me sentindo EXCITADO(A)."},
-    {field: "guilty", question: "Estou me sentindo CULPADO(A)."},
-    {field: "enthusiastic", question: "Estou me sentindo ENTUSIASMADO(A)."},
-    {field: "pleasantly_surprised", question: "Estou me sentindo AGRADAVELMENTE SURPREENDIDO(A)."},
-    {field: "disturbed", question: "Estou me sentindo PERTURBADO(A)."},
-    {field: "trembling", question: "Estou me sentindo TRÊMULO(A)."},
-]
-
-const PanasQuestionsSecondPage: PanasQuestionsProps[] = [
-    {field: "active", question: "Estou me sentindo ATIVO(A)."},
-    {field: "proud", question: "Estou me sentindo ORGULHOSO(A)."},
-    {field: "inspired", question: "Estou me sentindo INSPIRADO(A)."},
-    {field: "nervous", question: "Estou me sentindo NERVOSO(A)."},
-    {field: "angry", question: "Estou me sentindo IRRITADO(A)."},
-    {field: "determined", question: "Estou me sentindo DETERMINADO(A)."},
-    {field: "charmed", question: "Estou me sentindo ENCANTADO(A)."},
-    {field: "remorse", question: "Estou sentindo REMORSO."},
-    {field: "frightened", question: "Estou me sentindo AMEDRONTADO(A)."},
-    {field: "interested", question: "Estou me sentindo INTERESSADO(A)."},
-]
-
 const PanasQuestions: PanasQuestionsProps[][] = [
-    PanasQuestionsFirstPage,
-    PanasQuestionsSecondPage,
-]
+    [
+        {field: "repulsion", question: "Estou me sentindo REPULSO(A)."},
+        {field: "tormented", question: "Estou me sentindo ATORMENTADO(A)."},
+        {field: "scared", question: "Estou me sentindo ASSUSTADO(A)."},
+        {field: "hearty", question: "Estou me sentindo CALOROSO(A)."},
+        {field: "excited", question: "Estou me sentindo EXCITADO(A)."},
+        {field: "guilty", question: "Estou me sentindo CULPADO(A)."},
+        {field: "enthusiastic", question: "Estou me sentindo ENTUSIASMADO(A)."},
+        {field: "pleasantly_surprised", question: "Estou me sentindo AGRADAVELMENTE SURPREENDIDO(A)."},
+        {field: "disturbed", question: "Estou me sentindo PERTURBADO(A)."},
+        {field: "trembling", question: "Estou me sentindo TRÊMULO(A)."},
+    ],
+    [
+        {field: "active", question: "Estou me sentindo ATIVO(A)."},
+        {field: "proud", question: "Estou me sentindo ORGULHOSO(A)."},
+        {field: "inspired", question: "Estou me sentindo INSPIRADO(A)."},
+        {field: "nervous", question: "Estou me sentindo NERVOSO(A)."},
+        {field: "angry", question: "Estou me sentindo IRRITADO(A)."},
+        {field: "determined", question: "Estou me sentindo DETERMINADO(A)."},
+        {field: "charmed", question: "Estou me sentindo ENCANTADO(A)."},
+        {field: "remorse", question: "Estou sentindo REMORSO."},
+        {field: "frightened", question: "Estou me sentindo AMEDRONTADO(A)."},
+        {field: "interested", question: "Estou me sentindo INTERESSADO(A)."},
+    ]
+];
 
 const PanasFormSchema = z.object({
     repulsion: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
