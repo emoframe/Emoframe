@@ -5,6 +5,7 @@ import { getById } from '@/lib/firebase';
 import { appRedirect } from '@/lib/actions';
 import PanasForm from '@/components/form/instrument/PanasForm';
 import SamForm from '@/components/form/instrument/SamForm';
+import SusForm from '@/components/form/instrument/SusForm';
 
 const FillEvaluation = async ({
 	searchParams,
@@ -22,6 +23,10 @@ const FillEvaluation = async ({
     {
       value: "sam",
       component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    },
+    {
+      value: "sus",
+      component: <SusForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
     }
   ]
 
