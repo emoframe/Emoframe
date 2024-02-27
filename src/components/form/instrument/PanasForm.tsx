@@ -42,10 +42,11 @@ const steps: StepConfig[] = [
     {label: 'Passo 2'},
 ] 
 
-type FieldType = "repulsion" | "tormented" | "scared" | "hearty" | "excited" | "guilty" | "enthusiastic" | "pleasantly_surprised" | "disturbed" | "trembling" | "active" | "proud" | "inspired" | "nervous" | "angry" | "determined" | "charmed" | "remorse" | "frightened" | "interested" 
-
 interface PanasQuestionsProps {
-    field: FieldType,
+    field: "repulsion" | "tormented" | "scared" | "hearty" | 
+    "excited" | "guilty" | "enthusiastic" | "pleasantly_surprised" | 
+    "disturbed" | "trembling" | "active" | "proud" | "inspired" | "nervous" | 
+    "angry" | "determined" | "charmed" | "remorse" | "frightened" | "interested",
     question: string,
 }
 
