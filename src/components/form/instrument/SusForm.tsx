@@ -98,20 +98,23 @@ const SusForm = ({userId, evaluationId}: FillEvaluationForm) => {
             control={form.control}
             name='solution_evaluation'
             render={({ field }) => (
-                <FormItem>
-                <FormLabel>Para cada uma das seguintes afirmações, selecione a opção que melhor descreve suas reações à solução descrita.</FormLabel>
-                <FormControl>
-                    <Input placeholder='Nome da Solução' {...field} />
-                </FormControl>
-                <FormMessage />
+                <FormItem className="flex flex-col justify-center items-center gap-4">
+                  <FormLabel className='text-md self-center'>Para cada uma das seguintes afirmações, selecione a opção que melhor descreve suas reações à solução descrita.</FormLabel>
+                  <FormControl className='max-w-96'>
+                      <Input placeholder='Nome da Solução' {...field} />
+                  </FormControl>
+                  <FormMessage />
                 </FormItem>
             )}
           />
-          <h2 className="text-md self-center"> Clique no botão abaixo para ver exemplos de preenchimento: </h2>
-          <div className="flex flex-row justify-around">
-              <Button className="text-lg basis-1/3" type="button">Exemplos</Button>
+          
+          <div className="flex flex-col justify-center items-center gap-4">
+            <h2 className="text-md self-center"> Clique no botão abaixo para ver exemplos de preenchimento: </h2>
+            <Button className="text-lg lg:min-w-96" type="button">Exemplos</Button>
           </div>
+
           <Separator/>
+
           <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
           {
             SusQuestions.map((question, index) => (
