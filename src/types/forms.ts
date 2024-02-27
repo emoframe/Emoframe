@@ -14,6 +14,10 @@ export const forms: Forms[] = [
         value: "sam",
         label: "SAM",
     },
+    {  
+        value: "sus",
+        label: "SUS",
+    },
 ];
 
 export interface DataTableProps<TData, TValue> {
