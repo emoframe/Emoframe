@@ -1,5 +1,4 @@
 // Ref: https://next-auth.js.org/configuration/nextjs#advanced-usage
-import { forms } from "@/types/forms"
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
@@ -14,8 +13,6 @@ for(let path in paths){
         matcher.push(`${role}/:path*`);
     }
 }
-
-const formValues = forms.map(form => form.value);
 
 export default withAuth(
     function middleware(request) {
@@ -41,19 +38,6 @@ export default withAuth(
             for(let role of paths[path]) {
                 if (pathname.startsWith(role)
                 && (type !== path && (path !== "logged" || !isAuth))) {
-                    return NextResponse.rewrite(
-                        new URL("/denied", request.url)
-                    )
-                }
-            }
-        }
-
-        let subtraction: any = [];
-        if(user?.type === "user" && user?.forms) {
-            subtraction = formValues.filter(value => user.forms.indexOf(value) < 0);
-
-            for(let form in subtraction) {
-                if (pathname.startsWith(`/user/form/${form}`)) {
                     return NextResponse.rewrite(
                         new URL("/denied", request.url)
                     )
