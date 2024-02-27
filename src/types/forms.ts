@@ -1,11 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-export interface Forms {
+export interface Instruments {
     value: Lowercase<string>;
     label: string;
 }
 
-export const forms: Forms[] = [
+export const instruments: Instruments[] = [
     {  
         value: "panas",
         label: "PANAS",
