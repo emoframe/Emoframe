@@ -117,35 +117,35 @@ const SusForm = ({userId, evaluationId}: FillEvaluationForm) => {
             SusQuestions.map((question, index) => (
               <>
                 <FormField 
-                key={index}
-                control={form.control} 
-                name={question.name}
-                render={({ field }) => (
-                  <FormItem className="space-x-5 content-center">
-                    <p className="text-xl mb-8"><b>{question.label}</b></p>
-                    <FormControl>
-                      <RadioGroup
-                      onValueChange={field.onChange} 
-                      defaultValue={field.value} 
-                      value={field.value}
-                      className="flex flex-row space-x-1">
-                        {
-                        QuestionOptions.map((option, index) => (
-                          <FormItem className="flex flex-col items-center space-x-3 space-y-0" key={index}>
-                              <FormControl>
-                                <RadioGroupItem value={option.value} />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                {option.label}
-                              </FormLabel>
-                            </FormItem>  
-                          ))
-                        }
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                  key={index}
+                  control={form.control} 
+                  name={question.name}
+                  render={({ field }) => (
+                    <FormItem className="content-center">
+                      <p className="text-xl mb-8"><b>{question.label}</b></p>
+                      <FormControl>
+                        <RadioGroup
+                        onValueChange={field.onChange} 
+                        defaultValue={field.value} 
+                        value={field.value}
+                        className="flex flex-row space-x-5 justify-between">
+                          {
+                          QuestionOptions.map((option, index) => (
+                            <FormItem className="flex flex-col items-center space-y-2" key={index}>
+                                <FormControl>
+                                  <RadioGroupItem value={option.value} />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  {option.label}
+                                </FormLabel>
+                              </FormItem>  
+                            ))
+                          }
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
                 <Separator/>
               </>

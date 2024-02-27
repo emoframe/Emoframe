@@ -160,7 +160,7 @@ const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                 {steps.map((step, index) => ( <Step index={index} key={index} additionalClassName={{label: "text-md"}} {...step} /> ))}
             </Steps>
            
-            <div className="flex flex-col flex-wrap justify-center gap-8">
+            <div className="flex flex-col flex-wrap justify-center gap-8 pt-8">
                 
                 <h1 className="font-bold text-4xl self-center"> BRUMS </h1>
                 <h2 className="text-md self-center"> Abaixo está uma lista de palavras que descrevem sentimentos. Por favor, leia tudo atenciosamente. Em seguida assinale, em cada linha, o quadrado que melhor descreve COMO VOCÊ SE SENTE AGORA. Tenha certeza de sua resposta para cada questão, antes de assinalar. </h2>
