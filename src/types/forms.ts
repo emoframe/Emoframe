@@ -18,6 +18,10 @@ export const instruments: Instruments[] = [
         value: "sus",
         label: "SUS",
     },
+    {  
+        value: "eaz",
+        label: "EAZ",
+    },
 ];
 
 export interface DataTableProps<TData, TValue> {
@@ -115,24 +119,24 @@ export interface Sus {
 }
 
 export interface Eaz {
-    worried: string,
-    tired: string,
-    gleeful: string,
-    angry: string,
-    guilty: string,
-    nervous: string,
-    courageous: string,
-    confident: string,
-    determined: string,
-    passionate: string,
     happy: string,
-    angry_with_people: string,
-    exp_new_things: string,
+    tired: string,
+    worried: string,
+    confident: string,
+    courageous: string,
+    nervous: string,
+    determined: string,
+    guilty: string,
+    passionate: string,
+    angry: string,
+    brave: string,
+    open_new_things: string,
+    happy_person: string,
+    easy_to_anger:  string,
+    proud_about_myself: string,
     humiliated: string,
     sad: string,
-    irritated: string,
-    proud: string,
-    resilient: string,
-    brave: string,
     grumpy: string,
+    rage: string,
+    resilient: string
 }
