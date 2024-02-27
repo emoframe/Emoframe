@@ -155,7 +155,7 @@ const EazForm = ({userId, evaluationId}: FillEvaluationForm) => {
            
             <div className="flex flex-col flex-wrap justify-center gap-8">
                 
-                <h1 className="font-bold text-4xl self-center"> BRUMS </h1>
+                <h1 className="font-bold text-4xl self-center"> EAZ </h1>
                 <h2 className="text-md self-center"> Abaixo está uma lista de palavras que descrevem sentimentos. Por favor, leia tudo atenciosamente. Em seguida assinale, em cada linha, o quadrado que melhor descreve COMO VOCÊ SE SENTE AGORA. Tenha certeza de sua resposta para cada questão, antes de assinalar. </h2>
                 <h2 className="text-md self-center">  Clique no botão abaixo para ver exemplos de preenchimento: </h2>
 
