@@ -7,6 +7,7 @@ import PanasForm from '@/components/form/instrument/PanasForm';
 import SamForm from '@/components/form/instrument/SamForm';
 import SusForm from '@/components/form/instrument/SusForm';
 import EazForm from '@/components/form/instrument/EazForm';
+import BrumsForm from '@/components/form/instrument/BrumsForm';
 
 const FillEvaluation = async ({
 	searchParams,
@@ -32,6 +33,10 @@ const FillEvaluation = async ({
     {
       value: "eaz",
       component: <EazForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    },
+    {
+      value: "brums",
+      component: <BrumsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
     }
   ]
 
