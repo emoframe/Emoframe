@@ -22,6 +22,10 @@ export const instruments: Instruments[] = [
         value: "eaz",
         label: "EAZ",
     },
+    {  
+        value: "brums",
+        label: "BRUMS",
+    },
 ];
 
 export interface DataTableProps<TData, TValue> {
@@ -44,10 +48,9 @@ export interface Evaluation {
     instrument: string,
 }
 
-export interface Sam {
-    satisfaction: string;
-    motivation: string;
-    willpower: string;
+export interface FillEvaluationForm {
+    userId: string;
+    evaluationId: string;
 }
 
 export interface Panas {
@@ -72,36 +75,10 @@ export interface Panas {
     frightened: string;
 }
 
-export interface FillEvaluationForm {
-    userId: string;
-    evaluationId: string;
-}
-
-export interface Brums {
-    cheered_up: string,
-    irritated: string,
-    depressed: string,
-    terrified: string,
-    crestfallen: string,
-    broken_down: string,
-    confused: string,
-    exhausted: string,
-    anxious: string,
-    unhappy: string,
-    huffy: string,
-    worried: string,
-    sad: string,
-    sleepy: string,
-    insecure: string,
-    willing: string,
-    tense: string,
-    disoriented: string,
-    grumpy: string,
-    undecided: string,
-    tired: string,
-    energy: string,
-    angry: string,
-    alert: string,
+export interface Sam {
+    satisfaction: string;
+    motivation: string;
+    willpower: string;
 }
 
 export interface Sus {
@@ -139,4 +116,31 @@ export interface Eaz {
     grumpy: string,
     rage: string,
     resilient: string
+}
+
+export interface Brums {
+    cheered_up: string,
+    irritated: string,
+    depressed: string,
+    terrified: string,
+    crestfallen: string,
+    broken_down: string,
+    confused: string,
+    exhausted: string,
+    anxious: string,
+    unhappy: string,
+    huffy: string,
+    worried: string,
+    sad: string,
+    sleepy: string,
+    insecure: string,
+    willing: string,
+    tense: string,
+    disoriented: string,
+    grumpy: string,
+    undecided: string,
+    tired: string,
+    energy: string,
+    angry: string,
+    alert: string,
 }
