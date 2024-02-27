@@ -107,12 +107,12 @@ const SusForm = ({userId, evaluationId}: FillEvaluationForm) => {
                 </FormItem>
             )}
           />
-          <h2 className="text-2xl self-center"> Clique no botão abaixo para ver exemplos de preenchimento: </h2>
+          <h2 className="text-md self-center"> Clique no botão abaixo para ver exemplos de preenchimento: </h2>
           <div className="flex flex-row justify-around">
-              <Button className="basis-full" type="button">Exemplos</Button>
+              <Button className="text-lg basis-1/3" type="button">Exemplos</Button>
           </div>
           <Separator/>
-          <h2 className="text-2xl self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
+          <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
           {
             SusQuestions.map((question, index) => (
               <>
