@@ -140,8 +140,8 @@ const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const onSubmit = async (values: z.infer<typeof BrumsFormSchema>) => {
         saveAnswer(values, evaluationId, userId).then(() => {
             toast({
-                title: "Socilitação negada",
-                description: "Preencha todos os campos!",
+                title: "Socilitação aprovada",
+                description: "Avaliação preenchida e salva",
             });
             push('/user/evaluations');
         });
@@ -230,7 +230,7 @@ const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                 }}>Limpar</Button>
 
                                 { 
-                                    (activeStep != 1) ?
+                                    (activeStep < 2) ?
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                         const values = form.getValues(BrumsQuestions[activeStep].map((question, index) => (question.field)));
                                         const hasNull = Object.values(values).some((value) => value === "");

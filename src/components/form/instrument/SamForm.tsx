@@ -95,8 +95,8 @@ const SamForm = ({userId, evaluationId}: FillEvaluationForm) => {
   const onSubmit = async (values: z.infer<typeof SamFormSchema>) => {
     saveAnswer(values, evaluationId, userId).then(() => {
       toast({
-          title: "Socilitação negada",
-          description: "Preencha todos os campos!",
+        title: "Socilitação aprovada",
+        description: "Avaliação preenchida e salva",
       });
       push('/user/evaluations');
     });       
