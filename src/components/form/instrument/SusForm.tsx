@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { FillEvaluationForm, RadioItem } from '@/types/forms';
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 
 const QuestionOptions: RadioItem[] = [
   {value: '5', label: 'Concordo Plenamente'},
@@ -84,8 +85,15 @@ const SusForm = ({userId, evaluationId}: FillEvaluationForm) => {
   },});
 
   const { push } = useRouter();
+  const { toast } = useToast();
   const onSubmit = async (values: z.infer<typeof SusFormSchema>) => {
-    saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
+    saveAnswer(values, evaluationId, userId).then(() => {
+      toast({
+          title: "Socilitação negada",
+          description: "Preencha todos os campos!",
+      });
+      push('/user/evaluations');
+    });      
   };
 
   return (

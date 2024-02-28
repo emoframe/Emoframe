@@ -103,7 +103,13 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const { push } = useRouter();
     const { toast } = useToast();
     const onSubmit = async (values: z.infer<typeof GdsFormSchema>) => {
-        saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
+        saveAnswer(values, evaluationId, userId).then(() => {
+            toast({
+                title: "Socilitação negada",
+                description: "Preencha todos os campos!",
+            });
+            push('/user/evaluations');
+        });     
     }
 
     const [isReady, setIsReady] = useState(false);
@@ -120,7 +126,7 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
 
     if(!isReady) return null;
     return (
-        <div>
+        <div className='px-8'>
             <Steps activeStep={activeStep}>
                 {steps.map((step, index) => ( <Step index={index} key={index} additionalClassName={{label: "text-md"}} {...step} /> ))}
             </Steps>
@@ -141,28 +147,28 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                         control={form.control}
                                         name={question.field}
                                         render={({field}) => (
-                                            <FormItem className="space-x-5 space-y-5 content-center">
+                                            <FormItem className="flex flex-col items-center gap-5 content-center">
                                                 <p className="text-xl"><b>{question.question}</b></p>
-                                            <FormControl>
-                                                <RadioGroup
-                                                onValueChange={field.onChange}
-                                                defaultValue={field.value}
-                                                value={field.value}
-                                                className="flex flex-row space-x-5 justify-between">
-                                                    {question.options.map((defaultProp, index) => (
-                                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                                            <FormControl>
-                                                                <RadioGroupItem value={defaultProp.value}/> 
-                                                            </FormControl>
-                                                            <FormLabel className="font-normal text-md">
-                                                                {defaultProp.label}
-                                                            </FormLabel>
-                                                        </FormItem>
-                                                    ))}
-                                                </RadioGroup>
+                                                <FormControl>
+                                                    <RadioGroup
+                                                    onValueChange={field.onChange}
+                                                    defaultValue={field.value}
+                                                    value={field.value}
+                                                    className="flex flex-row justify-between">
+                                                        {question.options.map((defaultProp, index) => (
+                                                            <FormItem className="flex flex-col gap-y-2 items-center" key={index}>
+                                                                <FormControl>
+                                                                    <RadioGroupItem value={defaultProp.value}/> 
+                                                                </FormControl>
+                                                                <FormLabel className="font-normal text-md">
+                                                                    {defaultProp.label}
+                                                                </FormLabel>
+                                                            </FormItem>
+                                                        ))}
+                                                    </RadioGroup>
                                                 </FormControl>
                                                 <FormMessage />
-                                        </FormItem>
+                                            </FormItem>
                                         )} />
                                         <Separator className="mb-8"/>   
                                     </>
@@ -195,8 +201,8 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                             });
                                         }
                                         else{
-                                        nextStep();
-                                        window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                            nextStep();
+                                            window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                         }
                                     }}>Próximo</Button>
                                     : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>

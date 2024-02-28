@@ -138,7 +138,13 @@ const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const { push } = useRouter();
     const { toast } = useToast();
     const onSubmit = async (values: z.infer<typeof BrumsFormSchema>) => {
-        saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
+        saveAnswer(values, evaluationId, userId).then(() => {
+            toast({
+                title: "Socilitação negada",
+                description: "Preencha todos os campos!",
+            });
+            push('/user/evaluations');
+        });
     }
 
     const [isReady, setIsReady] = useState(false);
