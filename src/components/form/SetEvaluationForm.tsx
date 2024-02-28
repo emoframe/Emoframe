@@ -66,6 +66,8 @@ const SetEvaluationForm = ({
     dataTable: DataTableProps<User, string>
 }) => {
 
+    const [users, setUsers] = useState<string[]>([]);
+
     const form = useForm<Inputs>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -73,10 +75,9 @@ const SetEvaluationForm = ({
             date: new Date(),
             method: '',
             instrument: '',
+            users: users
         },
     });
-
-    const [users, setUsers] = useState<object[]>([]);
 
     const [previousStep, setPreviousStep] = useState(0);
     const [currentStep, setCurrentStep] = useState(0);
@@ -243,7 +244,7 @@ const SetEvaluationForm = ({
                                             data={dataTable.data} 
                                             columns={dataTable.columns}
                                             defaultValue={field.value}
-                                            onSelect={(value) => field.onChange(value)}
+                                            onSelect={(value) => {field.onChange(value), setUsers(value)}}
                                         />
                                         </FormControl>
                                         <FormMessage />

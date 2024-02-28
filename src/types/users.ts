@@ -30,5 +30,4 @@ export interface User extends Account{
     confirm_password?: string;
     type?: 'user';
     specialistId?: string;
-    forms: string[];
 }
