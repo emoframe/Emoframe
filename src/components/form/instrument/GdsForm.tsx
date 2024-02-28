@@ -38,7 +38,7 @@ interface GdsQuestionsProps {
     options: RadioItem[]
 }
 
-const PanasQuestions: GdsQuestionsProps[][] = [
+const GdsQuestions: GdsQuestionsProps[][] = [
     [
         {field: "satisfied", question: "Está satisfeito (a) com a sua vida?", options: [{value: '0', label: 'Sim'}, {value: '1', label: 'Não'}]},
         {field: "no_activities", question: "Interrompeu muitas de suas atividades?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
@@ -60,32 +60,27 @@ const PanasQuestions: GdsQuestionsProps[][] = [
     ]
 ];
 
-const PanasFormSchema = z.object({
-    repulsion: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    tormented: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    scared: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    hearty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    excited: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    guilty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    enthusiastic: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    pleasantly_surprised: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    disturbed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    trembling: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    active: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    proud: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    inspired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    nervous: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    determined: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    charmed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    remorse: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    frightened: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    interested: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+const GdsFormSchema = z.object({
+    satisfied: z.enum([GdsQuestions[0][0].options[0].value, ...GdsQuestions[0][1].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    no_activities: z.enum([GdsQuestions[0][1].options[0].value, ...GdsQuestions[0][2].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    empty: z.enum([GdsQuestions[0][2].options[0].value, ...GdsQuestions[0][3].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    upset: z.enum([GdsQuestions[0][3].options[0].value, ...GdsQuestions[0][4].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    good: z.enum([GdsQuestions[0][4].options[0].value, ...GdsQuestions[0][5].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    bad: z.enum([GdsQuestions[0][5].options[0].value, ...GdsQuestions[0][6].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    happy: z.enum([GdsQuestions[0][6].options[0].value, ...GdsQuestions[0][7].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    helpless: z.enum([GdsQuestions[0][7].options[0].value, ...GdsQuestions[1][0].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    stay_at_home: z.enum([GdsQuestions[1][0].options[0].value, ...GdsQuestions[1][1].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    problems_of_memory: z.enum([GdsQuestions[1][1].options[0].value, ...GdsQuestions[1][2].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    wonderful_to_stay_alive: z.enum([GdsQuestions[1][2].options[0].value, ...GdsQuestions[1][3].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    useless: z.enum([GdsQuestions[1][3].options[0].value, ...GdsQuestions[1][0].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    full_of_energy: z.enum([GdsQuestions[1][4].options[0].value, ...GdsQuestions[1][4].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    hopeless: z.enum([GdsQuestions[1][5].options[0].value, ...GdsQuestions[1][5].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    unlucky: z.enum([GdsQuestions[1][6].options[0].value, ...GdsQuestions[1][6].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
 })
 
 const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
-    const form = useForm<z.infer<typeof PanasFormSchema>>({
-        resolver: zodResolver(PanasFormSchema),
+    const form = useForm<z.infer<typeof GdsFormSchema>>({
+        resolver: zodResolver(GdsFormSchema),
         defaultValues: {
             satisfied: '',
             no_activities: '',
@@ -107,15 +102,14 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
 
     const { push } = useRouter();
     const { toast } = useToast();
-    const onSubmit = async (values: z.infer<typeof PanasFormSchema>) => {
+    const onSubmit = async (values: z.infer<typeof GdsFormSchema>) => {
         saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
     }
 
     const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
-        PanasQuestions.forEach((questions) => (randomizeArray(questions)))
-        console.log(PanasQuestions[0])
+        GdsQuestions.forEach((questions) => (randomizeArray(questions)))
         setIsReady(true);
     }, []);
 
@@ -141,7 +135,7 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                     <Form key={activeStep} {...form}>
                         <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)}>
                             {
-                                PanasQuestions[activeStep].map((question, index) => (
+                                GdsQuestions[activeStep].map((question, index) => (
                                     <>
                                         <FormField key={"formField" + index}
                                         control={form.control}
@@ -155,7 +149,7 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                                 defaultValue={field.value}
                                                 value={field.value}
                                                 className="flex flex-row space-x-5 justify-between">
-                                                    {DefaultProps.map((defaultProp, index) => (
+                                                    {question.options.map((defaultProp, index) => (
                                                         <FormItem className="flex flex-col items-center space-y-2" key={index}>
                                                             <FormControl>
                                                                 <RadioGroupItem value={defaultProp.value}/> 
@@ -184,14 +178,14 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    PanasQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
+                                    GdsQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                 }}>Limpar</Button>
 
                                 { 
                                     (activeStep != 1) ?
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
-                                        const values = form.getValues(PanasQuestions[activeStep].map((question, index) => (question.field)));
+                                        const values = form.getValues(GdsQuestions[activeStep].map((question, index) => (question.field)));
                                         const hasNull = Object.values(values).some((value) => value === "");
                                         
                                         if (hasNull) {
