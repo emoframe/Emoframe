@@ -26,6 +26,10 @@ export const instruments: Instruments[] = [
         value: "brums",
         label: "BRUMS",
     },
+    {  
+        value: "gds",
+        label: "GDS",
+    },
 ];
 
 export interface DataTableProps<TData, TValue> {
