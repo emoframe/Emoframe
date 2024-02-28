@@ -49,7 +49,7 @@ import {
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import SetInstrumentsUsersForm from "@/components/form/SetInstrumentsUsersForm";
-import { forms, DataTableProps } from "@/types/forms";
+import { instruments, DataTableProps } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {

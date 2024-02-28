@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { forms } from "@/types/forms";
+import { instruments } from "@/types/forms";
 import Charts from "@/components/chart/Charts";
 import { groupBy } from "@/lib/utils";
 import {
@@ -86,7 +86,7 @@ const SetForms = async ({
 								{data.forms.map((form, index) => (
 									<li key={index}>
 										{
-											forms.find(
+											instruments.find(
 												(option) => option.value == form
 											)?.label
 										}
@@ -98,7 +98,7 @@ const SetForms = async ({
 					<CardContent>
 						<SetInstrumentsUsersForm
 							uid={searchParams.uid as string}
-							options={forms}
+							options={instruments}
 						/>
 					</CardContent>
 				</Card>

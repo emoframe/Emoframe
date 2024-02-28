@@ -5,6 +5,10 @@ import { getById } from '@/lib/firebase';
 import { appRedirect } from '@/lib/actions';
 import PanasForm from '@/components/form/instrument/PanasForm';
 import SamForm from '@/components/form/instrument/SamForm';
+import SusForm from '@/components/form/instrument/SusForm';
+import EazForm from '@/components/form/instrument/EazForm';
+import BrumsForm from '@/components/form/instrument/BrumsForm';
+import GdsForm from '@/components/form/instrument/GdsForm';
 
 const FillEvaluation = async ({
 	searchParams,
@@ -22,6 +26,22 @@ const FillEvaluation = async ({
     {
       value: "sam",
       component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    },
+    {
+      value: "sus",
+      component: <SusForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    },
+    {
+      value: "eaz",
+      component: <EazForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    },
+    {
+      value: "brums",
+      component: <BrumsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+    },
+    {
+      value: "gds",
+      component: <GdsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
     }
   ]
 

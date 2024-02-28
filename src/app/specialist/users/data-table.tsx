@@ -50,7 +50,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Label } from "@/components/ui/label";
 import SetInstrumentsUsersForm from "@/components/form/SetInstrumentsUsersForm";
-import { forms, DataTableProps } from "@/types/forms";
+import { instruments, DataTableProps } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -167,7 +167,7 @@ export function UserDataTable<TData, TValue>({
               </DialogHeader>
               <SetInstrumentsUsersForm
 							uid={table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid)}
-							options={forms}
+							options={instruments}
 						/>
             </DialogContent>
           </Dialog>

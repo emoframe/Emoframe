@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import { FillEvaluationForm } from '@/types/forms';
 import { Progress } from '@/components/ui/progress';
+import { useToast } from '@/components/ui/use-toast';
 
 interface Sam {
   name: "satisfaction" | "motivation" | "willpower";
@@ -90,8 +91,15 @@ const SamForm = ({userId, evaluationId}: FillEvaluationForm) => {
   },});
 
   const { push } = useRouter();
+  const { toast } = useToast();
   const onSubmit = async (values: z.infer<typeof SamFormSchema>) => {
-    saveAnswer(values, evaluationId, userId).then(() => {push('/user/evaluations')})     
+    saveAnswer(values, evaluationId, userId).then(() => {
+      toast({
+        title: "Socilitação aprovada",
+        description: "Avaliação preenchida e salva",
+      });
+      push('/user/evaluations');
+    });       
   };
 
   return (

@@ -1,11 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-export interface Forms {
+export interface Instruments {
     value: Lowercase<string>;
     label: string;
 }
 
-export const forms: Forms[] = [
+export const instruments: Instruments[] = [
     {  
         value: "panas",
         label: "PANAS",
@@ -13,6 +13,22 @@ export const forms: Forms[] = [
     {  
         value: "sam",
         label: "SAM",
+    },
+    {  
+        value: "sus",
+        label: "SUS",
+    },
+    {  
+        value: "eaz",
+        label: "EAZ",
+    },
+    {  
+        value: "brums",
+        label: "BRUMS",
+    },
+    {  
+        value: "gds",
+        label: "GDS",
     },
 ];
 
@@ -36,10 +52,9 @@ export interface Evaluation {
     instrument: string,
 }
 
-export interface Sam {
-    satisfaction: string;
-    motivation: string;
-    willpower: string;
+export interface FillEvaluationForm {
+    userId: string;
+    evaluationId: string;
 }
 
 export interface Panas {
@@ -64,9 +79,47 @@ export interface Panas {
     frightened: string;
 }
 
-export interface FillEvaluationForm {
-    userId: string;
-    evaluationId: string;
+export interface Sam {
+    satisfaction: string;
+    motivation: string;
+    willpower: string;
+}
+
+export interface Sus {
+    solution_evaluation: string,
+    app_useFrequency: string,
+    app_useComplex: string,
+    app_useEasy: string,
+    app_useNeedHelp: string,
+    app_functionIntegration: string,
+    app_inconsistency: string,
+    app_learningCurve: string,
+    app_jumbled: string,
+    app_confidence: string,
+    app_learnSystem: string
+}
+
+export interface Eaz {
+    happy: string,
+    tired: string,
+    worried: string,
+    confident: string,
+    courageous: string,
+    nervous: string,
+    determined: string,
+    guilty: string,
+    passionate: string,
+    angry: string,
+    brave: string,
+    open_new_things: string,
+    happy_person: string,
+    easy_to_anger:  string,
+    proud_about_myself: string,
+    humiliated: string,
+    sad: string,
+    grumpy: string,
+    rage: string,
+    resilient: string
 }
 
 export interface Brums {
@@ -96,39 +149,20 @@ export interface Brums {
     alert: string,
 }
 
-export interface Sus {
-    solution_evaluation: string,
-    app_useFrequency: string,
-    app_useComplex: string,
-    app_useEasy: string,
-    app_useNeedHelp: string,
-    app_functionIntegration: string,
-    app_inconsistency: string,
-    app_learningCurve: string,
-    app_jumbled: string,
-    app_confidence: string,
-    app_learnSystem: string
-}
-
-export interface Eaz {
-    worried: string,
-    tired: string,
-    gleeful: string,
-    angry: string,
-    guilty: string,
-    nervous: string,
-    courageous: string,
-    confident: string,
-    determined: string,
-    passionate: string,
+export interface Gds {
+    satisfied: string,
+    no_activities: string,
+    empty: string,
+    upset: string,
+    good: string,
+    bad: string,
     happy: string,
-    angry_with_people: string,
-    exp_new_things: string,
-    humiliated: string,
-    sad: string,
-    irritated: string,
-    proud: string,
-    resilient: string,
-    brave: string,
-    grumpy: string,
+    helpless: string,
+    stay_at_home: string,
+    problems_of_memory: string,
+    wonderful_to_stay_alive: string,
+    useless: string,
+    full_of_energy: string,
+    hopeless: string,
+    unlucky: string,
 }
