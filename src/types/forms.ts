@@ -144,3 +144,21 @@ export interface Brums {
     angry: string,
     alert: string,
 }
+
+export interface Gds {
+    satisfied: string,
+    no_activities: string,
+    empty: string,
+    upset: string,
+    good: string,
+    bad: string,
+    happy: string,
+    helpless: string,
+    stay_at_home: string,
+    problems_of_memory: string,
+    wonderful_to_stay_alive: string,
+    useless: string,
+    full_of_energy: string,
+    hopeless: string,
+    unlucky: string,
+}
