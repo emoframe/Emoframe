@@ -9,42 +9,42 @@ html, body {
  
 @layer base {
   :root {
-    --background: 0 0% 95%;
-    --foreground: 224 71.4% 4.1%;
+    --background: rgb(242, 242, 242);
+    --foreground: rgb(3, 7, 18);
 
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card: rgb(255, 255, 255);
+    --card-foreground: rgb(3, 7, 18);
  
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+    --popover: rgb(255, 255, 255);
+    --popover-foreground: rgb(3, 7, 18);
  
-    --primary: 105 36.62% 72.16%; /* Verde */
-    --primary-foreground: 105 52% 86%; /* Verde Claro */
-    --primary-background: 0 0% 98.86%; /* Branco */
+    --primary: rgb(171, 210, 158); /* Verde */
+    --primary-foreground: rgb(210, 238, 201); /* Verde Claro */
+    --primary-background: rgb(252, 252, 252); /* Branco */
 
-    --content: 210 3.36% 46.67%; /*Texto*/
+    --content: rgb(115, 119, 123); /*Texto*/
  
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 220.9 39.3% 11%;
+    --secondary: rgb(243, 244, 246);
+    --secondary-foreground: rgb(17, 24, 39);
  
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
+    --muted: rgb(243, 244, 246);
+    --muted-foreground: rgb(107, 114, 128);
  
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
+    --accent: rgb(243, 244, 246);
+    --accent-foreground: 2rgb(17, 24, 39);
  
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
+    --destructive: rgb(239, 68, 68);
+    --destructive-foreground: rgb(249, 250, 251);
 
     --border: rgba(229, 231, 235, 1);
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
+    --input: rgb(229, 231, 235);
+    --ring: rgb(3, 7, 18);
  
     --radius: 0.5rem;
     --navbar: 4rem;
     --sidebar: 88px;
 
-    --brand: 156 100% 52%;
+    --brand: rgb(10, 255, 157);
 
     --shadow_color: rgba(60, 60, 60, 0.25);
   }
