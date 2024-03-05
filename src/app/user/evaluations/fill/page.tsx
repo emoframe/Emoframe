@@ -17,38 +17,37 @@ const FillEvaluation = async ({
 }) => {
 
   const session: any = await getServerSession(authOptions);
-
-  const instruments = [
-    {
-      value: "panas",
-      component: <PanasForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-    },
-    {
-      value: "sam",
-      component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-    },
-    {
-      value: "sus",
-      component: <SusForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-    },
-    {
-      value: "eaz",
-      component: <EazForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-    },
-    {
-      value: "brums",
-      component: <BrumsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-    },
-    {
-      value: "gds",
-      component: <GdsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-    }
-  ]
-
-  let evaluation, answer;
+  let evaluation;
 
   const ConditionalRendering = () => {
-    return (evaluation.users.includes(session?.user?.uid!) && (evaluation.date == new Date().toLocaleDateString('pt-BR')) && !answer) ?
+    const instruments = [
+      {
+        value: "panas",
+        component: <PanasForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+      },
+      {
+        value: "sam",
+        component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+      },
+      {
+        value: "sus",
+        component: <SusForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string} identification={evaluation.identification}/>
+      },
+      {
+        value: "eaz",
+        component: <EazForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+      },
+      {
+        value: "brums",
+        component: <BrumsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+      },
+      {
+        value: "gds",
+        component: <GdsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+      }
+    ]
+    
+    return (evaluation.users.includes(session?.user?.uid!) && (evaluation.date == new Date().toLocaleDateString('pt-BR'))) ?
       instruments.find((i) => i.value === evaluation?.instrument)?.component :
       null
   }

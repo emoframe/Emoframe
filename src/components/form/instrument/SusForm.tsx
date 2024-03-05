@@ -20,7 +20,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 import { FillEvaluationForm, RadioItem } from '@/types/forms';
 import { Progress } from '@/components/ui/progress';
-import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
 const QuestionOptions: RadioItem[] = [
@@ -32,7 +31,7 @@ const QuestionOptions: RadioItem[] = [
 ]
 
 interface SusQuestionsProps {
-  name: "solution_evaluation" | "app_useFrequency" | "app_useComplex" | 
+  name: "app_useFrequency" | "app_useComplex" | 
   "app_useEasy" | "app_useNeedHelp" | "app_functionIntegration" | "app_inconsistency" | 
   "app_learningCurve" | "app_jumbled" | "app_confidence" | "app_learnSystem" 
   label: string,
@@ -54,7 +53,6 @@ const SusQuestions: SusQuestionsProps[] = [
 
 
 const SusFormSchema = z.object({
-  solution_evaluation: z.string().min(1, "Insira o nome da solução"),
   app_useFrequency: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
   app_useComplex: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
   app_useEasy: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
@@ -67,11 +65,10 @@ const SusFormSchema = z.object({
   app_learnSystem: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})})
 })
 
-const SusForm = ({userId, evaluationId}: FillEvaluationForm) => {
+const SusForm = ({userId, evaluationId, identification}: FillEvaluationForm & {identification: string}) => {
   const form = useForm<z.infer<typeof SusFormSchema>>({
     resolver: zodResolver(SusFormSchema),
     defaultValues: {
-      solution_evaluation: '',
       app_useFrequency: '',
       app_useComplex: '',
       app_useEasy: '',
@@ -101,20 +98,7 @@ const SusForm = ({userId, evaluationId}: FillEvaluationForm) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} >
         <div className="flex flex-col flex-wrap justify-center gap-6">
-          <h1 className="font-bold text-4xl self-center">SUS</h1>
-          <FormField
-            control={form.control}
-            name='solution_evaluation'
-            render={({ field }) => (
-                <FormItem className="flex flex-col justify-center items-center gap-4">
-                  <FormLabel className='text-md self-center'>Para cada uma das seguintes afirmações, selecione a opção que melhor descreve suas reações à solução descrita.</FormLabel>
-                  <FormControl className='max-w-96'>
-                      <Input placeholder='Nome da Solução' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-            )}
-          />
+          <h1 className="font-bold text-4xl self-center">SUS - {identification}</h1>
           
           <div className="flex flex-col justify-center items-center gap-4">
             <h2 className="text-md self-center"> Clique no botão abaixo para ver exemplos de preenchimento: </h2>

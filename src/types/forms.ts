@@ -86,7 +86,6 @@ export interface Sam {
 }
 
 export interface Sus {
-    solution_evaluation: string,
     app_useFrequency: string,
     app_useComplex: string,
     app_useEasy: string,
