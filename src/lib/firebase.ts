@@ -3,7 +3,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
-import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds } from "@/types/forms";
+import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Leap } from "@/types/forms";
 import { Search } from "@/types/firebase";
 import { chunk, getValuable } from "@/lib/utils";
 
@@ -50,7 +50,7 @@ export async function createUser (data : User | Specialist, specialistId?: strin
     });
 } 
 
-export async function saveAnswer (data: Panas | Sam | Sus | Eaz | Brums | Gds, EvaluationId: string, UserId: string) : Promise<any> {
+export async function saveAnswer (data: Panas | Sam | Sus | Eaz | Brums | Gds | Leap, EvaluationId: string, UserId: string) : Promise<any> {
   const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
   const docRef2 = doc(db, "evaluation", EvaluationId);
   const answer: any = {
@@ -126,7 +126,6 @@ export async function getById (
 }
 
 export async function search ({col, field, operation, value}: Search) : Promise<any> {
-
   const collectionRef = collection(db, col);
   const q = query(collectionRef, where(field, operation, value));
   const querySnapshot = await getDocs(q);
@@ -241,6 +240,113 @@ export async function modifyArray (id: string | string[], col: string, name: str
     // Commita o lote
     await batch.commit();
   }
+}
+
+export async function createForm (data: Sam | Panas, id: string, formType: string) : Promise<any> {
+  const docRef = collection(db, "user", id, "form");
+  const form: any = {
+    type: formType,
+    ...getValuable(data),
+}
+
+  try {
+    addDoc(docRef, form)
+    .then((docRef) => console.log("Document has been inserted sucessfully!", form))
+    .catch((error) => console.log(error.code + ": " + error.message))
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
+export async function getAllDocsFromPath(path: string | string[]): Promise<any> {
+  path = path instanceof Array ? path.join('/') : path;
+  
+  const collectionRef = collection(db, path)
+  const querySnapshot = await getDocs(collectionRef);
+  const res: any[] = []       
+  querySnapshot.forEach((doc) => {
+      const newObj: any = {
+          uid: doc.id,
+          ...doc.data(),
+      }
+
+      let keys = ['birthday', 'date']
+      Object.keys(newObj).some(key => {
+        if(keys.includes(key))
+          newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+      })
+        
+      res.push(newObj);
+  });
+
+  res.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+
+  return res;
+}
+
+
+
+export async function getAllUsers(): Promise<Object[]> {
+  const docRef = collection(db, "user");
+  const querySnapshot = await getDocs(docRef);
+  const res: any[] = []       
+  querySnapshot.forEach((doc) => {
+      const newObj: any = {
+          uid: doc.id,
+          ...doc.data(),
+      }
+
+      if(newObj["birthday"]) 
+      newObj["birthday"] = newObj["birthday"].toDate().toLocaleDateString('pt-BR');
+
+      res.push(newObj);
+  });
+
+  return res;
+}
+
+
+export async function getAllForms(userId: string): Promise<Object[]> {
+  const docRef = collection(db, "user", userId, "form");
+  const querySnapshot = await getDocs(docRef);
+  const res: any[] = []       
+  querySnapshot.forEach((doc) => {
+      const newObj: any = {
+          uid: doc.id,
+          ...doc.data(),
+      }
+
+      if(newObj["application_date"]) 
+      newObj["application_date"] = newObj["application_date"].toDate().toLocaleDateString('pt-BR');
+
+      res.push(newObj);
+  });
+
+  return res;
+}
+
+export async function getFormById(uid: string, fid: string): Promise<Object | null> {
+  const docRef = doc(db, 'user', uid, 'form', fid);
+  const docSnap = await getDoc(docRef);
+
+  if(docSnap.exists()) {
+    const newObj = docSnap.data()
+
+    if(newObj["application_date"]) 
+    newObj["application_date"] = newObj["application_date"].toDate().toLocaleDateString('pt-BR');
+  
+    return newObj
+  }
+  else return null;
 }
 
 export { app, db, auth }

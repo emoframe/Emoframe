@@ -7,6 +7,15 @@ import SessionProvider from "@/components/provider/SessionProvider";
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
+import { Button } from "@/components/ui/button";
+import { BiUniversalAccess } from "react-icons/bi";
+
+import { useAppSelector, useAppDispatch } from '@/app/hooks';
+import { Accessibility } from 'lucide-react';
+import AccessibilityMenu from '@/components/AccessibilityMenu';
+
+import ReduxProvider from '@/components/provider/ReduxProvider';
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,6 +31,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <SessionProvider>
+                <ReduxProvider>
                 <body className={cn("flex flex-1 w-full min-h-full h-fit bg-background", inter.className)}>
                     <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
                         <Sidebar/>
@@ -29,8 +39,10 @@ export default function RootLayout({
                             {children}
                         </main>
                         <Toaster/>
+                        <AccessibilityMenu />
                     </ThemeProvider>
                 </body>
+                </ReduxProvider>
             </SessionProvider>
         </html>
     );
