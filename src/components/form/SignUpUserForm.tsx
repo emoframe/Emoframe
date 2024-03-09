@@ -155,7 +155,7 @@ const FormSchema = z
     message: 'Senhas não batem',
   });
 
-const SignUpForm = ({ specialistId }) => {
+const SignUpForm = ({ specialistId } : { specialistId: string }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
