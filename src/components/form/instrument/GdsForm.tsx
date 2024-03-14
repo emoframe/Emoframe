@@ -134,7 +134,7 @@ const GdsForm = (props: FillEvaluationForm) => {
                 {steps.map((step, index) => ( <Step index={index} key={index} additionalClassName={{label: "text-md"}} {...step} /> ))}
             </Steps>
            
-            <div className="flex flex-col flex-wrap justify-center gap-8">
+            <div className="flex flex-col flex-wrap justify-center gap-8 mt-8">
                 
                 <h1 className="font-bold text-4xl self-center"> ESCALA DE DEPRESSÃO GERIÁTRICA - GDS </h1>
                 <h2 className="text-md self-center"> Aplicar o questionário computando as respostas que indicam como a pessoa tem se sentido na última semana.</h2>
