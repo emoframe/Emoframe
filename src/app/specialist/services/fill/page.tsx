@@ -23,36 +23,39 @@ const FillInstrument = async ({
     const instruments = [
       {
         value: "panas",
-        component: <PanasForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+        component: <PanasForm isViewable/>
       },
       {
         value: "sam",
-        component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+        component: <SamForm isViewable/>
       },
       {
         value: "sus",
-        component: <SusForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string} identification={evaluation.identification}/>
+        component: <SusForm isViewable identification="Exemplo"/>
       },
       {
         value: "eaz",
-        component: <EazForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+        component: <EazForm isViewable/>
       },
       {
         value: "brums",
-        component: <BrumsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+        component: <BrumsForm isViewable/>
       },
       {
         value: "gds",
-        component: <GdsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
+        component: <GdsForm isViewable/>
       }
     ]
     
-    return instruments.find((i) => i.value === evaluation?.instrument)?.component;
+    return instruments.find((i) => i.value === searchParams.instrument)?.component;
+
 
   }
 
   return (
-    <ConditionalRendering/>
+    <div className='flex flex-col bg-primary-background p-5 mx-[100px] rounded-md'>
+      <ConditionalRendering/>
+    </div>
   );
 };
 
