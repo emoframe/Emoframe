@@ -16,9 +16,6 @@ const FillInstrument = async ({
 	searchParams: { [key: string]: string | string[] | undefined };
 }) => {
 
-  const session: any = await getServerSession(authOptions);
-  let evaluation;
-
   const ConditionalRendering = () => {
     const instruments = [
       {
@@ -48,8 +45,6 @@ const FillInstrument = async ({
     ]
     
     return instruments.find((i) => i.value === searchParams.instrument)?.component;
-
-
   }
 
   return (
