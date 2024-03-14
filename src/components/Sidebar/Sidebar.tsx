@@ -172,9 +172,19 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
 const Sidebar = () => {
   const { data: session } = useSession();
 
+  const redirect = () => {
+    const type = session?.user?.type;
+    let redirect = "/"
+    if (session?.user) {
+        (type == "specialist") ? redirect = "/specialist" : redirect = "/user"
+    } 
+
+    return redirect;
+  }
+
   return (
     <SidebarCore>
-      <SidebarItem icon={<Home size={20} />} text="Início" href="/"/>
+      <SidebarItem icon={<Home size={20} />} text="Início" href={redirect()}/>
       {
         (session?.user.type == 'specialist') &&
         <>
