@@ -103,8 +103,7 @@ const PanasFormSchema = z.object({
 
 
 const PanasForm = (props: FillEvaluationForm) => {
-
-    const FormSchema = ("isViewable" in props) ? z.object({}) : PanasFormSchema; 
+    const FormSchema = !("isViewable" in props) ? PanasFormSchema : z.object({}); 
     const form = useForm<z.infer<typeof PanasFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
