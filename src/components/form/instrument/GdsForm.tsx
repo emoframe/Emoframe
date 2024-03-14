@@ -78,8 +78,8 @@ const GdsFormSchema = z.object({
     unlucky: z.enum([GdsQuestions[1][6].options[0].value, ...GdsQuestions[1][6].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
 })
 
-const GdsForm = (props: FillEvaluationForm) => {
-    const FormSchema = !("isViewable" in props) ? GdsFormSchema : z.object({}); 
+const GdsForm = (params: FillEvaluationForm) => {
+    const FormSchema = !("isViewable" in params) ? GdsFormSchema : z.object({}); 
     const form = useForm<z.infer<typeof GdsFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -104,8 +104,8 @@ const GdsForm = (props: FillEvaluationForm) => {
     const { push } = useRouter();
     const { toast } = useToast();
     const onSubmit = async (values: z.infer<typeof GdsFormSchema>) => {
-        if(!("isViewable" in props)) {
-            saveAnswer(values, props.evaluationId, props.userId).then(() => {
+        if(!("isViewable" in params)) {
+            saveAnswer(values, params.evaluationId, params.userId).then(() => {
                 toast({
                     title: "Socilitação aprovada",
                     description: "Avaliação preenchida e salva",
@@ -195,7 +195,7 @@ const GdsForm = (props: FillEvaluationForm) => {
                                     (activeStep != 1) ?
                                         <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                             const values = form.getValues(GdsQuestions[activeStep].map((question, index) => (question.field)));
-                                            const hasNull = !("isViewable" in props) ? Object.values(values).some((value) => value === "") : false;
+                                            const hasNull = !("isViewable" in params) ? Object.values(values).some((value) => value === "") : false;
                                             
                                             if (hasNull) {
                                                 toast({

@@ -65,8 +65,8 @@ const SusFormSchema = z.object({
   app_learnSystem: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})})
 })
 
-const SusForm = (props: FillEvaluationForm & {identification: string}) => {
-  const FormSchema = !("isViewable" in props) ? SusFormSchema : z.object({}); 
+const SusForm = (params: FillEvaluationForm & {identification: string}) => {
+  const FormSchema = !("isViewable" in params) ? SusFormSchema : z.object({}); 
   const form = useForm<z.infer<typeof SusFormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -85,8 +85,8 @@ const SusForm = (props: FillEvaluationForm & {identification: string}) => {
   const { push } = useRouter();
   const { toast } = useToast();
   const onSubmit = async (values: z.infer<typeof SusFormSchema>) => {
-    if(!("isViewable" in props)) {
-      saveAnswer(values, props.evaluationId, props.userId).then(() => {
+    if(!("isViewable" in params)) {
+      saveAnswer(values, params.evaluationId, params.userId).then(() => {
         toast({
           title: "Socilitação aprovada",
           description: "Avaliação preenchida e salva",
@@ -101,7 +101,7 @@ const SusForm = (props: FillEvaluationForm & {identification: string}) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} >
         <div className="flex flex-col flex-wrap justify-center gap-6">
-          <h1 className="font-bold text-4xl self-center">SUS - {props.identification}</h1>
+          <h1 className="font-bold text-4xl self-center">SUS - {params.identification}</h1>
           
           <div className="flex flex-col justify-center items-center gap-4">
             <h2 className="text-md self-center"> Clique no botão abaixo para ver exemplos de preenchimento: </h2>

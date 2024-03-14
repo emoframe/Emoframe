@@ -102,8 +102,8 @@ const PanasFormSchema = z.object({
 })
 
 
-const PanasForm = (props: FillEvaluationForm) => {
-    const FormSchema = !("isViewable" in props) ? PanasFormSchema : z.object({}); 
+const PanasForm = (params: FillEvaluationForm) => {
+    const FormSchema = !("isViewable" in params) ? PanasFormSchema : z.object({}); 
     const form = useForm<z.infer<typeof PanasFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -133,8 +133,8 @@ const PanasForm = (props: FillEvaluationForm) => {
     const { push } = useRouter();
     const { toast } = useToast();
     const onSubmit = async (values: z.infer<typeof PanasFormSchema>) => {
-        if(!("isViewable" in props)) {
-            saveAnswer(values, props.evaluationId, props.userId).then(() => {
+        if(!("isViewable" in params)) {
+            saveAnswer(values, params.evaluationId, params.userId).then(() => {
                 toast({
                     title: "Socilitação aprovada",
                     description: "Avaliação preenchida e salva",
@@ -229,7 +229,7 @@ const PanasForm = (props: FillEvaluationForm) => {
                                     (activeStep != 1) ?
                                         <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                             const values = form.getValues(PanasQuestions[activeStep].map((question, index) => (question.field)));
-                                            const hasNull = !("isViewable" in props) ? Object.values(values).some((value) => value === "") : false;
+                                            const hasNull = !("isViewable" in params) ? Object.values(values).some((value) => value === "") : false;
 
                                             if (hasNull) {
                                                 toast({
