@@ -78,9 +78,10 @@ const GdsFormSchema = z.object({
     unlucky: z.enum([GdsQuestions[1][6].options[0].value, ...GdsQuestions[1][6].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
 })
 
-const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
+const GdsForm = (props: FillEvaluationForm) => {
+    const FormSchema = !("isViewable" in props) ? GdsFormSchema : z.object({}); 
     const form = useForm<z.infer<typeof GdsFormSchema>>({
-        resolver: zodResolver(GdsFormSchema),
+        resolver: zodResolver(FormSchema),
         defaultValues: {
             satisfied: '',
             no_activities: '',
@@ -103,13 +104,15 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const { push } = useRouter();
     const { toast } = useToast();
     const onSubmit = async (values: z.infer<typeof GdsFormSchema>) => {
-        saveAnswer(values, evaluationId, userId).then(() => {
-            toast({
-                title: "Socilitação aprovada",
-                description: "Avaliação preenchida e salva",
-            });
-            push('/user/evaluations');
-        });     
+        if(!("isViewable" in props)) {
+            saveAnswer(values, props.evaluationId, props.userId).then(() => {
+                toast({
+                    title: "Socilitação aprovada",
+                    description: "Avaliação preenchida e salva",
+                });
+                push('/user/evaluations');
+            });     
+        }
     }
 
     const [isReady, setIsReady] = useState(false);
@@ -190,21 +193,21 @@ const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
 
                                 { 
                                     (activeStep != 1) ?
-                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
-                                        const values = form.getValues(GdsQuestions[activeStep].map((question, index) => (question.field)));
-                                        const hasNull = Object.values(values).some((value) => value === "");
-                                        
-                                        if (hasNull) {
-                                            toast({
-                                                title: "Socilitação negada",
-                                                description: "Preencha todos os campos!",
-                                            });
-                                        }
-                                        else{
-                                            nextStep();
-                                            window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                        }
-                                    }}>Próximo</Button>
+                                        <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
+                                            const values = form.getValues(GdsQuestions[activeStep].map((question, index) => (question.field)));
+                                            const hasNull = !("isViewable" in props) ? Object.values(values).some((value) => value === "") : false;
+                                            
+                                            if (hasNull) {
+                                                toast({
+                                                    title: "Socilitação negada",
+                                                    description: "Preencha todos os campos!",
+                                                });
+                                            }
+                                            else{
+                                                nextStep();
+                                                window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                            }
+                                        }}>Próximo</Button>
                                     : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
                                 }
                             </div>
