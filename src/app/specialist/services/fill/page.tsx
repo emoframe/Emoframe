@@ -1,7 +1,3 @@
-import React from 'react'
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
-import { getById } from '@/lib/firebase';
 import { appRedirect } from '@/lib/actions';
 import PanasForm from '@/components/form/instrument/PanasForm';
 import SamForm from '@/components/form/instrument/SamForm';
@@ -43,8 +39,21 @@ const FillInstrument = async ({
         component: <GdsForm isViewable/>
       }
     ]
-    
-    return instruments.find((i) => i.value === searchParams.instrument)?.component;
+
+    const result = instruments.find((i) => i.value === searchParams.instrument)?.component;
+
+    try {
+      if (result != undefined && result != null) {
+        console.log("passou")
+        return result;
+      }
+      else {
+        appRedirect('/denied');
+      }
+    } catch(error) {
+      appRedirect('/denied');
+    }
+
   }
 
   return (
