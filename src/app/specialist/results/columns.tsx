@@ -67,9 +67,9 @@ export const columns: ColumnDef<User>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'userNames',
-    id: 'userNames',
-    meta: {name: "Usuários à responder"},
+    accessorKey: "fullName",
+    id: 'fullName',
+    meta: {name: "Nome Completo"},
     header: ({ column }) => {
       return (
         <Button
@@ -79,29 +79,7 @@ export const columns: ColumnDef<User>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Usuários à responder   
-        </Button>
-      );
-  },
-    cell: info => info.getValue(),
-    footer: props => props.column.id,
-    filterFn: 'fuzzy',
-    sortingFn: fuzzySort,
-  },
-  {
-    accessorKey: 'answeredNames',
-    id: 'answeredNames',
-    meta: {name: "Usuários que já responderam"},
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => {
-            column.toggleSorting(column.getIsSorted() === "asc");
-          }}
-        >
-          <ArrowUpDown className="mr-2 h-4 w-4" />
-          Usuários que já responderam   
+          Nome Completo   
         </Button>
       );
     },
@@ -111,23 +89,28 @@ export const columns: ColumnDef<User>[] = [
     sortingFn: fuzzySort,
   },
   {
-    header: "Instrumento",
-    meta: {name: "Instrumento"},
-    accessorKey: "instrument",
-  },
-  {
-    header: "Método",
-    meta: {name: "Método"},
-    accessorKey: "method",
+    header: "Formulário",
+    meta: {name: "Formulário"},
+    accessorKey: "identification",
   },
   {
     header: "Data de Aplicação",
     meta: {name: "Data de Aplicação"},
-    accessorKey: "application_date",
+    accessorKey: "date",
   },
   {
-    header: "ID do Formulário",
-    meta: {name: "ID do Formulário"},
+    header: "Aniversário",
+    meta: {name: "Aniversário"},
+    accessorKey: "birthday",
+  },
+  {
+    header: "ID do Usuário",
+    meta: {name: "ID do Usuário"},
+    accessorKey: "answered",
+  },
+  {
+    header: "ID da Avaliação",
+    meta: {name: "ID da Avaliação"},
     accessorKey: "uid",
   },
   {
@@ -145,7 +128,7 @@ export const columns: ColumnDef<User>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <Link href={"/specialist/results/results-view" + "?" + createQueryString("uid", person.uid!) + '&' + createQueryString('fid', person.uid_form!) + '&' + createQueryString('type', person.type_form!)}>
+            <Link href={"/specialist/results/pdf-view" + "?" + createQueryString("eid", person.uid!) + '&' + createQueryString('aid', person.answered!) + '&' + createQueryString('type', person.instrument!)}>
               <DropdownMenuItem>
                 Acessar Resultado
               </DropdownMenuItem>

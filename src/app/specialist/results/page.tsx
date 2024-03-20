@@ -3,72 +3,49 @@ import React from 'react'
 import ResultDataTable from './data-table'
 
 import { columns } from './columns';
-import { getAllForms, search } from '@/lib/firebase';
+import { search } from '@/lib/firebase';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
-// import { differentiateKeysFromObjects } from '@/lib/utils';
+import { differentiateKeysFromObjects } from '@/lib/utils';
+import { getById } from '@/lib/firebase';
 
 const ResultsPage = async () => {
   const session: any = await getServerSession(authOptions);
-  
-  const data = await search({
-    field: "specialist",
-    value: session?.user.uid!,
-    col: "evaluation",
+  const evaluations: any = await search({
+    field: 'specialist',
     operation: '==',
-  })
+    value: session?.user.uid!,
+    col: 'evaluation'
+  });
 
-  // const myUser = await search({
-  //   field: '__name__',
-  //   value: data[0].users[0] as string,
-  //   col: 'user',
-  //   operation: '==',
-  // })
 
-  // console.log(myUser)
+  const formData: any[] = [];
 
-  // return null
+  for(const evaluation of evaluations) {
+    const curData = evaluation.answered?.map(async (uid) => {
+      const user = (await search({
+        field: '__name__',
+        operation: '==',
+        value: uid,
+        col: 'user'
+      }))[0]
 
-  // console.log('data')
-  // console.log(data)
+      return {...evaluation, answered: uid, fullName: `${user.name} ${user.surname}`, birthday: user.birthday}
+    })
 
-  const formData = await Promise.all(data.map(async (form) => {
-    const answered: Array<string> = [];
-    const users = await Promise.all(form.users.map(async (userId) => {
-      const user = await search({field: '__name__', value: userId, col: 'user', operation: '=='})
+    if(curData !== undefined) {
+      await Promise.all(curData).then(data => {
+        formData.push(data[0])
+      })
+    }  
+  }
 
-      if(form.answered !== undefined && form.answered.includes(userId)) {
-        answered.push(`${user[0].name} ${user[0].surname}`)
-      }
-
-      return `${user[0].name} ${user[0].surname}`
-    }))
-
-    return {
-      ...form,
-      userNames: users.join(', '),
-      answeredNames: answered.join(', ')
-    }
-    }))
-  
   console.log(formData)
 
   return (
-    <ResultDataTable columns={columns} data={formData} />
+      <ResultDataTable columns={columns} data={formData} />
   )
 
-  // const formData = formResult.map((userForms, userFormsIndex) => (
-  //   userForms.map((form) => {
-  //     differentiateKeysFromObjects(data[userFormsIndex], form, '_form');
-  //     return {...form, ...data[userFormsIndex]}
-  //   })
-  // )).reduce((acc, val) => acc.concat(val), []);
-
-  // // console.log(formData)
-
-  // return (
-  //     <ResultDataTable columns={columns} data={formData} />
-  // )
 }
 
 export default ResultsPage
