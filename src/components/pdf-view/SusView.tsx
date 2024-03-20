@@ -24,8 +24,8 @@ export interface SusViewProps {
 }
 
 const SusView = ({ data } : SusViewProps) => {
-    const SamInterface = getKeysFromInterface('Sus');
-    const SusData = formatFormDataToChart(data, SamInterface).arrayData
+    const SusInterface = getKeysFromInterface('sus');
+    const SusData = formatFormDataToChart(data, SusInterface).arrayData
 
     
     const solutionPontuation = SusData.map((data) => Number(data[1])).map((points, index) => {

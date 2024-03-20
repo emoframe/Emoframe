@@ -3,14 +3,6 @@ import React from 'react'
 import dynamic from 'next/dynamic';
 
 import { Label } from '@/components/ui/label'
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableHead,
-} from '@/components/ui/table';
 
 import { formatFormDataToChart, getKeysFromInterface } from '@/lib/utils';
 
@@ -99,7 +91,7 @@ const PanasView = ({ data } : PanasViewProps) => {
             <div className="my-2">
                 {
                     typeof window !== undefined && 
-                    <div class="flex flex-col">
+                    <div className="flex flex-col">
                         <div className="self-center">
                             <Label className="text-lg"> Pontuação Positiva </Label>
                         </div>
