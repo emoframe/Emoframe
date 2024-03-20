@@ -52,9 +52,12 @@ export interface Evaluation {
     instrument: string,
 }
 
-export interface FillEvaluationForm {
-    userId: string;
-    evaluationId: string;
+export type FillEvaluationForm = {
+    userId: string,
+    evaluationId: string,
+} |
+{
+    isViewable: true,
 }
 
 export interface Panas {

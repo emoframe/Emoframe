@@ -104,9 +104,10 @@ const BrumsFormSchema = z.object({
   alert: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
 })
 
-const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
+const BrumsForm = (params: FillEvaluationForm) => {
+    const FormSchema = !("isViewable" in params) ? BrumsFormSchema : z.object({}); 
     const form = useForm<z.infer<typeof BrumsFormSchema>>({
-        resolver: zodResolver(BrumsFormSchema),
+        resolver: zodResolver(FormSchema),
         defaultValues: {
           cheered_up: '',
           irritated: '',
@@ -138,13 +139,15 @@ const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const { push } = useRouter();
     const { toast } = useToast();
     const onSubmit = async (values: z.infer<typeof BrumsFormSchema>) => {
-        saveAnswer(values, evaluationId, userId).then(() => {
-            toast({
-                title: "Socilitação aprovada",
-                description: "Avaliação preenchida e salva",
+        if(!("isViewable" in params)) {
+            saveAnswer(values, params.evaluationId, params.userId).then(() => {
+                toast({
+                    title: "Socilitação aprovada",
+                    description: "Avaliação preenchida e salva",
+                });
+                push('/user/evaluations');
             });
-            push('/user/evaluations');
-        });
+        }
     }
 
     const [isReady, setIsReady] = useState(false);
@@ -231,21 +234,21 @@ const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
 
                                 { 
                                     (activeStep < 2) ?
-                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
-                                        const values = form.getValues(BrumsQuestions[activeStep].map((question, index) => (question.field)));
-                                        const hasNull = Object.values(values).some((value) => value === "");
-                                        
-                                        if (hasNull) {
-                                            toast({
-                                                title: "Socilitação negada",
-                                                description: "Preencha todos os campos!",
-                                            });
-                                        }
-                                        else{
-                                        nextStep();
-                                        window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                        }
-                                    }}>Próximo</Button>
+                                        <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
+                                            const values = form.getValues(BrumsQuestions[activeStep].map((question, index) => (question.field)));
+                                            const hasNull = !("isViewable" in params) ? Object.values(values).some((value) => value === "") : false;
+                                            
+                                            if (hasNull) {
+                                                toast({
+                                                    title: "Socilitação negada",
+                                                    description: "Preencha todos os campos!",
+                                                });
+                                            }
+                                            else{
+                                                nextStep();
+                                                window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                            }
+                                        }}>Próximo</Button>
                                     : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
                                 }
                             </div>

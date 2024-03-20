@@ -81,9 +81,10 @@ const SamFormSchema = z.object({
   willpower: z.enum([QuestionOptions[2][0].value, ...QuestionOptions[2].slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
 });
 
-const SamForm = ({userId, evaluationId}: FillEvaluationForm) => {
+const SamForm = (params: FillEvaluationForm) => {
+  const FormSchema = !("isViewable" in params) ? SamFormSchema : z.object({}) ; 
   const form = useForm<z.infer<typeof SamFormSchema>>({
-    resolver: zodResolver(SamFormSchema),
+    resolver: zodResolver(FormSchema),
     defaultValues: {
       satisfaction: '',
       motivation: '',
@@ -93,13 +94,15 @@ const SamForm = ({userId, evaluationId}: FillEvaluationForm) => {
   const { push } = useRouter();
   const { toast } = useToast();
   const onSubmit = async (values: z.infer<typeof SamFormSchema>) => {
-    saveAnswer(values, evaluationId, userId).then(() => {
-      toast({
-        title: "Socilitação aprovada",
-        description: "Avaliação preenchida e salva",
-      });
-      push('/user/evaluations');
-    });       
+    if(!("isViewable" in params)) {
+      saveAnswer(values, params.evaluationId, params.userId).then(() => {
+        toast({
+          title: "Socilitação aprovada",
+          description: "Avaliação preenchida e salva",
+        });
+        push('/user/evaluations');
+      });   
+   }    
   };
 
   return (

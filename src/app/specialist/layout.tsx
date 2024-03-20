@@ -5,7 +5,7 @@ interface SpecialistLayoutProps {
 }
 
 const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
-  return <div className='flex bg-primary-background p-5 rounded-md'>{children}</div>;
+  return <div className='flex flex-col bg-primary-background p-5 mx-[100px] rounded-md'>{children}</div>;
 };
 
 export default SpecialistLayout;
