@@ -207,19 +207,19 @@ const Sidebar = () => {
     <SidebarCore>
       {
         globalItems.map((item, index) => (
-          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} />
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)}/>
         ))
       }
       {
         (session?.user.type == 'specialist') &&
         specialistItems.map((item, index) => (
-          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} />
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)}/>
         ))
       }
       {
         (session?.user.type == 'user') &&
         userItems.map((item, index) => (
-          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} />
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)}/>
         ))
       }
     </SidebarCore>
