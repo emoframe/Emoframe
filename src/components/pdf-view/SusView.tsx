@@ -66,12 +66,13 @@ const SusView = ({ data } : SusViewProps) => {
     return (
         <>
             <div className='self-center my-5'>
-                <Label className={"text-center text-[30px] text-slate-800 rounded-md m-5 " + (
+                <Label className={"text-center text-[30px] text-slate-800 rounded-md m-5 px-2 py-1 " + (
                 solutionPontuation > 90 ? 'bg-blue-500'   : 
                 solutionPontuation > 80 ? 'bg-green-900'  :
                 solutionPontuation > 70 ? 'bg-green-300'  :
                 solutionPontuation > 60 ? 'bg-yellow-500' :'bg-red-500'
-                )}>SUS Score: {solutionPontuation}</Label>
+                ) + 
+                ' shadow-slate-400 shadow-[4.0px_8.0px_8.0px]'}>SUS Score: {solutionPontuation}</Label>
             </div>
             <div className="border-2 rounded-md border-slate-600">
                 <Table>
