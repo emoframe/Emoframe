@@ -12,6 +12,7 @@ import Link from "next/link";
 import LoginMenu from "./LoginMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 type SidebarContextType = {
     expanded: boolean;
@@ -171,6 +172,11 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
 
 const Sidebar = () => {
   const { data: session } = useSession();
+  const currentPath = usePathname();
+
+  const isActive = (path: string) => {
+    return currentPath === path;
+  }
 
   const redirect = () => {
     const type = session?.user?.type;
