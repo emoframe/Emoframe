@@ -169,14 +169,6 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
   )
 }
 
-const specialistItems: SidebarItemType[] = [
-  {text: "Usuários", href: "/specialist/users", icon: <Users size={20} /> },
-  {text: "Avaliações", href: "/specialist/evaluations", icon: <BookOpenText size={20} /> },
-  {text: "Serviços", href: "/specialist/services", icon: <BookUser size={20} /> },
-  {text: "Resultados", href: "/specialist/results", icon: <LineChart size={20} /> },
-]
-
-
 const Sidebar = () => {
   const { data: session } = useSession();
 
@@ -190,9 +182,28 @@ const Sidebar = () => {
     return redirect;
   }
 
+  const globalItems: SidebarItemType[] = [
+    {text: "Início", href: redirect(), icon: <Home size={20} /> },
+  ]
+
+  const userItems: SidebarItemType[] = [
+    {text: "Avaliações", href: "/user/evaluations", icon: <BookOpenText size={20} /> },
+  ]
+  
+  const specialistItems: SidebarItemType[] = [
+    {text: "Usuários", href: "/specialist/users", icon: <Users size={20} /> },
+    {text: "Avaliações", href: "/specialist/evaluations", icon: <BookOpenText size={20} /> },
+    {text: "Serviços", href: "/specialist/services", icon: <BookUser size={20} /> },
+    {text: "Resultados", href: "/specialist/results", icon: <LineChart size={20} /> },
+  ]
+
   return (
     <SidebarCore>
-      <SidebarItem icon={<Home size={20} />} text="Início" href={redirect()}/>
+      {
+        globalItems.map((item, index) => (
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} />
+        ))
+      }
       {
         (session?.user.type == 'specialist') &&
         specialistItems.map((item, index) => (
@@ -201,9 +212,9 @@ const Sidebar = () => {
       }
       {
         (session?.user.type == 'user') &&
-        <>
-          <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/user/evaluations"/>
-        </>
+        userItems.map((item, index) => (
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} />
+        ))
       }
     </SidebarCore>
   )
