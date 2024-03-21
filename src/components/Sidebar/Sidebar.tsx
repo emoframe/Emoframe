@@ -195,12 +195,9 @@ const Sidebar = () => {
       <SidebarItem icon={<Home size={20} />} text="Início" href={redirect()}/>
       {
         (session?.user.type == 'specialist') &&
-        <>
-          <SidebarItem icon={<Users size={20} />} text="Usuários" href="/specialist/users"/>
-          <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/specialist/evaluations"/>
-          <SidebarItem icon={<BookUser size={20} />} text="Serviços" href="/specialist/services"/>
-          <SidebarItem icon={<LineChart size={20} />} text="Resultados" href="/specialist/results"/>
-        </>
+        specialistItems.map((item, index) => (
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} />
+        ))
       }
       {
         (session?.user.type == 'user') &&
