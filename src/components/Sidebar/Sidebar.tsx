@@ -169,6 +169,14 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
   )
 }
 
+const specialistItems: SidebarItemType[] = [
+  {text: "Usuários", href: "/specialist/users", icon: <Users size={20} /> },
+  {text: "Avaliações", href: "/specialist/evaluations", icon: <BookOpenText size={20} /> },
+  {text: "Serviços", href: "/specialist/services", icon: <BookUser size={20} /> },
+  {text: "Resultados", href: "/specialist/results", icon: <LineChart size={20} /> },
+]
+
+
 const Sidebar = () => {
   const { data: session } = useSession();
 
