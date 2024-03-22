@@ -49,6 +49,13 @@ export interface RadioItem {
     label: string;
 }
 
+export interface Template {
+    uid?: string,
+    specialist: string,
+    title: string,
+    description?: string,
+}
+
 export interface Evaluation {
     uid?: string,
     specialist: string,

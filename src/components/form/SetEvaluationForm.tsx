@@ -14,7 +14,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { useRouter, redirect } from 'next/navigation';
-import { createEvaluation } from '@/lib/firebase';
+import { createRegistration } from '@/lib/firebase';
 import { useToast } from "@/components/ui/use-toast";
 import { DataTableProps, Evaluation, instruments, RadioItem } from '@/types/forms';
 import { Input } from '@/components/ui/input';
@@ -88,7 +88,7 @@ const SetEvaluationForm = ({
 
         let data = values as Evaluation;
         data.specialist = specialistId;
-        createEvaluation(data).then(() => {
+        createRegistration(data, "evaluation").then(() => {
             toast({
                 title: "Socilitação registrada!",
                 description: "A avaliação foi adicionada.",

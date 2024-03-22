@@ -20,24 +20,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 
 import { useRouter } from "next/navigation";
+import { createRegistration } from "@/lib/firebase";
+import { Template } from "@/types/forms";
+import { useState } from "react";
 
 const FormSchema = z.object({
   title: z.string().min(1, 'A seleção é obrigatória'),
   description: z.string().optional(),
 });
 
-const SetTemplateForm = () => {
+const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  async function onSubmit(values: z.infer<typeof FormSchema>) {
+  const onSubmit = async(values: z.infer<typeof FormSchema>) => {
     try {
-      //const formId = await CreateForm(values);
-      toast({
-        title: "Successo!",
-        description: "Modelo criado",
+      let data = values as Template;
+      data.specialist = specialistId;
+      createRegistration(data, "template").then(() => {
+        toast({
+            title: "Socilitação registrada!",
+            description: "O modelo foi adicionado.",
+        });
+        form.reset();
       });
       //router.push(`/builder/${formId}`);
     } catch (error) {
@@ -93,14 +100,14 @@ const SetTemplateForm = () => {
                 </FormItem>
               )}
             />
+            <DialogFooter>
+              <Button type='submit' disabled={form.formState.isSubmitting} className="w-full mt-4">
+                {!form.formState.isSubmitting && <span>Salvar</span>}
+                {form.formState.isSubmitting && <Loader2 className="animate-spin" />}
+              </Button>
+            </DialogFooter>
           </form>
-        </Form>
-        <DialogFooter>
-          <Button type="submit" disabled={form.formState.isSubmitting} className="w-full mt-4">
-            {!form.formState.isSubmitting && <span>Salvar</span>}
-            {form.formState.isSubmitting && <Loader2 className="animate-spin" />}
-          </Button>
-        </DialogFooter>
+        </Form>  
       </DialogContent>
     </Dialog>
   );

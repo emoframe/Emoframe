@@ -3,7 +3,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
-import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds } from "@/types/forms";
+import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template } from "@/types/forms";
 import { Search } from "@/types/firebase";
 import { chunk, getValuable } from "@/lib/utils";
 
@@ -70,13 +70,13 @@ export async function saveAnswer (data: Panas | Sam | Sus | Eaz | Brums | Gds, E
   }
 }
 
-export async function createEvaluation(data: Evaluation) : Promise<any> {
-  const docRef = collection(db, "evaluation");
-  const evaluation = getValuable(data);
+export async function createRegistration(data: Evaluation | Template, type: string) : Promise<any> {
+  const docRef = collection(db, type);
+  const registration = getValuable(data);
 
   try {
-    addDoc(docRef, evaluation)
-    .then((docRef) => console.log("Evaluation has been inserted sucessfully!"))
+    addDoc(docRef, registration)
+    .then((docRef) => console.log("Registration has been inserted sucessfully!"))
     .catch((error) => console.log(error.code + ": " + error.message))
   }
   catch(error) {
