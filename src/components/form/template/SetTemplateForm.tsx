@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { LoaderCircle, File } from 'lucide-react';
+import { Loader2, File } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -98,7 +98,7 @@ const SetTemplateForm = () => {
         <DialogFooter>
           <Button type="submit" disabled={form.formState.isSubmitting} className="w-full mt-4">
             {!form.formState.isSubmitting && <span>Salvar</span>}
-            {form.formState.isSubmitting && <LoaderCircle className="animate-spin" />}
+            {form.formState.isSubmitting && <Loader2 className="animate-spin" />}
           </Button>
         </DialogFooter>
       </DialogContent>
