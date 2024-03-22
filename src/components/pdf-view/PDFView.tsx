@@ -29,6 +29,7 @@ interface PDFViewForm {
 const PDFView = ({ user, specialist, age, fid, data, type } : PDFViewProps) => {
 
   // console.log(data!.datetime)
+
   const PDFViewPageFields = [
       [
           <Label key={0} className="text-[30px]"> Informações do Usuário </Label>,
@@ -39,7 +40,7 @@ const PDFView = ({ user, specialist, age, fid, data, type } : PDFViewProps) => {
       [
           <Label key={4} className="text-[30px]"> Informações da Avaliação </Label>,
           <Label key={5} className="text-[20px]"> Identificação: {fid} </Label>,
-          <Label key={6} className="text-[20px]"> Data da Avaliação: {new Date(data!.datetime.seconds).toLocaleDateString('pt-BR')} </Label>,
+          <Label key={6} className="text-[20px]"> Data da Avaliação: {new Date(data!.datetime!.seconds).toLocaleDateString('pt-BR')} </Label>,
           <Label key={7} className="text-[20px]"> Especialista: {specialist} </Label>,
           <Label key={8} className="text-[20px]"> Método: {type.charAt(0).toLocaleUpperCase() + type.slice(1)} </Label>,
       ]
