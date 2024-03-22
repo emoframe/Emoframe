@@ -3,32 +3,39 @@ import { ColumnDef } from "@tanstack/react-table";
 export interface Instruments {
     value: Lowercase<string>;
     label: string;
+    description?: string,
 }
 
 export const instruments: Instruments[] = [
     {  
         value: "panas",
         label: "PANAS",
+        description: "Lorem Ipsum",
     },
     {  
         value: "sam",
         label: "SAM",
+        description: "Lorem Ipsum",
     },
     {  
         value: "sus",
         label: "SUS",
+        description: "Lorem Ipsum",
     },
     {  
         value: "eaz",
         label: "EAZ",
+        description: "Lorem Ipsum",
     },
     {  
         value: "brums",
         label: "BRUMS",
+        description: "Lorem Ipsum",
     },
     {  
         value: "gds",
         label: "GDS",
+        description: "Lorem Ipsum",
     },
 ];
 
