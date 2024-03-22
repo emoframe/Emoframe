@@ -17,7 +17,7 @@ const contents: Content[] = [
 
 const ServiceCard = ({ content }: { content: Content }) => {
   return (
-    <Card>
+    <Card className="shadow-2xl shadow-shadow_color bg-primary-background border-background border-2 duration-300 hover:-translate-y-3">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 justify-between">
           <span className="truncate font-bold">{content.title}</span>
@@ -28,7 +28,7 @@ const ServiceCard = ({ content }: { content: Content }) => {
       </CardHeader>
       <CardFooter>
         <Button asChild className="w-full mt-2 text-md gap-4">
-          <Link href={`/services/${content.href}`}>
+          <Link href={`/specialist/services/${content.href}`}>
             Acessar <ArrowRight />
           </Link>
         </Button>
