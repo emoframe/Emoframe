@@ -53,11 +53,11 @@ const SetTemplateForm = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant={"outline"}
-          className="group border border-primary/20 h-[190px] items-center justify-center flex flex-col hover:border-primary hover:cursor-pointer border-dashed gap-4"
+          variant={"default"}
+          className="group text-content shadow-2xl shadow-shadow_color bg-primary-background border-2 border-content border-dashed h-[190px] items-center justify-center flex flex-col gap-4 hover:cursor-pointer hover:border-primary duration-300"
         >
-          <File className="h-8 w-8 text-muted-foreground group-hover:text-primary" />
-          <p className="font-bold text-xl text-muted-foreground group-hover:text-primary">Criar novo modelo</p>
+          <File className="h-8 w-8 group-hover:text-primary duration-300" />
+          <p className="font-bold text-xl group-hover:text-primary duration-300">Criar novo modelo</p>
         </Button>
       </DialogTrigger>
       <DialogContent>

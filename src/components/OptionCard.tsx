@@ -13,7 +13,7 @@ export type Content = {
 
 export const OptionCard = ({ content }: { content: Content }) => {
   return (
-    <Card className="shadow-2xl shadow-shadow_color bg-primary-background border-background border-2 duration-300 hover:-translate-y-3">
+    <Card className="shadow-2xl shadow-shadow_color bg-primary-background border-background border-2 hover:-translate-y-3 duration-300">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 justify-between">
           <span className="truncate font-bold">{content.title}</span>
