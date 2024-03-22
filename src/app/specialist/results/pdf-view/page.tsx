@@ -50,11 +50,7 @@ const PDFViewPage = () => {
 
   if(!user || !formData || !specialistName || !age) return null
   return (
-<<<<<<< HEAD
-      <PDFView user={user} specialist={specialistName} age={age} fid={eid} data={formData} type={type} />
-=======
       <PDFView user={user} specialist={specialistName} age={age} fid={eid} data={formData} type={type} />  
->>>>>>> feature/acessibility-menu
   )
 }
 
