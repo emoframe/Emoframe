@@ -35,6 +35,8 @@ const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
     resolver: zodResolver(FormSchema),
   });
 
+  const [open, setOpen] = useState(false);
+
   const onSubmit = async(values: z.infer<typeof FormSchema>) => {
     try {
       let data = values as Template;
@@ -45,6 +47,7 @@ const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
             description: "O modelo foi adicionado.",
         });
         form.reset();
+        setOpen(false);
       });
       //router.push(`/builder/${formId}`);
     } catch (error) {
@@ -53,11 +56,12 @@ const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
         description: "Algo deu errado. Por favor, tente novamente mais tarde",
         variant: "destructive",
       });
+      setOpen(false);
     }
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button
           variant={"default"}
