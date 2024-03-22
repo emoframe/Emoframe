@@ -1,9 +1,12 @@
 import React from 'react'
 
-import PanasView from '@/components/pdf-view/PanasView';
-import SusView   from '@/components/pdf-view/SusView';
-import SamView   from '@/components/pdf-view/SamView';
-import LeapView  from '@/components/pdf-view/LeapView';
+import PanasView   from '@/components/pdf-view/PanasView';
+import SusView     from '@/components/pdf-view/SusView';
+import SamView     from '@/components/pdf-view/SamView';
+import LeapView    from '@/components/pdf-view/LeapView';
+import GdsView     from '@/components/pdf-view/GdsView';
+import EazView     from '@/components/pdf-view/EazView';
+import BrumsView   from '@/components/pdf-view/BrumsView';
 
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button';
@@ -58,6 +61,18 @@ const PDFView = ({ user, specialist, age, fid, data, type } : PDFViewProps) => {
     {
       key: 'leap',
       component: <LeapView data={data} />
+    },
+    {
+      key: 'gds',
+      component: <GdsView data={data} />
+    },
+    {
+      key: 'eaz',
+      component: <EazView data={data} />
+    },
+    {
+      key: 'brums',
+      component: <BrumsView data={data} />
     }
   ]
 

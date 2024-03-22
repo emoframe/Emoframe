@@ -106,53 +106,53 @@ export class SusClass {
 }
 
 export class EazClass {
+    passionate: string = '';
     happy: string = '';
-    tired: string = '';
-    worried: string = '';
     confident: string = '';
     courageous: string = '';
-    nervous: string = '';
     determined: string = '';
-    guilty: string = '';
-    passionate: string = '';
-    angry: string = '';
-    brave: string = '';
+    resilient: string = '';
     open_new_things: string = '';
-    happy_person: string = '';
-    easy_to_anger:  string = '';
     proud_about_myself: string = '';
+    brave: string = '';
+    happy_person: string = '';
+    tired: string = '';
+    worried: string = '';
+    nervous: string = '';
+    guilty: string = '';
+    angry: string = '';
+    easy_to_anger:  string = '';
     humiliated: string = '';
     sad: string = '';
     grumpy: string = '';
     rage: string = '';
-    resilient: string = '';
 }
 
 export class BrumsClass {
-    cheered_up: string = '';
-    irritated: string = '';
-    depressed: string = '';
-    terrified: string = '';
-    crestfallen: string = '';
-    broken_down: string = '';
-    confused: string = '';
-    exhausted: string = '';
-    anxious: string = '';
-    unhappy: string = '';
-    huffy: string = '';
-    worried: string = '';
-    sad: string = '';
-    sleepy: string = '';
-    insecure: string = '';
-    willing: string = '';
     tense: string = '';
-    disoriented: string = '';
+    terrified: string = '';
+    anxious: string = '';
+    worried: string = '';
+    depressed: string = '';
+    crestfallen: string = '';
+    sad: string = '';
+    unhappy: string = '';
+    irritated: string = '';
     grumpy: string = '';
-    undecided: string = '';
-    tired: string = '';
-    energy: string = '';
+    huffy: string = '';
     angry: string = '';
+    broken_down: string = '';
+    exhausted: string = '';
+    sleepy: string = '';
+    tired: string = '';
+    cheered_up: string = '';
+    willing: string = '';
+    energy: string = '';
     alert: string = '';
+    confused: string = '';
+    insecure: string = '';
+    disoriented: string = '';
+    undecided: string = '';
 }
 
 export class GdsClass {

@@ -16,7 +16,7 @@ export interface PanasViewProps {
 
 const PanasView = ({ data } : PanasViewProps) => {
 
-    const PanasInterface = getKeysFromInterface('Panas')
+    const PanasInterface = getKeysFromInterface('panas')
     const PanasData = formatFormDataToChart(data, PanasInterface).arrayData.slice(1).map((data) => Number(data[1])).slice(1)
 
     const positivePoints = PanasData.map((points, index) => {
@@ -29,7 +29,7 @@ const PanasView = ({ data } : PanasViewProps) => {
         return 0;
     }).reduce((acc, val) => acc + val, 0)
 
-    const configPositive = {
+    const config = {
         options: {
           markers: {
             size: 7
@@ -41,7 +41,6 @@ const PanasView = ({ data } : PanasViewProps) => {
             labels: {
               show: true,
             },
-            categories: ['Pontuação Mínima', 'Sua Pontuação', 'Pontuação Máxima'],
             tickPlacement: 'on',
           },
           yaxis: {
@@ -52,35 +51,18 @@ const PanasView = ({ data } : PanasViewProps) => {
         series: [
           {
             name: 'evaluation',
-            data: [10, positivePoints, 50]
-          }
-        ]
-      }
-
-      const configNegative = {
-        options: {
-          markers: {
-            size: 7
-          },
-          chart: {
-            id: 'basic-bar'
-          },
-          xaxis: {
-            labels: {
-              show: true,
-            },
-            categories: ['Pontuação Mínima', 'Sua Pontuação', 'Pontuação Máxima'],
-            tickPlacement: 'on',
-          },
-          yaxis: {
-            min: 0,
-            max: 50,
-          }
-        },
-        series: [
-          {
-            name: 'evaluation',
-            data: [50, negativePoints, 10]
+            data: [
+              {
+                x: 'Pontuação Positiva',
+                y: positivePoints,
+                fillColor: '#66CC00',
+              },
+              {
+                x: 'Pontuação Negativa',
+                y: negativePoints,
+                fillColor: '#FF0000',
+              }
+            ] 
           }
         ]
       }
@@ -93,29 +75,18 @@ const PanasView = ({ data } : PanasViewProps) => {
                     typeof window !== undefined && 
                     <div className="flex flex-col">
                         <div className="self-center">
-                            <Label className="text-lg"> Pontuação Positiva </Label>
+                            <Label className="text-[30px]"> Pontuação do Instrumento </Label>
                         </div>
                         <div>
                             <Chart
-                            options={configPositive.options}
-                            series={configPositive.series}
+                            options={config.options}
+                            series={config.series}
                             type="bar"
                             width={"100%"}
                             height={400}
                             /> 
                         </div>
-                        <div className="self-center" >
-                            <Label className="text-lg"> Pontuação Negativa </Label>
-                        </div>
-                        <div>
-                            <Chart
-                            options={configNegative.options}
-                            series={configNegative.series}
-                            type="bar"
-                            width={"100%"}
-                            height={400}
-                            /> 
-                        </div>
+                        
                     </div>                    
                 }
             </div>

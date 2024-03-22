@@ -19,7 +19,7 @@ export interface SamViewProps {
 
 const SamView = ({ data } : SamViewProps) => {
     
-    const SamInterface = getKeysFromInterface('Sam');
+    const SamInterface = getKeysFromInterface('sam');
     const SamData = formatFormDataToChart(data, SamInterface).arrayData.filter(data => typeof data[1] === 'number');
 
 

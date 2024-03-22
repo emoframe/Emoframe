@@ -15,7 +15,8 @@ import {
   SusClass, 
   EazClass, 
   BrumsClass, 
-  GdsClass 
+  GdsClass,
+  LeapClass 
 } from '@/types/forms';
 
 // Interface imports
@@ -25,7 +26,8 @@ import {
   Sus, 
   Eaz, 
   Brums, 
-  Gds 
+  Gds,
+  Leap
 } from '@/types/forms';
 
 export interface formatData {
@@ -221,19 +223,19 @@ export function convertStringToDate(dateString: string): number {
 
 export function getKeysFromInterface(currentInterface: string): Array<string> {
   switch(currentInterface){
-    case 'Panas':
+    case 'panas':
       return Object.keys(new PanasClass()) as Array<keyof Panas>;
-    case 'Sam':
+    case 'sam':
       return Object.keys(new SamClass()) as Array<keyof Sam>;
-    case 'Sus':
+    case 'sus':
       return Object.keys(new SusClass()) as Array<keyof Sus>;
-    case 'Eaz':
+    case 'eaz':
       return Object.keys(new EazClass()) as Array<keyof Eaz>;
-    case 'Leap':
+    case 'leap':
       return Object.keys(new LeapClass()) as Array<keyof Leap>;
-    case 'Brums':
+    case 'brums':
       return Object.keys(new BrumsClass()) as Array<keyof Brums>;
-    case 'Gds':
+    case 'gds':
       return Object.keys(new GdsClass()) as Array<keyof Gds>;
   }
   throw new Error('Invalid Interface');
