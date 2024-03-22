@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-export interface Instruments {
+export type Instruments = {
     value: Lowercase<string>;
     label: string;
     description?: string,
