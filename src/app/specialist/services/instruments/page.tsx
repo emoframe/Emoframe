@@ -20,7 +20,7 @@ const InstrumentsPage = async () => {
                 <CardContent className="flex justify-center">
                   <Link
                     className={buttonVariants({ variant: "default" })}
-                    href={`/specialist/services/fill?instrument=${instrument.value}`}
+                    href={`/specialist/services/instruments/fill?instrument=${instrument.value}`}
                     replace
                   >
                     Acessar
