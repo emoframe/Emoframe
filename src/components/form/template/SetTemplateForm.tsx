@@ -44,7 +44,7 @@ const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
       createRegistration(data, "template").then(() => {
         toast({
             title: "Socilitação registrada!",
-            description: "O modelo foi adicionado.",
+            description: "O template foi adicionado.",
         });
         form.reset();
         setOpen(false);
@@ -68,13 +68,13 @@ const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
           className="group text-content shadow-2xl shadow-shadow_color bg-primary-background border-2 border-content border-dashed h-[190px] items-center justify-center flex flex-col gap-4 hover:cursor-pointer hover:border-primary duration-300"
         >
           <File className="h-8 w-8 group-hover:text-primary duration-300" />
-          <p className="font-bold text-xl group-hover:text-primary duration-300">Criar novo modelo</p>
+          <p className="font-bold text-xl group-hover:text-primary duration-300">Criar novo template</p>
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Criar modelo</DialogTitle>
-          <DialogDescription>Inicie a criação de um modelo para ser usado em avaliações</DialogDescription>
+          <DialogTitle>Criar template</DialogTitle>
+          <DialogDescription>Inicie a criação de um template para ser usado em avaliações</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
