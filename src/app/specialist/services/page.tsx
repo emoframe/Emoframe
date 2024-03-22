@@ -37,9 +37,21 @@ const ServiceCard = ({ content }: { content: Content }) => {
   );
 }
 
+const ServiceCards = () => {
+  return (
+    <>
+      {contents.map((content, index) => (
+        <ServiceCard key={index} content={content} />
+      ))}
+    </>
+  );
+}
+
 const ServicesPage = () => {
   return (
-    <div>ServicesPage</div>
+    <div className="grid gric-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ServiceCards/>
+    </div>
   )
 }
 
