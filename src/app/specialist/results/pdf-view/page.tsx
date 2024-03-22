@@ -19,20 +19,17 @@ import {
 const PDFViewPage = () => {
 
   const params = useSearchParams();
-  const [ uid, fid ] = [params?.get('uid')!, params?.get('fid')!]
+  const [ eid, aid, type ] = [params?.get('eid')!, params?.get('aid')!, params?.get('type')!]
 
   const [user, setUser] = React.useState<Object>({})
   const [formData, setFormData] = React.useState<Object>({})
   const [specialistName, setSpecialistName] = React.useState<string>('')
   const [age, setAge] = React.useState<number>(0)
 
-  let formInterface;
-  if(formData !== undefined && formData!.type !== undefined){
-    formInterface = getKeysFromInterface(formData!.type)
-  }
+  const formInterface = getKeysFromInterface(type);
 
   React.useEffect(() => {
-    getById(uid, 'user').then((data) => {
+    getById(aid, 'user').then((data) => {
       setUser(data!);
       getById(data.specialistId, 'user').then((data) => {
         setSpecialistName(`${data.name} ${data.surname}`)
@@ -40,15 +37,24 @@ const PDFViewPage = () => {
       setAge(Math.floor((Date.now() - convertStringToDate(data!.birthday)) / (1000 * 60 * 60 * 24 * 365)))
     })
     
-    getFormById(uid, fid).then((data) => {
-      setFormData(data as Object);
+    search({
+      col: `evaluation/${eid}/answers`,
+      field: '__name__',
+      operation: '==',
+      value: aid,
+    }).then(data => {
+      setFormData(data[0] as Object);
     })
-  }, [uid, fid])
+  }, [eid, aid])
 
 
   if(!user || !formData || !specialistName || !age) return null
   return (
+<<<<<<< HEAD
       <PDFView user={user} specialist={specialistName} age={age} fid={eid} data={formData} type={type} />
+=======
+      <PDFView user={user} specialist={specialistName} age={age} fid={eid} data={formData} type={type} />  
+>>>>>>> feature/acessibility-menu
   )
 }
 
