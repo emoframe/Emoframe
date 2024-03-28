@@ -4,7 +4,7 @@ import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateD
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
 import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template } from "@/types/forms";
-import { Search } from "@/types/firebase";
+import { Operations, Search } from "@/types/firebase";
 import { chunk, getValuable } from "@/lib/utils";
 
 const firebaseConfig = {
@@ -125,7 +125,12 @@ export async function getById (
   
 }
 
-export async function search ({col, field, operation, value}: Search) : Promise<any> {
+export async function search (
+    col: string, 
+    field: string, 
+    operation: keyof typeof Operations,
+    value: string) 
+  : Promise<any> {
 
   const collectionRef = collection(db, col);
   const q = query(collectionRef, where(field, operation, value));

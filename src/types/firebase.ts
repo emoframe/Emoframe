@@ -1,4 +1,4 @@
-enum Operations {
+export enum Operations {
     "<",
     "<=", 
     "==",
