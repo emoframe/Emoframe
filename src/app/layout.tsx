@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 import type { Metadata } from "next";
-import { Inter, The_Girl_Next_Door } from "next/font/google";
+import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import SessionProvider from "@/components/provider/SessionProvider";
