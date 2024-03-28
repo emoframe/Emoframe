@@ -1,4 +1,4 @@
-import TemplateBuilder from "@/components/TemplateBuilder";
+import TemplateBuilder from "@/components/template/TemplateBuilder";
 import { getById } from "@/lib/firebase";
 import React from "react";
 

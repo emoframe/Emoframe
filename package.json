@@ -11,6 +11,7 @@
   "dependencies": {
     "@brazilian-utils/brazilian-utils": "^1.0.0-rc.12",
     "@chakra-ui/react": "^2.8.2",
+    "@dnd-kit/core": "^6.1.0",
     "@hookform/resolvers": "^3.3.4",
     "@internationalized/date": "^3.5.1",
     "@nextui-org/react": "^2.2.9",
