@@ -3,18 +3,11 @@ import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import SetTemplateForm from '@/components/form/template/SetTemplateForm';
 import React from 'react'
 import { OptionCard, Content } from '@/components/OptionCard';
-import { Search } from '@/types/firebase';
 import { search } from '@/lib/firebase';
 
 const TemplatesCards = async () => {
   const session: any = await getServerSession(authOptions);
-  const parameters: Search = {
-    col: "template", 
-    field: "specialist", 
-    operation: "==", 
-    value: session?.user.uid!
-  };
-  const data = await search(parameters);
+  const data = await search("template", "specialist", "==", session?.user.uid!);
 
   const transformedContent: Content[] = data.map(template => ({
     title: template.title,
