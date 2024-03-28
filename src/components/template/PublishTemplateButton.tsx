@@ -19,9 +19,9 @@ import { useRouter } from "next/navigation";
 const PublishTemplateButton = ({ id }: { id: string }) => {
   const [loading, startTransition] = useTransition();
   const router = useRouter();
-  const toast = useToast();
+  const { toast } = useToast();
 
-   const publishTemplate = async () => {
+  const publishTemplate = async () => {
     try {
       //TODO: Conexão com o banco
       toast({
