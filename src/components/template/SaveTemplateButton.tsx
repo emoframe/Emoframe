@@ -1,3 +1,4 @@
+'use client';
 import React, { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Save, Loader2 } from 'lucide-react';
@@ -14,13 +15,13 @@ const SaveTemplateButton = ({ id }: { id: string }) => {
       const jsonElements = JSON.stringify(elements);
       // TODO: Conexão com o banco
       toast({
-        title: "Sucesso!",
+        title: "Sucesso",
         description: "Seu template foi salvo",
       });
     } catch (error) {
       toast({
-        title: "Erro!",
-        description: "Houve algum problema",
+        title: "Erro",
+        description: "Ocorreu algum problema",
         variant: "destructive",
       });
     }
