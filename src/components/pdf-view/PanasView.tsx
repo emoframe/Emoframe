@@ -74,7 +74,7 @@ const PanasView = ({ data } : PanasViewProps) => {
                 {
                     typeof window !== undefined && 
                     <div className="flex flex-col">
-                        <div className="self-center">
+                        <div className="self-center my-2">
                             <Label className="text-[30px]"> Pontuação do Instrumento </Label>
                         </div>
                         <div>

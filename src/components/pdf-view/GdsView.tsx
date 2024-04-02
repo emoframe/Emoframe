@@ -75,31 +75,43 @@ const GdsView = ({ data } : GdsViewProps) => {
         [
             {
                 label:'score',
-                component: <TableCell> 1 - 5 </TableCell>,
+                component: <TableCell className='text-[20px]'> 1 - 5 </TableCell>,
             },
             {
                 label: 'description',
-                component: <TableCell> Baixo risco a indicativo de depressão. </TableCell>
+                component: <TableCell className='text-[20px]'> Baixo risco a indicativo de depressão. </TableCell>
+            },
+            {
+                label: 'color',
+                component: <TableCell className='flex text-[20px]'> <div className="w-5 h-5 bg-green-500 rounded-md mx-2"></div> Verde  </TableCell>
             }
         ],
         [
             {
                 label:'score',
-                component: <TableCell> 6 - 10 </TableCell>,
+                component: <TableCell className='text-[20px]'> 6 - 10 </TableCell>,
             },
             {
                 label: 'description',
-                component: <TableCell> Risco moderado a indicativo de depressão. </TableCell>
+                component: <TableCell className='text-[20px]'> Risco moderado a indicativo de depressão. </TableCell>
+            },
+            {
+                label: 'color',
+                component: <TableCell className='flex text-[20px]'> <div className="w-5 h-5 bg-yellow-500 rounded-md mx-2"></div> Amarelo  </TableCell>
             }
         ],
         [
             {
                 label:'score',
-                component: <TableCell> 11 - 15 </TableCell>,
+                component: <TableCell className='text-[20px]'> 11 - 15 </TableCell>,
             },
             {
                 label: 'description',
-                component: <TableCell> Forte risco a indicativo de depressão </TableCell>
+                component: <TableCell className='text-[20px]'> Forte risco a indicativo de depressão </TableCell>
+            },
+            {
+                label: 'color',
+                component: <TableCell className='flex text-[20px]'> <div className="w-5 h-5 bg-red-500 rounded-md mx-2"></div> Vermelho   </TableCell>
             }
         ],
     ]
@@ -110,20 +122,21 @@ const GdsView = ({ data } : GdsViewProps) => {
         <>
             <div className='self-center my-5'>
                 <Label className={"text-center text-[30px] text-slate-800 rounded-md m-5 px-5 py-4 " + (
-                solutionPontuation > 11 ? 'bg-green-500'  :
-                solutionPontuation > 6  ? 'bg-yellow-500' : 'bg-red-500'
+                solutionPontuation > 11 ? 'bg-red-500'  :
+                solutionPontuation > 6  ? 'bg-yellow-500' : 'bg-green-500'
                 ) + 
-                ' shadow-slate-400 shadow-[4.0px_8.0px_8.0px]'}>GDS Score: {solutionPontuation}</Label>
+                ' shadow-slate-400 shadow-[2.0px_4.0px_4.0px]'}>GDS Score: {solutionPontuation}</Label>
             </div>
-            <div>
-
+            <div className="self-center my-2">
+                <Label className="text-[30px]"> Como interpretar o GDS Score  </Label>
             </div>
-            <div className="border-4 rounded-md border-[--primary-foreground]">
+            <div className="border-[5px] rounded-md border-[--primary-foreground] my-3">
                 <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Score</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead className='text-[20px]'>Score</TableHead>
+                        <TableHead className='text-[20px]'>Status</TableHead>
+                        <TableHead className='text-[20px]'>Cor Associada</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody className='self-center'>

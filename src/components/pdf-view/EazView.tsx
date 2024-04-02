@@ -22,16 +22,6 @@ const EazView = ({ data } : EazViewProps) => {
     const positivePoints = EazData.slice(0, 10).reduce((acc, val) => acc + val, 0)
     const negativePoints = EazData.slice(10).reduce((acc, val) => acc + val, 0)
 
-    // const positivePoints = EazData.map((points, index) => {
-    //     if(index % 2 === 0) return points
-    //     return 0;
-    // }).reduce((acc, val) => acc + val, 0)
-
-    // const negativePoints = EazData.map((points, index) => {
-    //     if(index % 2 !== 0) return 5 - points
-    //     return 0;
-    // }).reduce((acc, val) => acc + val, 0)
-
     const config = {
         options: {
           markers: {
@@ -78,7 +68,7 @@ const EazView = ({ data } : EazViewProps) => {
                     typeof window !== undefined && 
                     <div className="flex flex-col">
                         <div className="self-center">
-                            <Label className="text-lg"> Pontuação do Instrumento </Label>
+                            <Label className="text-[30px]"> Pontuação do Instrumento </Label>
                         </div>
                         <div>
                             <Chart

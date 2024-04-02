@@ -20,8 +20,11 @@ export interface SamViewProps {
 const SamView = ({ data } : SamViewProps) => {
     
     const SamInterface = getKeysFromInterface('sam');
-    const SamData = formatFormDataToChart(data, SamInterface).arrayData.filter(data => typeof data[1] === 'number');
+    const SamData = formatFormDataToChart(data, SamInterface).arrayData.filter(data => typeof data[1] === 'number').map(data => Number(data[1]));
 
+    const categorias = {
+      ptbr: ['Satisfação', 'Motivação', 'Sentimento de Controle']
+    }
 
     const config = {
         options: {
@@ -35,7 +38,6 @@ const SamView = ({ data } : SamViewProps) => {
             labels: {
               show: true,
             },
-            categories: SamData.map((data) => data[0]),
             tickPlacement: 'on',
           },
           yaxis: {
@@ -46,13 +48,32 @@ const SamView = ({ data } : SamViewProps) => {
         series: [
           {
             name: 'evaluation',
-            data: SamData.map((data) => Number(data[1]))
+            data: [
+              {
+                x: categorias.ptbr[0],
+                y: SamData[0],
+                fillColor: SamData[0] > 5 ? '#66CC00' : SamData[0] === 5 ? '#CCCC00' : '#FF0000',
+              },
+              {
+                x: categorias.ptbr[1],
+                y: SamData[1],
+                fillColor: SamData[1] > 5 ? '#66CC00' : SamData[1] === 5 ? '#CCCC00' : '#FF0000',
+              },
+              {
+                x: categorias.ptbr[2],
+                y: SamData[2],
+                fillColor: SamData[2] > 5 ? '#66CC00' : SamData[2] === 5 ? '#CCCC00' : '#FF0000',
+              }
+            ] 
           }
         ]
     }
     
     return (
         <>
+            <div className="self-center my-2">
+              <Label className="text-[30px]">Gráfico das respostas</Label>
+            </div>
             <div className="my-2">
                 {
                     typeof window !== undefined && 

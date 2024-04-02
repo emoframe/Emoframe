@@ -37,13 +37,9 @@ const BrumsView = ({ data } : BrumsViewProps) => {
     ]
 
 
-    
-    // const solutionPontuation = BrumsData.map((data) => Number(data[1])).map((points, index) => {
-    //     if(index % 2 === 0) return points - 1
-    //     else return 5 - points
-    // }).reduce((acc, val) => acc + val, 0) * 2.5
-
-    // console.log(BrumsData.arrayData.map((data) => data[1]).filter(data => typeof data !== 'string'))
+    const categories = {
+      ptbr: ['Tensão', 'Depressão', 'Raiva', 'Fadiga', 'Vigor', 'Confusão'],
+    }
 
     const config = {
         options: {
@@ -57,12 +53,12 @@ const BrumsView = ({ data } : BrumsViewProps) => {
             labels: {
               show: true,
             },
-            categories: ['Tensão', 'Depressão', 'Raiva', 'Fadiga', 'Vigor', 'Confusão'],
+            categories: categories.ptbr,
             tickPlacement: 'on',
           },
           yaxis: {
             min: 0,
-            max: 6,
+            max: BrumsPoints.reduce((a, b) => Math.max(a, b), -Infinity) + 5,
           }
         },
         series: [
@@ -75,15 +71,9 @@ const BrumsView = ({ data } : BrumsViewProps) => {
 
     return (
         <>
-            {/* <div className='self-center my-5'>
-                <Label className={"text-center text-[30px] text-slate-800 rounded-md m-5 px-5 py-4 " + (
-                solutionPontuation > 90 ? 'bg-blue-500'   : 
-                solutionPontuation > 80 ? 'bg-green-900'  :
-                solutionPontuation > 70 ? 'bg-green-300'  :
-                solutionPontuation > 60 ? 'bg-yellow-500' :'bg-red-500'
-                ) + 
-                ' shadow-slate-400 shadow-[4.0px_8.0px_8.0px]'}>Brums Score: {solutionPontuation}</Label>
-            </div> */}
+            <div className="self-center my-3">
+              <Label className="text-[30px]"> Gráfico do Instrumento </Label>
+            </div>
             <div className="w-full my-2 self-center">
                 {
                     config !== undefined && typeof window !== undefined && 

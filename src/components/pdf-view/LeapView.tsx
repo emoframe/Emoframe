@@ -57,73 +57,64 @@ const LeapView = ({ data } : LeapViewProps) => {
     
     const tableReferenceValues: TableRows[][] = [
       [
-        {label: 'Baixo', component: <TableCell>Baixo</TableCell>},
-        {label: 'ValorBaixo', component: <TableCell>Entre 0 e 0.3</TableCell>},
+        {label: 'Baixo',      component: <TableCell className="text-[20px]">Baixo</TableCell>},
+        {label: 'ValorBaixo', component: <TableCell className="text-[20px]">Entre 0 e 0.3</TableCell>},
       ],
       [
-        {label: 'Médio', component: <TableCell>Médio</TableCell>},
-        {label: 'ValorMedio', component: <TableCell> Entre 0.3 e 0.7 </TableCell>},
+        {label: 'Médio',      component: <TableCell className="text-[20px]">Médio</TableCell>},
+        {label: 'ValorMedio', component: <TableCell className="text-[20px]"> Entre 0.3 e 0.7 </TableCell>},
       ],
       [
-        {label: 'Alto', component: <TableCell>Alto</TableCell>},
-        {label: 'ValorAlto', component: <TableCell> Acima de 0.7 </TableCell>},
+        {label: 'Alto',      component: <TableCell className="text-[20px]">Alto</TableCell>},
+        {label: 'ValorAlto', component: <TableCell className="text-[20px]"> Acima de 0.7 </TableCell>},
       ]
     ]
 
     const tableLeapResult: TableRows[][] = [
       [
-        {label: '#', component: <TableCell>I</TableCell> },
-        {label: 'Fator', component: <TableCell>Mal-estar</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[0]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[0] > 0.7 ? 'Alto' : sectionPoints[0] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">I</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[0]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[0] > 0.7 ? 'Alto' : sectionPoints[0] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
       [
-        {label: '#', component: <TableCell>II</TableCell> },
-        {label: 'Fator', component: <TableCell>Bem-estar</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[1]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[1] > 0.7 ? 'Alto' : sectionPoints[1] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">II</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[1]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[1] > 0.7 ? 'Alto' : sectionPoints[1] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
       [
-        {label: '#', component: <TableCell>III</TableCell> },
-        {label: 'Fator', component: <TableCell>Desprezo</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[2]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[2] > 0.7 ? 'Alto' : sectionPoints[2] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">III</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[2]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[2] > 0.7 ? 'Alto' : sectionPoints[2] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
       [
-        {label: '#', component: <TableCell>IV</TableCell> },
-        {label: 'Fator', component: <TableCell>Atração Sexual</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[3]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[3] > 0.7 ? 'Alto' : sectionPoints[3] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">IV</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[3]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[3] > 0.7 ? 'Alto' : sectionPoints[3] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
       [
-        {label: '#', component: <TableCell>V</TableCell> },
-        {label: 'Fator', component: <TableCell>Reflexão</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[4]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[4] > 0.7 ? 'Alto' : sectionPoints[4] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">V</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[4]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[4] > 0.7 ? 'Alto' : sectionPoints[4] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
       [
-        {label: '#', component: <TableCell>VI</TableCell> },
-        {label: 'Fator', component: <TableCell>Necessidade</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[5]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[5] > 0.7 ? 'Alto' : sectionPoints[5] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">VI</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[5]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[5] > 0.7 ? 'Alto' : sectionPoints[5] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
       [
-        {label: '#', component: <TableCell>VII</TableCell> },
-        {label: 'Fator', component: <TableCell>Precipitabilidade</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[6]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[6] > 0.7 ? 'Alto' : sectionPoints[6] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">VII</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[6]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[6] > 0.7 ? 'Alto' : sectionPoints[6] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
       [
-        {label: '#', component: <TableCell>VIII</TableCell> },
-        {label: 'Fator', component: <TableCell>Temperatura</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[7]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[7] > 0.7 ? 'Alto' : sectionPoints[7] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">VIII</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[7]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[7] > 0.7 ? 'Alto' : sectionPoints[7] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
       [
-        {label: '#', component: <TableCell>IX</TableCell> },
-        {label: 'Fator', component: <TableCell>Satisfeito</TableCell> },
-        {label: 'ValorPresenca', component: <TableCell> {sectionPoints[8]} </TableCell> },
-        {label: 'NivelPresenca', component: <TableCell> {sectionPoints[8] > 0.7 ? 'Alto' : sectionPoints[8] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
+        {label: '#',             component: <TableCell className="text-[20px]">IX</TableCell> },
+        {label: 'ValorPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[8]} </TableCell> },
+        {label: 'NivelPresenca', component: <TableCell className="text-[20px]"> {sectionPoints[8] > 0.7 ? 'Alto' : sectionPoints[8] > 0.3 ? 'Médio' : 'Baixo'} </TableCell> },
       ],
     ]
 
@@ -133,12 +124,12 @@ const LeapView = ({ data } : LeapViewProps) => {
           <div className='flex flex-1 self-center'>
             <Label className="text-[30px] my-2">Valores de Referência dos níveis de presença</Label>
           </div>
-            <div className="border-[3px] rounded-md border-[--primary-foreground]">
+            <div className="border-[5px] rounded-md border-[--primary-foreground]">
                 <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Nível de Presença</TableHead>
-                        <TableHead>Valor de Referência</TableHead>
+                        <TableHead className="text-[20px]">Nível de Presença</TableHead>
+                        <TableHead className="text-[20px]">Valor de Referência</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -157,18 +148,17 @@ const LeapView = ({ data } : LeapViewProps) => {
                 </Table>
             </div>
 
-          <div className='flex flex-1 self-center'>
-            <Label className='text-[20px] my-2'> Resultado LEAP </Label>
+          <div className='flex flex-1 self-center my-2'>
+            <Label className='text-[30px] my-2'> Resultado LEAP </Label>
           </div>
 
           <div className='border-[5px] rounded-md border-[--primary-foreground]'>
           <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>#</TableHead>
-                        <TableHead>Fator</TableHead>
-                        <TableHead>Valor de Presença</TableHead>
-                        <TableHead>Nível de Presença</TableHead>
+                        <TableHead className="text-[20px]">#</TableHead>
+                        <TableHead className="text-[20px]">Valor de Presença</TableHead>
+                        <TableHead className="text-[20px]">Nível de Presença</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
