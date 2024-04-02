@@ -61,21 +61,21 @@ const GdsQuestions: GdsQuestionsProps[][] = [
 ];
 
 const GdsFormSchema = z.object({
-    satisfied:                z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    no_activities:            z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    empty:                    z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    upset:                    z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    good:                     z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    bad:                      z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    happy:                    z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    helpless:                 z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    stay_at_home:             z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    problems_of_memory:       z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    wonderful_to_stay_alive:  z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    useless:                  z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    full_of_energy:           z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    hopeless:                 z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
-    unlucky:                  z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    satisfied:                z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    no_activities:            z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    empty:                    z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    upset:                    z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    good:                     z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    bad:                      z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    happy:                    z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    helpless:                 z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    stay_at_home:             z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    problems_of_memory:       z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    wonderful_to_stay_alive:  z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    useless:                  z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    full_of_energy:           z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    hopeless:                 z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
+    unlucky:                  z.number({required_error: 'Escolha uma opção'}).int().gte(0).lte(1),
 })
 
 const GdsForm = ({userId, evaluationId}: FillEvaluationForm) => {
