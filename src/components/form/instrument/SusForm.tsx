@@ -24,11 +24,11 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
 const QuestionOptions: RadioItem[] = [
-  {value: '5', label: 'Concordo Plenamente'},
-  {value: '4', label: 'Concordo Parcialmente'},
-  {value: '3', label: 'Neutro'},
-  {value: '2', label: 'Discordo Parcialmente'},
-  {value: '1', label: 'Discordo Totalmente'},
+  {value: 5, label: 'Concordo Plenamente'},
+  {value: 4, label: 'Concordo Parcialmente'},
+  {value: 3, label: 'Neutro'},
+  {value: 2, label: 'Discordo Parcialmente'},
+  {value: 1, label: 'Discordo Totalmente'},
 ]
 
 interface SusQuestionsProps {
@@ -55,16 +55,16 @@ const SusQuestions: SusQuestionsProps[] = [
 
 const SusFormSchema = z.object({
   solution_evaluation: z.string().min(1, "Insira o nome da solução"),
-  app_useFrequency: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_useComplex: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_useEasy: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_useNeedHelp: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_functionIntegration: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_inconsistency: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_learningCurve: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_jumbled: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_confidence: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  app_learnSystem: z.enum([QuestionOptions[0].value, ...QuestionOptions.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})})
+  app_useFrequency: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_useComplex: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_useEasy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_useNeedHelp: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_functionIntegration: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_inconsistency: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_learningCurve: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_jumbled: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_confidence: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  app_learnSystem: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5)
 })
 
 const SusForm = ({userId, evaluationId}: FillEvaluationForm) => {
@@ -72,16 +72,16 @@ const SusForm = ({userId, evaluationId}: FillEvaluationForm) => {
     resolver: zodResolver(SusFormSchema),
     defaultValues: {
       solution_evaluation: '',
-      app_useFrequency: '',
-      app_useComplex: '',
-      app_useEasy: '',
-      app_useNeedHelp: '', 
-      app_functionIntegration: '', 
-      app_inconsistency: '',
-      app_learningCurve: '',
-      app_jumbled: '', 
-      app_confidence: '',
-      app_learnSystem: '',
+      app_useFrequency: -1,
+      app_useComplex: -1,
+      app_useEasy: -1,
+      app_useNeedHelp: -1, 
+      app_functionIntegration: -1, 
+      app_inconsistency: -1,
+      app_learningCurve: -1,
+      app_jumbled: -1, 
+      app_confidence: -1,
+      app_learnSystem: -1,
   },});
 
   const { push } = useRouter();

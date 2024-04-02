@@ -21,21 +21,17 @@ import { useStepper } from "@/components/ui/hooks/use-stepper";
 import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { randomizeArray } from '@/lib/utils';
-import { FillEvaluationForm } from '@/types/forms';
+import { FillEvaluationForm, RadioItem } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 
-interface RadioItem {
-    value: string;
-    label: string;
-}
 
 const DefaultProps: RadioItem[] = [
-    {value: '1', label: '1 (Nada ou muito ligeiramente)'},
-    {value: '2', label: '2 (Um pouco)'},
-    {value: '3', label: '3 (Moderadamente)'},
-    {value: '4', label: '4 (Bastante)'},
-    {value: '5', label: '5 (Extremamente)'},
+    {value: 1 , label: '1 (Nada ou muito ligeiramente)'},
+    {value: 2, label: '2 (Um pouco)'},
+    {value: 3, label: '3 (Moderadamente)'},
+    {value: 4, label: '4 (Bastante)'},
+    {value: 5, label: '5 (Extremamente)'},
 ]
 
 const steps: StepConfig[] = [
@@ -79,52 +75,52 @@ const EazQuestions: EazQuestionsProps[][] = [
 ];
 
 const EazFormSchema = z.object({
-  happy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  tired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  worried: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  confident: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  courageous: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  nervous: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  determined: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  guilty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  passionate: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  brave: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  open_new_things: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  happy_person: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  easy_to_anger:  z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  proud_about_myself: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  humiliated: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  sad: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  grumpy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  rage: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  resilient: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})})
+  happy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  tired: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  worried: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  confident: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  courageous: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  nervous: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  determined: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  guilty: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  passionate: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  angry: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  brave: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  open_new_things: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  happy_person: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  easy_to_anger:  z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  proud_about_myself: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  humiliated: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  sad: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  grumpy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  rage: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  resilient: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5)
 })
 
 const EazForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const form = useForm<z.infer<typeof EazFormSchema>>({
         resolver: zodResolver(EazFormSchema),
         defaultValues: {
-          happy: '',
-          tired: '',
-          worried: '',
-          confident: '',
-          courageous: '',
-          nervous: '',
-          determined: '',
-          guilty: '',
-          passionate: '',
-          angry: '',
-          brave: '',
-          open_new_things: '',
-          happy_person: '',
-          easy_to_anger:  '',
-          proud_about_myself: '',
-          humiliated: '',
-          sad: '',
-          grumpy: '',
-          rage: '',
-          resilient: ''
+          happy: -1,
+          tired: -1,
+          worried: -1,
+          confident: -1,
+          courageous: -1,
+          nervous: -1,
+          determined: -1,
+          guilty: -1,
+          passionate: -1,
+          angry: -1,
+          brave: -1,
+          open_new_things: -1,
+          happy_person: -1,
+          easy_to_anger:  -1,
+          proud_about_myself: -1,
+          humiliated: -1,
+          sad: -1,
+          grumpy: -1,
+          rage: -1,
+          resilient: -1,
         }
     });
 
@@ -218,7 +214,7 @@ const EazForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    EazQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
+                                    EazQuestions[activeStep].map((question, index) => (form.setValue(question.field, -1)));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                 }}>Limpar</Button>
 
@@ -226,7 +222,7 @@ const EazForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                     (activeStep != 1) ?
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                         const values = form.getValues(EazQuestions[activeStep].map((question, index) => (question.field)));
-                                        const hasNull = Object.values(values).some((value) => value === "");
+                                        const hasNull = Object.values(values).some((value) => value === -1);
                                         
                                         if (hasNull) {
                                             toast({

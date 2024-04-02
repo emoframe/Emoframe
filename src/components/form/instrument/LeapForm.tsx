@@ -21,21 +21,16 @@ import { useStepper } from "@/components/ui/hooks/use-stepper";
 import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { randomizeArray } from '@/lib/utils';
-import { FillEvaluationForm } from '@/types/forms';
+import { FillEvaluationForm, RadioItem } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 
-interface RadioItem {
-    value: string;
-    label: string;
-}
-
 const DefaultProps: RadioItem[] = [
-    {value: '1', label: '1 (Nada ou muito ligeiramente)'},
-    {value: '2', label: '2 (Um pouco)'},
-    {value: '3', label: '3 (Moderadamente)'},
-    {value: '4', label: '4 (Bastante)'},
-    {value: '5', label: '5 (Extremamente)'},
+    {value: 1, label: '1 (Nada ou muito ligeiramente)'},
+    {value: 2, label: '2 (Um pouco)'},
+    {value: 3, label: '3 (Moderadamente)'},
+    {value: 4, label: '4 (Bastante)'},
+    {value: 5, label: '5 (Extremamente)'},
 ]
 
 const steps: StepConfig[] = [
@@ -102,92 +97,92 @@ const LeapQuestions: LeapQuestionsProps[][] = [
 ];
 
 const LeapFormSchema = z.object({
-    admiration: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    relieved: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    tired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    happy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    accept: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    heat: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    satisfied: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    jealous: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    attracted: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    calm: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    funny: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    desire: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    careful: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    strange: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    hopeful: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    fall_in_love: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    conformed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    hungry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    guilty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    cold: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    despise: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    take_pity_on: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    disgusting: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    need: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    duty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    envy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    humiliated: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    interested: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    fear: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    proud: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    shame: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    sleepy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    longing: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    sad: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    surprised: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    thirst: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    thoughtful: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    serious: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
-    scared: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}), 
+    admiration: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    relieved: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    tired: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    happy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    accept: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    heat: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    satisfied: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    jealous: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    attracted: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    calm: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    funny: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    desire: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    careful: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    strange: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    hopeful: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    fall_in_love: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    conformed: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    hungry: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    guilty: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    cold: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    despise: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    take_pity_on: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    disgusting: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    need: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    duty: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    envy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    humiliated: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    interested: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    fear: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    proud: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    shame: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    angry: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    sleepy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    longing: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    sad: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    surprised: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    thirst: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    thoughtful: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    serious: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
+    scared: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5), 
 })   
 
 const LeapForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const form = useForm<z.infer<typeof LeapFormSchema>>({
         resolver: zodResolver(LeapFormSchema),
         defaultValues: {
-            admiration: '',
-            relieved: '',
-            tired: '',
-            happy: '',
-            accept: '',
-            heat: '',
-            satisfied: '',
-            jealous: '',
-            attracted: '',
-            calm: '',
-            funny: '',
-            desire: '',
-            careful: '',
-            strange: '',
-            hopeful: '',
-            fall_in_love: '',
-            conformed: '',
-            hungry: '',
-            guilty: '',
-            cold: '',
-            despise: '',
-            take_pity_on: '',
-            disgusting: '',
-            need: '',
-            duty: '',
-            envy: '',
-            humiliated: '',
-            interested: '',
-            fear: '',
-            proud: '',
-            shame: '',
-            angry: '',
-            sleepy: '',
-            longing: '',
-            sad: '',
-            surprised: '',
-            thirst: '',
-            thoughtful: '',
-            serious: '',
-            scared: '',
+            admiration: -1,
+            relieved: -1,
+            tired: -1,
+            happy: -1,
+            accept: -1,
+            heat: -1,
+            satisfied: -1,
+            jealous: -1,
+            attracted: -1,
+            calm: -1,
+            funny: -1,
+            desire: -1,
+            careful: -1,
+            strange: -1,
+            hopeful: -1,
+            fall_in_love: -1,
+            conformed: -1,
+            hungry: -1,
+            guilty: -1,
+            cold: -1,
+            despise: -1,
+            take_pity_on: -1,
+            disgusting: -1,
+            need: -1,
+            duty: -1,
+            envy: -1,
+            humiliated: -1,
+            interested: -1,
+            fear: -1,
+            proud: -1,
+            shame: -1,
+            angry: -1,
+            sleepy: -1,
+            longing: -1,
+            sad: -1,
+            surprised: -1,
+            thirst: -1,
+            thoughtful: -1,
+            serious: -1,
+            scared: -1,
         }
     });
 
@@ -281,7 +276,7 @@ const LeapForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    LeapQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
+                                    LeapQuestions[activeStep].map((question, index) => (form.setValue(question.field, -1)));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                 }}>Limpar</Button>
 
@@ -289,7 +284,7 @@ const LeapForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                     (activeStep != steps.length - 1) ?
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                         const values = form.getValues(LeapQuestions[activeStep].map((question, index) => (question.field)));
-                                        const hasNull = Object.values(values).some((value) => value === "");
+                                        const hasNull = Object.values(values).some((value) => value === -1);
                                         
                                         if (hasNull) {
                                             toast({

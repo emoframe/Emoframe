@@ -21,21 +21,16 @@ import { useStepper } from "@/components/ui/hooks/use-stepper";
 import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { randomizeArray } from '@/lib/utils';
-import { FillEvaluationForm } from '@/types/forms';
+import { FillEvaluationForm, RadioItem } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 
-interface RadioItem {
-    value: string;
-    label: string;
-}
-
 const DefaultProps: RadioItem[] = [
-    {value: '1', label: '1 (Nada ou muito ligeiramente)'},
-    {value: '2', label: '2 (Um pouco)'},
-    {value: '3', label: '3 (Moderadamente)'},
-    {value: '4', label: '4 (Bastante)'},
-    {value: '5', label: '5 (Extremamente)'},
+    {value: 1, label: '1 (Nada ou muito ligeiramente)'},
+    {value: 2, label: '2 (Um pouco)'},
+    {value: 3, label: '3 (Moderadamente)'},
+    {value: 4, label: '4 (Bastante)'},
+    {value: 5, label: '5 (Extremamente)'},
 ]
 
 const steps: StepConfig[] = [
@@ -79,52 +74,52 @@ const PanasQuestions: PanasQuestionsProps[][] = [
 ];
 
 const PanasFormSchema = z.object({
-    repulsion: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    tormented: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    scared: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    hearty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    excited: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    guilty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    enthusiastic: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    pleasantly_surprised: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    disturbed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    trembling: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    active: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    proud: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    inspired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    nervous: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    determined: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    charmed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    remorse: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    frightened: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    interested: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+    repulsion: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    tormented: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    scared: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    hearty: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    excited: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    guilty: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    enthusiastic: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    pleasantly_surprised: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    disturbed: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    trembling: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    active: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    proud: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    inspired: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    nervous: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    angry: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    determined: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    charmed: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    remorse: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    frightened: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+    interested: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
 })
 
 const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const form = useForm<z.infer<typeof PanasFormSchema>>({
         resolver: zodResolver(PanasFormSchema),
         defaultValues: {
-            repulsion: '',
-            tormented: '',
-            scared: '',
-            hearty: '',
-            excited: '',
-            guilty: '',
-            enthusiastic: '',
-            pleasantly_surprised: '',
-            disturbed: '',
-            trembling: '',
-            active: '',
-            proud: '',
-            inspired: '',
-            nervous: '',
-            angry: '',
-            determined: '',
-            charmed: '',
-            remorse: '',
-            frightened: '',
-            interested: '',
+            repulsion: -1,
+            tormented: -1,
+            scared: -1,
+            hearty: -1,
+            excited: -1,
+            guilty: -1,
+            enthusiastic: -1,
+            pleasantly_surprised: -1,
+            disturbed: -1,
+            trembling: -1,
+            active: -1,
+            proud: -1,
+            inspired: -1,
+            nervous: -1,
+            angry: -1,
+            determined: -1,
+            charmed: -1,
+            remorse: -1,
+            frightened: -1,
+            interested: -1,
         }
     });
 
@@ -217,7 +212,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    PanasQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
+                                    PanasQuestions[activeStep].map((question, index) => (form.setValue(question.field, -1)));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                 }}>Limpar</Button>
 
@@ -225,7 +220,7 @@ const PanasForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                     (activeStep != 1) ?
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                         const values = form.getValues(PanasQuestions[activeStep].map((question, index) => (question.field)));
-                                        const hasNull = Object.values(values).some((value) => value === "");
+                                        const hasNull = Object.values(values).some((value) => value === -1);
                                         
                                         if (hasNull) {
                                             toast({

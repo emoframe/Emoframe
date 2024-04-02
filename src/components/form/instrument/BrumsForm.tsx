@@ -32,11 +32,11 @@ const steps: StepConfig[] = [
 ] 
 
 const DefaultProps: RadioItem[] = [
-  {value: '1', label: '1 (Nada ou muito ligeiramente)'},
-  {value: '2', label: '2 (Um pouco)'},
-  {value: '3', label: '3 (Moderadamente)'},
-  {value: '4', label: '4 (Bastante)'},
-  {value: '5', label: '5 (Extremamente)'},
+  {value: 1, label: '1 (Nada ou muito ligeiramente)'},
+  {value: 2, label: '2 (Um pouco)'},
+  {value: 3, label: '3 (Moderadamente)'},
+  {value: 4, label: '4 (Bastante)'},
+  {value: 5, label: '5 (Extremamente)'},
 ]
 
 interface BrumsQuestionsProps {
@@ -78,60 +78,60 @@ const BrumsQuestions: BrumsQuestionsProps[][] = [
 ];
 
 const BrumsFormSchema = z.object({
-  cheered_up: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  irritated: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  depressed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  terrified: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  crestfallen: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  broken_down: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  confused: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  exhausted: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  anxious: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  unhappy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  huffy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  worried: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  sad: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  sleepy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  insecure: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  willing: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  tense: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  disoriented: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  grumpy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  undecided: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  tired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  energy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  alert: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+  cheered_up: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),  
+  irritated: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  depressed: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  terrified: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  crestfallen: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  broken_down: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  confused: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  exhausted: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  anxious: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  unhappy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  huffy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  worried: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  sad: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  sleepy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  insecure: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  willing: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  tense: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  disoriented: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  grumpy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  undecided: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  tired: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  energy: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  angry: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
+  alert: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(5),
 })
 
 const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
     const form = useForm<z.infer<typeof BrumsFormSchema>>({
         resolver: zodResolver(BrumsFormSchema),
         defaultValues: {
-          cheered_up: '',
-          irritated: '',
-          depressed: '',
-          terrified: '',
-          crestfallen: '',
-          broken_down: '',
-          confused: '',
-          exhausted: '',
-          anxious: '',
-          unhappy: '',
-          huffy: '',
-          worried: '',
-          sad: '',
-          sleepy: '',
-          insecure: '',
-          willing: '',
-          tense: '',
-          disoriented: '',
-          grumpy: '',
-          undecided: '',
-          tired: '',
-          energy: '',
-          angry: '',
-          alert: '',
+          cheered_up: -1,
+          irritated: -1,
+          depressed: -1,
+          terrified: -1,
+          crestfallen: -1,
+          broken_down: -1,
+          confused: -1,
+          exhausted: -1,
+          anxious: -1,
+          unhappy: -1,
+          huffy: -1,
+          worried: -1,
+          sad: -1,
+          sleepy: -1,
+          insecure: -1,
+          willing: -1,
+          tense: -1,
+          disoriented: -1,
+          grumpy: -1,
+          undecided: -1,
+          tired: -1,
+          energy: -1,
+          angry: -1,
+          alert: -1,
         }
     });
 
@@ -225,7 +225,7 @@ const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    BrumsQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
+                                    BrumsQuestions[activeStep].map((question, index) => (form.setValue(question.field, -1)));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                 }}>Limpar</Button>
 
@@ -233,7 +233,7 @@ const BrumsForm = ({userId, evaluationId}: FillEvaluationForm) => {
                                     (activeStep < 2) ?
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                         const values = form.getValues(BrumsQuestions[activeStep].map((question, index) => (question.field)));
-                                        const hasNull = Object.values(values).some((value) => value === "");
+                                        const hasNull = Object.values(values).some((value) => value === -1);
                                         
                                         if (hasNull) {
                                             toast({

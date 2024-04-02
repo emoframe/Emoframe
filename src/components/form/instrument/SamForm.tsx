@@ -35,59 +35,59 @@ const SamQuestions: Sam[] = [
 ];
 
 interface RadioItem {
-  value: string;
+  value: number;
   label: React.JSX.Element;
 } 
 
 const QuestionOptions: RadioItem[][] = [[
-    { value: '1', label: <ImageCard src={"/emojis/Like.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '2', label: <div className={"m-10"}></div> },
-    { value: '3', label: <ImageCard src={"/emojis/Sorriso.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '4', label: <div className={"m-10"}></div>},
-    { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '6', label: <div className={"m-10"}></div>},
-    { value: '7', label: <ImageCard src={"/emojis/Triste.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '8', label: <div className={"m-10"}></div>},
-    { value: '9', label: <ImageCard src={"/emojis/Deslike.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 1, label: <ImageCard src={"/emojis/Like.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 2, label: <div className={"m-10"}></div> },
+    { value: 3, label: <ImageCard src={"/emojis/Sorriso.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 4, label: <div className={"m-10"}></div>},
+    { value: 5, label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 6, label: <div className={"m-10"}></div>},
+    { value: 7, label: <ImageCard src={"/emojis/Triste.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 8, label: <div className={"m-10"}></div>},
+    { value: 9, label: <ImageCard src={"/emojis/Deslike.png"} alt={"Emoji"} height={100} width={100} />},
   ],
   [
-    { value: '1', label: <ImageCard src={"/emojis/Criativo.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '2', label: <div className={"m-10"}></div> },
-    { value: '3', label: <ImageCard src={"/emojis/Radiante.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '4', label: <div className={"m-10"}></div>},
-    { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '6', label: <div className={"m-10"}></div>},
-    { value: '7', label: <ImageCard src={"/emojis/Entediado.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '8', label: <div className={"m-10"}></div>},
-    { value: '9', label: <ImageCard src={"/emojis/Sono.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 1, label: <ImageCard src={"/emojis/Criativo.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 2, label: <div className={"m-10"}></div> },
+    { value: 3, label: <ImageCard src={"/emojis/Radiante.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 4, label: <div className={"m-10"}></div>},
+    { value: 5, label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 6, label: <div className={"m-10"}></div>},
+    { value: 7, label: <ImageCard src={"/emojis/Entediado.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 8, label: <div className={"m-10"}></div>},
+    { value: 9, label: <ImageCard src={"/emojis/Sono.png"} alt={"Emoji"} height={100} width={100} />},
   ],
   [
-    { value: '9', label: <ImageCard src={"/emojis/Inteligente.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '8', label: <div className={"m-10"}></div>},
-    { value: '7', label: <ImageCard src={"/emojis/Sorriso.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '6', label: <div className={"m-10"}></div>},
-    { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '4', label: <div className={"m-10"}></div>},
-    { value: '3', label: <ImageCard src={"/emojis/Confuso.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '2', label: <div className={"m-10"}></div> },
-    { value: '1', label: <ImageCard src={"/emojis/Frustrado.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 9, label: <ImageCard src={"/emojis/Inteligente.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 8, label: <div className={"m-10"}></div>},
+    { value: 7, label: <ImageCard src={"/emojis/Sorriso.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 6, label: <div className={"m-10"}></div>},
+    { value: 5, label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 4, label: <div className={"m-10"}></div>},
+    { value: 3, label: <ImageCard src={"/emojis/Confuso.png"} alt={"Emoji"} height={100} width={100} />},
+    { value: 2, label: <div className={"m-10"}></div> },
+    { value: 1, label: <ImageCard src={"/emojis/Frustrado.png"} alt={"Emoji"} height={100} width={100} />},
   ]
 ];
 
 
 const SamFormSchema = z.object({
-  satisfaction: z.enum([QuestionOptions[0][0].value, ...QuestionOptions[0].slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  motivation: z.enum([QuestionOptions[1][0].value, ...QuestionOptions[1].slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  willpower: z.enum([QuestionOptions[2][0].value, ...QuestionOptions[2].slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
+  satisfaction: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(9),
+  motivation: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(9),
+  willpower: z.number({required_error: 'Escolha uma opção'}).int().gte(1).lte(9),
 });
 
 const SamForm = ({userId, evaluationId}: FillEvaluationForm) => {
   const form = useForm<z.infer<typeof SamFormSchema>>({
     resolver: zodResolver(SamFormSchema),
     defaultValues: {
-      satisfaction: '',
-      motivation: '',
-      willpower: '',
+      satisfaction: -1,
+      motivation: -1,
+      willpower: -1,
   },});
 
   const { push } = useRouter();
