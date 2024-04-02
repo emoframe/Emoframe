@@ -5,7 +5,7 @@ import useDesigner from "@/hooks/useDesigner";
 import { ScanEye } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-const PreviewDialogButton = () => {
+const PreviewTemplateButton = () => {
   const { elements } = useDesigner();
 
   return (
@@ -34,4 +34,4 @@ const PreviewDialogButton = () => {
   );
 }
 
-export default PreviewDialogButton;
+export default PreviewTemplateButton;

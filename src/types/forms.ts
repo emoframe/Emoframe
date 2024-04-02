@@ -54,6 +54,7 @@ export interface Template {
     specialist: string,
     title: string,
     description?: string,
+    published: Boolean,
 }
 
 export interface Evaluation {
