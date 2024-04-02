@@ -28,7 +28,7 @@ interface PDFViewForm {
 
 const PDFView = ({ user, specialist, age, fid, data, type } : PDFViewProps) => {
 
-  // console.log(data!.datetime)
+  // console.log(data!)
 
   const PDFViewPageFields = [
       [
