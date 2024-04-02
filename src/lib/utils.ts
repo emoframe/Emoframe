@@ -31,8 +31,9 @@ import {
 } from '@/types/forms';
 
 export interface formatData {
-  textFields: Array<Array<string>>, 
-  arrayData: Array<Array<string | number | Object>>
+  textFields: Array<[string, string]>,
+  arrayData: Array<[string, number]>,
+  otherData: Array<[string, any]>, 
 };
 
 export function cn(...inputs: ClassValue[]) {
@@ -123,28 +124,48 @@ export function randomizeArray(array: any[]): any[] {
 }
 
 export function formatFormDataToChart(formData: Object, formInterface: Array<string>): formatData {
-  const arrayData = Object.entries(formData) as [string, string][]
 
-  let textFields: Array<Array<string>> = []
+    const arrayData: [string, number, number][] = []
+    const textFields: [string, string][] = []
+    const otherData: [string, any][] = []
 
-  // Moving all text fields to another array
-  arrayData.forEach((value, index) => {
-    let spliceCount = 0
-    if (!/^[\d]+$/.test(value[1])){ 
-      textFields.push(value)
-      arrayData.splice(index - spliceCount, 1);
-      spliceCount++;
+    for (let [key, value] of Object.entries(formData)) {
+      if(typeof value === 'string') textFields.push([key, value])
+      else if(typeof value === 'number') arrayData.push([key, value, formInterface.indexOf(key)])
+      else otherData.push([key, value])
     }
-  })
 
+    arrayData.sort((a, b) => a[2] - b[2]);
 
-  const newArrayData: Array<Array<string | number | Object>> = arrayData.map((value) => ([value[0], Number(value[1]), formInterface.indexOf(value[0])]));
-
-  newArrayData.sort((a, b) => Number(a[2]) - Number(b[2]));
-  const finalArrayData = newArrayData.map((value) => [...value.slice(0, 2)]);
-    
-  return {textFields: textFields, arrayData: finalArrayData};
+    return { textFields: textFields, arrayData: arrayData.map((value) => [value[0], value[1]]), otherData: otherData };
 }
+
+// export function formatFormDataToChart(formData: Object, formInterface: Array<string>): formatData {
+//   const arrayData = Object.entries(formData)
+
+//   console.log('Form Data')
+//   console.log(formData)
+  
+//   let textFields: Array<Array<string>> = []
+
+//   // Moving all text fields to another array
+//   arrayData.forEach((value, index) => {
+//     let spliceCount = 0
+//     if (!/^[\d]+$/.test(value[1])){
+//       console.log(value)
+//       textFields.push(value)
+//       arrayData.splice(index - spliceCount, 1);
+//       spliceCount++;
+//     }
+//   })
+
+//   const newArrayData: Array<Array<string | number | Object>> = arrayData.map((value) => ([value[0], Number(value[1]), formInterface.indexOf(value[0])]));
+
+//   newArrayData.sort((a, b) => Number(a[2]) - Number(b[2]));
+//   const finalArrayData = newArrayData.map((value) => [...value.slice(0, 2)]);
+    
+//   return {textFields: textFields, arrayData: finalArrayData};
+// }
 
 function formatDatatoCSV(data: Array<Array<string>>): string {
   const csv = data.map((row) => row.slice(0, 2).join(',')).join('\n');
