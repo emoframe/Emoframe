@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
-const PublishTemplateButton = ({ id }: { id: string }) => {
+const PublishTemplateButton = ({ uid }: { uid: string }) => {
   const [loading, startTransition] = useTransition();
   const router = useRouter();
   const { toast } = useToast();

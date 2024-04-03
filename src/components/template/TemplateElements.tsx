@@ -1,3 +1,5 @@
+import { TitleFieldTemplateElement } from "@/components/template/elements/TitleField";
+
 export type ElementsType =
   | "TitleField";
 

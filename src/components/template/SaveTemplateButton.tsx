@@ -5,7 +5,7 @@ import { Save, Loader2 } from 'lucide-react';
 import useDesigner from "@/components/hooks/useDesigner";
 import { useToast } from "@/components/ui/use-toast";
 
-const SaveTemplateButton = ({ id }: { id: string }) => {
+const SaveTemplateButton = ({ uid }: { uid: string }) => {
   const { elements } = useDesigner();
   const [loading, startTransition] = useTransition();
   const { toast } = useToast();

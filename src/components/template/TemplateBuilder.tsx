@@ -99,8 +99,8 @@ function FormBuilder({ template }: { template: Template }) {
             <PreviewTemplateButton/>
             {!template.published && (
               <>
-                <SaveTemplateButton id={template.uid} />
-                <PublishTemplateButton id={template.uid} />
+                <SaveTemplateButton uid={template.uid as string} />
+                <PublishTemplateButton uid={template.uid as string} />
               </>
             )}
           </div>
