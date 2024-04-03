@@ -2,7 +2,7 @@
 import React, { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Save, Loader2 } from 'lucide-react';
-import useDesigner from "@/hooks/useDesigner";
+import useDesigner from "@/components/hooks/useDesigner";
 import { useToast } from "@/components/ui/use-toast";
 
 const SaveTemplateButton = ({ id }: { id: string }) => {

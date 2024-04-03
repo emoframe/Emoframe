@@ -16,7 +16,7 @@ export type TemplateElement = {
   designerComponent: React.FC<{
     elementInstance: TemplateElementInstance;
   }>;
-  formComponent: React.FC<{
+  templateComponent: React.FC<{
     elementInstance: TemplateElementInstance;
     submitValue?: SubmitFunction;
     isInvalid?: boolean;

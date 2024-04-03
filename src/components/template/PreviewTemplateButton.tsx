@@ -1,7 +1,7 @@
 'use client';
 import React from "react";
 import { Button } from "@/components/ui/button";
-import useDesigner from "@/hooks/useDesigner";
+import useDesigner from "@/components/hooks/useDesigner";
 import { ScanEye } from 'lucide-react';
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
