@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import useDesigner from "@/components/hooks/useDesigner";
 import DesignerSidebar from "@/components/template/DesignerSidebar";
 import { cn } from "@/lib/utils";
-import { idGenerator } from "@/lib/idGenerator";
+import { idGenerator } from "@/lib/utils";
 import { DragEndEvent, useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { Trash2 } from 'lucide-react';
 

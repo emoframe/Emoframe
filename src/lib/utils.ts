@@ -110,6 +110,10 @@ export function randomizeArray(array: any[]): any[] {
   return array.sort(() => Math.random() - 0.5);
 }
 
+export function idGenerator(): string {
+  return Math.floor(Math.random() * 10001).toString();
+}
+
 export function differentiateKeysFromObjects(keepObject: Object, changeObject: Object, suffixKey: string): void {
   Object.keys(changeObject).forEach((changeObjectKey) => {
     Object.keys(keepObject).forEach((keepObjectKey) => {
