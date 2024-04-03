@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const SidebarButtonElement = ({ element }: { element: TemplateElement }) => {
   const { label, icon: Icon } = element.designerButtonElement;
   const draggable = useDraggable({
-    id: `designer-btn-${element.type}`,
+    id: `designer-button-${element.type}`,
     data: {
       type: element.type,
       isDesignerBtnElement: true,
