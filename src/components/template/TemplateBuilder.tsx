@@ -7,14 +7,14 @@ import SaveTemplateButton from "@/components/template/SaveTemplateButton"
 import DragOverlayWrapper from "@/components/template/DragOverlayWrapper";
 import Designer from "@/components/template/Designer";
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
-import useDesigner from "@/components/hooks/useDesigner";
 import { Loader2, MoveLeft, MoveRight } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import useDesigner from "@/components/hooks/useDesigner";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import Confetti from "react-confetti";
 import { Template } from "@/types/forms";
+
 
 function FormBuilder({ template }: { template: Template }) {
   const { setElements, setSelectedElement } = useDesigner();
