@@ -3,6 +3,7 @@ import useDesigner from "@/components/hooks/useDesigner";
 import TemplateElementsSidebar from "@/components/template/TemplateElementsSidebar";
 import PropertiesTemplateSidebar from "@/components/template/PropertiesTemplateSidebar";
 
+
 const DesignerSidebar = () => {
   const { selectedElement } = useDesigner();
   return (

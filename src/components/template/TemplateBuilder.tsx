@@ -38,9 +38,12 @@ function FormBuilder({ template }: { template: Template }) {
 
   useEffect(() => {
     if (isReady) return;
+    //TODO:
+    /* 
     const elements = JSON.parse(template.content);
     setElements(elements);
     setSelectedElement(null);
+    */
     const readyTimeout = setTimeout(() => setIsReady(true), 500);
     return () => clearTimeout(readyTimeout);
   }, [template, setElements, isReady, setSelectedElement]);
@@ -52,8 +55,8 @@ function FormBuilder({ template }: { template: Template }) {
       </div>
     );
   }
-
-  const shareUrl = `${window.location.origin}/submit/${template.shareURL}`;
+  //TODO :
+  //const shareUrl = `${window.location.origin}/submit/${template.shareURL}`;
 
   if (template.published) {
     return (
