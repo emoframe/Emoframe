@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode, useState } from "react";
 import DesignerContext from "@/components/context/DesignerContext";
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
