@@ -41,7 +41,7 @@ const PublishTemplateButton = ({ uid }: { uid: string }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button className="gap-2 text-white bg-gradient-to-r from-indigo-400 to-cyan-400">
+        <Button className="gap-2 text-white bg-gradient-to-tr from-primary to-primary-foreground">
           <BookCheck  className="h-4 w-4" />
           Publicar
         </Button>
