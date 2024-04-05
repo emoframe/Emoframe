@@ -10,7 +10,7 @@ const SidebarButtonElement = ({ element }: { element: TemplateElement }) => {
     id: `designer-button-${element.type}`,
     data: {
       type: element.type,
-      isDesignerBtnElement: true,
+      isDesignerButtonElement: true,
     },
   });
 

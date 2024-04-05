@@ -25,10 +25,10 @@ function Designer() {
       const { active, over } = event;
       if (!active || !over) return;
 
-      const isDesignerBtnElement = active.data?.current?.isDesignerBtnElement;
+      const isDesignerButtonElement = active.data?.current?.isDesignerButtonElement;
       const isDroppingOverDesignerDropArea = over.data?.current?.isDesignerDropArea;
 
-      const droppingSidebarBtnOverDesignerDropArea = isDesignerBtnElement && isDroppingOverDesignerDropArea;
+      const droppingSidebarBtnOverDesignerDropArea = isDesignerButtonElement && isDroppingOverDesignerDropArea;
 
       // Primeiro cenário
       if (droppingSidebarBtnOverDesignerDropArea) {
@@ -46,7 +46,7 @@ function Designer() {
       const isDroppingOverDesignerElement =
         isDroppingOverDesignerElementTopHalf || isDroppingOverDesignerElementBottomHalf;
 
-      const droppingSidebarBtnOverDesignerElement = isDesignerBtnElement && isDroppingOverDesignerElement;
+      const droppingSidebarBtnOverDesignerElement = isDesignerButtonElement && isDroppingOverDesignerElement;
 
       // Segundo cenário
       if (droppingSidebarBtnOverDesignerElement) {
