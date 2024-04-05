@@ -116,7 +116,7 @@ function Designer() {
           )}
         >
           {!droppable.isOver && elements.length === 0 && (
-            <p className="text-3xl text-muted-foreground flex flex-grow items-center font-bold">Drop here</p>
+            <p className="text-3xl text-muted-foreground flex flex-grow items-center font-bold">Solte aqui</p>
           )}
 
           {droppable.isOver && elements.length === 0 && (
