@@ -27,7 +27,7 @@ export default function RootLayout({
                     <body className={cn("flex flex-1 w-full min-h-full h-fit bg-background", inter.className)}>
                         <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
                             <Sidebar/>
-                            <main className="flex flex-1 flex-col justify-center items-center pl-sidebar py-16">
+                            <main className="flex flex-1 flex-col justify-center items-center pl-sidebar">
                                 {children}
                             </main>
                             <Toaster/>
