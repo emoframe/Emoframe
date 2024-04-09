@@ -16,7 +16,7 @@ import Confetti from "react-confetti";
 import { Template } from "@/types/forms";
 
 
-function FormBuilder({ template }: { template: Template }) {
+const FormBuilder = ({ template }: { template: Template }) => {
   const { setElements, setSelectedElement } = useDesigner();
   const [isReady, setIsReady] = useState(false);
   const { toast } = useToast();
@@ -92,8 +92,8 @@ function FormBuilder({ template }: { template: Template }) {
 
   return (
     <DndContext sensors={sensors}>
-      <main className="flex flex-col w-full">
-        <nav className="flex justify-between border-b-2 p-4 gap-3 items-center">
+      <section className="flex flex-col w-full">
+        <nav className="flex justify-between border-b-2 p-4 gap-3 items-center bg-primary-background">
           <h2 className="truncate font-medium">
             <span className="text-muted-foreground mr-2">Template:</span>
             {template.title}
@@ -111,7 +111,7 @@ function FormBuilder({ template }: { template: Template }) {
         <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto h-[200px] bg-accent bg-[url(/paper.svg)] dark:bg-[url(/paper-dark.svg)]">
           <Designer/>
         </div>
-      </main>
+      </section>
       <DragOverlayWrapper/>
     </DndContext>
   );
