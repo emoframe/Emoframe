@@ -95,7 +95,7 @@ const FormBuilder = ({ template }: { template: Template }) => {
   return (
     <DndContext sensors={sensors}>
       <section className="flex flex-col w-full">
-        <nav className="flex justify-between border-b-2 p-4 gap-3 items-center bg-primary-background">
+        <nav className="flex justify-between p-4 gap-3 items-center bg-primary-background shadow-md shadow-slate-800/40 dark:shadow-slate-800">
           <h2 className="truncate font-medium">
             <span className="text-muted-foreground mr-2">Template:</span>
             {template.title}

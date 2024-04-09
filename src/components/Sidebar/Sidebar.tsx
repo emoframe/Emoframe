@@ -76,7 +76,7 @@ const SidebarCore = ({ children }) => {
   
   return (
     <aside className="h-screen fixed z-10 top-0">
-      <nav className="h-full flex flex-col bg-primary-background border-r shadow-sm">
+      <nav className="h-full flex flex-col bg-primary-background shadow-md shadow-slate-800/40 dark:shadow-slate-800">
         <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
           <Link href={redirect()}>
             <Image
@@ -103,7 +103,7 @@ const SidebarCore = ({ children }) => {
           <ul className=" px-3">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className={`absolute bottom-0 w-full flex justify-center items-center border-t p-3 ${!expanded && "invisible"}`}>
+        <div className={`absolute bottom-0 w-full flex justify-center items-center border-t border-muted p-3 ${!expanded && "invisible"}`}>
           <Login/>
         </div>
       </nav>

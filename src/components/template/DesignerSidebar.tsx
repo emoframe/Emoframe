@@ -7,7 +7,7 @@ import PropertiesTemplateSidebar from "@/components/template/PropertiesTemplateS
 const DesignerSidebar = () => {
   const { selectedElement } = useDesigner();
   return (
-    <aside className="w-[400px] max-w-[400px] flex flex-col flex-grow gap-2 border-l-2 border-muted p-4 bg-primary-background overflow-y-auto h-full">
+    <aside className="w-[400px] max-w-[400px] h-full overflow-y-auto flex flex-col flex-grow gap-2 p-4 bg-primary-background shadow-md shadow-slate-800/40 dark:shadow-slate-800">
       {!selectedElement && <TemplateElementsSidebar />}
       {selectedElement && <PropertiesTemplateSidebar />}
     </aside>
