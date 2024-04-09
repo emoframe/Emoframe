@@ -14,6 +14,8 @@ import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
 import Confetti from "react-confetti";
 import { Template } from "@/types/forms";
+import BuilderPattern from "../pattern/BuilderPattern";
+import PatternReceiver from "../pattern/PatternReceiver";
 
 
 const FormBuilder = ({ template }: { template: Template }) => {
@@ -108,9 +110,9 @@ const FormBuilder = ({ template }: { template: Template }) => {
             )}
           </div>
         </nav>
-        <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto h-[200px] bg-accent bg-[url(/paper.svg)] dark:bg-[url(/paper-dark.svg)]">
+        <PatternReceiver Pattern={<BuilderPattern size={192} foreground="#6EA05A" />} backgroundColor="#D2EEC9">
           <Designer/>
-        </div>
+        </PatternReceiver>
       </section>
       <DragOverlayWrapper/>
     </DndContext>
