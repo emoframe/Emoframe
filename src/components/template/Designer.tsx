@@ -10,7 +10,7 @@ import { idGenerator } from "@/lib/utils";
 import { DragEndEvent, useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { Trash2 } from 'lucide-react';
 
-function Designer() {
+const Designer = () => {
   const { elements, addElement, selectedElement, setSelectedElement, removeElement } = useDesigner();
 
   const droppable = useDroppable({
@@ -111,7 +111,7 @@ function Designer() {
         <div
           ref={droppable.setNodeRef}
           className={cn(
-            "bg-background max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto",
+            "bg-primary-background max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto",
             droppable.isOver && "ring-4 ring-primary ring-inset",
           )}
         >
