@@ -1,7 +1,9 @@
-import { TitleFieldTemplateElement } from "@/components/template/elements/TitleField";
+import { TitleFieldTemplateElement } from "@/components/template/fields/TitleField";
+import { RadioFieldTemplateElement } from "@/components/template/fields/RadioField";
 
 export type ElementsType =
-  | "TitleField";
+  | "TitleField"
+  | "RadioField";
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -28,7 +30,11 @@ export type TemplateElement = {
     elementInstance: TemplateElementInstance;
   }>;
 
-  validate: (formElement: TemplateElementInstance, currentValue: string) => boolean;
+  validate: (
+    templateElementInstance: TemplateElementInstance,
+    currentValue: string,
+    customParams?: any
+  ) => boolean;
 };
 
 export type TemplateElementInstance = {
@@ -42,4 +48,5 @@ type TemplateElementsType = {
 };
 export const TemplateElements: TemplateElementsType = {
   TitleField: TitleFieldTemplateElement,
+  RadioField: RadioFieldTemplateElement
 };
