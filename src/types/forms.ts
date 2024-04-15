@@ -39,6 +39,22 @@ export const instruments: Instruments[] = [
     },
 ];
 
+export type Scales  = {
+    value: Lowercase<string>;
+    label: string;
+}
+
+export const scales: Scales[] = [
+    {  
+      value: "likert",
+      label: "Escala Likert",
+    },
+    {  
+      value: "semantic",
+      label: "Escala de Diferencial Semântico",
+    },
+];
+
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -54,7 +70,8 @@ export interface Template {
     specialist: string,
     title: string,
     description?: string,
-    published: Boolean,
+    quantity_of_options: number,
+    type: string,
 }
 
 export interface Evaluation {
