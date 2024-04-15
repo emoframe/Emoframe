@@ -7,7 +7,7 @@ import SetTemplateButton from '@/components/template/SetTemplateButton';
 
 const TemplatesCards = async () => {
   const session: any = await getServerSession(authOptions);
-  const data = await search("template", "specialist", "==", session?.user.uid!);
+  const data = await search("template", "specialistId", "==", session?.user.uid!);
 
   const transformedContent: Content[] = data.map(template => ({
     title: template.title,

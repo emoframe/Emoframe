@@ -73,7 +73,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
       <DialogTrigger asChild>
         <Button
           variant={"default"}
-          className="group text-content shadow-2xl shadow-shadow_color bg-primary-background border-2 border-content border-dashed h-[190px] items-center justify-center flex flex-col gap-4 hover:cursor-pointer hover:border-primary duration-300"
+          className="group text-content shadow-2xl shadow-shadow_color bg-primary-background border-2 border-content border-dashed h-[250px] w-[250px] items-center justify-center flex flex-col gap-4 hover:cursor-pointer hover:border-primary duration-300"
         >
           <File className="h-8 w-8 group-hover:text-primary duration-300" />
           <p className="font-bold text-xl group-hover:text-primary duration-300">Criar novo template</p>
