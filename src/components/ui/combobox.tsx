@@ -18,13 +18,14 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { Options } from "@/types/forms"
 
 
 const Combobox = ({ onSelect, defaultValue, options, placeholder, className }:
     {
         onSelect: (currentValue: string) => void,
         defaultValue?: string,
-        options: {label: string, value: any}[],
+        options: Options[],
         placeholder: string,
         className?: string
     }

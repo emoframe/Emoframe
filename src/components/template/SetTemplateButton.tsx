@@ -21,31 +21,16 @@ import { toast } from "@/components/ui/use-toast";
 
 import { useRouter } from "next/navigation";
 import { createRegistration } from "@/lib/firebase";
-import { Template, scales } from "@/types/forms";
+import { Template, scales, size_questions } from "@/types/forms";
 import { useState } from "react";
 import Combobox from "@/components/ui/combobox";
 
 const FormSchema = z.object({
   title: z.string().min(1, 'A seleção é obrigatória'),
   type: z.string().min(1, 'A seleção é obrigatória'),
-  quantity_of_options: z.number().min(5, 'A seleção é obrigatória').max(9, 'A seleção é obrigatória'),
+  size_questions: z.string().min(1, 'A seleção é obrigatória'),
   description: z.string().optional(),
 });
-
-const quantity_of_options = [
-  {
-    value: 5,
-    label: "5",
-  },
-  {
-    value: 7,
-    label: "7",
-  },
-  {
-    value: 9,
-    label: "9",
-  },
-];
 
 const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
   const router = useRouter();
@@ -57,8 +42,13 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
 
   const onSubmit = async(values: z.infer<typeof FormSchema>) => {
     try {
-      let data = values as Template;
-      data.specialist = specialistId;
+      // Criar uma nova instância de data a partir de values, sem modificar values diretamente.
+      const data: Template = {
+        ...values,
+        size_questions: Number(values.size_questions), // Garantir que size_questions é um número.
+        specialistId: specialistId
+      };
+
       createRegistration(data, "template").then(() => {
         toast({
             title: "Socilitação registrada!",
@@ -67,7 +57,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
         form.reset();
         setOpen(false);
       });
-      //router.push(`/builder/${formId}`);
+      router.refresh();
     } catch (error) {
       toast({
         title: "Erro!",
@@ -128,14 +118,14 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
             />
             <FormField
               control={form.control}
-              name='quantity_of_options'
+              name='size_questions'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Quantidade de opções</FormLabel>
                   <FormControl>
                     <Combobox
                       onSelect={(value) => field.onChange(value)}
-                      options={quantity_of_options}
+                      options={size_questions}
                       placeholder="Selecione uma opção"
                     />
                   </FormControl>

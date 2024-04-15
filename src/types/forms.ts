@@ -39,12 +39,12 @@ export const instruments: Instruments[] = [
     },
 ];
 
-export type Scales  = {
+export type Options = {
     value: Lowercase<string>;
     label: string;
-}
+};
 
-export const scales: Scales[] = [
+export const scales: Options[] = [
     {  
       value: "likert",
       label: "Escala Likert",
@@ -54,6 +54,21 @@ export const scales: Scales[] = [
       label: "Escala de Diferencial Semântico",
     },
 ];
+
+export const size_questions: Options[] = [
+    {
+      label: "Cinco opções",
+      value: "5",
+    },
+    {
+      label: "Sete opções",
+      value: "7",
+    },
+    {
+      label: "Nove opções",
+      value: "9",
+    },
+  ];
 
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -67,10 +82,10 @@ export interface RadioItem {
 
 export interface Template {
     uid?: string,
-    specialist: string,
+    specialistId: string,
     title: string,
     description?: string,
-    quantity_of_options: number,
+    size_questions: number,
     type: string,
 }
 
