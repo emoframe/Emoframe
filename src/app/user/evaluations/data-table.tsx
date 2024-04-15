@@ -37,19 +37,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import Link from "next/link";
-import { Label } from "@/components/ui/label";
-import SetInstrumentsUsersForm from "@/components/form/SetInstrumentsUsersForm";
-import { instruments, DataTableProps } from "@/types/forms";
+import { DataTableProps } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
