@@ -21,15 +21,33 @@ import { toast } from "@/components/ui/use-toast";
 
 import { useRouter } from "next/navigation";
 import { createRegistration } from "@/lib/firebase";
-import { Template } from "@/types/forms";
+import { Template, scales } from "@/types/forms";
 import { useState } from "react";
+import Combobox from "@/components/ui/combobox";
 
 const FormSchema = z.object({
   title: z.string().min(1, 'A seleção é obrigatória'),
+  type: z.string().min(1, 'A seleção é obrigatória'),
+  quantity_of_options: z.number().min(5, 'A seleção é obrigatória').max(9, 'A seleção é obrigatória'),
   description: z.string().optional(),
 });
 
-const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
+const quantity_of_options = [
+  {
+    value: 5,
+    label: "5",
+  },
+  {
+    value: 7,
+    label: "7",
+  },
+  {
+    value: 9,
+    label: "9",
+  },
+];
+
+const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -93,6 +111,40 @@ const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
             />
             <FormField
               control={form.control}
+              name='type'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Combobox
+                      className="w-[400px]"
+                      onSelect={(value) => field.onChange(value)}
+                      options={scales}
+                      placeholder="Selecione uma opção"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='quantity_of_options'
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Combobox
+                      className="w-[400px]"
+                      onSelect={(value) => field.onChange(value)}
+                      options={quantity_of_options}
+                      placeholder="Selecione uma opção"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
@@ -117,4 +169,4 @@ const SetTemplateForm = ({specialistId}: {specialistId: string}) => {
   );
 }
 
-export default SetTemplateForm;
+export default SetTemplateButton;
