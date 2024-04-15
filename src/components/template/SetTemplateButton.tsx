@@ -114,6 +114,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
               name='type'
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Escala</FormLabel>
                   <FormControl>
                     <Combobox
                       className="w-[400px]"
@@ -131,6 +132,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
               name='quantity_of_options'
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Quantidade de opções</FormLabel>
                   <FormControl>
                     <Combobox
                       className="w-[400px]"
