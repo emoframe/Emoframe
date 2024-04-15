@@ -117,7 +117,6 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
                   <FormLabel>Escala</FormLabel>
                   <FormControl>
                     <Combobox
-                      className="w-[400px]"
                       onSelect={(value) => field.onChange(value)}
                       options={scales}
                       placeholder="Selecione uma opção"
@@ -135,7 +134,6 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
                   <FormLabel>Quantidade de opções</FormLabel>
                   <FormControl>
                     <Combobox
-                      className="w-[400px]"
                       onSelect={(value) => field.onChange(value)}
                       options={quantity_of_options}
                       placeholder="Selecione uma opção"
