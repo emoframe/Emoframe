@@ -14,7 +14,7 @@ const TemplateElementsSidebar = () => {
         <SidebarButtonElement element={TemplateElements.TitleField} />
 
         <p className="text-sm text-muted-foreground col-span-1 md:col-span-2 my-2 place-self-start">Elementos de Formulário</p>
-        {/*TODO */}
+        <SidebarButtonElement element={TemplateElements.RadioField} />
       </div>
     </div>
   );

@@ -8,10 +8,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import useDesigner from "@/components/hooks/useDesigner";
-import { CircleEllipsis } from 'lucide-react';
+import { CircleEllipsis, XCircle } from 'lucide-react';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "@/components/ui/button";
+import React from "react";
 
 const type: ElementsType = "RadioField";
 
@@ -23,6 +25,9 @@ const extraAttributes = {
 const propertiesSchema = z.object({
   label: z.string().min(2).max(50),
   helperText: z.string().max(200),
+  scaleType: z.enum(['likert', 'semantic']),
+  optionCount: z.number().min(2).max(10),
+  optionLabels: z.array(z.string()).min(2),
 });
 
 export const RadioFieldTemplateElement: TemplateElement = {
@@ -34,7 +39,8 @@ export const RadioFieldTemplateElement: TemplateElement = {
       label: "Campo de Seleção",
       helperText: "Texto de Apoio",
       scaleType: params?.scaleType, // Incluindo parâmetros dinâmicos
-      optionCount: params?.optionCount
+      optionCount: params?.optionCount,
+      options: []
     },
   }),
   designerButtonElement: {
@@ -46,7 +52,7 @@ export const RadioFieldTemplateElement: TemplateElement = {
   propertiesComponent: PropertiesComponent,
 
   validate: (templateElement: TemplateElementInstance, currentValue: string, customParams: {
-    options: Array<{ value: string; description: string }>
+    options: Array<{ value: string; label: string }>
   } = { options: [] }): boolean => {
     const element = templateElement as CustomInstance;
     const { options } = customParams;
@@ -67,30 +73,27 @@ type CustomInstance = TemplateElementInstance & {
 
 function DesignerComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
   const element = elementInstance as CustomInstance;
-  const { label, helperText } = element.extraAttributes;
+  const { label, helperText, options } = element.extraAttributes;
   const id = `radio-${element.id}`;
+
   return (
     <div className="flex items-top space-x-2">
-      <RadioGroup
-        className="flex flex-row space-x-5 justify-between">
-            {options.map((option, index) => (
-                <div className="flex flex-col items-center space-y-2" key={index}>
-                    <RadioGroupItem disabled value={option.value}/>
-                    <Label className="font-normal text-md">
-                        {option.label}
-                    </Label>
-                </div>
-            ))}
-        </RadioGroup>
+      <RadioGroup className="flex flex-row space-x-5 justify-between">
+        {options.map((option, index) => (
+          <div className="flex flex-col items-center space-y-2" key={index}>
+            <RadioGroupItem disabled value={option.value}/>
+            <Label className="font-normal text-md">{option.label}</Label>
+          </div>
+        ))}
+      </RadioGroup>
       <div className="grid gap-1.5 leading-none">
-        <Label htmlFor={id}>
-          {label}
-        </Label>
+        <Label htmlFor={id}>{label}</Label>
         {helperText && <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>}
       </div>
     </div>
   );
 }
+
 
 function TemplateComponent({
   elementInstance,
@@ -106,33 +109,30 @@ function TemplateComponent({
   const element = elementInstance as CustomInstance;
   const [value, setValue] = useState<string | undefined>(defaultValue || undefined);
   const [error, setError] = useState(false);
+  const { label, helperText, options } = element.extraAttributes;
 
   useEffect(() => {
     setError(isInvalid === true);
   }, [isInvalid]);
 
-  const { label, placeHolder, helperText, options } = element.extraAttributes;
-  const id = `radio-${element.id}`;
-
   return (
     <div className="flex flex-col space-y-4">
-      <Label htmlFor={id} className={cn("font-bold", error && "text-red-500")}>
-        {label}
-      </Label>
+      <Label htmlFor={element.id} className={cn("font-bold", error && "text-red-500")}>{label}</Label>
       <RadioGroup
-        aria-labelledby={id}
+        aria-labelledby={element.id}
         value={value}
         onValueChange={(newValue) => {
           setValue(newValue);
-          if (!submitValue) return;
-          const valid = RadioFieldTemplateElement.validate(element, newValue);
+          const valid = RadioFieldTemplateElement.validate(element, newValue, { options });
           setError(!valid);
-          submitValue(element.id, newValue);
+          if (submitValue) {
+            submitValue(element.id, newValue);
+          }
         }}
       >
         {options.map((option, index) => (
-          <RadioGroupItem key={index} id={`${id}-${index}`} value={option.value}>
-            {option.description}
+          <RadioGroupItem key={index} id={`${element.id}-${index}`} value={option.value}>
+            {option.label}
           </RadioGroupItem>
         ))}
       </RadioGroup>
@@ -142,88 +142,114 @@ function TemplateComponent({
 }
 
 
+
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function PropertiesComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
   const element = elementInstance as CustomInstance;
-  const { updateElement } = useDesigner();
+  const { updateElement, setSelectedElement } = useDesigner();
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
-    mode: "onBlur",
+    mode: "onSubmit",
     defaultValues: {
       label: element.extraAttributes.label,
       helperText: element.extraAttributes.helperText,
+      optionLabels: element.extraAttributes.optionLabels || Array(element.extraAttributes.optionCount).fill(''),
     },
   });
 
+  // Usando valores monitorados
+  const optionLabels = form.watch("optionLabels");
+  const optionCount = form.watch("optionCount");
+  const scaleType = form.watch("scaleType");
+
   useEffect(() => {
-    form.reset(element.extraAttributes);
-  }, [element, form]);
+    // Atualize os rótulos de opção com base na contagem de opções
+    const updatedLabels = Array(optionCount).fill('').map((_, index) => optionLabels[index] || '');
+    form.setValue("optionLabels", updatedLabels);
+  }, [optionCount, form]);
 
   function applyChanges(values: propertiesFormSchemaType) {
-    const { label, helperText } = values;
     updateElement(element.id, {
       ...element,
       extraAttributes: {
-        label,
-        helperText,
+        ...values,
+        options: values.optionLabels.map((label, index) => ({ label, value: index + 1 }))
       },
     });
+
+    setSelectedElement(null);
   }
 
   return (
     <Form {...form}>
-      <form
-        onBlur={form.handleSubmit(applyChanges)}
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-        className="space-y-3"
-      >
+      <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-3">
         <FormField
           control={form.control}
           name="label"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Rótulo</FormLabel>
+              <FormLabel>Título</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") e.currentTarget.blur();
-                  }}
-                />
+                <Input {...field} />
+                {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
               </FormControl>
-              <FormDescription>
-                O rótulo do campo. <br /> Será exibido acima do campo
-              </FormDescription>
-              <FormMessage />
             </FormItem>
-          )}
+            )}
         />
         <FormField
           control={form.control}
           name="helperText"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
-              <FormLabel>Texto de apoio</FormLabel>
+              <FormLabel>Texto de Apoio</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") e.currentTarget.blur();
-                  }}
-                />
+                <Input {...field} />
+                {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
               </FormControl>
-              <FormDescription>
-                The helper text of the field. <br />
-                It will be displayed below the field.
-              </FormDescription>
-              <FormMessage />
             </FormItem>
           )}
         />
+        <>
+          {
+            optionLabels.map((label, index) => (
+              <React.Fragment key={index}>
+                <FormField
+                  key={index}
+                  control={form.control}
+                  name={`optionLabels.${index}`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Descrição da Opção {index + 1}</FormLabel>
+                      <FormControl>
+                        <Input {...field} placeholder={`Opção ${index + 1} Descrição`} />
+                        {index === 0 || index === optionCount - 1 || scaleType === 'likert' ? (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const newLabels = [...optionLabels];
+                              newLabels.splice(index, 1);
+                              form.setValue("optionLabels", newLabels);
+                            }}
+                          >
+                            <XCircle />
+                          </Button>
+                        ) : null}
+                      </FormControl>
+                    </FormItem>
+                  )} 
+                />
+              </React.Fragment>
+            ))
+          }
+        </>
+        <Button type="submit" className="w-full">
+          Salvar Propriedades
+        </Button>
       </form>
     </Form>
   );
 }
+
