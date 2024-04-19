@@ -23,9 +23,8 @@ const propertiesSchema = z.object({
 
 export const TitleFieldTemplateElement: TemplateElement = {
   type,
-  construct: (id: string, uid: string) => ({
+  construct: (id: string) => ({
     id,
-    uid,
     type,
     extraAttributes,
   }),

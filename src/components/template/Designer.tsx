@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { idGenerator } from "@/lib/utils";
 import { DragEndEvent, useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { Trash2 } from 'lucide-react';
+import { getById } from "@/lib/firebase";
 
 const Designer = ({ uid }: { uid: string }) => {
   const { elements, addElement, selectedElement, setSelectedElement, removeElement } = useDesigner();
@@ -21,10 +22,11 @@ const Designer = ({ uid }: { uid: string }) => {
   });
 
   useDndMonitor({
-    onDragEnd: (event: DragEndEvent) => {
+    onDragEnd: async (event: DragEndEvent) => {
       const { active, over } = event;
       if (!active || !over) return;
 
+      const type = active.data?.current?.type as ElementsType;
       const isDesignerButtonElement = active.data?.current?.isDesignerButtonElement;
       const isDroppingOverDesignerDropArea = over.data?.current?.isDesignerDropArea;
 
@@ -32,9 +34,18 @@ const Designer = ({ uid }: { uid: string }) => {
 
       // Primeiro cenário
       if (droppingSidebarBtnOverDesignerDropArea) {
-        const type = active.data?.current?.type;
-        const newElement = TemplateElements[type as ElementsType].construct(idGenerator(), uid);
+        let newElement;
 
+        if (type === "RadioField") {
+          const data = await getById(uid, "template"); // Assumindo que isso retorna { type: 'likert', size_questions: 5 }
+          newElement = TemplateElements[type].construct(idGenerator(), {
+            scaleType: data.type,
+            optionCount: data.size_questions,
+          });
+        } else {
+          newElement = TemplateElements[type].construct(idGenerator());
+        }
+  
         addElement(elements.length, newElement);
         return;
       }
@@ -50,23 +61,29 @@ const Designer = ({ uid }: { uid: string }) => {
 
       // Segundo cenário
       if (droppingSidebarBtnOverDesignerElement) {
-        const type = active.data?.current?.type;
-        const newElement = TemplateElements[type as ElementsType].construct(idGenerator(), uid);
-
+        let newElement;
         const overId = over.data?.current?.elementId;
-
         const overElementIndex = elements.findIndex((el) => el.id === overId);
         if (overElementIndex === -1) {
           throw new Error("element not found");
         }
-
-        let indexForNewElement = overElementIndex; // Assumido que está na metade superior
-        if (isDroppingOverDesignerElementBottomHalf) {
-          indexForNewElement = overElementIndex + 1;
+        
+        if (type === "RadioField") {
+          const data = await getById(uid, "template"); 
+          newElement = TemplateElements[type].construct(idGenerator(), {
+            scaleType: data.type,
+            optionCount: data.size_questions,
+          });
+        } else {
+          newElement = TemplateElements[type].construct(idGenerator());
         }
-
+        
+        let indexForNewElement = overElementIndex; // Assume que está na metade superior
+        if (isDroppingOverDesignerElementBottomHalf) {
+          indexForNewElement += 1; // Adiciona abaixo do elemento atual
+        }
+        
         addElement(indexForNewElement, newElement);
-        return;
       }
 
       // Terceiro cenário
