@@ -10,7 +10,7 @@ export type SubmitFunction = (key: string, value: string) => void;
 export type TemplateElement = {
   type: ElementsType;
 
-  construct: (id: string) => TemplateElementInstance;
+  construct: (id: string, uid: string) => TemplateElementInstance;
 
   designerButtonElement: {
     icon: React.ElementType;
