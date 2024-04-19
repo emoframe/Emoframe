@@ -10,7 +10,7 @@ import { idGenerator } from "@/lib/utils";
 import { DragEndEvent, useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { Trash2 } from 'lucide-react';
 
-const Designer = () => {
+const Designer = ({ uid }: { uid: string }) => {
   const { elements, addElement, selectedElement, setSelectedElement, removeElement } = useDesigner();
 
   const droppable = useDroppable({
@@ -33,7 +33,7 @@ const Designer = () => {
       // Primeiro cenário
       if (droppingSidebarBtnOverDesignerDropArea) {
         const type = active.data?.current?.type;
-        const newElement = TemplateElements[type as ElementsType].construct(idGenerator());
+        const newElement = TemplateElements[type as ElementsType].construct(idGenerator(), uid);
 
         addElement(elements.length, newElement);
         return;
@@ -51,7 +51,7 @@ const Designer = () => {
       // Segundo cenário
       if (droppingSidebarBtnOverDesignerElement) {
         const type = active.data?.current?.type;
-        const newElement = TemplateElements[type as ElementsType].construct(idGenerator());
+        const newElement = TemplateElements[type as ElementsType].construct(idGenerator(), uid);
 
         const overId = over.data?.current?.elementId;
 
@@ -90,7 +90,7 @@ const Designer = () => {
         const activeElement = { ...elements[activeElementIndex] };
         removeElement(activeId);
 
-        let indexForNewElement = overElementIndex; // i assume i'm on top-half
+        let indexForNewElement = overElementIndex; // Metade superior
         if (isDroppingOverDesignerElementBottomHalf) {
           indexForNewElement = overElementIndex + 1;
         }
