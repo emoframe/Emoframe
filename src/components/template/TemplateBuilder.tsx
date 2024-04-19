@@ -60,6 +60,7 @@ const FormBuilder = ({ template }: { template: Template }) => {
   //TODO :
   //const shareUrl = `${window.location.origin}/submit/${template.shareURL}`;
 
+  /*
   if (template.published) {
     return (
       <>
@@ -91,6 +92,7 @@ const FormBuilder = ({ template }: { template: Template }) => {
       </>
     );
   }
+  */
 
   return (
     <DndContext sensors={sensors}>
@@ -102,16 +104,12 @@ const FormBuilder = ({ template }: { template: Template }) => {
           </h2>
           <div className="flex items-center gap-2">
             <PreviewTemplateButton/>
-            {!template.published && (
-              <>
-                <SaveTemplateButton uid={template.uid as string} />
-                <PublishTemplateButton uid={template.uid as string} />
-              </>
-            )}
+            <SaveTemplateButton uid={template.uid as string} />
+            <PublishTemplateButton uid={template.uid as string} />
           </div>
         </nav>
         <PatternReceiver Pattern={<BuilderPattern size={192} foreground="#6EA05A" />} backgroundColor="#D2EEC9">
-          <Designer/>
+          <Designer uid={template.uid as string}/>
         </PatternReceiver>
       </section>
       <DragOverlayWrapper/>
