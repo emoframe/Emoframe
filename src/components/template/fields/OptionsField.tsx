@@ -169,7 +169,10 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
       label: options[index]?.label || `Option ${index + 1}`,
       value: (index + 1).toString()
     }));
-    form.setValue("options", updatedOptions);
+  
+    if (JSON.stringify(options) !== JSON.stringify(updatedOptions)) {
+      form.setValue("options", updatedOptions);
+    }
   }, [element.extraAttributes.optionCount, form, options]);
 
   function applyChanges(values: propertiesFormSchemaType) {
