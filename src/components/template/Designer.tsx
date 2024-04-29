@@ -140,7 +140,7 @@ const Designer = ({ uid }: { uid: string }) => {
 
           {droppable.isOver && elements.length === 0 && (
             <div className="p-4 w-full">
-              <div className="h-[120px] rounded-md bg-primary/20"></div>
+              <div className="min-h-[120px] rounded-md bg-primary/20"></div>
             </div>
           )}
           {elements.length > 0 && (
@@ -196,7 +196,7 @@ function DesignerElementWrapper({ element }: { element: TemplateElementInstance 
       ref={draggable.setNodeRef}
       {...draggable.listeners}
       {...draggable.attributes}
-      className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
+      className="relative min-h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset p-2"
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -208,11 +208,11 @@ function DesignerElementWrapper({ element }: { element: TemplateElementInstance 
         setSelectedElement(element);
       }}
     >
-      <div ref={topHalf.setNodeRef} className="absolute w-full h-1/2 rounded-t-md" />
-      <div ref={bottomHalf.setNodeRef} className="absolute  w-full bottom-0 h-1/2 rounded-b-md" />
+      <div ref={topHalf.setNodeRef} className="absolute left-0 top-0 w-full h-1/2 rounded-t-md" />
+      <div ref={bottomHalf.setNodeRef} className="absolute w-full left-0 bottom-0 h-1/2 rounded-b-md" />
       {mouseIsOver && (
         <>
-          <div className="absolute right-0 h-full">
+          <div className="absolute top-0 right-0 h-full">
             <Button
               className="flex justify-center h-full border rounded-md rounded-l-none bg-red-500"
               variant={"outline"}
@@ -232,7 +232,7 @@ function DesignerElementWrapper({ element }: { element: TemplateElementInstance 
       {topHalf.isOver && <div className="absolute top-0 w-full rounded-md h-[7px] bg-primary rounded-b-none" />}
       <div
         className={cn(
-          "flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
+          "flex w-full min-h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
           mouseIsOver && "opacity-30",
         )}
       >
