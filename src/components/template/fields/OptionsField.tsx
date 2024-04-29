@@ -81,19 +81,20 @@ function DesignerComponent({ elementInstance }: { elementInstance: TemplateEleme
   const id = `options-${element.id}`;
 
   return (
-    <div className="flex items-top space-x-2">
-      <RadioGroup className="flex flex-row space-x-5 justify-between">
+    <div className="flex flex-col items-top space-y-4 w-full">
+      <div className="grid gap-1.5 leading-none">
+        <Label className="text-muted-foreground">Campo de Seleção</Label>
+        <p className="text-lg">{label}</p>
+        {helperText && <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>}
+      </div>
+      <RadioGroup className="flex flex-row content-center justify-between">
         {options.map((option, index) => (
           <div className="flex flex-col items-center space-y-2" key={index}>
             <RadioGroupItem disabled value={option.value}/>
-            <Label className="font-normal text-md">{option.label}</Label>
+            <Label className="font-normal text-[0.8rem]">{option.label}</Label>
           </div>
         ))}
       </RadioGroup>
-      <div className="grid gap-1.5 leading-none">
-        <Label htmlFor={id}>{label}</Label>
-        {helperText && <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>}
-      </div>
     </div>
   );
 }
@@ -236,7 +237,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
             </React.Fragment>
           ))}
           
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" onClick={() => applyChanges(form.getValues())}>
             Save Properties
           </Button>
       </form>
