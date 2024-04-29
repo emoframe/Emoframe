@@ -78,7 +78,7 @@ type CustomInstance = TemplateElementInstance & {
 function DesignerComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
   const element = elementInstance as CustomInstance;
   const { label, helperText, options } = element.extraAttributes;
-  const id = `radio-${element.id}`;
+  const id = `options-${element.id}`;
 
   return (
     <div className="flex items-top space-x-2">
@@ -186,7 +186,6 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-3">
-        {/*<>
           <FormField
             control={form.control}
             name="label"
@@ -194,8 +193,10 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
               <FormItem>
                 <FormLabel>Título</FormLabel>
                 <FormControl>
-                  <Input {...field} />
-                  {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+                  <>
+                    <Input {...field} />
+                    {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+                  </>
                 </FormControl>
               </FormItem>
               )}
@@ -207,14 +208,14 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
               <FormItem>
                 <FormLabel>Texto de Apoio</FormLabel>
                 <FormControl>
-                  <Input {...field} />
-                  {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+                  <>
+                    <Input {...field} />
+                    {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+                  </>
                 </FormControl>
               </FormItem>
             )}
           />
-          </>
-          */}
           {options.map((option, index) => (
             <React.Fragment key={index}>
               <FormField
