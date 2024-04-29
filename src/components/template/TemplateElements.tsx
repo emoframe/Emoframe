@@ -1,9 +1,9 @@
 import { TitleFieldTemplateElement } from "@/components/template/fields/TitleField";
-import { RadioFieldTemplateElement } from "@/components/template/fields/RadioField";
+import { OptionsFieldTemplateElement } from "@/components/template/fields/OptionsField";
 
 export type ElementsType =
   | "TitleField"
-  | "RadioField";
+  | "OptionsField";
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -48,5 +48,5 @@ type TemplateElementsType = {
 };
 export const TemplateElements: TemplateElementsType = {
   TitleField: TitleFieldTemplateElement,
-  RadioField: RadioFieldTemplateElement
+  OptionsField: OptionsFieldTemplateElement
 };

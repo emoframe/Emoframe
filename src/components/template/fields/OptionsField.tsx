@@ -3,7 +3,7 @@
 import { ElementsType, TemplateElement, TemplateElementInstance, SubmitFunction } from "@/components/template/TemplateElements";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { z } from "zod";
+import { number, string, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -15,22 +15,20 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import React from "react";
 
-const type: ElementsType = "RadioField";
-
-const extraAttributes = {
-  label: "Campo de Seleção",
-  helperText: "Texto de Apoio",
-};
+const type: ElementsType = "OptionsField";
 
 const propertiesSchema = z.object({
   label: z.string().min(2).max(50),
   helperText: z.string().max(200),
   scaleType: z.enum(['likert', 'semantic']),
   optionCount: z.number().min(2).max(10),
-  optionLabels: z.array(z.string()).min(2),
+  options: z.array(z.object({
+    label: z.string(),
+    value: z.string(),
+  })).min(2),
 });
 
-export const RadioFieldTemplateElement: TemplateElement = {
+export const OptionsFieldTemplateElement: TemplateElement = {
   type,
   construct: (id: string, params) => ({
     id,
@@ -68,7 +66,13 @@ export const RadioFieldTemplateElement: TemplateElement = {
 };
 
 type CustomInstance = TemplateElementInstance & {
-  extraAttributes: typeof extraAttributes;
+  extraAttributes: {
+    label: string,
+    helperText: string,
+    scaleType: string,
+    optionCount: number,
+    options: Array<{label: string, value: string}>,
+  }
 };
 
 function DesignerComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
@@ -123,7 +127,7 @@ function TemplateComponent({
         value={value}
         onValueChange={(newValue) => {
           setValue(newValue);
-          const valid = RadioFieldTemplateElement.validate(element, newValue, { options });
+          const valid = OptionsFieldTemplateElement.validate(element, newValue, { options });
           setError(!valid);
           if (submitValue) {
             submitValue(element.id, newValue);
@@ -154,27 +158,25 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
     defaultValues: {
       label: element.extraAttributes.label,
       helperText: element.extraAttributes.helperText,
-      optionLabels: element.extraAttributes.optionLabels || Array(element.extraAttributes.optionCount).fill(''),
+      options: element.extraAttributes.options || [],
     },
   });
 
-  // Usando valores monitorados
-  const optionLabels = form.watch("optionLabels");
-  const optionCount = form.watch("optionCount");
-  const scaleType = form.watch("scaleType");
+  const options = form.watch("options");
 
   useEffect(() => {
-    // Atualize os rótulos de opção com base na contagem de opções
-    const updatedLabels = Array(optionCount).fill('').map((_, index) => optionLabels[index] || '');
-    form.setValue("optionLabels", updatedLabels);
-  }, [optionCount, form]);
+    const updatedOptions = Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
+      label: options[index]?.label || `Option ${index + 1}`,
+      value: (index + 1).toString()
+    }));
+    form.setValue("options", updatedOptions);
+  }, [element.extraAttributes.optionCount, form, options]);
 
   function applyChanges(values: propertiesFormSchemaType) {
     updateElement(element.id, {
       ...element,
       extraAttributes: {
         ...values,
-        options: values.optionLabels.map((label, index) => ({ label, value: index + 1 }))
       },
     });
 
@@ -184,72 +186,58 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-3">
-        <FormField
-          control={form.control}
-          name="label"
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>Título</FormLabel>
-              <FormControl>
-                <Input {...field} />
-                {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
-              </FormControl>
-            </FormItem>
+        {/*<>
+          <FormField
+            control={form.control}
+            name="label"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>Título</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                  {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+                </FormControl>
+              </FormItem>
+              )}
+          />
+          <FormField
+            control={form.control}
+            name="helperText"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>Texto de Apoio</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                  {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+                </FormControl>
+              </FormItem>
             )}
-        />
-        <FormField
-          control={form.control}
-          name="helperText"
-          render={({ field, fieldState }) => (
-            <FormItem>
-              <FormLabel>Texto de Apoio</FormLabel>
-              <FormControl>
-                <Input {...field} />
-                {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <>
-          {
-            optionLabels.map((label, index) => (
-              <React.Fragment key={index}>
-                <FormField
-                  key={index}
-                  control={form.control}
-                  name={`optionLabels.${index}`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Descrição da Opção {index + 1}</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder={`Opção ${index + 1} Descrição`} />
-                        {index === 0 || index === optionCount - 1 || scaleType === 'likert' ? (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              const newLabels = [...optionLabels];
-                              newLabels.splice(index, 1);
-                              form.setValue("optionLabels", newLabels);
-                            }}
-                          >
-                            <XCircle />
-                          </Button>
-                        ) : null}
-                      </FormControl>
-                    </FormItem>
-                  )} 
-                />
-              </React.Fragment>
-            ))
-          }
-        </>
-        <Button type="submit" className="w-full">
-          Salvar Propriedades
-        </Button>
+          />
+          </>
+          */}
+          {options.map((option, index) => (
+            <React.Fragment key={index}>
+              <FormField
+                control={form.control}
+                name={`options.${index}.label`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description for Option {index + 1}</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </React.Fragment>
+          ))}
+          
+          <Button type="submit" className="w-full">
+            Save Properties
+          </Button>
       </form>
     </Form>
   );
 }
+
 
