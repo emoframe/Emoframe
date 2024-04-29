@@ -36,8 +36,9 @@ const Designer = ({ uid }: { uid: string }) => {
       if (droppingSidebarBtnOverDesignerDropArea) {
         let newElement;
 
-        if (type === "RadioField") {
+        if (type === "OptionsField") {
           const data = await getById(uid, "template"); // Assumindo que isso retorna { type: 'likert', size_questions: 5 }
+          console.log(data)
           newElement = TemplateElements[type].construct(idGenerator(), {
             scaleType: data.type,
             optionCount: data.size_questions,
@@ -68,8 +69,9 @@ const Designer = ({ uid }: { uid: string }) => {
           throw new Error("element not found");
         }
         
-        if (type === "RadioField") {
+        if (type === "OptionsField") {
           const data = await getById(uid, "template"); 
+          console.log(data)
           newElement = TemplateElements[type].construct(idGenerator(), {
             scaleType: data.type,
             optionCount: data.size_questions,
