@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { number, string, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useDesigner from "@/components/hooks/useDesigner";
 import { CircleEllipsis, XCircle } from 'lucide-react';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -146,8 +146,6 @@ function TemplateComponent({
   );
 }
 
-
-
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function PropertiesComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
@@ -164,17 +162,22 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
   });
 
   const options = form.watch("options");
+  const updatedOptions = useMemo(() => {
+    return Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
+      label: options[index]?.label || `Option ${index + 1}`,
+      value: options[index]?.value || (index + 1).toString()
+    }));
+  }, [element.extraAttributes.optionCount, options]);
 
   useEffect(() => {
-    const updatedOptions = Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
-      label: options[index]?.label || `Option ${index + 1}`,
-      value: (index + 1).toString()
-    }));
-  
-    if (JSON.stringify(options) !== JSON.stringify(updatedOptions)) {
+    if (!element.extraAttributes.options.length) {
       form.setValue("options", updatedOptions);
+    } else if (JSON.stringify(element.extraAttributes.options) !== JSON.stringify(form.getValues('options'))) {
+      form.setValue("options", element.extraAttributes.options);
     }
-  }, [element.extraAttributes.optionCount, form, options]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [element.extraAttributes.options]);
+  
 
   function applyChanges(values: propertiesFormSchemaType) {
     updateElement(element.id, {
