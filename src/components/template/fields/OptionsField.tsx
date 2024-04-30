@@ -163,11 +163,19 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
 
   const options = form.watch("options");
   const updatedOptions = useMemo(() => {
-    return Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
-      label: options[index]?.label || `Option ${index + 1}`,
-      value: options[index]?.value || (index + 1).toString()
-    }));
-  }, [element.extraAttributes.optionCount, options]);
+    if (element.extraAttributes.scaleType === 'semantic') {
+      return Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
+        label: (index === 0 || index === element.extraAttributes.optionCount - 1) ? 
+               (options[index]?.label || `Option ${index + 1}`) : '', // Only set labels for first and last
+        value: options[index]?.value || (index + 1).toString()
+      }));
+    } else {
+      return Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
+        label: options[index]?.label || `Option ${index + 1}`,
+        value: options[index]?.value || (index + 1).toString()
+      }));
+    }
+  }, [options, element.extraAttributes.optionCount, element.extraAttributes.scaleType]);
 
   useEffect(() => {
     if (!element.extraAttributes.options.length) {
@@ -225,18 +233,24 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
           />
           {options.map((option, index) => (
             <React.Fragment key={index}>
-              <FormField
-                control={form.control}
-                name={`options.${index}.label`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description for Option {index + 1}</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              {(
+                element.extraAttributes.scaleType !== 'semantic' || 
+                index === 0 || 
+                index === options.length - 1
+              ) && (
+                <FormField
+                  control={form.control}
+                  name={`options.${index}.label`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Descrição para Opção {index + 1}</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              )}
             </React.Fragment>
           ))}
           
