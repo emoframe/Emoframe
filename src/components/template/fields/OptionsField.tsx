@@ -122,7 +122,10 @@ function TemplateComponent({
 
   return (
     <div className="flex flex-col space-y-4">
-      <Label htmlFor={element.id} className={cn("font-bold", error && "text-red-500")}>{label}</Label>
+      <div className="grid gap-1.5 leading-none">
+        <Label htmlFor={element.id} className={cn("font-bold", error && "text-red-500")}>{label}</Label>
+        {helperText && <p className={cn("text-muted-foreground text-[0.8rem]", error && "text-red-500")}>{helperText}</p>}
+      </div>
       <RadioGroup
         aria-labelledby={element.id}
         value={value}
@@ -134,14 +137,15 @@ function TemplateComponent({
             submitValue(element.id, newValue);
           }
         }}
+        className="flex flex-row content-center justify-between"
       >
         {options.map((option, index) => (
-          <RadioGroupItem key={index} id={`${element.id}-${index}`} value={option.value}>
-            {option.label}
-          </RadioGroupItem>
+          <div className="flex flex-col items-center space-y-2" key={index}>
+            <RadioGroupItem key={index} id={`${element.id}-${index}`} value={option.value} />
+            <Label className="font-normal text-[0.8rem]">{option.label}</Label>
+          </div>
         ))}
       </RadioGroup>
-      {helperText && <p className={cn("text-sm", error && "text-red-500")}>{helperText}</p>}
     </div>
   );
 }
@@ -255,7 +259,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
           ))}
           
           <Button type="submit" className="w-full" onClick={() => applyChanges(form.getValues())}>
-            Save Properties
+            Salvar
           </Button>
       </form>
     </Form>
