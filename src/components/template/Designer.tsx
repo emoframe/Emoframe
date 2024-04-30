@@ -30,15 +30,14 @@ const Designer = ({ uid }: { uid: string }) => {
       const isDesignerButtonElement = active.data?.current?.isDesignerButtonElement;
       const isDroppingOverDesignerDropArea = over.data?.current?.isDesignerDropArea;
 
-      const droppingSidebarBtnOverDesignerDropArea = isDesignerButtonElement && isDroppingOverDesignerDropArea;
+      const droppingSidebarButtonOverDesignerDropArea = isDesignerButtonElement && isDroppingOverDesignerDropArea;
 
       // Primeiro cenário
-      if (droppingSidebarBtnOverDesignerDropArea) {
+      if (droppingSidebarButtonOverDesignerDropArea) {
         let newElement;
 
         if (type === "OptionsField") {
           const data = await getById(uid, "template"); // Assumindo que isso retorna { type: 'likert', size_questions: 5 }
-          console.log(data)
           newElement = TemplateElements[type].construct(idGenerator(), {
             scaleType: data.type,
             optionCount: data.size_questions,
@@ -58,10 +57,10 @@ const Designer = ({ uid }: { uid: string }) => {
       const isDroppingOverDesignerElement =
         isDroppingOverDesignerElementTopHalf || isDroppingOverDesignerElementBottomHalf;
 
-      const droppingSidebarBtnOverDesignerElement = isDesignerButtonElement && isDroppingOverDesignerElement;
+      const droppingSidebarButtonOverDesignerElement = isDesignerButtonElement && isDroppingOverDesignerElement;
 
       // Segundo cenário
-      if (droppingSidebarBtnOverDesignerElement) {
+      if (droppingSidebarButtonOverDesignerElement) {
         let newElement;
         const overId = over.data?.current?.elementId;
         const overElementIndex = elements.findIndex((el) => el.id === overId);
@@ -71,7 +70,6 @@ const Designer = ({ uid }: { uid: string }) => {
         
         if (type === "OptionsField") {
           const data = await getById(uid, "template"); 
-          console.log(data)
           newElement = TemplateElements[type].construct(idGenerator(), {
             scaleType: data.type,
             optionCount: data.size_questions,

@@ -153,15 +153,18 @@ function TemplateComponent({
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function PropertiesComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
-  const element = elementInstance as CustomInstance;
+  const [element, setElement] = useState<CustomInstance>(elementInstance as CustomInstance);
   const { updateElement, setSelectedElement } = useDesigner();
+  
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
     mode: "onSubmit",
     defaultValues: {
       label: element.extraAttributes.label,
       helperText: element.extraAttributes.helperText,
-      options: element.extraAttributes.options || [],
+      scaleType: element.extraAttributes.scaleType as ("likert" | "semantic"),
+      optionCount: element.extraAttributes.optionCount,
+      options: element.extraAttributes.options
     },
   });
 
@@ -170,7 +173,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
     if (element.extraAttributes.scaleType === 'semantic') {
       return Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
         label: (index === 0 || index === element.extraAttributes.optionCount - 1) ? 
-               (options[index]?.label || `Option ${index + 1}`) : '', // Only set labels for first and last
+               (options[index]?.label || `Option ${index + 1}`) : '', // Só define labels no primeiro e último
         value: options[index]?.value || (index + 1).toString()
       }));
     } else {
@@ -187,8 +190,10 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
     } else if (JSON.stringify(element.extraAttributes.options) !== JSON.stringify(form.getValues('options'))) {
       form.setValue("options", element.extraAttributes.options);
     }
+
+    console.log(element)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [element.extraAttributes.options]);
+  }, []);
   
 
   function applyChanges(values: propertiesFormSchemaType) {
