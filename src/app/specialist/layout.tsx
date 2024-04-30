@@ -1,19 +1,27 @@
 import { FC, ReactNode } from 'react';
-import { headers } from 'next/headers'
+import PathnameAware from '@/components/PathnameAware';
 
 interface SpecialistLayoutProps {
   children: ReactNode;
 }
 
 const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
-  const headersList = headers();
-  const pathname = headersList.get('x-pathname');
 
-  if (pathname && pathname.startsWith('/specialist/services/templates/builder')) {
-    return <>{children}</>;
-  }
+  const defaultLayout = (
+    <div className='flex flex-col bg-primary-background p-5 mx-[100px] rounded-md'>{children}</div>
+  );
 
-  return <div className='flex flex-col bg-primary-background p-5 mx-[100px] rounded-md'>{children}</div>;
+  const specialLayout = (
+    <>{children}</>
+  );
+
+  return (
+    <PathnameAware
+      defaultContent={defaultLayout}
+      specialContent={specialLayout}
+      ignorePaths="/specialist/services/templates/builder"
+    />
+  );
 };
 
 export default SpecialistLayout;
