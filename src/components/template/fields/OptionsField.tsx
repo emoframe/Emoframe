@@ -153,8 +153,8 @@ function TemplateComponent({
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function PropertiesComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
-  const [element, setElement] = useState<CustomInstance>(elementInstance as CustomInstance);
   const { updateElement, setSelectedElement } = useDesigner();
+  const element = elementInstance as CustomInstance;
   
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
@@ -168,32 +168,18 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
     },
   });
 
-  const options = form.watch("options");
-  const updatedOptions = useMemo(() => {
-    if (element.extraAttributes.scaleType === 'semantic') {
-      return Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
-        label: (index === 0 || index === element.extraAttributes.optionCount - 1) ? 
-               (options[index]?.label || `Option ${index + 1}`) : '', // Só define labels no primeiro e último
-        value: options[index]?.value || (index + 1).toString()
-      }));
-    } else {
-      return Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
-        label: options[index]?.label || `Option ${index + 1}`,
-        value: options[index]?.value || (index + 1).toString()
-      }));
-    }
-  }, [options, element.extraAttributes.optionCount, element.extraAttributes.scaleType]);
+  const { control, handleSubmit, watch, setValue } = form;
+  const options = watch("options");
 
   useEffect(() => {
-    if (!element.extraAttributes.options.length) {
-      form.setValue("options", updatedOptions);
-    } else if (JSON.stringify(element.extraAttributes.options) !== JSON.stringify(form.getValues('options'))) {
-      form.setValue("options", element.extraAttributes.options);
-    }
+    const generatedOptions = Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
+        label: (element.extraAttributes.scaleType === 'semantic' && (index === 0 || index === options.length - 1)) ? 
+          options[index]?.label || `Opção ${index + 1}` : '',
+        value: options[index]?.value || (index + 1).toString()
+      }));
 
-    console.log(element)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setValue("options", generatedOptions);
+  }, [element, setValue, options]);
   
 
   function applyChanges(values: propertiesFormSchemaType) {
@@ -207,65 +193,42 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
     setSelectedElement(null);
   }
 
+  function FieldRenderer({ field, fieldState, labelText }) {
+    return (
+      <FormItem>
+        <FormLabel>{labelText}</FormLabel>
+        <FormControl>
+          <>
+            <Input {...field} />
+            {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
+          </>
+        </FormControl>
+      </FormItem>
+    );
+  }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-3">
-          <FormField
-            control={form.control}
-            name="label"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Título</FormLabel>
-                <FormControl>
-                  <>
-                    <Input {...field} />
-                    {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
-                  </>
-                </FormControl>
-              </FormItem>
-              )}
-          />
-          <FormField
-            control={form.control}
-            name="helperText"
-            render={({ field, fieldState }) => (
-              <FormItem>
-                <FormLabel>Texto de Apoio</FormLabel>
-                <FormControl>
-                  <>
-                    <Input {...field} />
-                    {fieldState.error && <FormMessage>{fieldState.error.message}</FormMessage>}
-                  </>
-                </FormControl>
-              </FormItem>
+      <form onSubmit={handleSubmit(applyChanges)} className="space-y-3">
+
+        <FormField control={control} name="label" render={props => FieldRenderer({...props, labelText: "Título"})} />
+        <FormField control={control} name="helperText" render={props => FieldRenderer({...props, labelText: "Texto de Apoio"})} />
+
+        {options.map((option, index) => (
+          <React.Fragment key={index}>
+            {(element.extraAttributes.scaleType !== 'semantic' || index === 0 || index === options.length - 1) && (
+              <FormField
+                control={control}
+                name={`options.${index}.label`}
+                render={props => FieldRenderer({...props, labelText: `Descrição para Opção ${index + 1}`})}
+              />
             )}
-          />
-          {options.map((option, index) => (
-            <React.Fragment key={index}>
-              {(
-                element.extraAttributes.scaleType !== 'semantic' || 
-                index === 0 || 
-                index === options.length - 1
-              ) && (
-                <FormField
-                  control={form.control}
-                  name={`options.${index}.label`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Descrição para Opção {index + 1}</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              )}
-            </React.Fragment>
-          ))}
+          </React.Fragment>
+        ))}
           
-          <Button type="submit" className="w-full" onClick={() => applyChanges(form.getValues())}>
-            Salvar
-          </Button>
+        <Button type="submit" className="w-full">
+          Salvar
+        </Button>
       </form>
     </Form>
   );
