@@ -6,6 +6,7 @@ import { Specialist, User } from "@/types/users";
 import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template } from "@/types/forms";
 import { Operations, Search } from "@/types/firebase";
 import { chunk, getValuable } from "@/lib/utils";
+import { TemplateElementInstance } from "@/components/template/TemplateElements";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -78,6 +79,23 @@ export async function createRegistration(data: Evaluation | Template, type: stri
     addDoc(docRef, registration)
     .then((docRef) => console.log("Registration has been inserted sucessfully!"))
     .catch((error) => console.log(error.code + ": " + error.message))
+  }
+  catch(error) {
+    console.log(error)
+  }
+}
+
+export async function saveTemplate (data: TemplateElementInstance[], TemplateId: string) : Promise<any> {
+  const docRef = doc(db, "template", TemplateId);
+  const questions: any = {
+    ...getValuable(data),
+  }
+
+  try {
+    await updateDoc(docRef, {
+      questions: questions
+    });
+
   }
   catch(error) {
     console.log(error)

@@ -37,10 +37,10 @@ const Designer = ({ uid }: { uid: string }) => {
         let newElement;
 
         if (type === "OptionsField") {
-          const data = await getById(uid, "template"); // Assumindo que isso retorna { type: 'likert', size_questions: 5 }
+          const data = await getById(uid, "template"); // Assumindo que isso retorna { type: 'likert', questions_size: 5 }
           newElement = TemplateElements[type].construct(idGenerator(), {
-            scaleType: data.type,
-            optionCount: data.size_questions,
+            scaleType: data.scale_type,
+            questionsSize: data.questions_size,
           });
         } else {
           newElement = TemplateElements[type].construct(idGenerator());
@@ -71,8 +71,8 @@ const Designer = ({ uid }: { uid: string }) => {
         if (type === "OptionsField") {
           const data = await getById(uid, "template"); 
           newElement = TemplateElements[type].construct(idGenerator(), {
-            scaleType: data.type,
-            optionCount: data.size_questions,
+            scaleType: data.scale_type,
+            optionCount: data.questions_size,
           });
         } else {
           newElement = TemplateElements[type].construct(idGenerator());

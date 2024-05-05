@@ -21,7 +21,7 @@ const propertiesSchema = z.object({
   label: z.string().min(2).max(50),
   helperText: z.string().max(200),
   scaleType: z.enum(['likert', 'semantic']),
-  optionCount: z.number().min(2).max(10),
+  questionsSize: z.number().min(2).max(10),
   options: z.array(z.object({
     label: z.string(),
     value: z.string(),
@@ -37,7 +37,7 @@ export const OptionsFieldTemplateElement: TemplateElement = {
       label: "Campo de Seleção",
       helperText: "Texto de Apoio",
       scaleType: params?.scaleType, // Incluindo parâmetros dinâmicos
-      optionCount: params?.optionCount,
+      questionsSize: params?.questionsSize,
       options: []
     },
   }),
@@ -70,7 +70,7 @@ type CustomInstance = TemplateElementInstance & {
     label: string,
     helperText: string,
     scaleType: string,
-    optionCount: number,
+    questionsSize: number,
     options: Array<{label: string, value: string}>,
   }
 };
@@ -163,7 +163,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
       label: element.extraAttributes.label,
       helperText: element.extraAttributes.helperText,
       scaleType: element.extraAttributes.scaleType as ("likert" | "semantic"),
-      optionCount: element.extraAttributes.optionCount,
+      questionsSize: element.extraAttributes.questionsSize,
       options: element.extraAttributes.options
     },
   });
@@ -172,7 +172,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
   const options = watch("options");
 
   useEffect(() => {
-    const generatedOptions = Array.from({ length: element.extraAttributes.optionCount }, (_, index) => ({
+    const generatedOptions = Array.from({ length: element.extraAttributes.questionsSize }, (_, index) => ({
         label: (element.extraAttributes.scaleType === 'semantic' && (index === 0 || index === options.length - 1)) ? 
           options[index]?.label || `Opção ${index + 1}` : '',
         value: options[index]?.value || (index + 1).toString()

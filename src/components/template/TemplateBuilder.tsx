@@ -18,7 +18,7 @@ import BuilderPattern from "../pattern/BuilderPattern";
 import PatternReceiver from "../pattern/PatternReceiver";
 
 
-const FormBuilder = ({ template }: { template: Template }) => {
+const TemplateBuilder = ({ template }: { template: Template }) => {
   const { setElements, setSelectedElement } = useDesigner();
   const [isReady, setIsReady] = useState(false);
   const { toast } = useToast();
@@ -117,4 +117,4 @@ const FormBuilder = ({ template }: { template: Template }) => {
   );
 }
 
-export default FormBuilder;
+export default TemplateBuilder;

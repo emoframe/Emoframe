@@ -1,3 +1,4 @@
+import { TemplateElementInstance } from "@/components/template/TemplateElements";
 import { ColumnDef } from "@tanstack/react-table";
 
 export type Instruments = {
@@ -55,7 +56,7 @@ export const scales: Options[] = [
     },
 ];
 
-export const size_questions: Options[] = [
+export const questions_size: Options[] = [
     {
       label: "Cinco opções",
       value: "5",
@@ -85,8 +86,10 @@ export interface Template {
     specialistId: string,
     title: string,
     description?: string,
-    size_questions: number,
-    type: string,
+    questions_size: number,
+    scale_type: string,
+    questions?: TemplateElementInstance[],
+    published: boolean,
 }
 
 export interface Evaluation {

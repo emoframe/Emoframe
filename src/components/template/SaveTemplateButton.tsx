@@ -4,19 +4,20 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import useDesigner from "@/components/hooks/useDesigner";
 import { Save, Loader2 } from 'lucide-react';
+import { saveTemplate } from "@/lib/firebase";
 
 const SaveTemplateButton = ({ uid }: { uid: string }) => {
   const { elements } = useDesigner();
   const [loading, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const updateFormContent = async () => {
+  const updateTemplateContent = async () => {
     try {
-      const jsonElements = JSON.stringify(elements);
-      // TODO: Conexão com o banco
-      toast({
-        title: "Sucesso",
-        description: "Seu template foi salvo",
+      saveTemplate(elements, uid).then(() => {
+        toast({
+          title: "Sucesso",
+          description: "Seu template foi salvo",
+        });
       });
     } catch (error) {
       toast({
@@ -26,13 +27,14 @@ const SaveTemplateButton = ({ uid }: { uid: string }) => {
       });
     }
   };
+  
   return (
     <Button
       variant={"outline"}
       className="gap-2"
       disabled={loading}
       onClick={() => {
-        startTransition(updateFormContent);
+        startTransition(updateTemplateContent);
       }}
     >
       <Save className="h-4 w-4" />

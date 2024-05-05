@@ -21,14 +21,14 @@ import { toast } from "@/components/ui/use-toast";
 
 import { useRouter } from "next/navigation";
 import { createRegistration } from "@/lib/firebase";
-import { Template, scales, size_questions } from "@/types/forms";
+import { Template, scales, questions_size } from "@/types/forms";
 import { useState } from "react";
 import Combobox from "@/components/ui/combobox";
 
 const FormSchema = z.object({
   title: z.string().min(1, 'A seleção é obrigatória'),
-  type: z.string().min(1, 'A seleção é obrigatória'),
-  size_questions: z.string().min(1, 'A seleção é obrigatória'),
+  scale_type: z.string().min(1, 'A seleção é obrigatória'),
+  questions_size: z.string().min(1, 'A seleção é obrigatória'),
   description: z.string().optional(),
 });
 
@@ -45,7 +45,8 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
       // Criar uma nova instância de data a partir de values, sem modificar values diretamente.
       const data: Template = {
         ...values,
-        size_questions: Number(values.size_questions), // Garantir que size_questions é um número.
+        published: false,
+        questions_size: Number(values.questions_size), // Garantir que questions_size é um número.
         specialistId: specialistId
       };
 
@@ -101,7 +102,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
             />
             <FormField
               control={form.control}
-              name='type'
+              name='scale_type'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Escala</FormLabel>
@@ -118,14 +119,14 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
             />
             <FormField
               control={form.control}
-              name='size_questions'
+              name='questions_size'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Quantidade de opções</FormLabel>
                   <FormControl>
                     <Combobox
                       onSelect={(value) => field.onChange(value)}
-                      options={size_questions}
+                      options={questions_size}
                       placeholder="Selecione uma opção"
                     />
                   </FormControl>
