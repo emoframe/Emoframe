@@ -16,6 +16,7 @@ import Confetti from "react-confetti";
 import { Template } from "@/types/forms";
 import BuilderPattern from "../pattern/BuilderPattern";
 import PatternReceiver from "../pattern/PatternReceiver";
+import { TemplateElementInstance } from "./TemplateElements";
 
 
 const TemplateBuilder = ({ template }: { template: Template }) => {
@@ -40,14 +41,14 @@ const TemplateBuilder = ({ template }: { template: Template }) => {
 
   useEffect(() => {
     if (isReady) return;
-    //TODO:
-    /* 
-    const elements = JSON.parse(template.content);
+
+    const elements = Object.values(template?.questions as TemplateElementInstance[]);
     setElements(elements);
     setSelectedElement(null);
-    */
+
     const readyTimeout = setTimeout(() => setIsReady(true), 500);
     return () => clearTimeout(readyTimeout);
+
   }, [template, setElements, isReady, setSelectedElement]);
 
   if (!isReady) {

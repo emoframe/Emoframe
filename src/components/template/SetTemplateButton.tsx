@@ -46,6 +46,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
       const data: Template = {
         ...values,
         published: false,
+        questions: [],
         questions_size: Number(values.questions_size), // Garantir que questions_size é um número.
         specialistId: specialistId
       };
