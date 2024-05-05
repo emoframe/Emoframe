@@ -25,9 +25,18 @@ const PublishTemplateButton = ({ uid }: { uid: string }) => {
   const router = useRouter();
 
   const publishTemplate = async () => {
+    if (elements.length === 0) {
+      toast({
+        title: "Publicação impossível",
+        description: "Não é possível publicar um template vazio.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       saveTemplate(elements, uid, true).then(() => {
-          toast({
+        toast({
           title: "Sucesso",
           description: "Seu template agora está disponível para ser usado em avaliações",
         });
