@@ -4,7 +4,7 @@ import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateD
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
 import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template } from "@/types/forms";
-import { Operations, Search } from "@/types/firebase";
+import { Filter } from "@/types/firebase";
 import { chunk, getValuable } from "@/lib/utils";
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
 
@@ -148,43 +148,34 @@ export async function getById (
   
 }
 
-export async function search (
-    col: string, 
-    field: string, 
-    operation: keyof typeof Operations,
-    value: string) 
-  : Promise<any> {
-
+export async function search(col: string, filters: Filter[]): Promise<any[]> {
   const collectionRef = collection(db, col);
-  const q = query(collectionRef, where(field, operation, value));
+  // Aplicar múltiplos filtros usando o método reduce para acumular where clauses
+  const q = query(collectionRef, ...filters.map(filter => where(filter.field, filter.operation, filter.value)));
   const querySnapshot = await getDocs(q);
-  const res: any[] = []       
+  const results: any[] = [];
+  
   querySnapshot.forEach((doc) => {
       const newObj: any = {
           uid: doc.id,
           ...doc.data(),
-      }
+      };
 
-      let keys = ['birthday', 'date']
-      Object.keys(newObj).some(key => {
-        if(keys.includes(key))
-          newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
-      })
-        
-      res.push(newObj);
+      // Transformar datas, se necessário
+      let dateKeys = ['birthday', 'date'];
+      Object.keys(newObj).forEach(key => {
+          if (dateKeys.includes(key) && newObj[key].toDate) {
+              newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+          }
+      });
+
+      results.push(newObj);
   });
 
-  res.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
+  // Ordenar resultados pelo nome, assumindo que todos os objetos têm uma propriedade 'name'
+  results.sort((a, b) => a.name.localeCompare(b.name));
 
-  return res;
+  return results;
 }
 
 export async function updateById (data: any, id: string, col: string) : Promise<any> {

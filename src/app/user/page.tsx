@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { search } from "@/lib/firebase";
-import { Search } from "@/types/firebase";
+import { Filter } from "@/types/firebase";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../../pages/api/auth/[...nextauth]";
 import { buttonVariants } from "@/components/ui/button";
@@ -23,13 +23,14 @@ export const revalidate = 0;
 const EvaluationsCards = async () => {
   const session: any = await getServerSession(authOptions);
 
-  const parameters: Search = {
-    col: "evaluation",
-    field: "users",
-    operation: "array-contains",
-    value: session?.user.uid!,
-  };
-  const data = await search(parameters);
+  const filter: Filter[] = [
+    {
+        field: "users",
+        operation: "array-contains",
+        value: session?.user.uid!
+    }
+  ];
+  const data = await search("evaluation", filter);
 
   const evaluations = data
     .filter((evaluation) => (
