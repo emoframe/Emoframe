@@ -15,18 +15,22 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { saveTemplate } from "@/lib/firebase";
+import useDesigner from "@/components/hooks/useDesigner";
 
 const PublishTemplateButton = ({ uid }: { uid: string }) => {
+  const { elements } = useDesigner();
   const [loading, startTransition] = useTransition();
-  const router = useRouter();
   const { toast } = useToast();
+  const router = useRouter();
 
   const publishTemplate = async () => {
     try {
-      //TODO: Conexão com o banco
-      toast({
-        title: "Sucesso",
-        description: "Seu template agora está disponível para ser usado em avaliações",
+      saveTemplate(elements, uid, true).then(() => {
+          toast({
+          title: "Sucesso",
+          description: "Seu template agora está disponível para ser usado em avaliações",
+        });
       });
       router.refresh();
     } catch (error) {

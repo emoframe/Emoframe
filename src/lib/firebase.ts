@@ -85,20 +85,25 @@ export async function createRegistration(data: Evaluation | Template, type: stri
   }
 }
 
-export async function saveTemplate (data: TemplateElementInstance[], TemplateId: string) : Promise<any> {
+export async function saveTemplate(data: TemplateElementInstance[], TemplateId: string, publish: boolean = false): Promise<any> {
   const docRef = doc(db, "template", TemplateId);
   const questions: any = {
     ...getValuable(data),
   }
 
-  try {
-    await updateDoc(docRef, {
-      questions: questions
-    });
+  // Se a flag publish for true, adicionar `published: true` ao objeto de atualização
+  const updateData: any = {
+    questions: questions
+  };
 
+  if (publish) {
+    updateData.published = true;
   }
-  catch(error) {
-    console.log(error)
+
+  try {
+    await updateDoc(docRef, updateData);
+  } catch (error) {
+    console.log(error);
   }
 }
 
