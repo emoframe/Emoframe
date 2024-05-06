@@ -187,8 +187,8 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
       const isSemantic = scaleType === 'semantic';
       return {
         label: isSemantic && (index === 0 || index === element.extraAttributes.questionsSize - 1)
-               ? element.extraAttributes.options[index]?.label || `Opção ${index + 1}`
-               : (scaleType === 'likert' ? element.extraAttributes.options[index]?.label || `Opção ${index + 1}` : ''),
+               ? element.extraAttributes.options[index]?.label || `${index + 1}`
+               : (scaleType === 'likert' ? element.extraAttributes.options[index]?.label || `${index + 1}` : ''),
         value: element.extraAttributes.options[index]?.value || (index + 1).toString()
       };
     });
