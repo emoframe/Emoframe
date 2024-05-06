@@ -1,14 +1,16 @@
 'use client';
 
 import { ArrowRight } from "lucide-react";
-import { Button } from "./ui/button";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 export type Content = {
   title: string,
   description: string,
   href: string,
+  published?: boolean
 }
 
 export const OptionCard = ({ content }: { content: Content }) => {
@@ -18,6 +20,7 @@ export const OptionCard = ({ content }: { content: Content }) => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 justify-between">
             <span className="truncate font-bold">{content.title}</span>
+            {content.published && <Badge>Publicado</Badge>}
           </CardTitle>
           {content.description && (
             <CardDescription className="flex items-center justify-between text-muted-foreground text-sm">

@@ -21,7 +21,8 @@ const TemplatesCards = async () => {
   const transformedContent: Content[] = data.map(template => ({
     title: template.title,
     description: template.description || '', // String vazia se desciption for undefined
-    href: `/specialist/services/templates/builder/${template.uid}`
+    href: `/specialist/services/templates/builder/${template.uid}`,
+    published: template.published,
   }));
   
   return (
