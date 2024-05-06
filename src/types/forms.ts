@@ -7,69 +7,10 @@ export type Instruments = {
     description?: string,
 }
 
-export const instruments: Instruments[] = [
-    {  
-        value: "panas",
-        label: "PANAS",
-        description: "Lorem Ipsum",
-    },
-    {  
-        value: "sam",
-        label: "SAM",
-        description: "Lorem Ipsum",
-    },
-    {  
-        value: "sus",
-        label: "SUS",
-        description: "Lorem Ipsum",
-    },
-    {  
-        value: "eaz",
-        label: "EAZ",
-        description: "Lorem Ipsum",
-    },
-    {  
-        value: "brums",
-        label: "BRUMS",
-        description: "Lorem Ipsum",
-    },
-    {  
-        value: "gds",
-        label: "GDS",
-        description: "Lorem Ipsum",
-    },
-];
-
-export type Options = {
-    value: Lowercase<string>;
+export type Option = {
+    value: string;
     label: string;
 };
-
-export const scales: Options[] = [
-    {  
-      value: "likert",
-      label: "Escala Likert",
-    },
-    {  
-      value: "semantic",
-      label: "Escala de Diferencial Semântico",
-    },
-];
-
-export const questions_size: Options[] = [
-    {
-      label: "Cinco opções",
-      value: "5",
-    },
-    {
-      label: "Sete opções",
-      value: "7",
-    },
-    {
-      label: "Nove opções",
-      value: "9",
-    },
-  ];
 
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -218,3 +159,64 @@ export interface Gds {
     hopeless: string,
     unlucky: string,
 }
+
+export const instruments: Instruments[] = [
+    {  
+        value: "panas",
+        label: "PANAS",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "sam",
+        label: "SAM",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "sus",
+        label: "SUS",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "eaz",
+        label: "EAZ",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "brums",
+        label: "BRUMS",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "gds",
+        label: "GDS",
+        description: "Lorem Ipsum",
+    },
+];
+
+
+export const scales: Option[] = [
+    {  
+      value: "likert",
+      label: "Escala Likert",
+    },
+    {  
+      value: "semantic",
+      label: "Escala de Diferencial Semântico",
+    },
+];
+
+export const questions_size: Option[] = [
+    {
+      label: "Cinco opções",
+      value: "5",
+    },
+    {
+      label: "Sete opções",
+      value: "7",
+    },
+    {
+      label: "Nove opções",
+      value: "9",
+    },
+  ];
+
