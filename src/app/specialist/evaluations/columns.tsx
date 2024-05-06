@@ -86,7 +86,9 @@ export const columns: ColumnDef<Evaluation>[] = [
     sortingFn: fuzzySort,
   },
   {
-    accessorFn: row => instruments.find((instrument) => instrument.value === row.instrument)?.label,
+    accessorFn: row => (row.instrument != "template") ? 
+      instruments.find((instrument) => instrument.value === row.instrument)?.label : 
+      "Template",
     id: 'instrument',
     meta: {name: "Instrumento"},
     header: ({ column }) => {
