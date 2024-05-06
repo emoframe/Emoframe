@@ -173,7 +173,7 @@ export async function search(col: string, filters: Filter[]): Promise<any[]> {
   });
 
   // Ordenar resultados pelo nome, assumindo que todos os objetos têm uma propriedade 'name'
-  results.sort((a, b) => a.name.localeCompare(b.name));
+  //results.sort((a, b) => a.name.localeCompare(b.name));
 
   return results;
 }
