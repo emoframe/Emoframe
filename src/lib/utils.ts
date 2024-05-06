@@ -9,7 +9,9 @@ import {
   EazClass, 
   BrumsClass, 
   GdsClass,
-  LeapClass
+  LeapClass,
+  Template,
+  Option
 } from '@/types/forms';
 
 // Interface imports
@@ -113,6 +115,13 @@ export function randomizeArray(array: any[]): any[] {
 export function idGenerator(): string {
   return Math.floor(Math.random() * 10001).toString();
 }
+
+export function convertTemplatesToOptions(templates: Template[]): Option[] {
+  return templates.map(template => ({
+      label: template.title,
+      value: template.uid! // uid não pode ser undefined
+  }));
+};
 
 export function differentiateKeysFromObjects(keepObject: Object, changeObject: Object, suffixKey: string): void {
   Object.keys(changeObject).forEach((changeObjectKey) => {
