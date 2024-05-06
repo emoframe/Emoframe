@@ -18,24 +18,23 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { Options } from "@/types/forms"
+import { Option } from "@/types/forms"
 
 
-const Combobox = ({ onSelect, defaultValue, options, placeholder, className }:
+const Combobox = ({ onSelect, options, placeholder, className }:
     {
         onSelect: (currentValue: string) => void,
-        defaultValue?: string,
-        options: Options[],
+        options: Option[],
         placeholder: string,
         className?: string
     }
 ) => {
     const [open, setOpen] = useState(false)
-    const [value, setValue] = useState(defaultValue ? defaultValue : "")
+    const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
     React.useEffect(() => {
-        console.log(value);
-    },[value])
+        console.log(selectedOption);
+    },[selectedOption])
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -47,9 +46,9 @@ const Combobox = ({ onSelect, defaultValue, options, placeholder, className }:
                     className={cn("w-full justify-between text-left font-normal", className)}
                 >
                     {
-                        value // value fica em lowercase
-                        ? options.find((option) => option.value === value)?.label
-                        : placeholder
+                        selectedOption // selectedOption fica em lowercase
+                        ? <>{selectedOption.label}</>
+                        : <>{placeholder}</>
                     }
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -63,16 +62,16 @@ const Combobox = ({ onSelect, defaultValue, options, placeholder, className }:
                             <CommandItem
                                 key={option.value}
                                 value={option.value}
-                                onSelect={(currentValue) => {
-                                    onSelect(currentValue === value ? "" : currentValue);
-                                    setValue(currentValue === value ? "" : currentValue);
+                                onSelect={() => {
+                                    setSelectedOption(option);
+                                    onSelect(option.value);
                                     setOpen(false);
                                 }}
                             >
                                 <Check
                                     className={cn(
                                         "mr-2 h-4 w-4",
-                                        value === option.value ? "opacity-100" : "opacity-0"
+                                        selectedOption?.value === option.value ? "opacity-100" : "opacity-0"
                                     )}
                                 />
                                 {option.label}
