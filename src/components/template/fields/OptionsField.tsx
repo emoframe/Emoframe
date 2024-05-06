@@ -172,16 +172,28 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
   const options = watch("options");
 
   useEffect(() => {
-    const generatedOptions = Array.from({ length: element.extraAttributes.questionsSize }, (_, index) => ({
-        label: (element.extraAttributes.scaleType === 'semantic' && (index === 0 || index === options.length - 1)) ? 
-          options[index]?.label || `Opção ${index + 1}` : '',
-        value: options[index]?.value || (index + 1).toString()
-      }));
+    const scaleType = element.extraAttributes.scaleType as "likert" | "semantic";
+    form.reset({
+      label: element.extraAttributes.label,
+      helperText: element.extraAttributes.helperText,
+      scaleType: scaleType,
+      questionsSize: element.extraAttributes.questionsSize,
+      options: generateOptionsBasedOnScaleType(element, scaleType)
+    });
+  }, [element, form]);
 
-    setValue("options", generatedOptions);
-  }, [element, setValue, options]);
+  function generateOptionsBasedOnScaleType(element, scaleType) {
+    return Array.from({ length: element.extraAttributes.questionsSize }, (_, index) => {
+      const isSemantic = scaleType === 'semantic';
+      return {
+        label: isSemantic && (index === 0 || index === element.extraAttributes.questionsSize - 1)
+               ? element.extraAttributes.options[index]?.label || `Opção ${index + 1}`
+               : (scaleType === 'likert' ? element.extraAttributes.options[index]?.label || `Opção ${index + 1}` : ''),
+        value: element.extraAttributes.options[index]?.value || (index + 1).toString()
+      };
+    });
+  }
   
-
   function applyChanges(values: propertiesFormSchemaType) {
     updateElement(element.id, {
       ...element,
