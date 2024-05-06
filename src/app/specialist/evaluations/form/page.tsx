@@ -5,9 +5,10 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import SetEvaluationForm from '@/components/form/SetEvaluationForm';
 import { columns } from './columns';
-import { DataTableProps } from '@/types/forms';
+import { DataTableProps, Template } from '@/types/forms';
 import { User } from '@/types/users';
 import { Filter } from '@/types/firebase';
+import { convertTemplatesToOptions } from '@/lib/utils';
 
 const EvaluationsForm = async () => {
   const session: any = await getServerSession(authOptions);
@@ -33,8 +34,8 @@ const EvaluationsForm = async () => {
       value: true
     }
   ];
-  const published_templates = await search("template", filters);
-
+  const publishedTemplates = await search("template", filters);
+  const templateOptions = convertTemplatesToOptions(publishedTemplates as Template[]);
   
   const dataTable: DataTableProps<User, string> = {
     columns: columns,
@@ -42,7 +43,11 @@ const EvaluationsForm = async () => {
   }
 
   return (
-    <SetEvaluationForm specialistId={session?.user.uid!} dataTable={dataTable}/>
+    <SetEvaluationForm 
+      specialistId={session?.user.uid!} 
+      dataTable={dataTable} 
+      templates={templateOptions}
+    />
   );
 };
 
