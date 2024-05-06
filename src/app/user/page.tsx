@@ -43,15 +43,21 @@ const EvaluationsCards = async () => {
         .localeCompare(b.identification.toLowerCase())
     );
 
-  const transformedContent: Content[] = evaluations.map(evaluation => ({
-    title: evaluation.identification,
-    description: `${instruments.find((instrument) => instrument.value === evaluation.instrument)?.label} - ${evaluation.method}`,
-    href: `/user/evaluations/fill?evaluation=${evaluation.uid}`
-  }));
+  const transformedContent: Content[] = evaluations.map(evaluation => {
+    // Verifica se o instrumento da avaliação é "template"
+    const isTemplate = evaluation.instrument === "template";
+    const instrumentLabel = instruments.find((instrument) => instrument.value === evaluation.instrument)?.label;
+
+    return {
+        title: evaluation.identification,
+        description: `${isTemplate ? `Template` : instrumentLabel} - ${evaluation.method}`,
+        href: `/user/evaluations/fill?evaluation=${evaluation.uid}`
+    };
+  });
 
   return (
     <>
-      {evaluations.length ? (
+      {transformedContent.length ? (
         transformedContent.map((content, index) => (
           <OptionCard key={index} content={content} />
         ))
