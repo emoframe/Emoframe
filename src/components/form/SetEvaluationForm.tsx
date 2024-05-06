@@ -126,7 +126,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
 
     const next = async () => {
         const fields = steps[currentStep].fields
-        const output = await form.trigger(fields as FieldName[], { shouldFocus: true })
+        const output = await trigger(fields as FieldName[], { shouldFocus: true })
     
         if (!output) return
     

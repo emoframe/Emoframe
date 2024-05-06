@@ -58,33 +58,24 @@ const TemplateBuilder = ({ template }: { template: Template }) => {
       </div>
     );
   }
-  //TODO :
-  //const shareUrl = `${window.location.origin}/submit/${template.shareURL}`;
 
-  /*
   if (template.published) {
     return (
       <>
         <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} numberOfPieces={1000} />
         <div className="flex flex-col items-center justify-center h-full w-full">
           <div className="max-w-md">
-            <h1 className="text-center text-4xl font-bold text-primary border-b pb-2 mb-10">
-              🎊🎊 Template publicado 🎊🎊
+            <h1 className="text-center text-4xl font-bold text-primary border-b mb-4">
+              Template publicado
             </h1>
             <h3 className="text-xl text-muted-foreground border-b pb-10">
               Agora será possível usá-lo em avaliações
             </h3>
-            <div className="flex justify-between">
+            <div className="flex justify-center">
               <Button variant={"link"} asChild>
                 <Link href={"/"} className="gap-2">
                   <MoveLeft />
                   Voltar para o início
-                </Link>
-              </Button>
-              <Button variant={"link"} asChild>
-                <Link href={`/templates/details/${template.uid}`} className="gap-2">
-                  Detalhes
-                  <MoveRight />
                 </Link>
               </Button>
             </div>
@@ -93,7 +84,6 @@ const TemplateBuilder = ({ template }: { template: Template }) => {
       </>
     );
   }
-  */
 
   return (
     <DndContext sensors={sensors}>
