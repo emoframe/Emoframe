@@ -107,7 +107,6 @@ function DesignerComponent({ elementInstance }: { elementInstance: TemplateEleme
   );
 }
 
-
 function TemplateComponent({
   elementInstance,
   submitValue,
@@ -122,11 +121,34 @@ function TemplateComponent({
   const element = elementInstance as CustomInstance;
   const [value, setValue] = useState<string | undefined>(defaultValue || undefined);
   const [error, setError] = useState(false);
-  const { label, helperText, options } = element.extraAttributes;
+  const { label, helperText, options, scaleType, leftLabel, rightLabel } = element.extraAttributes;
 
   useEffect(() => {
     setError(isInvalid === true);
   }, [isInvalid]);
+
+  const RadioGroupContent = () => (
+    <RadioGroup
+      aria-labelledby={element.id}
+      value={value}
+      onValueChange={(newValue) => {
+        setValue(newValue);
+        const valid = OptionsFieldTemplateElement.validate(element, newValue, { options });
+        setError(!valid);
+        if (submitValue) {
+          submitValue(element.id, newValue);
+        }
+      }}
+      className="flex justify-between items-center w-full"
+    >
+      {options.map((option, index) => (
+        <div className="flex flex-col items-center space-y-2" key={index}>
+          <RadioGroupItem key={index} id={`${element.id}-${index}`} value={option.value} />
+          <Label className="font-normal text-[0.8rem]">{option.label}</Label>
+        </div>
+      ))}
+    </RadioGroup>
+  );
 
   return (
     <div className="flex flex-col space-y-4">
@@ -134,29 +156,23 @@ function TemplateComponent({
         <Label htmlFor={element.id} className={cn("font-bold", error && "text-red-500")}>{label}</Label>
         {helperText && <p className={cn("text-muted-foreground text-[0.8rem]", error && "text-red-500")}>{helperText}</p>}
       </div>
-      <RadioGroup
-        aria-labelledby={element.id}
-        value={value}
-        onValueChange={(newValue) => {
-          setValue(newValue);
-          const valid = OptionsFieldTemplateElement.validate(element, newValue, { options });
-          setError(!valid);
-          if (submitValue) {
-            submitValue(element.id, newValue);
-          }
-        }}
-        className="flex flex-row content-center justify-between"
-      >
-        {options.map((option, index) => (
-          <div className="flex flex-col items-center space-y-2" key={index}>
-            <RadioGroupItem key={index} id={`${element.id}-${index}`} value={option.value} />
-            <Label className="font-normal text-[0.8rem]">{option.label}</Label>
+      {scaleType === 'semantic' ? (
+        <div className="grid grid-cols-[auto,1fr,auto] justify-items-stretch gap-4">
+          <div className="text-left">
+            <p className="text-[0.8rem]">{leftLabel}</p>
           </div>
-        ))}
-      </RadioGroup>
+          <RadioGroupContent />
+          <div className="text-right">
+            <p className="text-[0.8rem]">{rightLabel}</p>
+          </div>
+        </div>
+      ) : (
+        <RadioGroupContent />
+      )}
     </div>
   );
 }
+
 
 const propertiesSchema = z.object({
   label: z.string().min(2).max(50),
