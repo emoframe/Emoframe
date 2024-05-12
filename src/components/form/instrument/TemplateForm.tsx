@@ -6,14 +6,19 @@ import { Button } from "@/components/ui/button";
 import { HiCursorClick } from "react-icons/hi";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
+import { FillEvaluationForm, TemplateAnswers } from "@/types/forms";
+import { useRouter } from "next/navigation";
+import { saveAnswer } from "@/lib/firebase";
 
-function TemplateForm({ formUrl, content }: { content: TemplateElementInstance[]; formUrl: string }) {
-  const formValues = useRef<{ [key: string]: string }>({});
+function TemplateForm({ params, content }: { content: TemplateElementInstance[]; params: FillEvaluationForm }) {
+  const formValues = useRef<TemplateAnswers>({});
   const formErrors = useRef<{ [key: string]: boolean }>({});
   const [renderKey, setRenderKey] = useState(new Date().getTime());
 
   const [submitted, setSubmitted] = useState(false);
   const [pending, startTransition] = useTransition();
+
+  const { push } = useRouter();
 
   const validateForm: () => boolean = useCallback(() => {
     for (const field of content) {
@@ -42,20 +47,28 @@ function TemplateForm({ formUrl, content }: { content: TemplateElementInstance[]
     if (!validForm) {
       setRenderKey(new Date().getTime());
       toast({
-        title: "Error",
-        description: "please check the form for errors",
+        title: "Erro",
+        description: "Por favor, verifique o formulário para erros.",
         variant: "destructive",
       });
       return;
     }
 
     try {
-      // TODO: submit form
+      if(!("isViewable" in params)) {
+        saveAnswer(formValues.current, params.evaluationId, params.userId).then(() => {
+          toast({
+              title: "Socilitação aprovada",
+              description: "Avaliação preenchida e salva",
+          });
+          push('/user/evaluations');
+        });  
+      }
       setSubmitted(true);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Something went wrong",
+        title: "Erro",
+        description: "Algo deu errado",
         variant: "destructive",
       });
     }
