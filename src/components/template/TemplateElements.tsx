@@ -32,8 +32,7 @@ export type TemplateElement = {
 
   validate: (
     templateElementInstance: TemplateElementInstance,
-    currentValue: string,
-    customParams?: any
+    currentValue: string
   ) => boolean;
 };
 

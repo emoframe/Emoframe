@@ -42,11 +42,9 @@ export const OptionsFieldTemplateElement: TemplateElement = {
   templateComponent: TemplateComponent,
   propertiesComponent: PropertiesComponent,
 
-  validate: (templateElement: TemplateElementInstance, currentValue: string, customParams: {
-    options: Array<{ value: string; label: string }>
-  } = { options: [] }): boolean => {
+  validate: (templateElement: TemplateElementInstance, currentValue: string): boolean => {
     const element = templateElement as CustomInstance;
-    const { options } = customParams;
+    const { options } = element.extraAttributes;
 
     const isValidValue = options.some(option => option.value === currentValue);
 
@@ -133,7 +131,7 @@ function TemplateComponent({
       value={value}
       onValueChange={(newValue) => {
         setValue(newValue);
-        const valid = OptionsFieldTemplateElement.validate(element, newValue, { options });
+        const valid = OptionsFieldTemplateElement.validate(element, newValue);
         setError(!valid);
         if (submitValue) {
           submitValue(element.id, newValue);
