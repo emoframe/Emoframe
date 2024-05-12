@@ -3,30 +3,19 @@
 import { ElementsType, TemplateElement, TemplateElementInstance, SubmitFunction } from "@/components/template/TemplateElements";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { number, string, z } from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import useDesigner from "@/components/hooks/useDesigner";
-import { CircleEllipsis, XCircle } from 'lucide-react';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { CircleEllipsis } from 'lucide-react';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import React from "react";
 
 const type: ElementsType = "OptionsField";
-
-const propertiesSchema = z.object({
-  label: z.string().min(2).max(50),
-  helperText: z.string().max(200),
-  scaleType: z.enum(['likert', 'semantic']),
-  questionsSize: z.number().min(2).max(10),
-  options: z.array(z.object({
-    label: z.string(),
-    value: z.string(),
-  })).min(2),
-});
 
 export const OptionsFieldTemplateElement: TemplateElement = {
   type,
@@ -36,9 +25,13 @@ export const OptionsFieldTemplateElement: TemplateElement = {
     extraAttributes: {
       label: "Campo de Seleção",
       helperText: "Texto de Apoio",
-      scaleType: params?.scaleType, // Incluindo parâmetros dinâmicos
+      scaleType: params?.scaleType,
       questionsSize: params?.questionsSize,
-      options: []
+      options: [],
+      ...(params?.scaleType === 'semantic' && {
+        leftLabel: "",
+        rightLabel: "",
+      }) // Spread operator para adicionar parâmetros no objeto caso condicional seja válida
     },
   }),
   designerButtonElement: {
@@ -77,8 +70,18 @@ type CustomInstance = TemplateElementInstance & {
 
 function DesignerComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
   const element = elementInstance as CustomInstance;
-  const { label, helperText, options } = element.extraAttributes;
-  const id = `options-${element.id}`;
+  const { label, helperText, options, scaleType, leftLabel, rightLabel } = element.extraAttributes;
+
+  const RadioGroupContent = () => (
+    <RadioGroup className="flex justify-between items-center w-full">
+      {options.map((option, index) => (
+        <div className="flex flex-col items-center space-y-2" key={index}>
+          <RadioGroupItem disabled value={option.value} />
+          <Label className="font-normal text-[0.8rem]">{option.label}</Label>
+        </div>
+      ))}
+    </RadioGroup>
+  );
 
   return (
     <div className="flex flex-col items-top space-y-4 w-full">
@@ -87,14 +90,19 @@ function DesignerComponent({ elementInstance }: { elementInstance: TemplateEleme
         <p className="text-lg">{label}</p>
         {helperText && <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>}
       </div>
-      <RadioGroup className="flex flex-row content-center justify-between">
-        {options.map((option, index) => (
-          <div className="flex flex-col items-center space-y-2" key={index}>
-            <RadioGroupItem disabled value={option.value}/>
-            <Label className="font-normal text-[0.8rem]">{option.label}</Label>
+      {scaleType === 'semantic' ? (
+        <div className="grid grid-cols-[auto,1fr,auto] justify-items-stretch gap-4">
+          <div className="text-left">
+            <p className="text-[0.8rem]">{leftLabel}</p>
           </div>
-        ))}
-      </RadioGroup>
+          <RadioGroupContent />
+          <div className="text-right">
+            <p className="text-[0.8rem]">{rightLabel}</p>
+          </div>
+        </div>
+      ) : (
+        <RadioGroupContent />
+      )}
     </div>
   );
 }
@@ -150,6 +158,26 @@ function TemplateComponent({
   );
 }
 
+const propertiesSchema = z.object({
+  label: z.string().min(2).max(50),
+  helperText: z.string().max(200),
+  scaleType: z.enum(['likert', 'semantic']),
+  questionsSize: z.number().min(2).max(10),
+  options: z.array(z.object({
+    label: z.string(),
+    value: z.string(),
+  })).min(2),
+  leftLabel: z.string().optional(),
+  rightLabel: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.scaleType === 'semantic' && (!data.leftLabel || !data.rightLabel)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Rótulos da esquerda e direita são necessários para o tipo de escala semântica",
+    });
+  }
+});
+
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function PropertiesComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
@@ -168,8 +196,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
     },
   });
 
-  const { control, handleSubmit, watch, setValue } = form;
-  const options = watch("options");
+  const options = form.watch("options");
 
   useEffect(() => {
     const scaleType = element.extraAttributes.scaleType as "likert" | "semantic";
@@ -186,8 +213,7 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
     return Array.from({ length: element.extraAttributes.questionsSize }, (_, index) => {
       const isSemantic = scaleType === 'semantic';
       return {
-        label: isSemantic && (index === 0 || index === element.extraAttributes.questionsSize - 1)
-               ? element.extraAttributes.options[index]?.label || `${index + 1}`
+        label: isSemantic ? `${index + 1}`
                : (scaleType === 'likert' ? element.extraAttributes.options[index]?.label || `${index + 1}` : ''),
         value: element.extraAttributes.options[index]?.value || (index + 1).toString()
       };
@@ -221,23 +247,29 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(applyChanges)} className="space-y-3">
+      <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-3">
 
-        <FormField control={control} name="label" render={props => FieldRenderer({...props, labelText: "Título"})} />
-        <FormField control={control} name="helperText" render={props => FieldRenderer({...props, labelText: "Texto de Apoio"})} />
+        <FormField control={form.control} name="label" render={props => FieldRenderer({...props, labelText: "Título"})} />
+        <FormField control={form.control} name="helperText" render={props => FieldRenderer({...props, labelText: "Texto de Apoio"})} />
 
-        {options.map((option, index) => (
-          <React.Fragment key={index}>
-            {(element.extraAttributes.scaleType !== 'semantic' || index === 0 || index === options.length - 1) && (
-              <FormField
-                control={control}
-                name={`options.${index}.label`}
-                render={props => FieldRenderer({...props, labelText: `Descrição para Opção ${index + 1}`})}
-              />
-            )}
-          </React.Fragment>
-        ))}
-          
+        {element.extraAttributes.scaleType === 'likert' ?
+            (<>
+              {options.map((option, index) => (
+                  <FormField
+                    key={index}
+                    control={form.control}
+                    name={`options.${index}.label`}
+                    render={props => FieldRenderer({...props, labelText: `Descrição para Opção ${index + 1}`})}
+                  />
+              ))}
+            </>)
+          : 
+          (<>
+            <FormField control={form.control} name="leftLabel" render={props => FieldRenderer({...props, labelText: "Descrição para Diferencial 1"})} />
+            <FormField control={form.control} name="rightLabel" render={props => FieldRenderer({...props, labelText: "Descrição para Diferencial 2"})} />
+          </>)        
+        }
+
         <Button type="submit" className="w-full">
           Salvar
         </Button>
