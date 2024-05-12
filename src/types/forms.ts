@@ -51,6 +51,10 @@ export type FillEvaluationForm = {
     isViewable: true,
 }
 
+export type TemplateAnswers = {
+    [key: string]: string;
+};
+
 export interface Panas {
     repulsion: string;
     tormented: string;
