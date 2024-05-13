@@ -131,7 +131,7 @@ export async function getById (
           let keys = ['birthday', 'date']
           Object.keys(newObj).some(key => {
             if(keys.includes(key))
-              newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+              newObj[key] = newObj[key].toDate();
           })
           
           res.push(newObj);
