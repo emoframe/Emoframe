@@ -14,9 +14,6 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
 import { useTranslation } from 'react-i18next';
 
-
-
-
 type SidebarContextType = {
     expanded: boolean;
 }
@@ -76,6 +73,17 @@ const SidebarCore = ({ children }) => {
 
     return redirect;
   }
+
+  const { t, i18n } = useTranslation();  // Obtenha o objeto i18n diretamente
+
+  const changeLanguage = (lng) => {
+    console.log(i18n); // Confira se o objeto i18n está completo
+    i18n.changeLanguage(lng).then(() => {
+      console.log('Language changed to ' + lng);
+    }).catch(err => {
+      console.error('Error changing language', err);
+    });
+  }
   
   return (
     <aside className="h-screen fixed z-10 top-0">
@@ -99,6 +107,7 @@ const SidebarCore = ({ children }) => {
               {expanded ? <ChevronFirst /> : <ChevronLast />}
             </Button>
             <ThemeToggle />
+            <button onClick={() => changeLanguage('en')}>en</button>
           </div>
         </div>
 
@@ -124,16 +133,7 @@ interface SidebarItemType {
 
 const SidebarItem = ({ icon, text, href, active = false, alert = false}: SidebarItemType) => {
   const { expanded } = useContext(SidebarContext)
-  const { t, i18n } = useTranslation();  // Obtenha o objeto i18n diretamente
-
-  const changeLanguage = lng => {
-    console.log(i18n); // Confira se o objeto i18n está completo
-    i18n.changeLanguage(lng).then(() => {
-      console.log('Language changed to ' + lng);
-    }).catch(err => {
-      console.error('Error changing language', err);
-    });
-  }
+  const { t } = useTranslation();  // Obtenha o objeto i18n diretamente
   
   return (
     <Link href={href}>
@@ -179,8 +179,6 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
           </div>
         )}
       </li>
-        
-      <button onClick={() => changeLanguage('en')}>en</button>
     </Link>
   )
 }
