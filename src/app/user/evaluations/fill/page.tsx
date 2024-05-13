@@ -86,7 +86,7 @@ const FillEvaluation = async ({
       userId={session?.user?.uid! as string}
       evaluationId={searchParams.evaluation as string}
       identification={evaluation.identification}
-      template={Object.values(template?.questions!)}
+      template={template?.questions ? Object.values(template?.questions) : []}
     />
   );
 };
