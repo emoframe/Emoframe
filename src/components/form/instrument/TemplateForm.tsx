@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useRef, useState, useTransition } from "react";
-import { TemplateElementInstance, TemplateElements } from "@/components/template/TemplateElements";
+import { TemplateElements } from "@/components/template/TemplateElements";
 import { Button } from "@/components/ui/button";
 import { HiCursorClick } from "react-icons/hi";
 import { toast } from "@/components/ui/use-toast";
@@ -12,6 +12,7 @@ import { saveAnswer } from "@/lib/firebase";
 
 
 function TemplateForm({ content, ...params } : TemplateFormProps ) {
+
   const formValues = useRef<TemplateAnswers>({});
   const formErrors = useRef<{ [key: string]: boolean }>({});
   const [renderKey, setRenderKey] = useState(new Date().getTime());
@@ -78,7 +79,7 @@ function TemplateForm({ content, ...params } : TemplateFormProps ) {
   if (submitted) {
     return (
       <div className="flex justify-center w-full h-full items-center p-8">
-        <div className="max-w-[620px] flex flex-col gap-4 flex-grow bg-background w-full p-8 overflow-y-auto border shadow-xl shadow-blue-700 rounded">
+        <div className="max-w-[620px] flex flex-col gap-4 flex-grow bg-background w-full p-8 rounded">
           <h1 className="text-2xl font-bold">Avaliação enviada</h1>
           <p className="text-muted-foreground">Obrigado por enviar o formulário, você pode fechar esta página agora.</p>
         </div>
@@ -87,11 +88,7 @@ function TemplateForm({ content, ...params } : TemplateFormProps ) {
   }
 
   return (
-    <div className="flex justify-center w-full h-full items-center p-8">
-      <div
-        key={renderKey}
-        className="max-w-[620px] flex flex-col gap-4 flex-grow bg-background w-full p-8 overflow-y-auto border shadow-xl shadow-blue-700 rounded"
-      >
+    <div className="flex flex-col flex-wrap justify-center gap-8">
         {content.map((element) => {
           const FormElement = TemplateElements[element.type].templateComponent;
           return (
@@ -104,8 +101,9 @@ function TemplateForm({ content, ...params } : TemplateFormProps ) {
             />
           );
         })}
+    
         <Button
-          className="mt-8"
+          className="mt-8 max-w-[200px]"
           onClick={() => {
             startTransition(submitForm);
           }}
@@ -119,8 +117,8 @@ function TemplateForm({ content, ...params } : TemplateFormProps ) {
           )}
           {pending && <Loader2 className="animate-spin" />}
         </Button>
+        
       </div>
-    </div>
   );
 }
 
