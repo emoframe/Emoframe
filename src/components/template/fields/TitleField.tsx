@@ -58,7 +58,7 @@ function TemplateComponent({ elementInstance }: { elementInstance: TemplateEleme
   const element = elementInstance as CustomInstance;
 
   const { title } = element.extraAttributes;
-  return <p className="text-xl">{title}</p>;
+  return <p className="font-bold text-2xl self-center">{title}</p>;
 }
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;

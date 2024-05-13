@@ -140,9 +140,9 @@ function TemplateComponent({
       className="flex justify-between items-center w-full"
     >
       {options.map((option, index) => (
-        <div className="flex flex-col items-center space-y-2" key={index}>
+        <div className="flex flex-col items-center space-y-2 pt-1" key={index}>
           <RadioGroupItem key={index} id={`${element.id}-${index}`} value={option.value} />
-          <Label className="font-normal text-[0.8rem]">{option.label}</Label>
+          <Label className="font-normal text-base">{option.label}</Label>
         </div>
       ))}
     </RadioGroup>
@@ -151,17 +151,17 @@ function TemplateComponent({
   return (
     <div className="flex flex-col space-y-4">
       <div className="grid gap-1.5 leading-none">
-        <Label htmlFor={element.id} className={cn("font-bold", error && "text-red-500")}>{label}</Label>
-        {helperText && <p className={cn("text-muted-foreground text-[0.8rem]", error && "text-red-500")}>{helperText}</p>}
+        <Label htmlFor={element.id} className={cn("text-xl font-bold", error && "text-red-500")}>{label}</Label>
+        {helperText && <p className={cn("text-muted-foreground text-base", error && "text-red-500")}>{helperText}</p>}
       </div>
       {scaleType === 'semantic' ? (
-        <div className="grid grid-cols-[auto,1fr,auto] justify-items-stretch gap-4">
+        <div className="grid grid-cols-[auto,1fr,auto] justify-items-stretch gap-4 w-full">
           <div className="text-left">
-            <p className="text-[0.8rem]">{leftLabel}</p>
+            <p className="text-base">{leftLabel}</p>
           </div>
           <RadioGroupContent />
           <div className="text-right">
-            <p className="text-[0.8rem]">{rightLabel}</p>
+            <p className="text-base">{rightLabel}</p>
           </div>
         </div>
       ) : (
