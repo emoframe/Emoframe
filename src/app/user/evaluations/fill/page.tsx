@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import { getById } from '@/lib/firebase';
@@ -10,8 +10,8 @@ import EazForm from '@/components/form/instrument/EazForm';
 import BrumsForm from '@/components/form/instrument/BrumsForm';
 import GdsForm from '@/components/form/instrument/GdsForm';
 import TemplateForm from '@/components/form/instrument/TemplateForm';
-import { Evaluation, RenderComponentProps } from '@/types/forms';
-import { TemplateElementInstance } from '@/components/template/TemplateElements';
+import { Evaluation, RenderComponentProps, Template } from '@/types/forms';
+import { isSameDay } from '@/lib/utils';
 
 const RenderComponent = ({ instrument, userId, evaluationId, identification, template }: RenderComponentProps) => {
   const commonProps = { userId, evaluationId };
@@ -30,32 +30,36 @@ const RenderComponent = ({ instrument, userId, evaluationId, identification, tem
     case "gds":
       return <GdsForm {...commonProps} />;
     case "template":
-      return <TemplateForm {...commonProps} content={template} />;
+      if (template) {
+        return <TemplateForm {...commonProps} content={template} />;
+      }
+      console.error('Os dados do template são necessários para o instrumento.');
+      return <div>Template é obrigatório.</div>;
     default:
       return <div>Instrumento não suportado</div>;
   }
 };
 
 const FillEvaluation = async ({
-	searchParams,
+  searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
 
-  const session: any = await getServerSession(authOptions);
-  
-  if (!searchParams.evaluation || typeof searchParams.evaluation!== 'string') {
+  const session = await getServerSession(authOptions);
+
+  if (!searchParams.evaluation || typeof searchParams.evaluation !== 'string') {
     await appRedirect('/denied');
     return null;
   }
 
   let evaluation: Evaluation;
-  let template: TemplateElementInstance[] = [];
+  let template: Template | null = null; // Initialize to null
 
   try {
     evaluation = await getById(searchParams.evaluation, "evaluation");
 
-    if (!evaluation || evaluation.answered?.includes(session?.user?.id)) {
+    if (!evaluation || evaluation.answered?.includes(session.user.uid)) {
       await appRedirect('/denied');
       return null;
     }
@@ -69,7 +73,9 @@ const FillEvaluation = async ({
     return null;
   }
 
-  if (!evaluation.users.includes(session?.user?.id) || evaluation.date !== new Date()) {
+  if (!evaluation.users.includes(session.user.uid) || 
+  !isSameDay(new Date(evaluation.date), new Date()) || 
+  (evaluation.instrument === "template" && !template)) {
     await appRedirect('/denied');
     return null;
   }
@@ -80,7 +86,7 @@ const FillEvaluation = async ({
       userId={session?.user?.uid! as string}
       evaluationId={searchParams.evaluation as string}
       identification={evaluation.identification}
-      template={template}
+      template={Object.values(template?.questions!)}
     />
   );
 };
