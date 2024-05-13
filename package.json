@@ -43,6 +43,7 @@
     "eslint-config-next": "^14.0.4",
     "firebase": "^10.7.1",
     "framer-motion": "^10.17.11",
+    "i18next": "^23.11.4",
     "lucide-react": "^0.307.0",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
