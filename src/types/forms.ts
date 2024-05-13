@@ -33,26 +33,43 @@ export interface Template {
     published: boolean,
 }
 
-export interface Evaluation {
+export type Evaluation = {
     uid?: string,
     specialist: string,
     users: string[],
+    answered?: string[],
     identification: string,
     date: Date,
     method: string,
-    instrument: string,
-}
+} & (
+    { instrument: "template", templateId: string } |
+    { instrument: Exclude<string, "template">, templateId?: never }
+);
 
 export type FillEvaluationForm = {
-    userId: string,
-    evaluationId: string,
-} |
-{
-    isViewable: true,
+    userId: string;
+    evaluationId: string;
+    isViewable?: never;
+} | {
+    userId?: never;
+    evaluationId?: never;
+    isViewable: true;
 }
+
+export type TemplateFormProps = (FillEvaluationForm & {
+    content: TemplateElementInstance[];
+});
 
 export type TemplateAnswers = {
     [key: string]: string;
+};
+
+export type RenderComponentProps = {
+    instrument: string;
+    userId: string;
+    evaluationId: string;
+    identification: string;
+    template: TemplateElementInstance[];
 };
 
 export interface Panas {
