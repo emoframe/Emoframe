@@ -14,6 +14,8 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
 import { useTranslation } from 'react-i18next';
 
+import "@/config/i18";
+
 type SidebarContextType = {
     expanded: boolean;
 }
