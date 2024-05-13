@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button";
 import { HiCursorClick } from "react-icons/hi";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
-import { FillEvaluationForm, TemplateAnswers } from "@/types/forms";
+import { TemplateAnswers, TemplateFormProps } from "@/types/forms";
 import { useRouter } from "next/navigation";
 import { saveAnswer } from "@/lib/firebase";
 
-function TemplateForm({ params, content }: { content: TemplateElementInstance[]; params: FillEvaluationForm }) {
+
+function TemplateForm({ content, ...params } : TemplateFormProps ) {
   const formValues = useRef<TemplateAnswers>({});
   const formErrors = useRef<{ [key: string]: boolean }>({});
   const [renderKey, setRenderKey] = useState(new Date().getTime());
