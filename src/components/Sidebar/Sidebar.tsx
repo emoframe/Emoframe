@@ -12,6 +12,10 @@ import Link from "next/link";
 import LoginMenu from "./LoginMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
+import { useTranslation } from 'react-i18next';
+
+
+
 
 type SidebarContextType = {
     expanded: boolean;
@@ -120,6 +124,16 @@ interface SidebarItemType {
 
 const SidebarItem = ({ icon, text, href, active = false, alert = false}: SidebarItemType) => {
   const { expanded } = useContext(SidebarContext)
+  const { t, i18n } = useTranslation();  // Obtenha o objeto i18n diretamente
+
+  const changeLanguage = lng => {
+    console.log(i18n); // Confira se o objeto i18n está completo
+    i18n.changeLanguage(lng).then(() => {
+      console.log('Language changed to ' + lng);
+    }).catch(err => {
+      console.error('Error changing language', err);
+    });
+  }
   
   return (
     <Link href={href}>
@@ -142,7 +156,7 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
             expanded ? "w-52 ml-3" : "w-0"
           }`}
         >
-          {text}
+          {t(text)}
         </span>
         {alert && (
           <div
@@ -161,10 +175,12 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
             group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
         `}
           >
-            {text}
+            {t(text)}
           </div>
         )}
       </li>
+        
+      <button onClick={() => changeLanguage('en')}>en</button>
     </Link>
   )
 }

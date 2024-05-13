@@ -1,0 +1,35 @@
+.language-switch {
+  position: relative;
+  width: 100px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.toggle-circle {
+  position: absolute;
+  top: 5px;
+  width: 40px;
+  height: 20px;
+  background-color: white;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.move-right {
+  transform: translateX(60px);
+}
+
+.move-left {
+  transform: translateX(0px);
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: #333;
+}
