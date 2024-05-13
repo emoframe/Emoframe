@@ -88,36 +88,41 @@ function TemplateForm({ content, ...params } : TemplateFormProps ) {
   }
 
   return (
-    <div className="flex flex-col flex-wrap justify-center gap-8">
-        {content.map((element) => {
-          const FormElement = TemplateElements[element.type].templateComponent;
-          return (
-            <FormElement
-              key={element.id}
-              elementInstance={element}
-              submitValue={submitValue}
-              isInvalid={formErrors.current[element.id]}
-              defaultValue={formValues.current[element.id]}
-            />
-          );
-        })}
-    
-        <Button
-          className="mt-8 max-w-[200px]"
-          onClick={() => {
-            startTransition(submitForm);
-          }}
-          disabled={pending}
-        >
-          {!pending && (
-            <>
-              <HiCursorClick className="mr-2" />
-              Enviar
-            </>
-          )}
-          {pending && <Loader2 className="animate-spin" />}
-        </Button>
-        
+    <div className="flex flex-1 flex-col justify-between gap-8 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]">
+        <div className="flex flex-col gap-4 overflow-y-auto">
+          {content.map((element) => {
+            const FormElement = TemplateElements[element.type].templateComponent;
+            return (
+              <div key={element.id} className="w-full">
+              <FormElement
+                key={element.id}
+                elementInstance={element}
+                submitValue={submitValue}
+                isInvalid={formErrors.current[element.id]}
+                defaultValue={formValues.current[element.id]}
+              />
+              </div>
+            );
+          })}
+        </div>
+
+        <div  className="flex flex-row justify-center">
+          <Button
+            className="text-lg basis-1/3" type="button" size="lg"
+            onClick={() => {
+              startTransition(submitForm);
+            }}
+            disabled={pending}
+          >
+            {!pending && (
+              <>
+                <HiCursorClick className="mr-2" />
+                Enviar
+              </>
+            )}
+            {pending && <Loader2 className="animate-spin" />}
+          </Button>
+        </div>
       </div>
   );
 }
