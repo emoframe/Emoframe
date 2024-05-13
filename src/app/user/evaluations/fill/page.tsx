@@ -9,6 +9,32 @@ import SusForm from '@/components/form/instrument/SusForm';
 import EazForm from '@/components/form/instrument/EazForm';
 import BrumsForm from '@/components/form/instrument/BrumsForm';
 import GdsForm from '@/components/form/instrument/GdsForm';
+import TemplateForm from '@/components/form/instrument/TemplateForm';
+import { Evaluation, RenderComponentProps } from '@/types/forms';
+import { TemplateElementInstance } from '@/components/template/TemplateElements';
+
+const RenderComponent = ({ instrument, userId, evaluationId, identification, template }: RenderComponentProps) => {
+  const commonProps = { userId, evaluationId };
+
+  switch (instrument) {
+    case "panas":
+      return <PanasForm {...commonProps} />;
+    case "sam":
+      return <SamForm {...commonProps} />;
+    case "sus":
+      return <SusForm {...commonProps} identification={identification} />;
+    case "eaz":
+      return <EazForm {...commonProps} />;
+    case "brums":
+      return <BrumsForm {...commonProps} />;
+    case "gds":
+      return <GdsForm {...commonProps} />;
+    case "template":
+      return <TemplateForm {...commonProps} content={template} />;
+    default:
+      return <div>Instrumento não suportado</div>;
+  }
+};
 
 const FillEvaluation = async ({
 	searchParams,
@@ -17,53 +43,45 @@ const FillEvaluation = async ({
 }) => {
 
   const session: any = await getServerSession(authOptions);
-  let evaluation;
-
-  const ConditionalRendering = () => {
-    const instruments = [
-      {
-        value: "panas",
-        component: <PanasForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      },
-      {
-        value: "sam",
-        component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      },
-      {
-        value: "sus",
-        component: <SusForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string} identification={evaluation.identification}/>
-      },
-      {
-        value: "eaz",
-        component: <EazForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      },
-      {
-        value: "brums",
-        component: <BrumsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      },
-      {
-        value: "gds",
-        component: <GdsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      }
-    ]
-    
-    return (evaluation.users.includes(session?.user?.uid!) && (evaluation.date == new Date().toLocaleDateString('pt-BR'))) ?
-      instruments.find((i) => i.value === evaluation?.instrument)?.component :
-      null
-  }
   
-  try {
-    evaluation = await getById(searchParams.evaluation as string, "evaluation");
-
-    (!evaluation || (evaluation.answered && evaluation?.answered.includes(session?.user.uid!))) 
-    && await appRedirect('/denied');
-
-  } catch(error) {
+  if (!searchParams.evaluation || typeof searchParams.evaluation!== 'string') {
     await appRedirect('/denied');
+    return null;
+  }
+
+  let evaluation: Evaluation;
+  let template: TemplateElementInstance[] = [];
+
+  try {
+    evaluation = await getById(searchParams.evaluation, "evaluation");
+
+    if (!evaluation || evaluation.answered?.includes(session?.user?.id)) {
+      await appRedirect('/denied');
+      return null;
+    }
+
+    if (evaluation.instrument === "template" && evaluation.templateId) {
+      template = await getById(evaluation.templateId, "template");
+    }
+  } catch (error) {
+    console.error('Error fetching evaluation:', error);
+    await appRedirect('/denied');
+    return null;
+  }
+
+  if (!evaluation.users.includes(session?.user?.id) || evaluation.date !== new Date()) {
+    await appRedirect('/denied');
+    return null;
   }
 
   return (
-    <ConditionalRendering/>
+    <RenderComponent 
+      instrument={evaluation?.instrument} 
+      userId={session?.user?.uid! as string}
+      evaluationId={searchParams.evaluation as string}
+      identification={evaluation.identification}
+      template={template}
+    />
   );
 };
 
