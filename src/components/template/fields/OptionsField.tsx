@@ -173,8 +173,8 @@ function TemplateComponent({
 
 
 const propertiesSchema = z.object({
-  label: z.string().min(2).max(50),
-  helperText: z.string().max(200),
+  label: z.string().max(50).optional(),
+  helperText: z.string().max(200).optional(),
   scaleType: z.enum(['likert', 'semantic']),
   questionsSize: z.number().min(2).max(10),
   options: z.array(z.object({
@@ -191,7 +191,6 @@ const propertiesSchema = z.object({
     });
   }
 });
-
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 function PropertiesComponent({ elementInstance }: { elementInstance: TemplateElementInstance }) {
