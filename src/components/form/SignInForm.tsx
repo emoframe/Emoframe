@@ -16,17 +16,22 @@ import { Button } from '../ui/button';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 
-const FormSchema = z.object({
-  email: z.string().min(1, 'Email é obrigatório').email('Email invalido'),
-  password: z
-    .string()
-    .min(1, 'Senha é obrigatória')
-    .min(8, 'Senha precisa possuir mais de 8 caracteres'),
-});
 
 const SignInForm = () => {
+  const { t } = useTranslation();
+
+  
+  const FormSchema = z.object({
+    email: z.string().min(1, t('Email é obrigatório')).email(t('Email invalido')),
+    password: z
+      .string()
+      .min(1, t('Senha é obrigatória'))
+      .min(8, t('Senha precisa possuir mais de 8 caracteres')),
+  });
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -48,9 +53,9 @@ const SignInForm = () => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('Email')}</FormLabel>
                 <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
+                  <Input placeholder={t('mail@example.com')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -61,11 +66,11 @@ const SignInForm = () => {
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Senha</FormLabel>
+                <FormLabel>{t('Senha')}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
-                    placeholder='Insira sua senha'
+                    placeholder={t('Insira sua senha')}
                     {...field}
                   />
                 </FormControl>
@@ -82,15 +87,13 @@ const SignInForm = () => {
        ou
       </div>
       <p className='text-center text-sm  mt-2'>
-        Se não possuir uma conta, por favor&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-up'>
-          Registre-se
-        </Link>
+      {t('Se não possuir uma conta, por favor')} 
+      <Link className='text-blue-500 hover:underline' href='/sign-up'>{t('Registre-se')}</Link>
       </p>
       <p className='text-center text-sm  mt-2'>
-        Se esqueceu ou deseja trocar sua senha&nbsp;
+      {t('Se esqueceu ou deseja trocar sua senha')}
         <Link className='text-blue-500 hover:underline' href='/forgot-password'>
-          Acesse
+        {t('Acesse')}
         </Link>
       </p>
     </Form>

@@ -30,6 +30,8 @@ const SidebarCore = ({ children }) => {
 
   const { theme } = useTheme();
   const [themeState, setThemeState] = useState<string>();
+  const { t, i18n } = useTranslation();  // Obtenha o objeto i18n diretamente
+
 
   useEffect(() => {
     theme && setThemeState(theme); // Passa o valor do hook de theme pra um state
@@ -60,7 +62,7 @@ const SidebarCore = ({ children }) => {
     } else {
         return (
             <Link className={buttonVariants({variant: "default"})} href="/sign-in">
-                Entre
+                {t('Entre')}
             </Link> 
         )
     }
@@ -76,12 +78,10 @@ const SidebarCore = ({ children }) => {
     return redirect;
   }
 
-  const { t, i18n } = useTranslation();  // Obtenha o objeto i18n diretamente
-
-  const changeLanguage = (lng) => {
-    console.log(i18n); // Confira se o objeto i18n está completo
-    i18n.changeLanguage(lng).then(() => {
-      console.log('Language changed to ' + lng);
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'en' ? 'pt' : 'en';  // Troca entre 'en' e 'pt'
+    i18n.changeLanguage(newLang).then(() => {
+      console.log('Language changed to ' + newLang);
     }).catch(err => {
       console.error('Error changing language', err);
     });
@@ -109,7 +109,7 @@ const SidebarCore = ({ children }) => {
               {expanded ? <ChevronFirst /> : <ChevronLast />}
             </Button>
             <ThemeToggle />
-            <button onClick={() => changeLanguage('en')}>en</button>
+            <button onClick={toggleLanguage}>{i18n.language === 'en' ? 'pt' : 'en'}</button>
           </div>
         </div>
 

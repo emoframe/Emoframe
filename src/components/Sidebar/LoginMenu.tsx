@@ -19,10 +19,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from 'react-i18next';
+
 
 const LoginMenu = () => {
     const { data: session } = useSession();
     const router = useRouter();
+    const { t } = useTranslation();
 
     return (
         <DropdownMenu>
@@ -31,20 +34,20 @@ const LoginMenu = () => {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+                <DropdownMenuLabel>{t('Minha Conta')}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
                     <DropdownMenuItem onClick={() => router.push("/profile")}>
                         <User className="mr-2 h-4 w-4" />
-                        <span>Perfil</span>
+                        <span>{t('Perfil')}</span>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
 
                 <DropdownMenuGroup>
                     <DropdownMenuItem onClick={() => {signOut({callbackUrl: "/"})}}>
                         <LogOut className="mr-2 h-4 w-4" />
-                        <span>Sair</span>
+                        <span>{t('Sair')}</span>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
             </DropdownMenuContent>

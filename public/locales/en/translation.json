@@ -1,8 +1,26 @@
 {
-    "Home": "Home",
-    "Users": "Users",
-    "Evaluations": "Evaluations",
-    "Services": "Services",
-    "Results": "Results"
+    "Início": "Home",
+    "Usuários": "Users",
+    "Avaliações": "Evaluations",
+    "Serviços": "Services",
+    "Resultados": "Results",
+    "Minha Conta": "My Account",
+    "Perfil": "Profile",
+    "Sair": "Logout",
+    "Entre": "Login",
+    "Email": "Email",
+    "Senha": "Password",
+    "Entrar": "Sign In",
+    "ou": "or",
+    "Se não possuir uma conta, por favor": "If you do not have an account, please ",
+    "Registre-se": "Register",
+    "Se esqueceu ou deseja trocar sua senha": "If you forgot or wish to reset your password ",
+    "Acesse": "Access here",
+    "mail@example.com": "mail@example.com",
+    "Insira sua senha": "Enter your password",
+    "Email é obrigatório": "Email is required",
+    "Email inválido": "Invalid email",
+    "Senha é obrigatória": "Password is required",
+    "Senha precisa possuir mais de 8 caracteres": "Password must be at least 8 characters long"   
   }
   
