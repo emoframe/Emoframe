@@ -1,29 +1,6 @@
+import { Template, Option } from "@/types/forms";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
- 
-// Class imports
-import { 
-  PanasClass, 
-  SamClass, 
-  SusClass, 
-  EazClass, 
-  BrumsClass, 
-  GdsClass,
-  LeapClass,
-  Template,
-  Option
-} from '@/types/forms';
-
-// Interface imports
-import { 
-  Panas, 
-  Sam, 
-  Sus, 
-  Eaz, 
-  Brums, 
-  Gds,
-  Leap,
-} from '@/types/forms';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -127,67 +104,4 @@ export function isSameDay(date1: Date, date2: Date): boolean {
   return date1.getDate() === date2.getDate() &&
          date1.getMonth() === date2.getMonth() &&
          date1.getFullYear() === date2.getFullYear();
-}
-
-export function differentiateKeysFromObjects(keepObject: Object, changeObject: Object, suffixKey: string): void {
-  Object.keys(changeObject).forEach((changeObjectKey) => {
-    Object.keys(keepObject).forEach((keepObjectKey) => {
-      if(keepObjectKey === changeObjectKey) {
-        Object.defineProperty(changeObject, changeObjectKey + suffixKey, Object.getOwnPropertyDescriptor(changeObject, changeObjectKey));
-      }
-    })
-  })
-}
-
-export function convertStringToDate(dateString: string): number {
-  let date = dateString.split('/').map(data => Number(data));
-  date[0] *= 365 * 24 * 60 * 60;
-  date[1] *= 30 * 24 * 60 * 60;
-  date[2] *= 24 * 60 * 60;
-
-
-  return date.reduce((acc, val) => (acc + val));
-}
-
-export function getKeysFromInterface(currentInterface: string): Array<string> | void {
-  switch(currentInterface){
-    case 'panas':
-      return Object.keys(new PanasClass()) as Array<keyof Panas>;
-    case 'sam':
-      return Object.keys(new SamClass()) as Array<keyof Sam>;
-    case 'sus':
-      return Object.keys(new SusClass()) as Array<keyof Sus>;
-    case 'eaz':
-      return Object.keys(new EazClass()) as Array<keyof Eaz>;
-    case 'leap':
-      return Object.keys(new LeapClass()) as Array<keyof Leap>;
-    case 'brums':
-      return Object.keys(new BrumsClass()) as Array<keyof Brums>;
-    case 'gds':
-      return Object.keys(new GdsClass()) as Array<keyof Gds>;
-  }
-}
-
-export function formatFormDataToChart(formData: Object, formInterface: Array<string>): formatData {
-  const arrayData = Object.entries(formData) as [string, string][]
-
-  let textFields: Array<Array<string>> = []
-
-  // Moving all text fields to another array
-  arrayData.forEach((value, index) => {
-    let spliceCount = 0
-    if (!/^[\d]+$/.test(value[1])){ 
-      textFields.push(value)
-      arrayData.splice(index - spliceCount, 1);
-      spliceCount++;
-    }
-  })
-
-
-  const newArrayData: Array<Array<string | number | Object>> = arrayData.map((value) => ([value[0], Number(value[1]), formInterface.indexOf(value[0])]));
-
-  newArrayData.sort((a, b) => Number(a[2]) - Number(b[2]));
-  const finalArrayData = newArrayData.map((value) => [...value.slice(0, 2)]);
-    
-  return {textFields: textFields, arrayData: finalArrayData};
 }
