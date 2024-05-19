@@ -3,12 +3,14 @@ import { OptionsFieldTemplateElement } from "@/components/template/fields/Option
 import { SeparatorFieldTemplateElement } from "@/components/template/fields/SeparatorField";
 import { SubTitleFieldTemplateElement } from "@/components/template/fields/SubTitleField";
 import { ParagprahFieldTemplateElement } from "./fields/ParagraphField";
+import { SpacerFieldTemplateElement } from "./fields/SpacerField";
 
 export type ElementsType =
   | "TitleField"
   | "SubTitleField"
   | "SeparatorField"
   | "ParagraphField"
+  | "SpacerField"
   | "OptionsField"
 ;
 
@@ -57,5 +59,6 @@ export const TemplateElements: TemplateElementsType = {
   SubTitleField: SubTitleFieldTemplateElement,
   SeparatorField: SeparatorFieldTemplateElement,
   ParagraphField: ParagprahFieldTemplateElement,
+  SpacerField: SpacerFieldTemplateElement,
   OptionsField: OptionsFieldTemplateElement,
 };
