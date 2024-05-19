@@ -1,11 +1,14 @@
 import { TitleFieldTemplateElement } from "@/components/template/fields/TitleField";
 import { OptionsFieldTemplateElement } from "@/components/template/fields/OptionsField";
-import { SeparatorFieldTemplateElement } from "./fields/SeparatorField";
+import { SeparatorFieldTemplateElement } from "@/components/template/fields/SeparatorField";
+import { SubTitleFieldTemplateElement } from "@/components/template/fields/SubTitleField";
 
 export type ElementsType =
   | "TitleField"
+  | "SubTitleField"
+  | "SeparatorField"
   | "OptionsField"
-  | "SeparatorField";
+;
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -49,6 +52,7 @@ type TemplateElementsType = {
 };
 export const TemplateElements: TemplateElementsType = {
   TitleField: TitleFieldTemplateElement,
+  SubTitleField: SubTitleFieldTemplateElement,
+  SeparatorField: SeparatorFieldTemplateElement,
   OptionsField: OptionsFieldTemplateElement,
-  SeparatorField: SeparatorFieldTemplateElement
 };
