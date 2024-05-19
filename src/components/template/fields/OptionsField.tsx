@@ -218,7 +218,9 @@ function PropertiesComponent({ elementInstance }: { elementInstance: TemplateEle
       helperText: element.extraAttributes.helperText,
       scaleType: scaleType,
       questionsSize: element.extraAttributes.questionsSize,
-      options: generateOptionsBasedOnScaleType(element, scaleType)
+      options: generateOptionsBasedOnScaleType(element, scaleType),
+      leftLabel: scaleType === 'semantic' ? element.extraAttributes.leftLabel : undefined,
+      rightLabel: scaleType === 'semantic' ? element.extraAttributes.rightLabel : undefined
     });
   }, [element, form]);
 
