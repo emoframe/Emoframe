@@ -14,6 +14,10 @@ const TemplateElementsSidebar = () => {
 
       <div className="flex flex-col gap-2 mb-2">
         <SidebarButtonElement element={TemplateElements.TitleField} />
+        <SidebarButtonElement element={TemplateElements.SubTitleField} />
+        <SidebarButtonElement element={TemplateElements.SpacerField} />
+        <SidebarButtonElement element={TemplateElements.SeparatorField} />
+        <SidebarButtonElement element={TemplateElements.ParagraphField} />
       </div>
       
       <Separator className="mt-2 mb-4" />
