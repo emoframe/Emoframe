@@ -9,7 +9,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { Heading } from 'lucide-react';
+import { Heading2 } from 'lucide-react';
 
 const type: ElementsType = "SubTitleField";
 
@@ -29,7 +29,7 @@ export const SubTitleFieldTemplateElement: TemplateElement = {
     extraAttributes,
   }),
   designerButtonElement: {
-    icon: Heading,
+    icon: Heading2,
     label: "Subtítulo",
   },
   designerComponent: DesignerComponent,

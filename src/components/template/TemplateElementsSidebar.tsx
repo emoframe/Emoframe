@@ -7,12 +7,9 @@ import { Separator } from "@/components/ui/separator";
 const TemplateElementsSidebar = () => {
   return (
     <div>
-      <p className="text-sm text-foreground/70">Elementos Arrasta e Solta</p>
-
-      <Separator className="mt-2 mb-4" />
       <p className="text-sm text-foreground/70 mb-2">Elementos de Layout</p>
 
-      <div className="flex flex-col gap-2 mb-2">
+      <div className="grid grid-cols-2 justify-items-center gap-y-4 mb-4">
         <SidebarButtonElement element={TemplateElements.TitleField} />
         <SidebarButtonElement element={TemplateElements.SubTitleField} />
         <SidebarButtonElement element={TemplateElements.SpacerField} />
@@ -23,7 +20,7 @@ const TemplateElementsSidebar = () => {
       <Separator className="mt-2 mb-4" />
       <p className="text-sm text-foreground/70 mb-2">Elementos de Formulário</p>
 
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-2 justify-items-center gap-y-4 mb-4">
         <SidebarButtonElement element={TemplateElements.OptionsField} />
       </div>
     </div>
