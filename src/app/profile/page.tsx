@@ -1,16 +1,16 @@
-import React from 'react'
-import ProfileCard from './profile-card';
+import React from 'react';
+import ProfileCardServer from './profile-card-server';
 import { getById } from '@/lib/firebase';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 
 const Profile = async () => {
-    const session: any = await getServerSession(authOptions);
-    const data = await getById(session?.user?.uid!, "user");
+    const session = await getServerSession(authOptions);
+    const data = await getById(session?.user?.uid, "user");
 
     return (
-        <ProfileCard data={data}/>
-    )
-}
+        <ProfileCardServer data={data} className={undefined} />
+    );
+};
 
 export default Profile;
