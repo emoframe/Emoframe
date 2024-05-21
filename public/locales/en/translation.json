@@ -21,6 +21,15 @@
     "Email é obrigatório": "Email is required",
     "Email inválido": "Invalid email",
     "Senha é obrigatória": "Password is required",
-    "Senha precisa possuir mais de 8 caracteres": "Password must be at least 8 characters long"   
+    "Senha precisa possuir mais de 8 caracteres": "Password must be at least 8 characters long", 
+    "Página do especialista": "Especialist page",
+    "linha(s) selecionada(s)": "selected row(s)",
+    "de": "of",
+    "Próximo": "Next",
+    "Anterior": "Previous",
+    "Sem resultados": "No results",
+    "Nova Avaliação": "New Assessment",
+    "Pesquise qualquer campo": "Search any field",
+    "Colunas": "Columns"
   }
   

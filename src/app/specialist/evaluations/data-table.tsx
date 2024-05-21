@@ -37,6 +37,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { DataTableProps } from "@/types/forms";
+import { useTranslation } from 'react-i18next';
+
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -96,12 +98,14 @@ export function EvaluationsDataTable<TData, TValue>({
     },
   });
 
+  const { t } = useTranslation();
+
   return (
     <div>
       <div className="flex items-center pb-4 gap-4">
         {/* input */}
         <Input
-          placeholder="Pesquise qualquer campo"
+          placeholder={t('Pesquise qualquer campo')}
           value={globalFilter ?? ''}
           onChange={(e) => {
            setGlobalFilter(e.target.value);
@@ -111,7 +115,7 @@ export function EvaluationsDataTable<TData, TValue>({
         
         <DropdownMenu>
           <DropdownMenuTrigger className={buttonVariants({ variant: "default" })}>
-            Colunas
+            {t('Colunas')}
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {table
@@ -135,7 +139,7 @@ export function EvaluationsDataTable<TData, TValue>({
         </DropdownMenu>
 
         <Link className={buttonVariants({ variant: "default" })} href="/specialist/evaluations/form">
-          Nova Avaliação
+          {t('Nova Avaliação')}
         </Link>
       </div>
 
@@ -177,7 +181,7 @@ export function EvaluationsDataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell>Sem resultados</TableCell>
+                <TableCell>{t('Sem resultados')}</TableCell>
               </TableRow>
             )}
           </TableBody>
@@ -193,7 +197,7 @@ export function EvaluationsDataTable<TData, TValue>({
           }}
           disabled={!table.getCanPreviousPage()}
         >
-          Anterior
+          {t('Anterior')}
         </Button>
         <Button
           variant="outline"
@@ -203,12 +207,12 @@ export function EvaluationsDataTable<TData, TValue>({
           }}
           disabled={!table.getCanNextPage()}
         >
-          Próximo
+          {t('Próximo')}
         </Button>
       </div>
       <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} de{" "}
-        {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
+        {table.getFilteredSelectedRowModel().rows.length} {t('de')}{" "}
+        {table.getFilteredRowModel().rows.length} {t('linha(s) selecionada(s)')}
       </div>
     </div>
   );

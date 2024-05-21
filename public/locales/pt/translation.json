@@ -12,7 +12,7 @@
   "Senha": "Senha",
   "Entrar": "Entrar",
   "ou": "ou",
-  "Se não possuir uma conta, por favor": "Se não possuir uma conta, por favor",
+  "Se não possuir uma conta, por favor": "Se não possuir uma conta, por favor ",
   "Registre-se": "Registre-se",
   "Se esqueceu ou deseja trocar sua senha": "Se esqueceu ou deseja trocar sua senha",
   "Acesse": "Acesse",
@@ -21,7 +21,15 @@
   "Email é obrigatório": "Email é obrigatório",
   "Email inválido": "Email inválido",
   "Senha é obrigatória": "Senha é obrigatória",
-  "Senha precisa possuir mais de 8 caracteres": "Senha precisa possuir mais de 8 caracteres"
-
+  "Senha precisa possuir mais de 8 caracteres": "Senha precisa possuir mais de 8 caracteres",
+  "Página do especialista": "Página do especialista",
+  "linha(s) selecionada(s)": "linha(s) selecionada(s)",
+  "de": "de",
+  "Próximo": "Próximo",
+  "Anterior": "Anterior",
+  "Sem resultados": "Sem resultados",
+  "Nova Avaliação": "Nova Avaliação",
+  "Pesquise qualquer campo": "Pesquise qualquer campo",
+  "Colunas": "Colunas"
 }
   
