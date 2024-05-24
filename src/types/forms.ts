@@ -1,36 +1,16 @@
+import { TemplateElementInstance } from "@/components/template/TemplateElements";
 import { ColumnDef } from "@tanstack/react-table";
 
-export interface Instruments {
+export type Instruments = {
     value: Lowercase<string>;
     label: string;
+    description?: string,
 }
 
-export const instruments: Instruments[] = [
-    {  
-        value: "panas",
-        label: "PANAS",
-    },
-    {  
-        value: "sam",
-        label: "SAM",
-    },
-    {  
-        value: "sus",
-        label: "SUS",
-    },
-    {  
-        value: "eaz",
-        label: "EAZ",
-    },
-    {  
-        value: "brums",
-        label: "BRUMS",
-    },
-    {  
-        value: "gds",
-        label: "GDS",
-    },
-];
+export type Option = {
+    value: string;
+    label: string;
+};
 
 export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -42,23 +22,55 @@ export interface RadioItem {
     label: string;
 }
 
-export interface Evaluation {
+export interface Template {
+    uid?: string,
+    specialistId: string,
+    title: string,
+    description?: string,
+    questions_size: number,
+    scale_type: string,
+    questions?: TemplateElementInstance[],
+    published: boolean,
+}
+
+export type Evaluation = {
     uid?: string,
     specialist: string,
     users: string[],
+    answered?: string[],
     identification: string,
     date: Date,
     method: string,
-    instrument: string,
-}
+} & (
+    { instrument: "template", templateId: string } |
+    { instrument: Exclude<string, "template">, templateId?: never }
+);
 
 export type FillEvaluationForm = {
-    userId: string,
-    evaluationId: string,
-} |
-{
-    isViewable: true,
+    userId: string;
+    evaluationId: string;
+    isViewable?: never;
+} | {
+    userId?: never;
+    evaluationId?: never;
+    isViewable: true;
 }
+
+export type TemplateFormProps = (FillEvaluationForm & {
+    content: TemplateElementInstance[];
+});
+
+export type TemplateAnswers = {
+    [key: string]: string;
+};
+
+export type RenderComponentProps = {
+    instrument: string;
+    userId: string;
+    evaluationId: string;
+    identification: string;
+    template: TemplateElementInstance[];
+};
 
 export interface Panas {
     repulsion: string;
@@ -168,3 +180,64 @@ export interface Gds {
     hopeless: string,
     unlucky: string,
 }
+
+export const instruments: Instruments[] = [
+    {  
+        value: "panas",
+        label: "PANAS",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "sam",
+        label: "SAM",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "sus",
+        label: "SUS",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "eaz",
+        label: "EAZ",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "brums",
+        label: "BRUMS",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "gds",
+        label: "GDS",
+        description: "Lorem Ipsum",
+    },
+];
+
+
+export const scales: Option[] = [
+    {  
+      value: "likert",
+      label: "Escala Likert",
+    },
+    {  
+      value: "semantic",
+      label: "Escala de Diferencial Semântico",
+    },
+];
+
+export const questions_size: Option[] = [
+    {
+      label: "Cinco opções",
+      value: "5",
+    },
+    {
+      label: "Sete opções",
+      value: "7",
+    },
+    {
+      label: "Nove opções",
+      value: "9",
+    },
+  ];
+

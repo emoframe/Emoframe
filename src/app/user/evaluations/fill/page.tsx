@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import { getById } from '@/lib/firebase';
@@ -9,61 +9,85 @@ import SusForm from '@/components/form/instrument/SusForm';
 import EazForm from '@/components/form/instrument/EazForm';
 import BrumsForm from '@/components/form/instrument/BrumsForm';
 import GdsForm from '@/components/form/instrument/GdsForm';
+import TemplateForm from '@/components/form/instrument/TemplateForm';
+import { Evaluation, RenderComponentProps, Template } from '@/types/forms';
+import { isSameDay } from '@/lib/utils';
+
+const RenderComponent = ({ instrument, userId, evaluationId, identification, template }: RenderComponentProps) => {
+  const commonProps = { userId, evaluationId };
+
+  switch (instrument) {
+    case "panas":
+      return <PanasForm {...commonProps} />;
+    case "sam":
+      return <SamForm {...commonProps} />;
+    case "sus":
+      return <SusForm {...commonProps} identification={identification} />;
+    case "eaz":
+      return <EazForm {...commonProps} />;
+    case "brums":
+      return <BrumsForm {...commonProps} />;
+    case "gds":
+      return <GdsForm {...commonProps} />;
+    case "template":
+      if (template) {
+        return <TemplateForm {...commonProps} content={template} />;
+      }
+      console.error('Os dados do template são necessários para o instrumento.');
+      return <div>Template é obrigatório.</div>;
+    default:
+      return <div>Instrumento não suportado</div>;
+  }
+};
 
 const FillEvaluation = async ({
-	searchParams,
+  searchParams,
 }: {
-	searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
 
-  const session: any = await getServerSession(authOptions);
-  let evaluation;
+  const session = await getServerSession(authOptions);
 
-  const ConditionalRendering = () => {
-    const instruments = [
-      {
-        value: "panas",
-        component: <PanasForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      },
-      {
-        value: "sam",
-        component: <SamForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      },
-      {
-        value: "sus",
-        component: <SusForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string} identification={evaluation.identification}/>
-      },
-      {
-        value: "eaz",
-        component: <EazForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      },
-      {
-        value: "brums",
-        component: <BrumsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      },
-      {
-        value: "gds",
-        component: <GdsForm userId={session?.user?.uid! as string} evaluationId={searchParams.evaluation as string}/>
-      }
-    ]
-    
-    return (evaluation.users.includes(session?.user?.uid!) && (evaluation.date == new Date().toLocaleDateString('pt-BR'))) ?
-      instruments.find((i) => i.value === evaluation?.instrument)?.component :
-      null
-  }
-  
-  try {
-    evaluation = await getById(searchParams.evaluation as string, "evaluation");
-
-    (!evaluation || (evaluation.answered && evaluation?.answered.includes(session?.user.uid!))) 
-    && await appRedirect('/denied');
-
-  } catch(error) {
+  if (!searchParams.evaluation || typeof searchParams.evaluation !== 'string') {
     await appRedirect('/denied');
+    return null;
+  }
+
+  let evaluation: Evaluation;
+  let template: Template | null = null; // Initialize to null
+
+  try {
+    evaluation = await getById(searchParams.evaluation, "evaluation");
+
+    if (!evaluation || evaluation.answered?.includes(session.user.uid)) {
+      await appRedirect('/denied');
+      return null;
+    }
+
+    if (evaluation.instrument === "template" && evaluation.templateId) {
+      template = await getById(evaluation.templateId, "template");
+    }
+  } catch (error) {
+    console.error('Error fetching evaluation:', error);
+    await appRedirect('/denied');
+    return null;
+  }
+
+  if (!evaluation.users.includes(session.user.uid) || 
+  !isSameDay(new Date(evaluation.date), new Date()) || 
+  (evaluation.instrument === "template" && !template)) {
+    await appRedirect('/denied');
+    return null;
   }
 
   return (
-    <ConditionalRendering/>
+    <RenderComponent 
+      instrument={evaluation?.instrument} 
+      userId={session?.user?.uid! as string}
+      evaluationId={searchParams.evaluation as string}
+      identification={evaluation.identification}
+      template={template?.questions ? Object.values(template?.questions) : []}
+    />
   );
 };
 

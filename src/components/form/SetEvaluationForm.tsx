@@ -1,7 +1,16 @@
 'use client';
-import React, { useState } from 'react';
-import Combobox from '@/components/ui/combobox';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createRegistration } from '@/lib/firebase';
+
+import { useToast } from "@/components/ui/use-toast";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Switch } from "@/components/ui/switch"
+import { DateField, DatePicker } from '@/components/ui/date-picker';
 import {
     Form,
     FormControl,
@@ -10,21 +19,17 @@ import {
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
-import { useRouter, redirect } from 'next/navigation';
-import { createEvaluation } from '@/lib/firebase';
-import { useToast } from "@/components/ui/use-toast";
-import { DataTableProps, Evaluation, instruments, RadioItem } from '@/types/forms';
-import { Input } from '@/components/ui/input';
-import { DateField, DatePicker } from '@/components/ui/date-picker';
+import Combobox from '@/components/ui/combobox';
+
 import { getLocalTimeZone, parseDate } from '@internationalized/date';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import UserDataTable from '@/app/specialist/evaluations/form/data-table';
+import { useRouter } from 'next/navigation';
+
+import { DataTableProps, Evaluation, instruments, RadioItem, Option } from '@/types/forms';
 import { User } from '@/types/users';
+import { Label } from '../ui/label';
 
 const MethodProps: RadioItem[] = [
     { value: "Autorrelato", label: "Autorrelato" },
@@ -40,6 +45,7 @@ const FormSchema = z.object({
         errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
     instrument: z.string().min(1, 'A seleção é obrigatória'),
+    templateId: z.string().optional(),
     users: z.string().array().min(1, 'Pelo menos um usuário deve ser selecionado')
 });
 
@@ -59,36 +65,49 @@ const steps = [
   }
 ]
 
-const SetEvaluationForm = ({
-    specialistId, dataTable
-}: {
+const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
     specialistId: string,
-    dataTable: DataTableProps<User, string>
+    dataTable: DataTableProps<User, string>,
+    templates: Option[]
 }) => {
+    
+    const [useTemplates, setUseTemplates] = useState(false);
 
-    const [users, setUsers] = useState<string[]>([]);
+    const [previousStep, setPreviousStep] = useState(0);
+    const [currentStep, setCurrentStep] = useState(0);
+    const motionDirection = (currentStep - previousStep) >=0 ? '50%' : '-50%';
 
-    const form = useForm<Inputs>({
+    const [selectedRowIds, setSelectedRowIds] = useState<Record<string, boolean>>({});
+
+    const form = useForm({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             identification: '',
             date: new Date(),
-            method: '',
+            method: MethodProps[0].value,
             instrument: '',
-            users: users
+            templateId: '',
+            users: []
         },
     });
 
-    const [previousStep, setPreviousStep] = useState(0);
-    const [currentStep, setCurrentStep] = useState(0);
-    const delta = currentStep - previousStep;
-
+    const { control, setValue, handleSubmit, watch, trigger } = form;
     const { toast } = useToast();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (useTemplates) {
+            setValue("instrument", "template");
+        } else {
+            setValue("templateId", "");  // Limpar templateId quando não estiver usando templates
+        }
+    }, [useTemplates, watch, setValue]);
+
     const onSubmit = async (values: Inputs) => {
 
-        let data = values as Evaluation;
-        data.specialist = specialistId;
-        createEvaluation(data).then(() => {
+        let data = { ...values, specialist: specialistId } as Evaluation;
+
+        createRegistration(data, "evaluation").then(() => {
             toast({
                 title: "Socilitação registrada!",
                 description: "A avaliação foi adicionada.",
@@ -96,11 +115,18 @@ const SetEvaluationForm = ({
             form.reset();
             setCurrentStep(0);
         })
+        .catch((error) => {
+            toast({
+                title: "Erro",
+                description: "Ocorreu um erro ao tentar gerar essa avaliação",
+                variant: "destructive",
+            });
+        });
     };
 
     const next = async () => {
         const fields = steps[currentStep].fields
-        const output = await form.trigger(fields as FieldName[], { shouldFocus: true })
+        const output = await trigger(fields as FieldName[], { shouldFocus: true })
     
         if (!output) return
     
@@ -132,17 +158,17 @@ const SetEvaluationForm = ({
                 </ol>
             </nav>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
+                <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
                     {/* Form */}
                     {currentStep === 0 && (
                         <motion.div
-                        initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                        initial={{ x: motionDirection, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className='flex flex-col flex-wrap justify-center gap-1'
                         >
                             <FormField
-                                control={form.control}
+                                control={control}
                                 name='identification'
                                 render={({ field }) => (
                                     <FormItem>
@@ -155,7 +181,7 @@ const SetEvaluationForm = ({
                                 )}
                             />
                             <FormField
-                                control={form.control}
+                                control={control}
                                 name='date'
                                 render={({ field }) => (
                                     <FormItem>
@@ -174,7 +200,7 @@ const SetEvaluationForm = ({
                             />
                             
                             <FormField
-                                control={form.control}
+                                control={control}
                                 name="method"
                                 render={({ field }) => (
                                     <FormItem className="space-y-3">
@@ -204,37 +230,51 @@ const SetEvaluationForm = ({
                                     </FormItem>
                                 )}
                             />
-
-                            <FormField
-                                control={form.control}
-                                name='instrument'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Instrumento de Avaliação</FormLabel>
-                                        <FormControl>
+                            <div className='flex flex-col gap-3 mb-6'>
+                                <Label>Usar Templates</Label>
+                                <Switch 
+                                    checked={useTemplates}
+                                    onCheckedChange={setUseTemplates} 
+                                />
+                            </div>
+                        <FormField
+                            control={control}
+                            name='instrument'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Instrumento de Avaliação</FormLabel>
+                                    <FormControl>
+                                        {useTemplates ? (
                                             <Combobox
                                                 className="min-w-[400px]"
-                                                onSelect={(value) => field.onChange(value)}
-                                                defaultValue={field.value}
-                                                options={instruments}
+                                                options={templates}
+                                                onSelect={(value) => setValue("templateId", value)}
                                                 placeholder="Método de Avaliação"
                                             />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                        ) : (
+                                            <Combobox
+                                                className="min-w-[400px]"
+                                                options={instruments}
+                                                onSelect={(value) => setValue("instrument", value)}
+                                                placeholder="Método de Avaliação"
+                                            />
+                                        )}
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         </motion.div>
                     )}   
                     {currentStep === 1 && (
                         <motion.div
-                            initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+                            initial={{ x: motionDirection, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                         className='flex flex-col flex-wrap justify-center gap-1'
                         >
                             <FormField
-                                control={form.control}
+                                control={control}
                                 name='users'
                                 render={({ field }) => (
                                     <FormItem>
@@ -243,8 +283,9 @@ const SetEvaluationForm = ({
                                         <UserDataTable 
                                             data={dataTable.data} 
                                             columns={dataTable.columns}
-                                            defaultValue={field.value}
-                                            onSelect={(value) => {field.onChange(value), setUsers(value)}}
+                                            selectedRowIds={selectedRowIds}
+                                            onSelectionChange={setSelectedRowIds}
+                                            onSelect={(value) => field.onChange(value)}
                                         />
                                         </FormControl>
                                         <FormMessage />

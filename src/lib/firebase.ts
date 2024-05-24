@@ -3,9 +3,10 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
-import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds } from "@/types/forms";
-import { Search } from "@/types/firebase";
+import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers } from "@/types/forms";
+import { Filter } from "@/types/firebase";
 import { chunk, getValuable } from "@/lib/utils";
+import { TemplateElementInstance } from "@/components/template/TemplateElements";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -50,7 +51,7 @@ export async function createUser (data : User | Specialist, specialistId?: strin
     });
 } 
 
-export async function saveAnswer (data: Panas | Sam | Sus | Eaz | Brums | Gds, EvaluationId: string, UserId: string) : Promise<any> {
+export async function saveAnswer (data: Panas | Sam | Sus | Eaz | Brums | Gds | TemplateAnswers, EvaluationId: string, UserId: string) : Promise<any> {
   const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
   const docRef2 = doc(db, "evaluation", EvaluationId);
   const answer: any = {
@@ -70,17 +71,39 @@ export async function saveAnswer (data: Panas | Sam | Sus | Eaz | Brums | Gds, E
   }
 }
 
-export async function createEvaluation(data: Evaluation) : Promise<any> {
-  const docRef = collection(db, "evaluation");
-  const evaluation = getValuable(data);
+export async function createRegistration(data: Evaluation | Template, type: string) : Promise<any> {
+  const docRef = collection(db, type);
+  const registration = getValuable(data);
 
   try {
-    addDoc(docRef, evaluation)
-    .then((docRef) => console.log("Evaluation has been inserted sucessfully!"))
+    addDoc(docRef, registration)
+    .then((docRef) => console.log("Registration has been inserted sucessfully!"))
     .catch((error) => console.log(error.code + ": " + error.message))
   }
   catch(error) {
     console.log(error)
+  }
+}
+
+export async function saveTemplate(data: TemplateElementInstance[], TemplateId: string, publish: boolean = false): Promise<any> {
+  const docRef = doc(db, "template", TemplateId);
+  const questions: any = {
+    ...getValuable(data),
+  }
+
+  // Se a flag publish for true, adicionar `published: true` ao objeto de atualização
+  const updateData: any = {
+    questions: questions
+  };
+
+  if (publish) {
+    updateData.published = true;
+  }
+
+  try {
+    await updateDoc(docRef, updateData);
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -108,7 +131,7 @@ export async function getById (
           let keys = ['birthday', 'date']
           Object.keys(newObj).some(key => {
             if(keys.includes(key))
-              newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+              newObj[key] = newObj[key].toDate();
           })
           
           res.push(newObj);
@@ -125,38 +148,34 @@ export async function getById (
   
 }
 
-export async function search ({col, field, operation, value}: Search) : Promise<any> {
-
+export async function search(col: string, filters: Filter[]): Promise<any[]> {
   const collectionRef = collection(db, col);
-  const q = query(collectionRef, where(field, operation, value));
+  // Aplicar múltiplos filtros usando o método reduce para acumular where clauses
+  const q = query(collectionRef, ...filters.map(filter => where(filter.field, filter.operation, filter.value)));
   const querySnapshot = await getDocs(q);
-  const res: any[] = []       
+  const results: any[] = [];
+  
   querySnapshot.forEach((doc) => {
       const newObj: any = {
           uid: doc.id,
           ...doc.data(),
-      }
+      };
 
-      let keys = ['birthday', 'date']
-      Object.keys(newObj).some(key => {
-        if(keys.includes(key))
-          newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
-      })
-        
-      res.push(newObj);
+      // Transformar datas, se necessário
+      let dateKeys = ['birthday', 'date'];
+      Object.keys(newObj).forEach(key => {
+          if (dateKeys.includes(key) && newObj[key].toDate) {
+              newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');
+          }
+      });
+
+      results.push(newObj);
   });
 
-  res.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
+  // Ordenar resultados pelo nome, assumindo que todos os objetos têm uma propriedade 'name'
+  //results.sort((a, b) => a.name.localeCompare(b.name));
 
-  return res;
+  return results;
 }
 
 export async function updateById (data: any, id: string, col: string) : Promise<any> {

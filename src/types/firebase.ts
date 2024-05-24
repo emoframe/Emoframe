@@ -1,4 +1,4 @@
-enum Operations {
+export enum Operations {
     "<",
     "<=", 
     "==",
@@ -11,9 +11,8 @@ enum Operations {
     "not-in",
 }
 
-export interface Search {
-    col: string, 
-    field: string, 
-    operation: keyof typeof Operations,
-    value: string
-}
+export type Filter = {
+    field: string;
+    operation: keyof typeof Operations;
+    value: string | number | boolean;
+};

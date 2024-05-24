@@ -26,7 +26,7 @@ import {
   rankItem,
 } from '@tanstack/match-sorter-utils'
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableProps } from '@/types/forms';
@@ -41,8 +41,9 @@ declare module '@tanstack/table-core' {
 }
 
 interface UsersState {
-  defaultValue?: string[],
   onSelect: (currentValue: string[]) => void,
+  selectedRowIds?: Record<string, boolean>, // Armazenando quais linhas estão selecionadas
+  onSelectionChange?: (selectedRowIds: Record<string, boolean>) => void; // Novo método para atualizar o estado de seleção
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -59,13 +60,12 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 }
 
 export function UserDataTable<TData, TValue>( 
-  { data, columns, defaultValue, onSelect } : DataTableProps<TData, TValue> & UsersState) {
+  { data, columns, onSelect, selectedRowIds, onSelectionChange } : DataTableProps<TData, TValue> & UsersState) {
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = React.useState([]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState([]);
+  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>(selectedRowIds || {});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const table = useReactTable({
     data,
@@ -89,7 +89,7 @@ export function UserDataTable<TData, TValue>(
       sorting,
       globalFilter,
       columnVisibility,
-      rowSelection,
+      rowSelection: selectedRowIds, // Use o estado externo como parte do estado interno
     },
   });
 
@@ -98,6 +98,16 @@ export function UserDataTable<TData, TValue>(
     const uids = table.getFilteredSelectedRowModel().flatRows.map(({ original }) => original.uid);
     onSelect(uids ? uids : []);
   }, [length])
+
+  // Exportar mudanças para fora do componente
+  useEffect(() => {
+    onSelectionChange && onSelectionChange(rowSelection);
+  }, [rowSelection, onSelectionChange]);
+
+  // Importar mudanças para dentro do componente
+  useEffect(() => {
+    setRowSelection(selectedRowIds || {});
+  }, [selectedRowIds]);
 
   return (
     <div>
@@ -135,9 +145,9 @@ export function UserDataTable<TData, TValue>(
           </TableHeader>
 
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} className={row.getIsSelected() ? 'selected-row' : ''}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
@@ -150,9 +160,11 @@ export function UserDataTable<TData, TValue>(
               ))
             ) : (
               <TableRow>
-                <TableCell>Sem resultados</TableCell>
+                <TableCell colSpan={columns.length}>
+                  Sem resultados
+                </TableCell>
               </TableRow>
-            )}
+              )}
           </TableBody>
         </Table>
       </div>

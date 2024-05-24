@@ -12,6 +12,7 @@ import Link from "next/link";
 import LoginMenu from "./LoginMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 type SidebarContextType = {
     expanded: boolean;
@@ -75,7 +76,7 @@ const SidebarCore = ({ children }) => {
   
   return (
     <aside className="h-screen fixed z-10 top-0">
-      <nav className="h-full flex flex-col bg-primary-background border-r shadow-sm">
+      <nav className="h-full flex flex-col bg-primary-background shadow-md shadow-slate-800/40 dark:shadow-slate-800">
         <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
           <Link href={redirect()}>
             <Image
@@ -102,7 +103,7 @@ const SidebarCore = ({ children }) => {
           <ul className=" px-3">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className={`absolute bottom-0 w-full flex justify-center items-center border-t p-3 ${!expanded && "invisible"}`}>
+        <div className={`absolute bottom-0 w-full flex justify-center items-center border-t border-muted p-3 ${!expanded && "invisible"}`}>
           <Login/>
         </div>
       </nav>
@@ -171,6 +172,11 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false}: Sidebar
 
 const Sidebar = () => {
   const { data: session } = useSession();
+  const currentPath = usePathname();
+
+  const isActive = (path: string) => {
+    return currentPath === path;
+  }
 
   const redirect = () => {
     const type = session?.user?.type;
@@ -182,23 +188,39 @@ const Sidebar = () => {
     return redirect;
   }
 
+  const globalItems: SidebarItemType[] = [
+    {text: "Início", href: redirect(), icon: <Home size={20} /> },
+  ]
+
+  const userItems: SidebarItemType[] = [
+    {text: "Avaliações", href: "/user/evaluations", icon: <BookOpenText size={20} /> },
+  ]
+  
+  const specialistItems: SidebarItemType[] = [
+    {text: "Usuários", href: "/specialist/users", icon: <Users size={20} /> },
+    {text: "Avaliações", href: "/specialist/evaluations", icon: <BookOpenText size={20} /> },
+    {text: "Serviços", href: "/specialist/services", icon: <BookUser size={20} /> },
+    {text: "Resultados", href: "/specialist/results", icon: <LineChart size={20} /> },
+  ]
+
   return (
     <SidebarCore>
-      <SidebarItem icon={<Home size={20} />} text="Início" href={redirect()}/>
+      {
+        globalItems.map((item, index) => (
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)}/>
+        ))
+      }
       {
         (session?.user.type == 'specialist') &&
-        <>
-          <SidebarItem icon={<Users size={20} />} text="Usuários" href="/specialist/users"/>
-          <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/specialist/evaluations"/>
-          <SidebarItem icon={<BookUser size={20} />} text="Serviços" href="/specialist/services"/>
-          <SidebarItem icon={<LineChart size={20} />} text="Resultados" href="/specialist/results"/>
-        </>
+        specialistItems.map((item, index) => (
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)}/>
+        ))
       }
       {
         (session?.user.type == 'user') &&
-        <>
-          <SidebarItem icon={<BookOpenText size={20} />} text="Avaliações" href="/user/evaluations"/>
-        </>
+        userItems.map((item, index) => (
+          <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)}/>
+        ))
       }
     </SidebarCore>
   )

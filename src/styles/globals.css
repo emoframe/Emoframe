@@ -18,7 +18,7 @@ html, body {
     --popover: rgb(255, 255, 255);
     --popover-foreground: rgb(3, 7, 18);
  
-    --primary: rgb(171, 210, 158); /* Verde */
+    --primary: rgb(110, 160, 90); /* Verde */
     --primary-foreground: rgb(210, 238, 201); /* Verde Claro */
     --primary-background: rgb(252, 252, 252); /* Branco */
 
@@ -68,7 +68,7 @@ html, body {
     --secondary: rgb(31, 41, 55);
     --secondary-foreground: rgb(249, 250, 251);
  
-    --muted: rgb(31, 41, 55);
+    --muted: rgb(30, 80, 50);
     --muted-foreground: rgb(156, 163, 175);
  
     --accent: rgb(122, 184, 151); /* Verde */
