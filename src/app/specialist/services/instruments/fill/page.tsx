@@ -5,8 +5,9 @@ import SusForm from '@/components/form/instrument/SusForm';
 import EazForm from '@/components/form/instrument/EazForm';
 import BrumsForm from '@/components/form/instrument/BrumsForm';
 import GdsForm from '@/components/form/instrument/GdsForm';
+import LeapForm from '@/components/form/instrument/LeapForm';
 
-const FillInstrument = async ({
+const ViewInstrument = async ({
 	searchParams,
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -37,6 +38,10 @@ const FillInstrument = async ({
       {
         value: "gds",
         component: <GdsForm isViewable/>
+      },
+      {
+        value: "leap",
+        component: <LeapForm isViewable/>
       }
     ]
 
@@ -44,7 +49,6 @@ const FillInstrument = async ({
 
     try {
       if (result != undefined && result != null) {
-        console.log("passou")
         return result;
       }
       else {
@@ -63,4 +67,4 @@ const FillInstrument = async ({
   );
 };
 
-export default FillInstrument;
+export default ViewInstrument;
