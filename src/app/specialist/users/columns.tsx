@@ -1,4 +1,5 @@
 "use client";
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
 import { User } from "@/types/users";
 import { ColumnDef, RowData, SortingFn, sortingFns } from "@tanstack/react-table";
@@ -7,10 +8,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal, Router } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import Link from "next/link";
@@ -23,18 +23,37 @@ declare module '@tanstack/table-core' {
 }
 
 const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
-  let dir = 0
+  let dir = 0;
 
-  // Only sort by rank if the column has ranking information
   if (rowA.columnFiltersMeta[columnId]) {
     dir = compareItems(
       rowA.columnFiltersMeta[columnId]?.itemRank!,
       rowB.columnFiltersMeta[columnId]?.itemRank!
-    )
+    );
   }
 
-  // Provide an alphanumeric fallback for when the item ranks are equal
-  return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
+  return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
+}
+
+const translateGender = (gender, t) => {
+  const genderMap = {
+    "Feminino": t("Feminino"),
+    "Masculino": t("Masculino"),
+    "Não sei/Prefiro não dizer": t("Não sei/Prefiro não dizer"),
+    "Outro": t("Outro")
+  };
+  return genderMap[gender] || gender;
+}
+
+const translateRace = (race, t) => {
+  const raceMap = {
+    "Amarelo": t("Amarelo"),
+    "Branco": t("Branco"),
+    "Indígena": t("Indígena"),
+    "Pardo": t("Pardo"),
+    "Preto": t("Preto")
+  };
+  return raceMap[race] || race;
 }
 
 export const columns: ColumnDef<User>[] = [
@@ -66,8 +85,9 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorFn: row => `${row.name} ${row.surname}`,
     id: 'fullName',
-    meta: {name: "Nome Completo"},
+    meta: { name: "Nome Completo" },
     header: ({ column }) => {
+      const { t } = useTranslation();
       return (
         <Button
           variant="ghost"
@@ -76,7 +96,7 @@ export const columns: ColumnDef<User>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Nome Completo   
+          {t('Nome Completo')}
         </Button>
       );
     },
@@ -86,30 +106,94 @@ export const columns: ColumnDef<User>[] = [
     sortingFn: fuzzySort,
   },
   {
-    header: "E-mail",
-    meta: {name: "E-mail"},
     accessorKey: "email",
+    id: "email",
+    meta: { name: "E-mail" },
+    header: ({ column }) => {
+      const { t } = useTranslation();
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
+        >
+          <ArrowUpDown className="mr-2 h-4 w-4" />
+          {t('E-mail')}
+        </Button>
+      );
+    },
   },
   {
-    header: "Gênero",
-    meta: {name: "Gênero"},
     accessorKey: "gender",
+    id: "gender",
+    meta: { name: "Gênero" },
+    header: ({ column }) => {
+      const { t } = useTranslation();
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
+        >
+          <ArrowUpDown className="mr-2 h-4 w-4" />
+          {t('Gênero')}
+        </Button>
+      );
+    },
+    cell: info => {
+      const { t } = useTranslation();
+      return translateGender(info.getValue(), t);
+    }
   },
   {
-    header: "Etnia",
-    meta: {name: "Etnia"},
     accessorKey: "race",
+    id: "race",
+    meta: { name: "Etnia" },
+    header: ({ column }) => {
+      const { t } = useTranslation();
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
+        >
+          <ArrowUpDown className="mr-2 h-4 w-4" />
+          {t('Etnia')}
+        </Button>
+      );
+    },
+    cell: info => {
+      const { t } = useTranslation();
+      return translateRace(info.getValue(), t);
+    }
   },
   {
-    header: "Aniversário",
-    meta: {name: "Aniversário"},
     accessorKey: "birthday",
+    id: "birthday",
+    meta: { name: "Aniversário" },
+    header: ({ column }) => {
+      const { t } = useTranslation();
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
+        >
+          <ArrowUpDown className="mr-2 h-4 w-4" />
+          {t('Aniversário')}
+        </Button>
+      );
+    },
   },
   {
     id: "actions",
-    meta: {name: "Ações"},
-
+    meta: { name: "Ações" },
     cell: ({ row }) => {
+      const { t } = useTranslation();
       const person = row.original;
       return (
         <DropdownMenu>
@@ -119,10 +203,10 @@ export const columns: ColumnDef<User>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('Ações')}</DropdownMenuLabel>
             <Link href={"/specialist/set-forms" + "?" + createQueryString("uid", person.uid!)}>
               <DropdownMenuItem>
-                Definir form
+                {t('Definir form')}
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem
@@ -130,14 +214,14 @@ export const columns: ColumnDef<User>[] = [
                 navigator.clipboard.writeText(person.name.toString());
               }}
             >
-              Copiar nome
+              {t('Copiar nome')}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(person.uid!.toString());
               }}
             >
-              Copiar ID
+              {t('Copiar ID')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

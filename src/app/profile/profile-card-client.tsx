@@ -38,6 +38,16 @@ const description = {
     forms: "Formulários",
 };
 
+const translateGender = (gender, t) => {
+    const genderMap = {
+        "Feminino": t("Feminino"),
+        "Masculino": t("Masculino"),
+        "Não sei/Prefiro não dizer": t("Não sei/Prefiro não dizer"),
+        "Outro": t("Outro")
+    };
+    return genderMap[gender] || gender;
+};
+
 const ProfileCardClient = ({ essentials, userData, iterator, className = "", pathname, ...props }) => {
     const { t } = useTranslation();
 
@@ -49,13 +59,13 @@ const ProfileCardClient = ({ essentials, userData, iterator, className = "", pat
             </CardHeader>
             <CardContent>
                 {iterator.map(key => (
-                    <p key={key}>{`${t(description[key])}: ${essentials[key]}`}</p>
+                    <p key={key}>{`${t(description[key])}: ${key === 'gender' ? translateGender(essentials[key], t) : essentials[key]}`}</p>
                 ))}
 
                 <Separator className="my-4" />
 
                 {Object.keys(userData).map(key => (
-                    <p key={key}>{`${t(description[key])}: ${userData[key]}`}</p>
+                    <p key={key}>{`${t(description[key])}: ${key === 'gender' ? translateGender(userData[key], t) : userData[key]}`}</p>
                 ))}
             </CardContent>
             <CardFooter>
