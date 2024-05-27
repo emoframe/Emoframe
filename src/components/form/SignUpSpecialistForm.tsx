@@ -2,6 +2,8 @@
 
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 import {
   Form,
   FormControl,
@@ -13,10 +15,9 @@ import {
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from '@/components/ui/button';
 import { isValidMobilePhone } from "@brazilian-utils/brazilian-utils";
-import Link from 'next/link';
 import { formatPhone } from '@/lib/utils';
 import { createUser } from '@/lib/firebase';
 import { Specialist } from '@/types/users';
@@ -26,85 +27,87 @@ interface RadioItem {
   label: string;
 }
 
-const SpecialtyProps: RadioItem[] = [
-  { value: "Gerontologia", label: "Gerontologia" },
-  { value: "Psicologia", label: "Psicologia" },
-  { value: "Fisioterapia", label: "Fisioterapia" },
-  { value: "Terapia Ocupacional", label: "Terapia Ocupacional" },
-  { value: "Computação", label: "Computação" },
-  { value: "Outra", label: "Outra" },
-];
-
-const GenderProps: RadioItem[] = [
-  { value: "Feminino", label: "Feminino" },
-  { value: "Masculino", label: "Masculino" },
-  { value: "Não sei", label: "Não sei/Prefiro não dizer" },
-  { value: "Outro", label: "Outro" },
-];
-
-const FormSchema = z
-  .object({
-    name: z.string().min(1, 'Nome é obrigatório').max(100),
-    surname: z.string().min(1, 'Sobrenome é obrigatório').max(100),
-    social_name: z.string().max(100),
-    specialty:  z.string().min(1, 'Especialidade é obrigatória').max(100),
-    connection: z.string().min(1, 'Vínculo é obrigatório').max(100),
-    phone: z.string().transform((data) => data.replace(/[^\d]/g, ""))
-    .superRefine((val, ctx) => {
-      if (val.length == 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.too_small,
-          minimum: 1,
-          type: "string",
-          inclusive: true,
-          message: "Telefone é obrigatório",
-        });
-      }
-
-      if (val.length < 8) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.too_small,
-          minimum: 1,
-          type: "string",
-          inclusive: true,
-          message: "Telefone está incompleto",
-        });
-      }
-    
-      if (val.length > 11) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.too_big,
-          maximum: 11,
-          type: "string",
-          inclusive: true,
-          message: "Telefone possui 11 caracteres no máximo",
-        });
-      }  
-
-      if (!isValidMobilePhone(val)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Não é um telefone válido",
-        });
-      }
-    }),
-
-    gender: z.enum([GenderProps[0].value, ...GenderProps.slice(1).map((p) => p.value)],  {
-      errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
-    }),
-    email: z.string().min(1, 'Email é obrigatório').email('Email inválido'),
-    password: z
-      .string()
-      .min(1, 'Senha é obrigatória')
-      .min(8, 'Senha precisa possuir mais de 8 caracteres'),
-    confirm_password: z.string().min(1, 'Confirmação de senha é obrigatória'),
-  })
-  .refine((data) => data.password === data.confirm_password, {
-    path: ['confirm_password'],
-    message: 'Senhas não batem',
-  });
-
 const SignUpForm = () => {
+  const { t } = useTranslation();
+
+  const SpecialtyProps: RadioItem[] = [
+    { value: "Gerontologia", label: t("Gerontologia") },
+    { value: "Psicologia", label: t("Psicologia") },
+    { value: "Fisioterapia", label: t("Fisioterapia") },
+    { value: "Terapia Ocupacional", label: t("Terapia Ocupacional") },
+    { value: "Computação", label: t("Computação") },
+    { value: "Outra", label: t("Outra") },
+  ];
+
+  const GenderProps: RadioItem[] = [
+    { value: "Feminino", label: t("Feminino") },
+    { value: "Masculino", label: t("Masculino") },
+    { value: "Não sei", label: t("Não sei/Prefiro não dizer") },
+    { value: "Outro", label: t("Outro") },
+  ];
+
+  const FormSchema = z
+    .object({
+      name: z.string().min(1, { message: t('Nome é obrigatório') }).max(100),
+      surname: z.string().min(1, { message: t('Sobrenome é obrigatório') }).max(100),
+      social_name: z.string().max(100),
+      specialty: z.string().min(1, { message: t('Especialidade é obrigatória') }).max(100),
+      connection: z.string().min(1, { message: t('Vínculo é obrigatório') }).max(100),
+      phone: z.string().transform((data) => data.replace(/[^\d]/g, ""))
+        .superRefine((val, ctx) => {
+          if (val.length == 0) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.too_small,
+              minimum: 1,
+              type: "string",
+              inclusive: true,
+              message: t('Telefone é obrigatório'),
+            });
+          }
+
+          if (val.length < 8) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.too_small,
+              minimum: 1,
+              type: "string",
+              inclusive: true,
+              message: t('Telefone está incompleto'),
+            });
+          }
+
+          if (val.length > 11) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.too_big,
+              maximum: 11,
+              type: "string",
+              inclusive: true,
+              message: t('Telefone possui 11 caracteres no máximo'),
+            });
+          }
+
+          if (!isValidMobilePhone(val)) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: t('Não é um telefone válido'),
+            });
+          }
+        }),
+
+      gender: z.enum([GenderProps[0].value, ...GenderProps.slice(1).map((p) => p.value)], {
+        errorMap: (issue, ctx) => ({ message: t('Selecione uma opção') })
+      }),
+      email: z.string().min(1, { message: t('Email é obrigatório') }).email({ message: t('Email inválido') }),
+      password: z
+        .string()
+        .min(1, { message: t('Senha é obrigatória') })
+        .min(8, { message: t('Senha precisa possuir mais de 8 caracteres') }),
+      confirm_password: z.string().min(1, { message: t('Confirmação de senha é obrigatória') }),
+    })
+    .refine((data) => data.password === data.confirm_password, {
+      path: ['confirm_password'],
+      message: t('Senhas não batem'),
+    });
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -121,14 +124,13 @@ const SignUpForm = () => {
     },
   });
 
-  
   const router = useRouter();
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     let data = values as Specialist;
     data.type = "specialist";
     createUser(data).then(() => {
       router.push("/");
-    })
+    });
   };
 
   return (
@@ -141,7 +143,7 @@ const SignUpForm = () => {
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome</FormLabel>
+                  <FormLabel>{t('Nome')}</FormLabel>
                   <FormControl>
                     <Input placeholder='José' {...field} />
                   </FormControl>
@@ -154,9 +156,9 @@ const SignUpForm = () => {
               name='surname'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sobrenome</FormLabel>
+                  <FormLabel>{t('Sobrenome')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='da Silva' {...field} />
+                    <Input placeholder={t('da Silva')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -167,7 +169,7 @@ const SignUpForm = () => {
               name='social_name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome Social</FormLabel>
+                  <FormLabel>{t('Nome Social')}</FormLabel>
                   <FormControl>
                     <Input placeholder='José da Silva' {...field} />
                   </FormControl>
@@ -177,15 +179,15 @@ const SignUpForm = () => {
             />
           </div>
 
-          <div className='flex-col gap-x-2'>  
+          <div className='flex-col gap-x-2'>
             <FormField
               control={form.control}
               name='email'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t('Email')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='mail@example.com' {...field} />
+                    <Input placeholder={t('mail@example.com')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -196,14 +198,14 @@ const SignUpForm = () => {
               name='phone'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Telefone</FormLabel>
+                  <FormLabel>{t('Telefone')}</FormLabel>
                   <FormControl>
-                    <Input 
-                    placeholder='(99) 99999-9999' 
-                    {...field} 
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                      field.onChange(formatPhone(e.target.value as string))
-                    }}
+                    <Input
+                      placeholder={t('(99) 99999-9999')}
+                      {...field}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                        field.onChange(formatPhone(e.target.value as string));
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -215,48 +217,46 @@ const SignUpForm = () => {
               name='connection'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Vínculo</FormLabel>
+                  <FormLabel>{t('Vínculo')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='Universidade de São Paulo' {...field} />
+                    <Input placeholder={t('Universidade de São Paulo')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          
+
           <div className='flex gap-x-4'>
             <FormField
               control={form.control}
               name="gender"
               render={({ field }) => (
                 <FormItem className="space-y-3">
-                  <FormLabel>Gênero</FormLabel>
+                  <FormLabel>{t('Gênero')}</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
-                    > 
-                      {GenderProps.map((specialty, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={specialty.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {specialty.label}
-                            </FormLabel>
-                          </FormItem>
-                      )})}
-              
+                    >
+                      {GenderProps.map((specialty, index) => (
+                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                          <FormControl>
+                            <RadioGroupItem value={specialty.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {t(specialty.label)}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> 
-          </div>   
+            />
+          </div>
 
           <div className='flex-col gap-x-2'>
             <FormField
@@ -264,25 +264,24 @@ const SignUpForm = () => {
               name='specialty'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Especialidade</FormLabel>
+                  <FormLabel>{t('Especialidade')}</FormLabel>
                   <FormControl>
-                    <Input placeholder='Computação' {...field} />
+                    <Input placeholder={t('Computação')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha</FormLabel>
+                  <FormLabel>{t('Senha')}</FormLabel>
                   <FormControl>
                     <Input
                       type='password'
-                      placeholder='Insira sua senha'
+                      placeholder={t('Insira sua senha')}
                       {...field}
                     />
                   </FormControl>
@@ -295,10 +294,10 @@ const SignUpForm = () => {
               name='confirm_password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirme sua senha</FormLabel>
+                  <FormLabel>{t('Confirme sua senha')}</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='Confirme sua senha'
+                      placeholder={t('Confirme sua senha')}
                       type='password'
                       {...field}
                     />
@@ -308,19 +307,18 @@ const SignUpForm = () => {
               )}
             />
           </div>
-          
         </div>
         <Button className='w-full mt-6' type='submit'>
-          Registre-se
+          {t('Registre-se')}
         </Button>
       </form>
       <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-        ou
+        {t('ou')}
       </div>
-      <p className='text-center text-sm  mt-2'>
-        Se possuir uma conta, por favor&nbsp;
+      <p className='text-center text-sm mt-2'>
+        {t('Se possuir uma conta, por favor')}&nbsp;
         <Link className='text-blue-500 hover:underline' href='/sign-in'>
-          Entre
+          {t('Entre')}
         </Link>
       </p>
     </Form>

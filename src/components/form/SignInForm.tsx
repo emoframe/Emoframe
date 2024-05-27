@@ -80,18 +80,18 @@ const SignInForm = () => {
           />
         </div>
         <Button className='w-full mt-6' type='submit'>
-          Entrar
+          {t('Entrar')}
         </Button>
       </form>
       <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
        ou
       </div>
       <p className='text-center text-sm  mt-2'>
-      {t('Se não possuir uma conta, por favor')} 
+      {t('Se não possuir uma conta, por favor')}&nbsp;
       <Link className='text-blue-500 hover:underline' href='/sign-up'>{t('Registre-se')}</Link>
       </p>
       <p className='text-center text-sm  mt-2'>
-      {t('Se esqueceu ou deseja trocar sua senha')}
+      {t('Se esqueceu ou deseja trocar sua senha')}&nbsp;
         <Link className='text-blue-500 hover:underline' href='/forgot-password'>
         {t('Acesse')}
         </Link>
