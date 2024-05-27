@@ -9,6 +9,7 @@ import SusForm from '@/components/form/instrument/SusForm';
 import EazForm from '@/components/form/instrument/EazForm';
 import BrumsForm from '@/components/form/instrument/BrumsForm';
 import GdsForm from '@/components/form/instrument/GdsForm';
+import LeapForm from '@/components/form/instrument/LeapForm';
 import TemplateForm from '@/components/form/instrument/TemplateForm';
 import { Evaluation, RenderComponentProps, Template } from '@/types/forms';
 import { isSameDay } from '@/lib/utils';
@@ -29,6 +30,8 @@ const RenderComponent = ({ instrument, userId, evaluationId, identification, tem
       return <BrumsForm {...commonProps} />;
     case "gds":
       return <GdsForm {...commonProps} />;
+    case "leap":
+      return <LeapForm {...commonProps} />;
     case "template":
       if (template) {
         return <TemplateForm {...commonProps} content={template} />;
