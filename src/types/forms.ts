@@ -181,6 +181,49 @@ export interface Gds {
     unlucky: string,
 }
 
+export interface Leap {
+    admiration: string,
+    relieved: string,
+    tired: string,
+    happy: string,
+    accept: string,
+    heat: string,
+    satisfied: string,
+    jealous: string,
+    attracted: string,
+    calm: string,
+    funny: string,
+    desire: string,
+    careful: string,
+    strange: string,
+    hopeful: string,
+    fall_in_love: string,
+    conformed: string,
+    hungry: string,
+    guilty: string,
+    cold: string,
+    despise: string,
+    take_pity_on: string,
+    disgusting: string,
+    need: string,
+    duty: string,
+    envy: string,
+    humiliated: string,
+    interested: string,
+    fear: string,
+    proud: string,
+    shame: string,
+    angry: string,
+    sleepy: string,
+    longing: string,
+    sad: string,
+    surprised: string,
+    thirst: string,
+    thoughtful: string,
+    serious: string,
+    scared: string,
+}
+
 export const instruments: Instruments[] = [
     {  
         value: "panas",
@@ -210,6 +253,11 @@ export const instruments: Instruments[] = [
     {  
         value: "gds",
         label: "GDS",
+        description: "Lorem Ipsum",
+    },
+    {  
+        value: "leap",
+        label: "Leap",
         description: "Lorem Ipsum",
     },
 ];
