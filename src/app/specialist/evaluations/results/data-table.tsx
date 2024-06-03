@@ -26,16 +26,11 @@ import {
   rankItem,
 } from '@tanstack/match-sorter-utils'
 
-import React from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import React, { useContext, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DataTableProps } from "@/types/forms";
+import { DataTableProps, Evaluation } from "@/types/forms";
+import UserContext from '@/components/context/UserContext';
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -62,12 +57,21 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 export function EvaluationsAnswersDataTable<TData, TValue>({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = React.useState([]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  evaluation
+}: DataTableProps<TData, TValue> & {evaluation: Evaluation}) {
+
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
+  const { addEvaluation } = useContext(UserContext) ?? {}; // Fallback para um objeto vazio caso o contexto seja nulo
+
+  useEffect(() => {
+    if (evaluation && addEvaluation) {
+      addEvaluation(evaluation);
+    }
+  }, [evaluation, addEvaluation]); // Dependências para garantir que a função só será chamada quando necessário
 
   const table = useReactTable({
     data,
@@ -94,6 +98,8 @@ export function EvaluationsAnswersDataTable<TData, TValue>({
       rowSelection,
     },
   });
+
+
 
   const classNames = ["w-4", "w-1/2", "w-1/2"] //Classname para 
 
@@ -187,3 +193,7 @@ export function EvaluationsAnswersDataTable<TData, TValue>({
 }
 
 export default EvaluationsAnswersDataTable;
+function useEffect(arg0: () => void, arg1: (Evaluation | ((evaluation: Evaluation) => void) | undefined)[]) {
+  throw new Error("Function not implemented.");
+}
+
