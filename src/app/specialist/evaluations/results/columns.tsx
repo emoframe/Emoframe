@@ -3,9 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { User } from "@/types/users";
 import { ColumnDef, RowData, SortingFn, sortingFns } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { appRedirect } from "@/lib/actions";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -80,5 +82,30 @@ export const columns: ColumnDef<User>[] = [
     header: "E-mail",
     meta: {name: "E-mail"},
     accessorKey: "email",
+  },
+  {
+    id: "actions",
+    meta: {name: "Ações"},
+
+    cell: ({ row }) => {
+      const evaluation = row.original;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="w-8 h-8 p-0">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={async () => await appRedirect(`/specialist/evaluations/results?evaluation=${evaluation.uid}`)}
+              >
+                Ver resultado
+              </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ];
