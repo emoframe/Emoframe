@@ -12,7 +12,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import { Evaluation, instruments } from "@/types/forms";
-import { setSelectedEvaluationUsers } from "@/lib/actions";
+import { appRedirect } from "@/lib/actions";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -152,9 +152,9 @@ export const columns: ColumnDef<Evaluation>[] = [
           <DropdownMenuContent>
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={async () => await setSelectedEvaluationUsers(evaluation)}
+                onClick={async () => await appRedirect(`/specialist/evaluations/results?evaluation=${evaluation.uid}`)}
               >
-                Ver usuários
+                Ver resultados
               </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
