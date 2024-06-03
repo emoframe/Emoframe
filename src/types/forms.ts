@@ -257,7 +257,7 @@ export const instruments: Instruments[] = [
     },
     {  
         value: "leap",
-        label: "Leap",
+        label: "LEAP",
         description: "Lorem Ipsum",
     },
 ];

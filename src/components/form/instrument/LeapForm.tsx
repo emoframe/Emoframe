@@ -224,7 +224,7 @@ const LeapForm = (params: FillEvaluationForm) => {
            
             <div className="flex flex-col flex-wrap justify-center gap-8">
                 
-                <h1 className="font-bold text-4xl self-center"> Leap </h1>
+                <h1 className="font-bold text-4xl self-center"> LEAP </h1>
                 <h2 className="text-md self-center"> Nesta página você encontrará uma lista com frases sobre você e sobre o que está sentindo ou pensando neste momento. Sua tarefa é indicar a intensidade de sentimento de 1 a 5 para cada uma dessas frases, sendo a 1 (um) a mais fraca e a 5 (cinco) a mais forte. Não existe resposta certa ou errada. Sua primeira reação ao ler a frase é a melhor. Você deve marcar a intensidade que você está sentindo no momento do preenchimento da lista. Clique no botão abaixo para ver exemplos de preenchimento: </h2>
                 <div className="flex flex-row justify-around">
                     <Button className="text-lg basis-1/3" type="button" size="lg">Exemplos</Button>
