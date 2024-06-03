@@ -46,6 +46,10 @@ export type Evaluation = {
     { instrument: Exclude<string, "template">, templateId?: never }
 );
 
+export type Answer = {
+    [key: string]: any;
+}
+
 export type FillEvaluationForm = {
     userId: string;
     evaluationId: string;
