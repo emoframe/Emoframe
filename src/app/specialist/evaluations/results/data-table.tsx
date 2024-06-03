@@ -95,9 +95,11 @@ export function EvaluationsAnswersDataTable<TData, TValue>({
     },
   });
 
+  const classNames = ["w-4", "w-1/2", "w-1/2"] //Classname para 
+
   return (
-    <div>
-      <div className="flex items-center pb-4 gap-4">
+    <div className="flex flex-col h-full">
+      <div className="flex pb-4 gap-4 w-full">
         {/* input */}
         <Input
           placeholder="Pesquise qualquer campo"
@@ -105,20 +107,20 @@ export function EvaluationsAnswersDataTable<TData, TValue>({
           onChange={(e) => {
            setGlobalFilter(e.target.value);
           }}
-          className="max-w-sm"
+          className="max-w-full"
         />
       </div>
 
       {/* table */}
-      <div className="rounded-md border">
+      <div className="flex flex-col rounded-md border h-full">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => {
               return (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
+                  {headerGroup.headers.map((header, index) => {
                     return (
-                      <TableHead key={header.id}>
+                      <TableHead key={header.id} className={classNames[index]}>
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
