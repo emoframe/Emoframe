@@ -216,6 +216,22 @@
     "Não": "No",
     "Aplicar o questionário computando as respostas que indicam como a pessoa tem se sentido na última semana.": "Apply the questionnaire by computing the answers indicating how the person has felt in the past week.",
     "Assinalar SIM ou NÃO. Cada resposta deverá ser pontuada conforme o indicativo ao lado. O resultado final será a soma das 15 respostas.": "Mark YES or NO. Each answer should be scored as indicated. The final result will be the sum of the 15 responses.",
-    "ESCALA DE DEPRESSÃO GERIÁTRICA - GDS": "Geriatric Depression Scale (GDS)"
+    "ESCALA DE DEPRESSÃO GERIÁTRICA - GDS": "Geriatric Depression Scale (GDS)",
+      "Concordo Plenamente": "Strongly agree",
+      "Concordo Parcialmente": "Agree",
+      "Neutro": "Neither agree nor disagree",
+      "Discordo Parcialmente": "Disagree",
+      "Discordo Totalmente": "Strongly disagree",
+      "Eu acho que gostaria de usar esse sistema com frequência.": "I think that I would like to use this system frequently.",
+      "Eu acho o sistema desnecessariamente complexo.": "I find the system unnecessarily complex.",
+      "Eu achei o sistema fácil de usar.": "I thought the system was easy to use.",
+      "Eu acho que precisaria de ajuda de uma pessoa com conhecimentos técnicos para usar o sistema.": "I think that I would need the support of a technical person to be able to use this system.",
+      "Eu acho que as várias funções do sistema estão muito bem integradas.": "I found the various functions in this system were well integrated.",
+      "Eu acho que o sistema apresenta muita inconsistência.": "I thought there was too much inconsistency in this system.",
+      "Eu imagino que as pessoas aprenderão como usar esse sistema rapidamente.": "I would imagine that most people would learn to use this system very quickly.",
+      "Eu achei o sistema atrapalhado de usar.": "I found the system very cumbersome to use.",
+      "Eu me senti confiante ao usar o sistema.": "I felt very confident using the system.",
+      "Eu precisei aprender várias coisas novas antes de conseguir usar o sistema.": "I needed to learn a lot of things before I could get going with this system.",
+      "Socilitação aprovada": "Request approved"
 }
   
