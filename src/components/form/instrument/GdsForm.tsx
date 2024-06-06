@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-
+import { useTranslation } from 'react-i18next';
 import {
     Form,
     FormControl,
@@ -25,10 +25,13 @@ import { FillEvaluationForm, RadioItem } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 
-const steps: StepConfig[] = [
-    {label: 'Passo 1'},
-    {label: 'Passo 2'},
-] 
+const GdsForm = (params: FillEvaluationForm) => {
+    const { t } = useTranslation();
+
+    const steps: StepConfig[] = [
+        { label: t('Passo 1') },
+        { label: t('Passo 2') },
+    ];
 
 interface GdsQuestionsProps {
     field: "satisfied" | "no_activities" | "empty" | "upset" | "good" | "bad" | 
@@ -40,46 +43,45 @@ interface GdsQuestionsProps {
 
 const GdsQuestions: GdsQuestionsProps[][] = [
     [
-        {field: "satisfied", question: "Está satisfeito (a) com a sua vida?", options: [{value: '0', label: 'Sim'}, {value: '1', label: 'Não'}]},
-        {field: "no_activities", question: "Interrompeu muitas de suas atividades?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
-        {field: "empty", question: "Acha sua vida vazia?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
-        {field: "upset", question: "Aborrece-se com frequência?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
-        {field: "good", question: "Sente-se bem com a vida na maior parte do tempo?", options: [{value: '0', label: 'Sim'}, {value: '1', label: 'Não'}]},
-        {field: "bad", question: "Teme que algo ruim lhe aconteça?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
-        {field: "happy", question: "Sente-se alegre a maior parte do tempo?", options: [{value: '0', label: 'Sim'}, {value: '1', label: 'Não'}]},
-        {field: "helpless", question: "Sente-se desamparado com frequência?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
+        {field: "satisfied", question: t("Está satisfeito (a) com a sua vida?"), options: [{value: '0', label: t('Sim')}, {value: '1', label: t('Não')}]},
+        {field: "no_activities", question: t("Interrompeu muitas de suas atividades?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
+        {field: "empty", question: t("Acha sua vida vazia?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
+        {field: "upset", question: t("Aborrece-se com frequência?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
+        {field: "good", question: t("Sente-se bem com a vida na maior parte do tempo?"), options: [{value: '0', label: t('Sim')}, {value: '1', label: t('Não')}]},
+        {field: "bad", question: t("Teme que algo ruim lhe aconteça?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
+        {field: "happy", question: t("Sente-se alegre a maior parte do tempo?"), options: [{value: '0', label: t('Sim')}, {value: '1', label: t('Não')}]},
+        {field: "helpless", question: t("Sente-se desamparado com frequência?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
     ],
     [
-        {field: "stay_at_home", question: "Prefere ficar em casa a sair e fazer coisas novas?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
-        {field: "problems_of_memory", question: "Acha que tem mais problemas de memória que as outras pessoas?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
-        {field: "wonderful_to_stay_alive", question: "Acha que é maravilhoso estar vivo (a)?", options: [{value: '0', label: 'Sim'}, {value: '1', label: 'Não'}]},
-        {field: "useless", question: "Sente-se inútil?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
-        {field: "full_of_energy", question: "Sente-se cheio (a) de energia?", options: [{value: '0', label: 'Sim'}, {value: '1', label: 'Não'}]},
-        {field: "hopeless", question: "Sente-se sem esperança?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
-        {field: "unlucky", question: "Acha que os outros têm mais sorte que você?", options: [{value: '1', label: 'Sim'}, {value: '0', label: 'Não'}]},
+        {field: "stay_at_home", question: t("Prefere ficar em casa a sair e fazer coisas novas?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
+        {field: "problems_of_memory", question: t("Acha que tem mais problemas de memória que as outras pessoas?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
+        {field: "wonderful_to_stay_alive", question: t("Acha que é maravilhoso estar vivo (a)?"), options: [{value: '0', label: t('Sim')}, {value: '1', label: t('Não')}]},
+        {field: "useless", question: t("Sente-se inútil?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
+        {field: "full_of_energy", question: t("Sente-se cheio (a) de energia?"), options: [{value: '0', label: t('Sim')}, {value: '1', label: t('Não')}]},
+        {field: "hopeless", question: t("Sente-se sem esperança?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
+        {field: "unlucky", question: t("Acha que os outros têm mais sorte que você?"), options: [{value: '1', label: t('Sim')}, {value: '0', label: t('Não')}]},
     ]
 ];
 
 const GdsFormSchema = z.object({
-    satisfied: z.enum([GdsQuestions[0][0].options[0].value, ...GdsQuestions[0][0].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    no_activities: z.enum([GdsQuestions[0][1].options[0].value, ...GdsQuestions[0][1].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    empty: z.enum([GdsQuestions[0][2].options[0].value, ...GdsQuestions[0][2].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    upset: z.enum([GdsQuestions[0][3].options[0].value, ...GdsQuestions[0][3].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    good: z.enum([GdsQuestions[0][4].options[0].value, ...GdsQuestions[0][4].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    bad: z.enum([GdsQuestions[0][5].options[0].value, ...GdsQuestions[0][5].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    happy: z.enum([GdsQuestions[0][6].options[0].value, ...GdsQuestions[0][6].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    helpless: z.enum([GdsQuestions[0][7].options[0].value, ...GdsQuestions[0][7].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    stay_at_home: z.enum([GdsQuestions[1][0].options[0].value, ...GdsQuestions[1][0].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    problems_of_memory: z.enum([GdsQuestions[1][1].options[0].value, ...GdsQuestions[1][1].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    wonderful_to_stay_alive: z.enum([GdsQuestions[1][2].options[0].value, ...GdsQuestions[1][2].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    useless: z.enum([GdsQuestions[1][3].options[0].value, ...GdsQuestions[1][3].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    full_of_energy: z.enum([GdsQuestions[1][4].options[0].value, ...GdsQuestions[1][4].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    hopeless: z.enum([GdsQuestions[1][5].options[0].value, ...GdsQuestions[1][5].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    unlucky: z.enum([GdsQuestions[1][6].options[0].value, ...GdsQuestions[1][6].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-})
+    satisfied: z.enum([GdsQuestions[0][0].options[0].value, ...GdsQuestions[0][0].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    no_activities: z.enum([GdsQuestions[0][1].options[0].value, ...GdsQuestions[0][1].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    empty: z.enum([GdsQuestions[0][2].options[0].value, ...GdsQuestions[0][2].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    upset: z.enum([GdsQuestions[0][3].options[0].value, ...GdsQuestions[0][3].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    good: z.enum([GdsQuestions[0][4].options[0].value, ...GdsQuestions[0][4].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    bad: z.enum([GdsQuestions[0][5].options[0].value, ...GdsQuestions[0][5].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    happy: z.enum([GdsQuestions[0][6].options[0].value, ...GdsQuestions[0][6].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    helpless: z.enum([GdsQuestions[0][7].options[0].value, ...GdsQuestions[0][7].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    stay_at_home: z.enum([GdsQuestions[1][0].options[0].value, ...GdsQuestions[1][0].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    problems_of_memory: z.enum([GdsQuestions[1][1].options[0].value, ...GdsQuestions[1][1].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    wonderful_to_stay_alive: z.enum([GdsQuestions[1][2].options[0].value, ...GdsQuestions[1][2].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    useless: z.enum([GdsQuestions[1][3].options[0].value, ...GdsQuestions[1][3].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    full_of_energy: z.enum([GdsQuestions[1][4].options[0].value, ...GdsQuestions[1][4].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+        hopeless: z.enum([GdsQuestions[1][5].options[0].value, ...GdsQuestions[1][5].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+        unlucky: z.enum([GdsQuestions[1][6].options[0].value, ...GdsQuestions[1][6].options.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+    });
 
-const GdsForm = (params: FillEvaluationForm) => {
-    const FormSchema = !("isViewable" in params) ? GdsFormSchema : z.object({}); 
+    const FormSchema = !("isViewable" in params) ? GdsFormSchema : z.object({});
     const form = useForm<z.infer<typeof GdsFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -107,8 +109,8 @@ const GdsForm = (params: FillEvaluationForm) => {
         if(!("isViewable" in params)) {
             saveAnswer(values, params.evaluationId, params.userId).then(() => {
                 toast({
-                    title: "Socilitação aprovada",
-                    description: "Avaliação preenchida e salva",
+                    title: t("Solicitação aprovada"),
+                    description: t("Avaliação preenchida e salva"),
                 });
                 push('/user/evaluations');
             });     
@@ -118,14 +120,14 @@ const GdsForm = (params: FillEvaluationForm) => {
     const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
-        GdsQuestions.forEach((questions) => (randomizeArray(questions)))
+        GdsQuestions.forEach((questions) => (randomizeArray(questions)));
         setIsReady(true);
     }, []);
 
     const { activeStep, nextStep, prevStep } = useStepper({
         initialStep: 0,
         steps,
-    })
+    });
 
     if(!isReady) return null;
     return (
@@ -136,9 +138,9 @@ const GdsForm = (params: FillEvaluationForm) => {
            
             <div className="flex flex-col flex-wrap justify-center gap-8 mt-8">
                 
-                <h1 className="font-bold text-4xl self-center"> ESCALA DE DEPRESSÃO GERIÁTRICA - GDS </h1>
-                <h2 className="text-md self-center"> Aplicar o questionário computando as respostas que indicam como a pessoa tem se sentido na última semana.</h2>
-                <h2 className="text-md self-center"> Assinalar SIM ou NÃO. Cada resposta deverá ser pontuada conforme o indicativo ao lado. O resultado final será a soma das 15 respostas.</h2>
+                <h1 className="font-bold text-4xl self-center"> {t('ESCALA DE DEPRESSÃO GERIÁTRICA - GDS')} </h1>
+                <h2 className="text-md self-center">{t('Aplicar o questionário computando as respostas que indicam como a pessoa tem se sentido na última semana.')}</h2>
+                <h2 className="text-md self-center">{t('Assinalar SIM ou NÃO. Cada resposta deverá ser pontuada conforme o indicativo ao lado. O resultado final será a soma das 15 respostas.')}</h2>
                 <Separator className="my-4"/>   
                 <React.Suspense key={activeStep} fallback={<Progress />}>
                     <Form key={activeStep} {...form}>
@@ -183,13 +185,13 @@ const GdsForm = (params: FillEvaluationForm) => {
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
                                         prevStep();
                                         window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                    }}>Anterior</Button>
+                                    }}>{t('Anterior')}</Button>
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
                                     GdsQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                }}>Limpar</Button>
+                                }}>{t('Limpar')}</Button>
 
                                 { 
                                     (activeStep != 1) ?
@@ -199,16 +201,16 @@ const GdsForm = (params: FillEvaluationForm) => {
                                             
                                             if (hasNull) {
                                                 toast({
-                                                    title: "Socilitação negada",
-                                                    description: "Preencha todos os campos!",
+                                                    title: t("Solicitação negada"),
+                                                    description: t("Preencha todos os campos!"),
                                                 });
                                             }
                                             else{
                                                 nextStep();
                                                 window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                             }
-                                        }}>Próximo</Button>
-                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
+                                        }}>{t('Próximo')}</Button>
+                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">{t('Enviar')}</Button>
                                 }
                             </div>
                         </form>
@@ -219,4 +221,4 @@ const GdsForm = (params: FillEvaluationForm) => {
     );
 }
 
-export default GdsForm
+export default GdsForm;
