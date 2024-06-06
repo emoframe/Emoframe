@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react'
-
+import { useTranslation } from 'react-i18next';
 import {
     Form,
     FormControl,
@@ -25,86 +25,89 @@ import { FillEvaluationForm, RadioItem } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 
-const steps: StepConfig[] = [
-  {label: 'Passo 1'},
-  {label: 'Passo 2'},
-  {label: 'Passo 3'},
-] 
-
-const DefaultProps: RadioItem[] = [
-  {value: '1', label: '1 (Nada ou muito ligeiramente)'},
-  {value: '2', label: '2 (Um pouco)'},
-  {value: '3', label: '3 (Moderadamente)'},
-  {value: '4', label: '4 (Bastante)'},
-  {value: '5', label: '5 (Extremamente)'},
-]
-
-interface BrumsQuestionsProps {
-    field: 'cheered_up' | 'irritated' | 'depressed' | 'terrified' | 'crestfallen' | 'broken_down' | 'confused' | 'exhausted' | 'anxious' | 'unhappy' | 'huffy' | 'worried' | 'sad' | 'sleepy' | 'insecure' | 'willing' | 'tense' | 'disoriented' | 'grumpy' | 'undecided' | 'tired' | 'energy' | 'angry' | 'alert'
-    question: string,
-}
-
-const BrumsQuestions: BrumsQuestionsProps[][] = [
-  [
-    {field: 'cheered_up', question: 'Animado(a)'},
-    {field: 'irritated', question: 'Irritado(a)'},
-    {field: 'depressed', question: 'Deprimido(a)'},
-    {field: 'terrified', question: 'Apavorado(a)'},
-    {field: 'crestfallen', question: 'Desanimado(a)'},
-    {field: 'broken_down', question: 'Esgotado(a)'},
-    {field: 'confused', question: 'Confuso(a)'},
-    {field: 'exhausted', question: 'Exausto(a)'},
-  ],
-  [
-    {field: 'anxious', question: 'Ansioso(a)'},
-    {field: 'unhappy', question: 'Infeliz(a)'},
-    {field: 'huffy', question: 'Zangado(a)'},
-    {field: 'worried', question: 'Preocupado(a)'},
-    {field: 'sad', question: 'Triste(a)'},
-    {field: 'sleepy', question: 'Sonolento(a)'},
-    {field: 'insecure', question: 'Inseguro(a)'},
-  ],
-  [
-    {field: 'willing', question: 'Disposto(a)'},
-    {field: 'tense', question: 'Tenso(a)'},
-    {field: 'disoriented', question: 'Desorientado(a)'},
-    {field: 'grumpy', question: 'Mal-humorado(a)'},
-    {field: 'undecided', question: 'Indeciso(a)'},
-    {field: 'tired', question: 'Cansado(a)'},
-    {field: 'energy', question: 'Energético(a)'},
-    {field: 'angry', question: 'Bravo(a)'},
-    {field: 'alert', question: 'Alerta'},
-  ]
-];
-
-const BrumsFormSchema = z.object({
-  cheered_up: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  irritated: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  depressed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  terrified: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  crestfallen: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  broken_down: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  confused: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  exhausted: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  anxious: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  unhappy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  huffy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  worried: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  sad: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  sleepy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  insecure: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  willing: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  tense: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  disoriented: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  grumpy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  undecided: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  tired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  energy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  alert: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-})
 
 const BrumsForm = (params: FillEvaluationForm) => {
+    const { t } = useTranslation();
+
+    const steps: StepConfig[] = [
+        { label: t('Passo 1') },
+        { label: t('Passo 2') },
+        { label: t('Passo 3') },
+    ];
+
+    const DefaultProps: RadioItem[] = [
+        { value: '1', label: t('Nada ou muito ligeiramente') },
+        { value: '2', label: t('Um pouco') },
+        { value: '3', label: t('Moderadamente') },
+        { value: '4', label: t('Bastante') },
+        { value: '5', label: t('Extremamente') },
+    ];
+
+    interface BrumsQuestionsProps {
+        field: 'cheered_up' | 'irritated' | 'depressed' | 'terrified' | 'crestfallen' | 'broken_down' | 'confused' | 'exhausted' | 'anxious' | 'unhappy' | 'huffy' | 'worried' | 'sad' | 'sleepy' | 'insecure' | 'willing' | 'tense' | 'disoriented' | 'grumpy' | 'undecided' | 'tired' | 'energy' | 'angry' | 'alert';
+        question: string;
+    }
+
+    const BrumsQuestions: BrumsQuestionsProps[][] = [
+        [
+            { field: 'cheered_up', question: t('Animado(a)') },
+            { field: 'irritated', question: t('Irritado(a)') },
+            { field: 'depressed', question: t('Deprimido(a)') },
+            { field: 'terrified', question: t('Apavorado(a)') },
+            { field: 'crestfallen', question: t('Desanimado(a)') },
+            { field: 'broken_down', question: t('Esgotado(a)') },
+            { field: 'confused', question: t('Confuso(a)') },
+            { field: 'exhausted', question: t('Exausto(a)') },
+        ],
+        [
+            { field: 'anxious', question: t('Ansioso(a)') },
+            { field: 'unhappy', question: t('Infeliz(a)') },
+            { field: 'huffy', question: t('Zangado(a)') },
+            { field: 'worried', question: t('Preocupado(a)') },
+            { field: 'sad', question: t('Triste(a)') },
+            { field: 'sleepy', question: t('Sonolento(a)') },
+            { field: 'insecure', question: t('Inseguro(a)') },
+        ],
+        [
+            { field: 'willing', question: t('Disposto(a)') },
+            { field: 'tense', question: t('Tenso(a)') },
+            { field: 'disoriented', question: t('Desorientado(a)') },
+            { field: 'grumpy', question: t('Mal-humorado(a)') },
+            { field: 'undecided', question: t('Indeciso(a)') },
+            { field: 'tired', question: t('Cansado(a)') },
+            { field: 'energy', question: t('Energético(a)') },
+            { field: 'angry', question: t('Bravo(a)') },
+            { field: 'alert', question: t('Alerta') },
+        ]
+    ];
+
+const BrumsFormSchema = z.object({
+  cheered_up: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  irritated: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  depressed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message:t("Escolha uma opção")})}),
+  terrified: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message:t("Escolha uma opção")})}),
+  crestfallen: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  broken_down: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  confused: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  exhausted: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  anxious: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  unhappy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  huffy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  worried: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  sad: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  sleepy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  insecure: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  willing: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  tense: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  disoriented: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  grumpy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  undecided: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  tired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  energy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+  angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message:t("Escolha uma opção")})}),
+  alert: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: t("Escolha uma opção")})}),
+})
+
     const FormSchema = !("isViewable" in params) ? BrumsFormSchema : z.object({}); 
     const form = useForm<z.infer<typeof BrumsFormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -142,8 +145,8 @@ const BrumsForm = (params: FillEvaluationForm) => {
         if(!("isViewable" in params)) {
             saveAnswer(values, params.evaluationId, params.userId).then(() => {
                 toast({
-                    title: "Socilitação aprovada",
-                    description: "Avaliação preenchida e salva",
+                    title: t("Solicitação aprovada"),
+                    description: t("Avaliação preenchida e salva"),
                 });
                 push('/user/evaluations');
             });
@@ -172,14 +175,14 @@ const BrumsForm = (params: FillEvaluationForm) => {
             <div className="flex flex-col flex-wrap justify-center gap-8 pt-8">
                 
                 <h1 className="font-bold text-4xl self-center"> BRUMS </h1>
-                <h2 className="text-md self-center"> Abaixo está uma lista de palavras que descrevem sentimentos. Por favor, leia tudo atenciosamente. Em seguida assinale, em cada linha, o quadrado que melhor descreve COMO VOCÊ SE SENTE AGORA. Tenha certeza de sua resposta para cada questão, antes de assinalar. </h2>
-                <h2 className="text-md self-center">  Clique no botão abaixo para ver exemplos de preenchimento: </h2>
+                <h2 className="text-md self-center"> {t('Abaixo está uma lista de palavras que descrevem sentimentos. Por favor, leia tudo atenciosamente. Em seguida assinale, em cada linha, o quadrado que melhor descreve COMO VOCÊ SE SENTE AGORA. Tenha certeza de sua resposta para cada questão, antes de assinalar.')} </h2>
+                <h2 className="text-md self-center">  {t('Clique no botão abaixo para ver exemplos de preenchimento:')} </h2>
 
                 <div className="flex flex-row justify-around">
-                    <Button className="text-lg basis-1/3" type="button" size="lg">Exemplos</Button>
+                    <Button className="text-lg basis-1/3" type="button" size="lg">{t('Exemplos')}</Button>
                 </div>
                 <Separator className="my-4"/>   
-                <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
+                <h2 className="text-md self-center"> {t('Indique em que medida está sentindo cada uma das emoções AGORA:')} </h2>
 
                 <React.Suspense key={activeStep} fallback={<Progress />}>
                     <Form key={activeStep} {...form}>
@@ -224,13 +227,13 @@ const BrumsForm = (params: FillEvaluationForm) => {
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
                                         prevStep();
                                         window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                    }}>Anterior</Button>
+                                    }}>{t('Anterior')}</Button>
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
                                     BrumsQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                }}>Limpar</Button>
+                                }}>{t('Limpar')}</Button>
 
                                 { 
                                     (activeStep < 2) ?
@@ -240,16 +243,16 @@ const BrumsForm = (params: FillEvaluationForm) => {
                                             
                                             if (hasNull) {
                                                 toast({
-                                                    title: "Socilitação negada",
-                                                    description: "Preencha todos os campos!",
+                                                    title: t("Socilitação negada"),
+                                                    description: t("Preencha todos os campos!"),
                                                 });
                                             }
                                             else{
                                                 nextStep();
                                                 window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                             }
-                                        }}>Próximo</Button>
-                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
+                                        }}>{t('Próximo')}</Button>
+                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">{t('Enviar')}</Button>
                                 }
                             </div>
                         </form>
