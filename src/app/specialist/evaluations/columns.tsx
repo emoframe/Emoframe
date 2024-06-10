@@ -13,6 +13,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import { Evaluation, instruments } from "@/types/forms";
 import { appRedirect } from "@/lib/actions";
+import useUser from "@/components/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -35,7 +37,25 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
 }
 
+const ResultsButton = ( { evaluation } : { evaluation: Evaluation } ) => {
+  const { addEvaluation } = useUser();
+  const router = useRouter();
 
+  const handleResults = async () => {
+    if (addEvaluation && evaluation) {
+      addEvaluation(evaluation);
+      await router.push(`/specialist/evaluations/results`);
+    } else {
+      await router.push(`/denied`);
+    }
+  };
+
+  return (
+    <DropdownMenuItem onClick={handleResults}>
+      Ver resultados
+    </DropdownMenuItem>
+  )
+}
 
 export const columns: ColumnDef<Evaluation>[] = [
   {
@@ -151,11 +171,7 @@ export const columns: ColumnDef<Evaluation>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={async () => await appRedirect(`/specialist/evaluations/results?evaluation=${evaluation.uid}`)}
-              >
-                Ver resultados
-              </DropdownMenuItem>
+            <ResultsButton evaluation={evaluation}/>
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(evaluation.uid!.toString());
