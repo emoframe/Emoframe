@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useTransition } from 'react'
+import React, { useEffect, useState, useTransition } from 'react';
 import { columns } from './columns';
 import EvaluationsAnswersDataTable from './data-table';
 import { getById } from '@/lib/firebase';
@@ -14,24 +14,31 @@ const Results = () => {
   const { user, evaluation } = useUser();
   const [data, setData] = useState<User[]>([]);
   const [loading, startTransition] = useTransition();
+  const [initialLoading, setInitialLoading] = useState(true); // Estado de carregamento inicial
   const { toast } = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!evaluation) return;
+      if (!evaluation) {
+        await appRedirect('/specialist/evaluations');
+        return;
+      }
 
-      const user = await getSessionUser();
+      const sessionUser = await getSessionUser();
 
       try {
-        if (evaluation.specialist !== user?.uid) {
+        if (evaluation.specialist !== sessionUser?.uid) {
           throw new Error("Evaluation não pertence a este specialist");
         }
 
         if (evaluation.answered) {
           startTransition(async () => {
-            const usersData : User[] = await getById(evaluation.answered as string[], "user");
+            const usersData: User[] = await getById(evaluation.answered as string[], "user");
             setData(usersData);
+            setInitialLoading(false); // Carregamento inicial concluído
           });
+        } else {
+          setInitialLoading(false); // Carregamento inicial concluído
         }
       } catch (error) {
         console.log("Redirecionando devido ao erro: ", error);
@@ -48,7 +55,7 @@ const Results = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!evaluation) {
+  if (initialLoading) {
     return <Loader2 className="animate-spin" />;
   }
 
@@ -58,11 +65,10 @@ const Results = () => {
       {loading ? (
         <Loader2 className="animate-spin" />
       ) : (
-        <EvaluationsAnswersDataTable columns={columns} data={data}/>
+        <EvaluationsAnswersDataTable columns={columns} data={data} />
       )}
     </div>
   );
 };
 
 export default Results;
-
