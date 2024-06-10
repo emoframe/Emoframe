@@ -3,11 +3,19 @@
 import { redirect } from 'next/navigation';
 import { Evaluation } from "@/types/forms";
 import { cookies } from 'next/headers'
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../../pages/api/auth/[...nextauth]';
 
 export async function appRedirect(route: string) {
     redirect(route);
 }
 
+export async function getSessionUser() {
+    const session = await getServerSession(authOptions);
+  
+    return session?.user;
+}
+  
 export async function setSelectedEvaluationUsers(evaluation: Evaluation) {
 
     try {
