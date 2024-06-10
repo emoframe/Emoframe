@@ -1,48 +1,68 @@
-import React from 'react'
+"use client";
+
+import React, { useEffect, useState, useTransition } from 'react'
 import { columns } from './columns';
 import EvaluationsAnswersDataTable from './data-table';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
 import { getById } from '@/lib/firebase';
-import { appRedirect } from '@/lib/actions';
-import { Evaluation } from '@/types/forms';
+import { appRedirect, getSessionUser } from '@/lib/actions';
+import useUser from '@/components/hooks/useUser';
+import { User } from '@/types/users';
+import { Loader2 } from "lucide-react";
+import { useToast } from '@/components/ui/use-toast';
 
-const Results = async ({
-	searchParams,
-}: {
-	searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+const Results = () => {
+  const { user, evaluation } = useUser();
+  const [data, setData] = useState<User[]>([]);
+  const [loading, startTransition] = useTransition();
+  const { toast } = useToast();
 
-  const session: any = await getServerSession(authOptions);
-  let data = [];
-  let evaluation: Evaluation | null = null;
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!evaluation) return;
 
-  try{
-    evaluation = await getById(searchParams.evaluation as string, "evaluation");
-    
-    // Verifique se evaluation foi realmente obtida antes de prosseguir
-    if (!evaluation) {
-      throw new Error("Evaluation não encontrada.");
-    }
+      const user = await getSessionUser();
 
-    evaluation.answered ? data = await getById(evaluation.answered as string[], "user") : null;
+      try {
+        if (evaluation.specialist !== user?.uid) {
+          throw new Error("Evaluation não pertence a este specialist");
+        }
 
-    if (evaluation.specialist !== session?.user?.uid) {
-      throw new Error("Evaluation não pertence a este specialist");
-    }
-  } catch(error) { 
-    console.error("Redirecionando devido ao erro: ", error);
-    await appRedirect('/specialist/evaluations');
-    return null;
+        if (evaluation.answered) {
+          startTransition(async () => {
+            const usersData : User[] = await getById(evaluation.answered as string[], "user");
+            setData(usersData);
+          });
+        }
+      } catch (error) {
+        console.log("Redirecionando devido ao erro: ", error);
+        toast({
+          title: "Erro",
+          description: "Ocorreu algum problema",
+          variant: "destructive",
+        });
+        await appRedirect('/specialist/evaluations');
+      }
+    };
+
+    fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!evaluation) {
+    return <Loader2 className="animate-spin" />;
   }
 
-  // Se chegar aqui, a variável `evaluation` definitivamente não é null
   return (
     <div className="flex flex-1 flex-col gap-4 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]">
       <h3 className='text-2xl font-semibold leading-none tracking-tight'>Usuários que responderam</h3>
-      <EvaluationsAnswersDataTable columns={columns} data={data} evaluation={evaluation}/>
+      {loading ? (
+        <Loader2 className="animate-spin" />
+      ) : (
+        <EvaluationsAnswersDataTable columns={columns} data={data}/>
+      )}
     </div>
   );
 };
 
 export default Results;
+
