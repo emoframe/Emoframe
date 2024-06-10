@@ -139,7 +139,6 @@ export async function getById (
       });
     }
 
-    console.log("Documents has been got sucessfully!", res);
     return typeof id === "string" ? res[0] : res;
 
   } catch(error) {
@@ -210,7 +209,6 @@ export async function getSubsById (col: string, id: string, doc: string) : Promi
         res.push(newObj);
     });
 
-    console.log("Documents has been got sucessfully!", res);
     return res;
 
   } catch(error) {

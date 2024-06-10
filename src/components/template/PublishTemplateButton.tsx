@@ -1,6 +1,6 @@
 'use client';
 import { useTransition } from "react";
-import { Loader2, BookCheck  } from "lucide-react";
+import { Loader2, BookCheck } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
