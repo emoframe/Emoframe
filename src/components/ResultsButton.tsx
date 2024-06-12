@@ -1,22 +1,35 @@
-import React, { FC, ReactElement, cloneElement } from "react";
+import { FC, ReactElement, cloneElement } from "react";
 import useUser from "./hooks/useUser";
 import { useRouter } from "next/router";
 import { Evaluation } from "@/types/forms";
+import { User } from "@/types/users";
 
-interface ResultsButtonProps {
-  evaluation: Evaluation;
+type AtLeastOne<T, K extends keyof T> = Partial<T> & { [P in K]: T[P] };
+
+type BaseProps = {
   children: ReactElement;
   successPath: string;
-  failurePath: string;
+  failurePath?: string;
 }
 
-const ResultsButton: FC<ResultsButtonProps> = ({ evaluation, children, successPath, failurePath }) => {
-  const { addEvaluation } = useUser();
+type ResultsButtonProps = BaseProps & AtLeastOne<{ evaluation: Evaluation; user: User }, 'evaluation' | 'user'>;
+
+const ResultsButton: FC<ResultsButtonProps> = ({
+  evaluation,
+  user,
+  children,
+  successPath,
+  failurePath = '/denied'
+}) => {
+  const { addEvaluation, addUser } = useUser();
   const router = useRouter();
 
   const handleResults = async () => {
-    if (addEvaluation && evaluation) {
+    if (evaluation && addEvaluation) {
       addEvaluation(evaluation);
+      await router.push(successPath);
+    } else if (user && addUser) {
+      addUser(user);
       await router.push(successPath);
     } else {
       await router.push(failurePath);
