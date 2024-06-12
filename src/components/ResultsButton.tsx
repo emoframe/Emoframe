@@ -12,7 +12,10 @@ type BaseProps = {
   failurePath?: string;
 }
 
-type ResultsButtonProps = BaseProps & AtLeastOne<{ evaluation: Evaluation; user: User }, 'evaluation' | 'user'>;
+type ResultsButtonProps = BaseProps & (
+  | { evaluation: Evaluation; user?: never }
+  | { evaluation?: never; user: User }
+);
 
 const ResultsButton: FC<ResultsButtonProps> = ({
   evaluation,
