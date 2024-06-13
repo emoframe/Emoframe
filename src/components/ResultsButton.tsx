@@ -1,10 +1,8 @@
 import { FC, ReactElement, cloneElement } from "react";
 import useUser from "./hooks/useUser";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Evaluation } from "@/types/forms";
 import { User } from "@/types/users";
-
-type AtLeastOne<T, K extends keyof T> = Partial<T> & { [P in K]: T[P] };
 
 type BaseProps = {
   children: ReactElement;
