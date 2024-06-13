@@ -153,13 +153,12 @@ export const columns: ColumnDef<Evaluation>[] = [
             <ResultsButton
               evaluation={evaluation}
               successPath="/specialist/evaluations/results"
-              failurePath="/denied"
             >
               <DropdownMenuItem>
                 Ver resultados
               </DropdownMenuItem>
             </ResultsButton>
-            
+
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(evaluation.uid!.toString());

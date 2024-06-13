@@ -7,7 +7,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { appRedirect } from "@/lib/actions";
+import ResultsButton from "@/components/ResultsButton";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -88,7 +88,7 @@ export const columns: ColumnDef<User>[] = [
     meta: {name: "Ações"},
 
     cell: ({ row }) => {
-      const evaluation = row.original;
+      const user = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -98,11 +98,14 @@ export const columns: ColumnDef<User>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={async () => await appRedirect(`/specialist/evaluations/results?evaluation=${evaluation.uid}`)}
-              >
-                Ver resultado
+            <ResultsButton
+              user={user}
+              successPath="/specialist/evaluations/results"
+            >
+              <DropdownMenuItem>
+                Ver resultados
               </DropdownMenuItem>
+            </ResultsButton>
           </DropdownMenuContent>
         </DropdownMenu>
       );
