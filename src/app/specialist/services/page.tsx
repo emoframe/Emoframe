@@ -3,7 +3,7 @@ import React from 'react'
 
 const contents: Content[] = [
   {title: "Instrumentos", description: "Lorem Ipsum", href: "/specialist/services/instruments"},
-  {title: "Modelos", description: "Lorem Ipsum", href: "/specialist/services/templates"},
+  {title: "Templates", description: "Lorem Ipsum", href: "/specialist/services/templates"},
 ]
 
 const ServiceCards = () => {

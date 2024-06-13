@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Sidebar from "@/components/Sidebar/Sidebar";
+import Sidebar from "@/components/sidebar/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import SessionProvider from "@/components/provider/SessionProvider";
 import { cn } from '@/lib/utils';

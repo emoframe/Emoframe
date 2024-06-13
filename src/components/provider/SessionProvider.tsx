@@ -10,11 +10,11 @@ type Props = {
 export default function SessionProvider({children}: Props) {
   return (
     <Provider>
-      <DesignerProvider>
-        <UserProvider>
-          {children}
-        </UserProvider>
-      </DesignerProvider>
+      <UserProvider>
+          <DesignerProvider>
+            {children}
+          </DesignerProvider>
+      </UserProvider>
     </Provider>
   )
 }
