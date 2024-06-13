@@ -100,7 +100,7 @@ export const columns: ColumnDef<User>[] = [
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <ResultsButton
               user={user}
-              successPath="/specialist/evaluations/results"
+              successPath="/specialist/evaluations/results/answer"
             >
               <DropdownMenuItem>
                 Ver resultados
