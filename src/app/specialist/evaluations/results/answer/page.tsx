@@ -24,9 +24,12 @@ const RenderComponent = ({ user, evaluation, data }: RenderComponentProps) => {
       return <PanasResult user={user} evaluation={evaluation} data={data as Panas} />;
     default:
       return (
-        <pre className="whitespace-pre-wrap break-words bg-white p-4 rounded-lg border border-gray-300">
-          {JSON.stringify(data, null, 2)}
-        </pre>
+        <>
+          <h3 className="text-2xl font-semibold leading-none tracking-tight">Resposta</h3>
+          <pre className="whitespace-pre-wrap break-words bg-white p-4 rounded-lg border border-gray-300">
+            {JSON.stringify(data, null, 2)}
+          </pre>
+        </>
       );
   }
 };
@@ -57,6 +60,7 @@ const AnswerPage = () => {
         if (evaluation.answered?.includes(user.uid as string)) {
           startTransition(async () => {
             const answerData: Answer = await getById(user.uid as string, `evaluation/${evaluation.uid}/answers`);
+            delete answerData.uid;
             setData(answerData);
             setInitialLoading(false);
           });
@@ -83,8 +87,10 @@ const AnswerPage = () => {
   }
 
   return (
-    <div className="flex flex-1 flex-col gap-4 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]">
-      <h3 className="text-2xl font-semibold leading-none tracking-tight">Resposta</h3>
+    <div
+       className="flex flex-1 flex-col gap-4 min-h-[600px]"
+      style={{ maxWidth: `calc(80vw - var(--sidebar)` }}
+    >
       {loading ? (
         <Loader2 className="animate-spin" />
       ) : (
