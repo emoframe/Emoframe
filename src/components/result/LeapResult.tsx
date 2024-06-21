@@ -1,0 +1,199 @@
+'use client';
+
+import React from 'react';
+import Charts from '@/components/chart/Charts';
+import { Separator } from '@/components/ui/separator';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Evaluation, Leap } from '@/types/forms';
+import { User } from '@/types/users';
+
+const LeapResult = ({ user, evaluation, data } : {
+  user: User,
+  evaluation: Evaluation,
+  data: Leap
+}) => {
+  // Definindo os fatores e suas questões correspondentes
+  const factors = [
+    {
+      name: 'Fator 1',
+      questions: ['fear', 'scared', 'shame', 'serious', 'guilty', 'sad', 'humiliated', 'take_pity_on'],
+    },
+    {
+      name: 'Fator 2',
+      questions: ['surprised', 'happy', 'proud', 'relieved', 'hopeful', 'interested', 'calm', 'funny', 'admiration', 'longing'],
+    },
+    {
+      name: 'Fator 3',
+      questions: ['despise', 'angry', 'disgusting', 'envy'],
+    },
+    {
+      name: 'Fator 4',
+      questions: ['attracted', 'fall_in_love', 'jealous'],
+    },
+    {
+      name: 'Fator 5',
+      questions: ['need', 'thoughtful', 'desire', 'duty'],
+    },
+    {
+      name: 'Fator 6',
+      questions: ['sleepy', 'hungry', 'thirst', 'tired'],
+    },
+    {
+      name: 'Fator 7',
+      questions: ['careful', 'strange'],
+    },
+    {
+      name: 'Fator 8',
+      questions: ['cold', 'heat'],
+    },
+    {
+      name: 'Fator 9',
+      questions: ['conformed', 'accept', 'satisfied'],
+    }
+  ];
+
+  // Função para calcular o valor de cada fator
+  const calculateFactor = (questions: string[]) => {
+    // Calcula a soma das respostas para as questões do fator
+    const sum = questions.reduce((acc, question) => {
+      const response = data[question as keyof Leap];
+      return acc + (response ? parseInt(response) : 0);
+    }, 0);
+    // Retorna a média normalizada (entre 0 e 1)
+    return (sum / questions.length) / 5;
+  };
+
+  // Calculando os valores dos fatores
+  const factorValues = factors.map(factor => ({
+    name: factor.name,
+    value: calculateFactor(factor.questions)
+  }));
+
+  // Dados para o gráfico de barras
+  const chartData = [
+    ['Fator', 'Valor', { role: 'style' }],
+    ...factorValues.map(factor => [factor.name, factor.value, '#4CAF50'])
+  ];
+
+  // Função para determinar a cor de fundo da célula com base no valor
+  const getColor = (value: string, column: number) => {
+    return parseInt(value) === column ? 'var(--primary)' : 'var(--primary-background)';
+  };
+
+  // Função para traduzir os campos das questões para o português
+  const translateField = (field) => {
+    const translations = {
+      fear: "Estou com medo",
+      scared: "Estou assustado(a)",
+      shame: "Estou com vergonha",
+      serious: "Estou sem graça",
+      guilty: "Sinto-me culpado(a)",
+      sad: "Sinto-me triste",
+      humiliated: "Sinto-me humilhado(a)",
+      take_pity_on: "Tenho pena de alguém",
+      surprised: "Sinto-me surpreso(a)",
+      happy: "Estou alegre",
+      proud: "Sinto-me orgulhoso(a)",
+      relieved: "Estou aliviado(a)",
+      hopeful: "Estou com esperança",
+      interested: "Sinto-me interessado(a)",
+      calm: "Sinto-me calmo(a)",
+      funny: "Acho algo engraçado",
+      admiration: "Sinto uma admiração por alguém",
+      longing: "Sinto saudade de alguém",
+      despise: "Faço pouco caso de alguém",
+      angry: "Sinto raiva",
+      disgusting: "Estou com nojo",
+      envy: "Sinto inveja de alguém",
+      attracted: "Sinto atração sexual por alguém",
+      fall_in_love: "Estou gostando de alguém",
+      jealous: "Sinto ciúme de alguém",
+      need: "Sinto uma necessidade",
+      thoughtful: "Estou refletindo",
+      desire: "Sinto um desejo",
+      duty: "Sinto uma obrigação",
+      sleepy: "Estou com sono",
+      hungry: "Estou com fome",
+      thirst: "Estou com sede",
+      tired: "Estou cansado(a)",
+      careful: "Estou tomando cuidado",
+      strange: "Acho algo estranho",
+      cold: "Estou com frio",
+      heat: "Estou com calor",
+      conformed: "Estou conformado(a)",
+      accept: "Estou aceitando alguma coisa",
+      satisfied: "Estou cheio(a)",
+    };
+    return translations[field] || field;
+  };
+
+  return (
+    <div className="flex flex-col gap-8 p-8">
+      <h1 className="font-bold text-4xl self-center">Resultado LEAP</h1>
+      <div className="flex flex-col gap-4">
+        <h2 className="text-2xl font-bold">Informações do Usuário</h2>
+        <p><b>Nome do Usuário:</b> {user.name} {user.surname}</p>
+        <p><b>Data de Nascimento (idade):</b> {user.birthday?.toLocaleDateString()} ({new Date().getFullYear() - (user.birthday?.getFullYear() as number)} anos)</p>
+        <p><b>E-mail:</b> {user.email}</p>
+        <p><b>Telefone:</b> {user.phone}</p>
+        <p><b>Avaliação:</b> {evaluation.identification}</p>
+        <p><b>Data da Avaliação:</b> {evaluation.date.toString()}</p>
+      </div>
+      
+      <Separator className="my-4" />
+
+      <div className="flex flex-col gap-4">
+        <h2 className="text-2xl font-bold">Resultados</h2>
+        {factorValues.map(factor => (
+          <p className="text-justify" key={factor.name}><b>{factor.name}:</b> {factor.value.toFixed(2)}</p>
+        ))}
+        <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} />
+      </div>
+
+      <Separator className="my-4" />
+
+      <div className="flex flex-col gap-4">
+        <h2 className="text-2xl font-bold">Informações de Pontuação e Interpretação</h2>
+        <p className="text-justify">
+          A pontuação do LEAP é calculada com base em fatores específicos, cada um representando diferentes aspectos das emoções e sentimentos dos respondentes. Cada fator é calculado como a média das respostas para as questões correspondentes, normalizada para um valor entre 0 e 1.
+        </p>
+      </div>
+
+      <Separator className="my-4" />
+
+      <div className="flex flex-col gap-4">
+        <h2 className="text-2xl font-bold">Respostas do Cliente</h2>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Sentimento</TableHead>
+              <TableHead className="w-1/5">Nada ou muito ligeiramente</TableHead>
+              <TableHead className="w-1/5">Um pouco</TableHead>
+              <TableHead className="w-1/5">Moderadamente</TableHead>
+              <TableHead className="w-1/5">Bastante</TableHead>
+              <TableHead className="w-1/5">Extremamente</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Object.entries(data).map(([field, value]) => (
+              <TableRow key={field}>
+                <TableCell>{translateField(field)}</TableCell>
+                {[1, 2, 3, 4, 5].map((col) => (
+                  <TableCell
+                    key={col}
+                    className="w-1/5 text-white text-center text-md"
+                    style={{ backgroundColor: getColor(value, col) }}
+                  >
+                    {col === parseInt(value) ? value : ''}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+};
+
+export default LeapResult;

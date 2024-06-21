@@ -1,11 +1,12 @@
 'use client';
 
 import useUser from '@/components/hooks/useUser';
+import LeapResult from '@/components/result/LeapResult';
 import PanasResult from '@/components/result/PanasResult';
 import { useToast } from '@/components/ui/use-toast';
 import { appRedirect, getSessionUser } from '@/lib/actions';
 import { getById } from '@/lib/firebase';
-import { Answer, Evaluation, Panas } from '@/types/forms';
+import { Answer, Evaluation, Leap, Panas } from '@/types/forms';
 import { User } from '@/types/users';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState, useTransition } from 'react';
@@ -18,10 +19,11 @@ type RenderComponentProps = {
 
 const RenderComponent = ({ user, evaluation, data }: RenderComponentProps) => {
   const commonProps = { user, evaluation, data };
-
   switch (evaluation.instrument) {
     case 'panas':
       return <PanasResult user={user} evaluation={evaluation} data={data as Panas} />;
+    case 'leap':
+      return <LeapResult user={user} evaluation={evaluation} data={data as Leap} />;
     default:
       return (
         <>
@@ -60,7 +62,7 @@ const AnswerPage = () => {
         if (evaluation.answered?.includes(user.uid as string)) {
           startTransition(async () => {
             const answerData: Answer = await getById(user.uid as string, `evaluation/${evaluation.uid}/answers`);
-            delete answerData.uid;
+            delete answerData.uid; delete answerData.datetime;
             setData(answerData);
             setInitialLoading(false);
           });
