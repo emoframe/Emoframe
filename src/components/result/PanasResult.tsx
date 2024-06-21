@@ -4,10 +4,15 @@ import React from 'react';
 import Charts from '@/components/chart/Charts';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Panas } from '@/types/forms';
+import { Evaluation, Panas } from '@/types/forms';
 import { erf } from 'mathjs';
+import { User } from '@/types/users';
 
-const PanasResult = ({ clientData, clientResponses }: { clientData: any, clientResponses: Panas }) => {
+const PanasResult = ({ user, evaluation, data } : {
+  user: User,
+  evaluation: Evaluation,
+  data: Panas
+}) => {
   // Itens que compõem a subescala de Afeto Positivo
   const positiveAffectItems = [
     'interested', 'excited', 'hearty', 'enthusiastic', 'proud', 
@@ -23,7 +28,7 @@ const PanasResult = ({ clientData, clientResponses }: { clientData: any, clientR
   // Função para calcular o escore somando os valores das respostas para cada item
   const calculateScore = (items: string[]) => {
     return items.reduce((acc, item) => {
-      const response = clientResponses[item as keyof Panas];
+      const response = data[item as keyof Panas];
       return acc + (response ? parseInt(response) : 0);
     }, 0);
   };
@@ -64,12 +69,11 @@ const PanasResult = ({ clientData, clientResponses }: { clientData: any, clientR
     <div className="flex flex-col gap-8">
       <h1 className="font-bold text-4xl self-center">Resultados PANAS</h1>
       <div className="flex flex-col gap-4">
-        <h2 className="text-2xl font-bold">Informações do Cliente</h2>
-        <p><b>Nome do Cliente:</b> {clientData.name}</p>
-        <p><b>Data de Nascimento (idade):</b> {clientData.dob} ({clientData.age})</p>
+        <h2 className="text-2xl font-bold">Informações do Usuário</h2>
+        <p><b>Nome do Usuário:</b> {user.name}</p>
+        <p><b>Data de Nascimento (idade):</b> {user.birthday?.toLocaleDateString()} ({new Date().getFullYear() - (user.birthday?.getFullYear() as number)})</p>
         <p><b>Avaliação:</b> Positive and Negative Affect Schedule (PANAS)</p>
-        <p><b>Data da Avaliação:</b> {clientData.dateAdministered}</p>
-        <p><b>Avaliador:</b> {clientData.assessor}</p>
+        <p><b>Data da Avaliação:</b> {new Date(evaluation.date).toLocaleDateString()}</p>
       </div>
       
       <Separator className="my-4" />
@@ -122,7 +126,7 @@ const PanasResult = ({ clientData, clientResponses }: { clientData: any, clientR
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Object.entries(clientResponses).map(([field, value]) => (
+            {Object.entries(data).map(([field, value]) => (
               <TableRow key={field}>
                 <TableCell>{field}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
