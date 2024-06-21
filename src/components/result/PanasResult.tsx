@@ -8,7 +8,7 @@ import { Evaluation, Panas } from '@/types/forms';
 import { erf } from 'mathjs';
 import { User } from '@/types/users';
 
-const PanasResult = ({ user, evaluation, data } : {
+const PanasResult = ({ user, evaluation, data }: {
   user: User,
   evaluation: Evaluation,
   data: Panas
@@ -60,13 +60,22 @@ const PanasResult = ({ user, evaluation, data } : {
     ['Afeto Negativo', negativeAffectScore, '#F44336']
   ];
 
+  // Configurações do gráfico
+  const chartOptions = {
+    legend: { position: 'none' },
+    hAxis: {
+      minValue: 0,
+      maxValue: 50 // Ajuste o valor máximo conforme necessário
+    }
+  };
+
   // Função para determinar a cor de fundo da célula com base no valor
   const getColor = (value: string, column: number) => {
     return parseInt(value) === column ? 'var(--primary)' : 'var(--primary-background)';
   };
 
-  const translateField = (field) => {
-    const translations = {
+  const translateField = (field: string) => {
+    const translations: { [key: string]: string } = {
       tormented: "Atormentado(a)",
       inspired: "Inspirado(a)",
       proud: "Orgulhoso(a)",
@@ -113,7 +122,7 @@ const PanasResult = ({ user, evaluation, data } : {
         <p className="text-justify"><b>Percentil Normativo:</b> {positiveAffectPercentile}</p>
         <p className="text-justify"><b>Escore de Afeto Negativo (10-50):</b> {negativeAffectScore}</p>
         <p className="text-justify"><b>Percentil Normativo:</b> {negativeAffectPercentile}</p>
-        <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} />
+        <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} options={chartOptions} />
       </div>
 
       <Separator className="my-4" />

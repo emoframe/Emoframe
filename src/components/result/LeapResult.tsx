@@ -75,6 +75,15 @@ const LeapResult = ({ user, evaluation, data } : {
     ...factorValues.map(factor => [factor.name, factor.value, '#4CAF50'])
   ];
 
+  // Configurações do gráfico
+  const chartOptions = {
+    legend: { position: 'none' },
+    hAxis: {
+      minValue: 0,
+      maxValue: 1
+    }
+  };
+
   // Função para determinar a cor de fundo da célula com base no valor
   const getColor = (value: string, column: number) => {
     return parseInt(value) === column ? 'var(--primary)' : 'var(--primary-background)';
@@ -147,7 +156,7 @@ const LeapResult = ({ user, evaluation, data } : {
         {factorValues.map(factor => (
           <p className="text-justify" key={factor.name}><b>{factor.name}:</b> {factor.value.toFixed(2)}</p>
         ))}
-        <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} />
+         <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} options={chartOptions} />
       </div>
 
       <Separator className="my-4" />

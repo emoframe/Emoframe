@@ -7,15 +7,17 @@ const Charts = ({
   chartType,
   data,
   height,
-  width
+  width,
+  options
 }: {
   chartType: GoogleChartWrapperChartType | undefined;
   data: any;
   height: string | number | undefined;
   width: string | number | undefined;
+  options?: any;
 }) => {
   return (
-    <Chart chartType={chartType} width={width} height={height} data={data} />
+    <Chart chartType={chartType} width={width} height={height} data={data} options={options} />
   );
 };
 
