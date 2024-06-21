@@ -11,8 +11,17 @@ import BrumsForm from '@/components/form/instrument/BrumsForm';
 import GdsForm from '@/components/form/instrument/GdsForm';
 import LeapForm from '@/components/form/instrument/LeapForm';
 import TemplateForm from '@/components/form/instrument/TemplateForm';
-import { Evaluation, RenderComponentProps, Template } from '@/types/forms';
+import { Evaluation, Template } from '@/types/forms';
+import { TemplateElementInstance } from '@/components/template/TemplateElements';
 import { isSameDay } from '@/lib/utils';
+
+type RenderComponentProps = {
+  instrument: string;
+  userId: string;
+  evaluationId: string;
+  identification: string;
+  template: TemplateElementInstance[];
+};
 
 const RenderComponent = ({ instrument, userId, evaluationId, identification, template }: RenderComponentProps) => {
   const commonProps = { userId, evaluationId };

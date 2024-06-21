@@ -68,14 +68,6 @@ export type TemplateAnswers = {
     [key: string]: string;
 };
 
-export type RenderComponentProps = {
-    instrument: string;
-    userId: string;
-    evaluationId: string;
-    identification: string;
-    template: TemplateElementInstance[];
-};
-
 export interface Panas {
     repulsion: string;
     tormented: string;
