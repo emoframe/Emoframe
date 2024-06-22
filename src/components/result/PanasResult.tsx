@@ -120,7 +120,7 @@ const PanasResult = ({ user, evaluation, data }: {
         <p><b>E-mail:</b> {user.email}</p>
         <p><b>Telefone:</b> {user.phone}</p>
         <p><b>Avaliação:</b> {evaluation.identification}</p>
-        <p><b>Data da Avaliação:</b> {new Date(evaluation.date).toLocaleDateString()}</p>
+        <p><b>Data da Avaliação:</b> {evaluation.date.toString()}</p>
       </div>
       
       <Separator className="my-4" />
