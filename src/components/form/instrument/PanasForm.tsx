@@ -44,62 +44,63 @@ const steps: StepConfig[] = [
 ] 
 
 interface PanasQuestionsProps {
-    field: "repulsion" | "tormented" | "scared" | "hearty" | 
-    "excited" | "guilty" | "enthusiastic" | "pleasantly_surprised" | 
-    "disturbed" | "trembling" | "active" | "proud" | "inspired" | "nervous" | 
-    "angry" | "determined" | "charmed" | "remorse" | "frightened" | "interested",
+    field: "interested" | "distressed" | "excited" | "upset" | 
+      "strong" | "guilty" | "scared" | "hostile" | "enthusiastic" | 
+      "proud" | "irritable" | "alert" | "ashamed" | "inspired" | 
+      "nervous" | "determined" | "attentive" | "jittery" | "active" | 
+      "afraid",
     question: string,
-}
+  }
 
 const PanasQuestions: PanasQuestionsProps[][] = [
-    [
-        {field: "repulsion", question: "Estou me sentindo REPULSO(A)."},
-        {field: "tormented", question: "Estou me sentindo ATORMENTADO(A)."},
-        {field: "scared", question: "Estou me sentindo ASSUSTADO(A)."},
-        {field: "hearty", question: "Estou me sentindo CALOROSO(A)."},
-        {field: "excited", question: "Estou me sentindo EXCITADO(A)."},
-        {field: "guilty", question: "Estou me sentindo CULPADO(A)."},
-        {field: "enthusiastic", question: "Estou me sentindo ENTUSIASMADO(A)."},
-        {field: "pleasantly_surprised", question: "Estou me sentindo AGRADAVELMENTE SURPREENDIDO(A)."},
-        {field: "disturbed", question: "Estou me sentindo PERTURBADO(A)."},
-        {field: "trembling", question: "Estou me sentindo TRÊMULO(A)."},
-    ],
-    [
-        {field: "active", question: "Estou me sentindo ATIVO(A)."},
-        {field: "proud", question: "Estou me sentindo ORGULHOSO(A)."},
-        {field: "inspired", question: "Estou me sentindo INSPIRADO(A)."},
-        {field: "nervous", question: "Estou me sentindo NERVOSO(A)."},
-        {field: "angry", question: "Estou me sentindo IRRITADO(A)."},
-        {field: "determined", question: "Estou me sentindo DETERMINADO(A)."},
-        {field: "charmed", question: "Estou me sentindo ENCANTADO(A)."},
-        {field: "remorse", question: "Estou sentindo REMORSO."},
-        {field: "frightened", question: "Estou me sentindo AMEDRONTADO(A)."},
-        {field: "interested", question: "Estou me sentindo INTERESSADO(A)."},
-    ]
+[
+    {field: "interested", question: "Estou me sentindo INTERESSADO(A)."},
+    {field: "distressed", question: "Estou me sentindo ANGUSTIADO(A)."},
+    {field: "excited", question: "Estou me sentindo ANIMADO(A)."},
+    {field: "upset", question: "Estou me sentindo CHATEADO(A)."},
+    {field: "strong", question: "Estou me sentindo FORTE."},
+    {field: "guilty", question: "Estou me sentindo CULPADO(A)."},
+    {field: "scared", question: "Estou me sentindo ASSUSTADO(A)."},
+    {field: "hostile", question: "Estou me sentindo HOSTIL."},
+    {field: "enthusiastic", question: "Estou me sentindo ENTUSIASMADO(A)."},
+    {field: "proud", question: "Estou me sentindo ORGULHOSO(A)."}
+],
+[
+    {field: "irritable", question: "Estou me sentindo IRRITADO(A)."},
+    {field: "alert", question: "Estou me sentindo ALERTA."},
+    {field: "ashamed", question: "Estou me sentindo ENVERGONHADO(A)."},
+    {field: "inspired", question: "Estou me sentindo INSPIRADO(A)."},
+    {field: "nervous", question: "Estou me sentindo NERVOSO(A)."},
+    {field: "determined", question: "Estou me sentindo DETERMINADO(A)."},
+    {field: "attentive", question: "Estou me sentindo ATENTO(A)."},
+    {field: "jittery", question: "Estou me sentindo TRÊMULO(A)."},
+    {field: "active", question: "Estou me sentindo ATIVO(A)."},
+    {field: "afraid", question: "Estou me sentindo COM MEDO."}
+]
 ];
 
 const PanasFormSchema = z.object({
-    repulsion: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    tormented: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    scared: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    hearty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    excited: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    guilty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    enthusiastic: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    pleasantly_surprised: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    disturbed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    trembling: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    active: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    proud: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    inspired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    nervous: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    determined: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    charmed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    remorse: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    frightened: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    interested: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-})
+    interested: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    distressed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    excited: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    upset: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    strong: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    guilty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    scared: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    hostile: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    enthusiastic: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    proud: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    irritable: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    alert: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    ashamed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    inspired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    nervous: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    determined: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    attentive: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    jittery: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    active: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+    afraid: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) })
+});
 
 
 const PanasForm = (params: FillEvaluationForm) => {
@@ -107,26 +108,26 @@ const PanasForm = (params: FillEvaluationForm) => {
     const form = useForm<z.infer<typeof PanasFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            repulsion: '',
-            tormented: '',
-            scared: '',
-            hearty: '',
+            interested: '',
+            distressed: '',
             excited: '',
+            upset: '',
+            strong: '',
             guilty: '',
+            scared: '',
+            hostile: '',
             enthusiastic: '',
-            pleasantly_surprised: '',
-            disturbed: '',
-            trembling: '',
-            active: '',
             proud: '',
+            irritable: '',
+            alert: '',
+            ashamed: '',
             inspired: '',
             nervous: '',
-            angry: '',
             determined: '',
-            charmed: '',
-            remorse: '',
-            frightened: '',
-            interested: '',
+            attentive: '',
+            jittery: '',
+            active: '',
+            afraid: ''
         }
     });
 
