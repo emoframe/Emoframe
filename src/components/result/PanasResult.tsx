@@ -69,9 +69,18 @@ const PanasResult = ({ user, evaluation, data }: {
     }
   };
 
+  // Listas de sentimentos positivos e negativos
+  const positiveAffects = new Set(positiveAffectItems);
+  const negativeAffects = new Set(negativeAffectItems);
+
   // Função para determinar a cor de fundo da célula com base no valor
-  const getColor = (value: string, column: number) => {
+  const getAnswerColor = (value: string, column: number) => {
     return parseInt(value) === column ? 'var(--primary)' : 'var(--primary-background)';
+  };
+
+  // Função para determinar a cor da célula de sentimento
+  const getSentimentColor = (field: string) => {
+    return positiveAffects.has(field) ? '#4CAF50' : negativeAffects.has(field) ? '#F44336' : 'transparent';
   };
 
   const translateField = (field: string) => {
@@ -111,7 +120,7 @@ const PanasResult = ({ user, evaluation, data }: {
         <p><b>E-mail:</b> {user.email}</p>
         <p><b>Telefone:</b> {user.phone}</p>
         <p><b>Avaliação:</b> {evaluation.identification}</p>
-        <p><b>Data da Avaliação:</b> {evaluation.date.toString()}</p>
+        <p><b>Data da Avaliação:</b> {new Date(evaluation.date).toLocaleDateString()}</p>
       </div>
       
       <Separator className="my-4" />
@@ -142,8 +151,8 @@ const PanasResult = ({ user, evaluation, data }: {
         <p className="text-justify">
           Existem duas subescalas do PANAS:
           <ul>
-            <li><b>Afeto Positivo (itens 1, 3, 5, 9, 10, 12, 14, 16, 17 e 19):</b> Pontuações mais altas representam níveis mais altos de PA e estão associadas ao engajamento prazeroso com o ambiente.</li>
-            <li><b>Afeto Negativo (itens 2, 4, 6, 7, 8, 11, 13, 15, 18 e 20):</b> Pontuações mais altas representam níveis mais altos de NA e refletem uma dimensão de sofrimento geral, resumindo uma variedade de estados negativos, como raiva, culpa ou ansiedade.</li>
+            <li><b>Afeto Positivo:</b> Pontuações mais altas representam níveis mais altos de PA e estão associadas ao engajamento prazeroso com o ambiente.</li>
+            <li><b>Afeto Negativo:</b> Pontuações mais altas representam níveis mais altos de NA e refletem uma dimensão de sofrimento geral, resumindo uma variedade de estados negativos, como raiva, culpa ou ansiedade.</li>
           </ul>
         </p>
       </div>
@@ -166,12 +175,17 @@ const PanasResult = ({ user, evaluation, data }: {
           <TableBody>
             {Object.entries(data).map(([field, value]) => (
               <TableRow key={field}>
-                <TableCell>{translateField(field)}</TableCell>
+                <TableCell 
+                  className='text-white border-2 border-white'
+                  style={{ backgroundColor: getSentimentColor(field) }}
+                >
+                  {translateField(field)}
+                </TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
                   <TableCell
                     key={col}
                     className="w-1/5 text-white text-center text-md"
-                    style={{ backgroundColor: getColor(value, col) }}
+                    style={{ backgroundColor: getAnswerColor(value, col) }}
                   >
                     {col === parseInt(value) ? value : ''}
                   </TableCell>
