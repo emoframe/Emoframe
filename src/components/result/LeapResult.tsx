@@ -12,61 +12,69 @@ const LeapResult = ({ user, evaluation, data } : {
   evaluation: Evaluation,
   data: Leap
 }) => {
+
   // Definindo os fatores e suas questões correspondentes
   const factors = [
-    {
-      name: 'Fator 1',
-      questions: ['fear', 'scared', 'shame', 'serious', 'guilty', 'sad', 'humiliated', 'take_pity_on'],
-    },
-    {
-      name: 'Fator 2',
-      questions: ['surprised', 'happy', 'proud', 'relieved', 'hopeful', 'interested', 'calm', 'funny', 'admiration', 'longing'],
-    },
-    {
-      name: 'Fator 3',
-      questions: ['despise', 'angry', 'disgusting', 'envy'],
-    },
-    {
-      name: 'Fator 4',
-      questions: ['attracted', 'fall_in_love', 'jealous'],
-    },
-    {
-      name: 'Fator 5',
-      questions: ['need', 'thoughtful', 'desire', 'duty'],
-    },
-    {
-      name: 'Fator 6',
-      questions: ['sleepy', 'hungry', 'thirst', 'tired'],
-    },
-    {
-      name: 'Fator 7',
-      questions: ['careful', 'strange'],
-    },
-    {
-      name: 'Fator 8',
-      questions: ['cold', 'heat'],
-    },
-    {
-      name: 'Fator 9',
-      questions: ['conformed', 'accept', 'satisfied'],
-    }
+    { index: 1, field: 'fear', factor: 'Fator 1' },
+    { index: 2, field: 'scared', factor: 'Fator 1' },
+    { index: 3, field: 'shame', factor: 'Fator 1' },
+    { index: 4, field: 'serious', factor: 'Fator 1' },
+    { index: 5, field: 'guilty', factor: 'Fator 1' },
+    { index: 6, field: 'sad', factor: 'Fator 1' },
+    { index: 7, field: 'humiliated', factor: 'Fator 1' },
+    { index: 8, field: 'take_pity_on', factor: 'Fator 1' },
+    { index: 9, field: 'surprised', factor: 'Fator 2' },
+    { index: 10, field: 'happy', factor: 'Fator 2' },
+    { index: 11, field: 'proud', factor: 'Fator 2' },
+    { index: 12, field: 'relieved', factor: 'Fator 2' },
+    { index: 13, field: 'hopeful', factor: 'Fator 2' },
+    { index: 14, field: 'interested', factor: 'Fator 2' },
+    { index: 15, field: 'calm', factor: 'Fator 2' },
+    { index: 16, field: 'funny', factor: 'Fator 2' },
+    { index: 17, field: 'admiration', factor: 'Fator 2' },
+    { index: 18, field: 'longing', factor: 'Fator 2' },
+    { index: 19, field: 'despise', factor: 'Fator 3' },
+    { index: 20, field: 'angry', factor: 'Fator 3' },
+    { index: 21, field: 'disgusting', factor: 'Fator 3' },
+    { index: 22, field: 'envy', factor: 'Fator 3' },
+    { index: 23, field: 'attracted', factor: 'Fator 4' },
+    { index: 24, field: 'fall_in_love', factor: 'Fator 4' },
+    { index: 25, field: 'jealous', factor: 'Fator 4' },
+    { index: 26, field: 'need', factor: 'Fator 5' },
+    { index: 27, field: 'thoughtful', factor: 'Fator 5' },
+    { index: 28, field: 'desire', factor: 'Fator 5' },
+    { index: 29, field: 'duty', factor: 'Fator 5' },
+    { index: 30, field: 'sleepy', factor: 'Fator 6' },
+    { index: 31, field: 'hungry', factor: 'Fator 6' },
+    { index: 32, field: 'thirst', factor: 'Fator 6' },
+    { index: 33, field: 'tired', factor: 'Fator 6' },
+    { index: 34, field: 'careful', factor: 'Fator 7' },
+    { index: 35, field: 'strange', factor: 'Fator 7' },
+    { index: 36, field: 'cold', factor: 'Fator 8' },
+    { index: 37, field: 'heat', factor: 'Fator 8' },
+    { index: 38, field: 'conformed', factor: 'Fator 9' },
+    { index: 39, field: 'accept', factor: 'Fator 9' },
+    { index: 40, field: 'satisfied', factor: 'Fator 9' }
   ];
 
   // Função para calcular o valor de cada fator
-  const calculateFactor = (questions: string[]) => {
+  const calculateFactor = (factorName: string) => {
+    // Filtra as questões correspondentes ao fator
+    const factorQuestions = factors.filter(factor => factor.factor === factorName);
     // Calcula a soma das respostas para as questões do fator
-    const sum = questions.reduce((acc, question) => {
-      const response = data[question as keyof Leap];
+    const sum = factorQuestions.reduce((acc, factor) => {
+      const response = data[factor.field as keyof Leap];
       return acc + (response ? parseInt(response) : 0);
     }, 0);
     // Retorna a média normalizada (entre 0 e 1)
-    return (sum / questions.length) / 5;
+    return (sum / factorQuestions.length) / 5;
   };
 
   // Calculando os valores dos fatores
-  const factorValues = factors.map(factor => ({
-    name: factor.name,
-    value: calculateFactor(factor.questions)
+  const uniqueFactors = [...new Set(factors.map(factor => factor.factor))];
+  const factorValues = uniqueFactors.map(factor => ({
+    name: factor,
+    value: calculateFactor(factor)
   }));
 
   // Dados para o gráfico de barras
@@ -84,14 +92,9 @@ const LeapResult = ({ user, evaluation, data } : {
     }
   };
 
-  // Função para determinar a cor de fundo da célula com base no valor
-  const getColor = (value: string, column: number) => {
-    return parseInt(value) === column ? 'var(--primary)' : 'var(--primary-background)';
-  };
-
   // Função para traduzir os campos das questões para o português
-  const translateField = (field) => {
-    const translations = {
+  const translateField = (field: string) => {
+    const translations: { [key: string]: string } = {
       fear: "Estou com medo",
       scared: "Estou assustado(a)",
       shame: "Estou com vergonha",
@@ -131,7 +134,7 @@ const LeapResult = ({ user, evaluation, data } : {
       heat: "Estou com calor",
       conformed: "Estou conformado(a)",
       accept: "Estou aceitando alguma coisa",
-      satisfied: "Estou cheio(a)",
+      satisfied: "Estou cheio(a)"
     };
     return translations[field] || field;
   };
@@ -146,7 +149,7 @@ const LeapResult = ({ user, evaluation, data } : {
         <p><b>E-mail:</b> {user.email}</p>
         <p><b>Telefone:</b> {user.phone}</p>
         <p><b>Avaliação:</b> {evaluation.identification}</p>
-        <p><b>Data da Avaliação:</b> {evaluation.date.toString()}</p>
+        <p><b>Data da Avaliação:</b> {new Date(evaluation.date).toLocaleDateString()}</p>
       </div>
       
       <Separator className="my-4" />
@@ -156,7 +159,7 @@ const LeapResult = ({ user, evaluation, data } : {
         {factorValues.map(factor => (
           <p className="text-justify" key={factor.name}><b>{factor.name}:</b> {factor.value.toFixed(2)}</p>
         ))}
-         <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} options={chartOptions} />
+        <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} options={chartOptions} />
       </div>
 
       <Separator className="my-4" />
@@ -184,16 +187,16 @@ const LeapResult = ({ user, evaluation, data } : {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Object.entries(data).map(([field, value]) => (
-              <TableRow key={field}>
-                <TableCell>{translateField(field)}</TableCell>
+            {factors.map((factor) => (
+              <TableRow key={factor.index}>
+                <TableCell>{translateField(factor.field)}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
                   <TableCell
                     key={col}
                     className="w-1/5 text-white text-center text-md"
-                    style={{ backgroundColor: getColor(value, col) }}
+                    style={{ backgroundColor: (parseInt(data[factor.field]) === col) ? 'var(--primary)' : 'var(--primary-background)' }}
                   >
-                    {col === parseInt(value) ? value : ''}
+                    {(parseInt(data[factor.field]) === col) ? col : ''}
                   </TableCell>
                 ))}
               </TableRow>
