@@ -217,7 +217,7 @@ export interface Leap {
     thirst: string,
     thoughtful: string,
     serious: string,
-    scared: string,
+    scared: string
 }
 
 export const instruments: Instruments[] = [
