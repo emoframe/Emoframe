@@ -13,28 +13,43 @@ const PanasResult = ({ user, evaluation, data }: {
   evaluation: Evaluation,
   data: Panas
 }) => {
-  // Itens que compõem a subescala de Afeto Positivo
-  const positiveAffectItems = [
-    'interested', 'excited', 'hearty', 'enthusiastic', 'proud', 
-    'pleasantly_surprised', 'inspired', 'determined', 'charmed', 'active'
-  ];
 
-  // Itens que compõem a subescala de Afeto Negativo
-  const negativeAffectItems = [
-    'repulsion', 'tormented', 'scared', 'guilty', 'disturbed', 
-    'trembling', 'nervous', 'angry', 'remorse', 'frightened'
+  // Itens que compõem as subescalas de Afeto Positivo e Negativo
+  const affectItems = [
+    { index: 1, field: 'interested', type: 'positive' },
+    { index: 2, field: 'distressed', type: 'negative' },
+    { index: 3, field: 'excited', type: 'positive' },
+    { index: 4, field: 'upset', type: 'negative' },
+    { index: 5, field: 'strong', type: 'positive' },
+    { index: 6, field: 'guilty', type: 'negative' },
+    { index: 7, field: 'scared', type: 'negative' },
+    { index: 8, field: 'hostile', type: 'negative' },
+    { index: 9, field: 'enthusiastic', type: 'positive' },
+    { index: 10, field: 'proud', type: 'positive' },
+    { index: 11, field: 'irritable', type: 'negative' },
+    { index: 12, field: 'alert', type: 'negative' },
+    { index: 13, field: 'ashamed', type: 'negative' },
+    { index: 14, field: 'inspired', type: 'positive' },
+    { index: 15, field: 'nervous', type: 'negative' },
+    { index: 16, field: 'determined', type: 'positive' },
+    { index: 17, field: 'attentive', type: 'positive' },
+    { index: 18, field: 'jittery', type: 'negative' },
+    { index: 19, field: 'active', type: 'positive' },
+    { index: 20, field: 'afraid', type: 'negative' }
   ];
 
   // Função para calcular o escore somando os valores das respostas para cada item
-  const calculateScore = (items: string[]) => {
-    return items.reduce((acc, item) => {
-      const response = data[item as keyof Panas];
-      return acc + (response ? parseInt(response) : 0);
-    }, 0);
+  const calculateScore = (items: { index: number, field: string, type: string }[], type: string) => {
+    return items
+      .filter(item => item.type === type)
+      .reduce((acc, item) => {
+        const response = data[item.field as keyof Panas];
+        return acc + (response ? parseInt(response) : 0);
+      }, 0);
   };
 
-  const positiveAffectScore = calculateScore(positiveAffectItems); // Escore de Afeto Positivo
-  const negativeAffectScore = calculateScore(negativeAffectItems); // Escore de Afeto Negativo
+  const positiveAffectScore = calculateScore(affectItems, 'positive'); // Escore de Afeto Positivo
+  const negativeAffectScore = calculateScore(affectItems, 'negative'); // Escore de Afeto Negativo
 
   // Função para calcular percentil baseado na distribuição normal
   const calculatePercentile = (score: number, mean: number, sd: number) => {
@@ -69,43 +84,28 @@ const PanasResult = ({ user, evaluation, data }: {
     }
   };
 
-  // Listas de sentimentos positivos e negativos
-  const positiveAffects = new Set(positiveAffectItems);
-  const negativeAffects = new Set(negativeAffectItems);
-
-  // Função para determinar a cor de fundo da célula com base no valor
-  const getAnswerColor = (value: string, column: number) => {
-    return parseInt(value) === column ? 'var(--primary)' : 'var(--primary-background)';
-  };
-
-  // Função para determinar a cor da célula de sentimento
-  const getSentimentColor = (field: string) => {
-    return positiveAffects.has(field) ? '#4CAF50' : negativeAffects.has(field) ? '#F44336' : 'transparent';
-  };
-
   const translateField = (field: string) => {
     const translations: { [key: string]: string } = {
-      tormented: "Atormentado(a)",
-      inspired: "Inspirado(a)",
-      proud: "Orgulhoso(a)",
-      pleasantly_surprised: "Agradavelmente Surpreso(a)",
-      hearty: "Caloroso(a)",
       interested: "Interessado(a)",
-      active: "Ativo(a)",
-      determined: "Determinado(a)",
-      charmed: "Encantado(a)",
-      frightened: "Amedrontado(a)",
-      repulsion: "Repulsa",
-      enthusiastic: "Entusiasmado(a)",
-      excited: "Excitado(a)",
-      datetime: "Data e Hora",
-      disturbed: "Perturbado(a)",
-      remorse: "Remorso",
-      trembling: "Trêmulo(a)",
-      scared: "Assustado(a)",
+      distressed: "Angustiado(a)",
+      excited: "Animado(a)",
+      upset: "Chateado(a)",
+      strong: "Forte",
       guilty: "Culpado(a)",
+      scared: "Assustado(a)",
+      hostile: "Hostil",
+      enthusiastic: "Entusiasmado(a)",
+      proud: "Orgulhoso(a)",
+      irritable: "Irritado(a)",
+      alert: "Alerta",
+      ashamed: "Envergonhado(a)",
+      inspired: "Inspirado(a)",
       nervous: "Nervoso(a)",
-      angry: "Irritado(a)"
+      determined: "Determinado(a)",
+      attentive: "Atento(a)",
+      jittery: "Trêmulo(a)",
+      active: "Ativo(a)",
+      afraid: "Com medo"
     };
     return translations[field] || field;
   };
@@ -151,8 +151,8 @@ const PanasResult = ({ user, evaluation, data }: {
         <p className="text-justify">
           Existem duas subescalas do PANAS:
           <ul>
-            <li><b>Afeto Positivo:</b> Pontuações mais altas representam níveis mais altos de PA e estão associadas ao engajamento prazeroso com o ambiente.</li>
-            <li><b>Afeto Negativo:</b> Pontuações mais altas representam níveis mais altos de NA e refletem uma dimensão de sofrimento geral, resumindo uma variedade de estados negativos, como raiva, culpa ou ansiedade.</li>
+            <li><b>Afeto Positivo (itens 1, 3, 5, 9, 10, 12, 14, 16, 17 e 19):</b> Pontuações mais altas representam níveis mais altos de PA e estão associadas ao engajamento prazeroso com o ambiente.</li>
+            <li><b>Afeto Negativo (itens 2, 4, 6, 7, 8, 11, 13, 15, 18 e 20):</b> Pontuações mais altas representam níveis mais altos de NA e refletem uma dimensão de sofrimento geral, resumindo uma variedade de estados negativos, como raiva, culpa ou ansiedade.</li>
           </ul>
         </p>
       </div>
@@ -173,21 +173,16 @@ const PanasResult = ({ user, evaluation, data }: {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Object.entries(data).map(([field, value]) => (
-              <TableRow key={field}>
-                <TableCell 
-                  className='text-white border-2 border-white'
-                  style={{ backgroundColor: getSentimentColor(field) }}
-                >
-                  {translateField(field)}
-                </TableCell>
+            {affectItems.map((item) => (
+              <TableRow key={item.index}>
+                <TableCell className="text-white text-md" style={{ backgroundColor: (item.type == 'positive') ? '#4CAF50' : '#F44336' }}>{translateField(item.field)}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
                   <TableCell
                     key={col}
                     className="w-1/5 text-white text-center text-md"
-                    style={{ backgroundColor: getAnswerColor(value, col) }}
+                    style={{ backgroundColor: (parseInt(data[item.field]) === col) ? 'var(--primary)' : 'var(--primary-background)' }}
                   >
-                    {col === parseInt(value) ? value : ''}
+                    {(parseInt(data[item.field]) === col) ? col : ''}
                   </TableCell>
                 ))}
               </TableRow>
