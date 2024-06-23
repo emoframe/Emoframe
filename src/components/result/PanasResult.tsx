@@ -4,7 +4,7 @@ import React from 'react';
 import Charts from '@/components/chart/Charts';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Evaluation, Panas } from '@/types/forms';
+import { Evaluation, Panas, panasQuestions } from '@/types/forms';
 import { erf } from 'mathjs';
 import { User } from '@/types/users';
 
@@ -13,30 +13,6 @@ const PanasResult = ({ user, evaluation, data }: {
   evaluation: Evaluation,
   data: Panas
 }) => {
-
-  // Itens que compõem as subescalas de Afeto Positivo e Negativo
-  const affectItems = [
-    { index: 1, field: 'interested', type: 'positive' },
-    { index: 2, field: 'distressed', type: 'negative' },
-    { index: 3, field: 'excited', type: 'positive' },
-    { index: 4, field: 'upset', type: 'negative' },
-    { index: 5, field: 'strong', type: 'positive' },
-    { index: 6, field: 'guilty', type: 'negative' },
-    { index: 7, field: 'scared', type: 'negative' },
-    { index: 8, field: 'hostile', type: 'negative' },
-    { index: 9, field: 'enthusiastic', type: 'positive' },
-    { index: 10, field: 'proud', type: 'positive' },
-    { index: 11, field: 'irritable', type: 'negative' },
-    { index: 12, field: 'alert', type: 'negative' },
-    { index: 13, field: 'ashamed', type: 'negative' },
-    { index: 14, field: 'inspired', type: 'positive' },
-    { index: 15, field: 'nervous', type: 'negative' },
-    { index: 16, field: 'determined', type: 'positive' },
-    { index: 17, field: 'attentive', type: 'positive' },
-    { index: 18, field: 'jittery', type: 'negative' },
-    { index: 19, field: 'active', type: 'positive' },
-    { index: 20, field: 'afraid', type: 'negative' }
-  ];
 
   // Função para calcular o escore somando os valores das respostas para cada item
   const calculateScore = (items: { index: number, field: string, type: string }[], type: string) => {
@@ -48,8 +24,8 @@ const PanasResult = ({ user, evaluation, data }: {
       }, 0);
   };
 
-  const positiveAffectScore = calculateScore(affectItems, 'positive'); // Escore de Afeto Positivo
-  const negativeAffectScore = calculateScore(affectItems, 'negative'); // Escore de Afeto Negativo
+  const positiveAffectScore = calculateScore(panasQuestions, 'positive'); // Escore de Afeto Positivo
+  const negativeAffectScore = calculateScore(panasQuestions, 'negative'); // Escore de Afeto Negativo
 
   // Função para calcular percentil baseado na distribuição normal
   const calculatePercentile = (score: number, mean: number, sd: number) => {
@@ -82,32 +58,6 @@ const PanasResult = ({ user, evaluation, data }: {
       minValue: 0,
       maxValue: 50 // Ajuste o valor máximo conforme necessário
     }
-  };
-
-  const translateField = (field: string) => {
-    const translations: { [key: string]: string } = {
-      interested: "Interessado(a)",
-      distressed: "Angustiado(a)",
-      excited: "Animado(a)",
-      upset: "Chateado(a)",
-      strong: "Forte",
-      guilty: "Culpado(a)",
-      scared: "Assustado(a)",
-      hostile: "Hostil",
-      enthusiastic: "Entusiasmado(a)",
-      proud: "Orgulhoso(a)",
-      irritable: "Irritado(a)",
-      alert: "Alerta",
-      ashamed: "Envergonhado(a)",
-      inspired: "Inspirado(a)",
-      nervous: "Nervoso(a)",
-      determined: "Determinado(a)",
-      attentive: "Atento(a)",
-      jittery: "Trêmulo(a)",
-      active: "Ativo(a)",
-      afraid: "Com medo"
-    };
-    return translations[field] || field;
   };
 
   return (
@@ -173,9 +123,9 @@ const PanasResult = ({ user, evaluation, data }: {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {affectItems.map((item) => (
+            {panasQuestions.map((item) => (
               <TableRow key={item.index}>
-                <TableCell className="text-white text-md" style={{ backgroundColor: (item.type == 'positive') ? '#4CAF50' : '#F44336' }}>{translateField(item.field)}</TableCell>
+                <TableCell className="text-white text-md border-white border-2" style={{ backgroundColor: (item.type == 'positive') ? '#4CAF50' : '#F44336' }}>{item.question}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
                   <TableCell
                     key={col}
