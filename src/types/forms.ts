@@ -90,6 +90,29 @@ export interface Panas {
     frightened: string;
 }
 
+export const panasQuestions = [
+    { index: 1, field: 'interested', question: 'Estou me sentindo INTERESSADO(A).', type: 'positive' },
+    { index: 2, field: 'distressed', question: 'Estou me sentindo ANGUSTIADO(A).', type: 'negative' },
+    { index: 3, field: 'excited', question: 'Estou me sentindo ANIMADO(A).', type: 'positive' },
+    { index: 4, field: 'upset', question: 'Estou me sentindo CHATEADO(A).', type: 'negative' },
+    { index: 5, field: 'strong', question: 'Estou me sentindo FORTE.', type: 'positive' },
+    { index: 6, field: 'guilty', question: 'Estou me sentindo CULPADO(A).', type: 'negative' },
+    { index: 7, field: 'scared', question: 'Estou me sentindo ASSUSTADO(A).', type: 'negative' },
+    { index: 8, field: 'hostile', question: 'Estou me sentindo HOSTIL.', type: 'negative' },
+    { index: 9, field: 'enthusiastic', question: 'Estou me sentindo ENTUSIASMADO(A).', type: 'positive' },
+    { index: 10, field: 'proud', question: 'Estou me sentindo ORGULHOSO(A).', type: 'positive' },
+    { index: 11, field: 'irritable', question: 'Estou me sentindo IRRITADO(A).', type: 'negative' },
+    { index: 12, field: 'alert', question: 'Estou me sentindo ALERTA.', type: 'negative' },
+    { index: 13, field: 'ashamed', question: 'Estou me sentindo ENVERGONHADO(A).', type: 'negative' },
+    { index: 14, field: 'inspired', question: 'Estou me sentindo INSPIRADO(A).', type: 'positive' },
+    { index: 15, field: 'nervous', question: 'Estou me sentindo NERVOSO(A).', type: 'negative' },
+    { index: 16, field: 'determined', question: 'Estou me sentindo DETERMINADO(A).', type: 'positive' },
+    { index: 17, field: 'attentive', question: 'Estou me sentindo ATENTO(A).', type: 'positive' },
+    { index: 18, field: 'jittery', question: 'Estou me sentindo TRÊMULO(A).', type: 'negative' },
+    { index: 19, field: 'active', question: 'Estou me sentindo ATIVO(A).', type: 'positive' },
+    { index: 20, field: 'afraid', question: 'Estou me sentindo COM MEDO.', type: 'negative' }
+];
+
 export interface Sam {
     satisfaction: string;
     motivation: string;
@@ -261,7 +284,7 @@ export const leapQuestions = [
     { index: 38, field: 'conformed', factor: 'Fator 9', question: "Estou conformado(a)." },
     { index: 39, field: 'accept', factor: 'Fator 9', question: "Estou aceitando alguma coisa." },
     { index: 40, field: 'satisfied', factor: 'Fator 9', question: "Estou cheio(a)." }
-  ];
+];
 
 export const instruments: Instruments[] = [
     {  
