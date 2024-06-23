@@ -20,9 +20,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useStepper } from "@/components/ui/hooks/use-stepper";
 import { Steps, Step, StepConfig } from "@/components/ui/stepper";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { FillEvaluationForm, RadioItem } from "@/types/forms";
+import { FillEvaluationForm, RadioItem, leapQuestions } from "@/types/forms";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
+import { chunk } from "@/lib/utils";
 
 const DefaultProps: RadioItem[] = [
   { value: "1", label: "1 (Nada ou muito ligeiramente)" },
@@ -32,268 +33,22 @@ const DefaultProps: RadioItem[] = [
   { value: "5", label: "5 (Extremamente)" },
 ];
 
-interface LeapQuestionsProps {
-  field:
-    | "admiration"
-    | "relieved"
-    | "tired"
-    | "happy"
-    | "accept"
-    | "heat"
-    | "satisfied"
-    | "jealous"
-    | "attracted"
-    | "calm"
-    | "funny"
-    | "desire"
-    | "careful"
-    | "strange"
-    | "hopeful"
-    | "fall_in_love"
-    | "conformed"
-    | "hungry"
-    | "guilty"
-    | "cold"
-    | "despise"
-    | "take_pity_on"
-    | "disgusting"
-    | "need"
-    | "duty"
-    | "envy"
-    | "humiliated"
-    | "interested"
-    | "fear"
-    | "proud"
-    | "shame"
-    | "angry"
-    | "sleepy"
-    | "longing"
-    | "sad"
-    | "surprised"
-    | "thirst"
-    | "thoughtful"
-    | "serious"
-    | "scared";
-  question: string;
-}
+const LeapFormSchema = z.object(
+  Object.fromEntries(
+    leapQuestions.map(item => [
+      item.field,
+      z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {
+        errorMap: (issue, ctx) => ({ message: "Escolha uma opção" })
+      })
+    ])
+  )
+);
 
-const LeapQuestions: LeapQuestionsProps[][] = [
-  [
-    { field: "fear", question: "Estou com medo." },
-    { field: "scared", question: "Estou assustado(a)." },
-    { field: "shame", question: "Estou com vergonha." },
-    { field: "serious", question: "Estou sem graça." },
-    { field: "guilty", question: "Sinto-me culpado(a)." },
-    { field: "sad", question: "Sinto-me triste." },
-    { field: "humiliated", question: "Sinto-me humilhado(a)." },
-    { field: "take_pity_on", question: "Tenho pena de alguém." },
-  ],
-  [
-    { field: "surprised", question: "Sinto-me surpreso(a)." },
-    { field: "happy", question: "Estou alegre." },
-    { field: "proud", question: "Sinto-me orgulhoso(a)." },
-    { field: "relieved", question: "Estou aliviado(a)." },
-    { field: "hopeful", question: "Estou com esperança." },
-    { field: "interested", question: "Sinto-me interessado(a)." },
-    { field: "calm", question: "Sinto-me calmo(a)." },
-    { field: "funny", question: "Acho algo engraçado." },
-  ],
-  [
-    { field: "admiration", question: "Sinto uma admiração por alguém." },
-    { field: "longing", question: "Sinto saudade de alguém." },
-    { field: "despise", question: "Faço pouco caso de alguém." },
-    { field: "angry", question: "Sinto raiva." },
-    { field: "disgusting", question: "Estou com nojo." },
-    { field: "envy", question: "Sinto inveja de alguém." },
-    { field: "attracted", question: "Sinto atração sexual por alguém." },
-    { field: "fall_in_love", question: "Estou gostando de alguém." },
-  ],
-  [
-    { field: "jealous", question: "Sinto ciúme de alguém." },
-    { field: "need", question: "Sinto uma necessidade." },
-    { field: "thoughtful", question: "Estou refletindo." },
-    { field: "desire", question: "Sinto um desejo." },
-    { field: "duty", question: "Sinto uma obrigação." },
-    { field: "sleepy", question: "Estou com sono." },
-    { field: "hungry", question: "Estou com fome." },
-    { field: "thirst", question: "Estou com sede." },
-  ],
-  [
-    { field: "tired", question: "Estou cansado(a)." },
-    { field: "careful", question: "Estou tomando cuidado." },
-    { field: "strange", question: "Acho algo estranho." },
-    { field: "cold", question: "Estou com frio." },
-    { field: "heat", question: "Estou com calor." },
-    { field: "conformed", question: "Estou conformado(a)." },
-    { field: "accept", question: "Estou aceitando alguma coisa." },
-    { field: "satisfied", question: "Estou cheio(a)." },
-  ],
-];
+// Dividir leapItems em 5 partes
+const leapQuestionsChunks = chunk(leapQuestions, Math.ceil(leapQuestions.length / 5));
 
-const steps: StepConfig[] = LeapQuestions.map((_, index) => ({ label: `` }));
-
-const LeapFormSchema = z.object({
-  admiration: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  relieved: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  tired: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  happy: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  accept: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  heat: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  satisfied: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  jealous: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  attracted: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  calm: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  funny: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  desire: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  careful: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  strange: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  hopeful: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  fall_in_love: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  conformed: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  hungry: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  guilty: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  cold: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  despise: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  take_pity_on: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  disgusting: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  need: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  duty: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  envy: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  humiliated: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  interested: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  fear: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  proud: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  shame: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  angry: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  sleepy: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  longing: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  sad: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  surprised: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  thirst: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  thoughtful: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  serious: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-  scared: z.enum(
-    [DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)],
-    { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-  ),
-});
+// Gerar steps com 5 partes
+const steps: StepConfig[] = leapQuestionsChunks.map((_, index) => ({ label: `Passo ${index + 1}` }));
 
 const LeapForm = (params: FillEvaluationForm) => {
   const FormSchema = !("isViewable" in params) ? LeapFormSchema : z.object({});
@@ -416,7 +171,7 @@ const LeapForm = (params: FillEvaluationForm) => {
               key={activeStep}
               onSubmit={form.handleSubmit(onSubmit)}
             >
-              {LeapQuestions[activeStep].map((question, index) => (
+              {leapQuestionsChunks[activeStep].map((question, index) => (
                 <>
                   <FormField
                     key={"formField" + index}
@@ -479,7 +234,7 @@ const LeapForm = (params: FillEvaluationForm) => {
                   type="button"
                   size="lg"
                   onClick={() => {
-                    LeapQuestions[activeStep].map((question, index) =>
+                    leapQuestionsChunks[activeStep].map((question, index) =>
                       form.setValue(question.field, "")
                     );
                     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -495,7 +250,7 @@ const LeapForm = (params: FillEvaluationForm) => {
                     size="lg"
                     onClick={() => {
                       const values = form.getValues(
-                        LeapQuestions[activeStep].map(
+                        leapQuestionsChunks[activeStep].map(
                           (question, index) => question.field
                         )
                       );

@@ -4,7 +4,7 @@ import React from 'react';
 import Charts from '@/components/chart/Charts';
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Evaluation, Leap } from '@/types/forms';
+import { Evaluation, Leap, leapQuestions } from '@/types/forms';
 import { User } from '@/types/users';
 
 const LeapResult = ({ user, evaluation, data } : {
@@ -13,54 +13,10 @@ const LeapResult = ({ user, evaluation, data } : {
   data: Leap
 }) => {
 
-  // Definindo os fatores e suas questões correspondentes
-  const factors = [
-    { index: 1, field: 'fear', factor: 'Fator 1' },
-    { index: 2, field: 'scared', factor: 'Fator 1' },
-    { index: 3, field: 'shame', factor: 'Fator 1' },
-    { index: 4, field: 'serious', factor: 'Fator 1' },
-    { index: 5, field: 'guilty', factor: 'Fator 1' },
-    { index: 6, field: 'sad', factor: 'Fator 1' },
-    { index: 7, field: 'humiliated', factor: 'Fator 1' },
-    { index: 8, field: 'take_pity_on', factor: 'Fator 1' },
-    { index: 9, field: 'surprised', factor: 'Fator 2' },
-    { index: 10, field: 'happy', factor: 'Fator 2' },
-    { index: 11, field: 'proud', factor: 'Fator 2' },
-    { index: 12, field: 'relieved', factor: 'Fator 2' },
-    { index: 13, field: 'hopeful', factor: 'Fator 2' },
-    { index: 14, field: 'interested', factor: 'Fator 2' },
-    { index: 15, field: 'calm', factor: 'Fator 2' },
-    { index: 16, field: 'funny', factor: 'Fator 2' },
-    { index: 17, field: 'admiration', factor: 'Fator 2' },
-    { index: 18, field: 'longing', factor: 'Fator 2' },
-    { index: 19, field: 'despise', factor: 'Fator 3' },
-    { index: 20, field: 'angry', factor: 'Fator 3' },
-    { index: 21, field: 'disgusting', factor: 'Fator 3' },
-    { index: 22, field: 'envy', factor: 'Fator 3' },
-    { index: 23, field: 'attracted', factor: 'Fator 4' },
-    { index: 24, field: 'fall_in_love', factor: 'Fator 4' },
-    { index: 25, field: 'jealous', factor: 'Fator 4' },
-    { index: 26, field: 'need', factor: 'Fator 5' },
-    { index: 27, field: 'thoughtful', factor: 'Fator 5' },
-    { index: 28, field: 'desire', factor: 'Fator 5' },
-    { index: 29, field: 'duty', factor: 'Fator 5' },
-    { index: 30, field: 'sleepy', factor: 'Fator 6' },
-    { index: 31, field: 'hungry', factor: 'Fator 6' },
-    { index: 32, field: 'thirst', factor: 'Fator 6' },
-    { index: 33, field: 'tired', factor: 'Fator 6' },
-    { index: 34, field: 'careful', factor: 'Fator 7' },
-    { index: 35, field: 'strange', factor: 'Fator 7' },
-    { index: 36, field: 'cold', factor: 'Fator 8' },
-    { index: 37, field: 'heat', factor: 'Fator 8' },
-    { index: 38, field: 'conformed', factor: 'Fator 9' },
-    { index: 39, field: 'accept', factor: 'Fator 9' },
-    { index: 40, field: 'satisfied', factor: 'Fator 9' }
-  ];
-
   // Função para calcular o valor de cada fator
   const calculateFactor = (factorName: string) => {
     // Filtra as questões correspondentes ao fator
-    const factorQuestions = factors.filter(factor => factor.factor === factorName);
+    const factorQuestions = leapQuestions.filter(factor => factor.factor === factorName);
     // Calcula a soma das respostas para as questões do fator
     const sum = factorQuestions.reduce((acc, factor) => {
       const response = data[factor.field as keyof Leap];
@@ -71,7 +27,7 @@ const LeapResult = ({ user, evaluation, data } : {
   };
 
   // Calculando os valores dos fatores
-  const uniqueFactors = [...new Set(factors.map(factor => factor.factor))];
+  const uniqueFactors = [...new Set(leapQuestions.map(factor => factor.factor))];
   const factorValues = uniqueFactors.map(factor => ({
     name: factor,
     value: calculateFactor(factor)
@@ -187,7 +143,7 @@ const LeapResult = ({ user, evaluation, data } : {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {factors.map((factor) => (
+            {leapQuestions.map((factor) => (
               <TableRow key={factor.index}>
                 <TableCell>{translateField(factor.field)}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
