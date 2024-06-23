@@ -48,53 +48,6 @@ const LeapResult = ({ user, evaluation, data } : {
     }
   };
 
-  // Função para traduzir os campos das questões para o português
-  const translateField = (field: string) => {
-    const translations: { [key: string]: string } = {
-      fear: "Estou com medo",
-      scared: "Estou assustado(a)",
-      shame: "Estou com vergonha",
-      serious: "Estou sem graça",
-      guilty: "Sinto-me culpado(a)",
-      sad: "Sinto-me triste",
-      humiliated: "Sinto-me humilhado(a)",
-      take_pity_on: "Tenho pena de alguém",
-      surprised: "Sinto-me surpreso(a)",
-      happy: "Estou alegre",
-      proud: "Sinto-me orgulhoso(a)",
-      relieved: "Estou aliviado(a)",
-      hopeful: "Estou com esperança",
-      interested: "Sinto-me interessado(a)",
-      calm: "Sinto-me calmo(a)",
-      funny: "Acho algo engraçado",
-      admiration: "Sinto uma admiração por alguém",
-      longing: "Sinto saudade de alguém",
-      despise: "Faço pouco caso de alguém",
-      angry: "Sinto raiva",
-      disgusting: "Estou com nojo",
-      envy: "Sinto inveja de alguém",
-      attracted: "Sinto atração sexual por alguém",
-      fall_in_love: "Estou gostando de alguém",
-      jealous: "Sinto ciúme de alguém",
-      need: "Sinto uma necessidade",
-      thoughtful: "Estou refletindo",
-      desire: "Sinto um desejo",
-      duty: "Sinto uma obrigação",
-      sleepy: "Estou com sono",
-      hungry: "Estou com fome",
-      thirst: "Estou com sede",
-      tired: "Estou cansado(a)",
-      careful: "Estou tomando cuidado",
-      strange: "Acho algo estranho",
-      cold: "Estou com frio",
-      heat: "Estou com calor",
-      conformed: "Estou conformado(a)",
-      accept: "Estou aceitando alguma coisa",
-      satisfied: "Estou cheio(a)"
-    };
-    return translations[field] || field;
-  };
-
   return (
     <div className="flex flex-col gap-8 p-8">
       <h1 className="font-bold text-4xl self-center">Resultado LEAP</h1>
@@ -105,7 +58,7 @@ const LeapResult = ({ user, evaluation, data } : {
         <p><b>E-mail:</b> {user.email}</p>
         <p><b>Telefone:</b> {user.phone}</p>
         <p><b>Avaliação:</b> {evaluation.identification}</p>
-        <p><b>Data da Avaliação:</b> {new Date(evaluation.date).toLocaleDateString()}</p>
+        <p><b>Data da Avaliação:</b> {evaluation.date.toString()}</p>
       </div>
       
       <Separator className="my-4" />
@@ -145,7 +98,7 @@ const LeapResult = ({ user, evaluation, data } : {
           <TableBody>
             {leapQuestions.map((factor) => (
               <TableRow key={factor.index}>
-                <TableCell>{translateField(factor.field)}</TableCell>
+                <TableCell>{factor.question}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
                   <TableCell
                     key={col}
