@@ -102,7 +102,7 @@ export const panasQuestions = [
     { index: 9, field: 'enthusiastic', question: 'Estou me sentindo ENTUSIASMADO(A).', type: 'positive' },
     { index: 10, field: 'proud', question: 'Estou me sentindo ORGULHOSO(A).', type: 'positive' },
     { index: 11, field: 'irritable', question: 'Estou me sentindo IRRITADO(A).', type: 'negative' },
-    { index: 12, field: 'alert', question: 'Estou me sentindo ALERTA.', type: 'negative' },
+    { index: 12, field: 'alert', question: 'Estou me sentindo ALERTA.', type: 'positive' },
     { index: 13, field: 'ashamed', question: 'Estou me sentindo ENVERGONHADO(A).', type: 'negative' },
     { index: 14, field: 'inspired', question: 'Estou me sentindo INSPIRADO(A).', type: 'positive' },
     { index: 15, field: 'nervous', question: 'Estou me sentindo NERVOSO(A).', type: 'negative' },
@@ -120,17 +120,30 @@ export interface Sam {
 }
 
 export interface Sus {
-    app_useFrequency: string,
-    app_useComplex: string,
-    app_useEasy: string,
-    app_useNeedHelp: string,
-    app_functionIntegration: string,
-    app_inconsistency: string,
-    app_learningCurve: string,
-    app_jumbled: string,
-    app_confidence: string,
-    app_learnSystem: string
+    use_frequency: string;
+    use_complex: string;
+    use_easy: string;
+    need_help: string;
+    function_integration: string;
+    inconsistency: string;
+    learning_curve: string;
+    jumbled: string;
+    confidence: string;
+    learn_system: string;
 }
+
+export const susQuestions = [
+    { index: 1, field: "use_frequency", label: "Eu acho que gostaria de usar esse sistema com frequência." },
+    { index: 2, field: "use_complex", label: "Eu acho o sistema desnecessariamente complexo." },
+    { index: 3, field: "use_easy", label: "Eu achei o sistema fácil de usar." },
+    { index: 4, field: "need_help", label: "Eu acho que precisaria de ajuda de uma pessoa com conhecimentos técnicos para usar o sistema." },
+    { index: 5, field: "function_integration", label: "Eu acho que as várias funções do sistema estão muito bem integradas." },
+    { index: 6, field: "inconsistency", label: "Eu acho que o sistema apresenta muita inconsistência." },
+    { index: 7, field: "learning_curve", label: "Eu imagino que as pessoas aprenderão como usar esse sistema rapidamente." },
+    { index: 8, field: "jumbled", label: "Eu achei o sistema atrapalhado de usar." },
+    { index: 9, field: "confidence", label: "Eu me senti confiante ao usar o sistema." },
+    { index: 10, field: "learn_system", label: "Eu precisei aprender várias coisas novas antes de conseguir usar o sistema." }
+];
 
 export interface Eaz {
     happy: string,
