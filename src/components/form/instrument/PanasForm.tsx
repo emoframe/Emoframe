@@ -47,7 +47,7 @@ const PanasFormSchema = z.object(
         })
       ])
     )
-  );
+);
   
 // Dividir panasQuestions em 2 partes
 const panasQuestionsChunks = chunk(panasQuestions, Math.ceil(panasQuestions.length / 2));
