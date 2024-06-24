@@ -114,22 +114,22 @@ const PanasResult = ({ user, evaluation, data }: {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Sentimento</TableHead>
-              <TableHead className="w-1/5">Nada ou muito ligeiramente</TableHead>
-              <TableHead className="w-1/5">Um pouco</TableHead>
-              <TableHead className="w-1/5">Moderadamente</TableHead>
-              <TableHead className="w-1/5">Bastante</TableHead>
-              <TableHead className="w-1/5">Extremamente</TableHead>
+              <TableHead className="w-1/6">Sentimento</TableHead>
+              <TableHead className="w-1/6">Nada ou muito ligeiramente</TableHead>
+              <TableHead className="w-1/6">Um pouco</TableHead>
+              <TableHead className="w-1/6">Moderadamente</TableHead>
+              <TableHead className="w-1/6">Bastante</TableHead>
+              <TableHead className="w-1/6">Extremamente</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {panasQuestions.map((item) => (
-              <TableRow key={item.index}>
+              <TableRow className="h-20" key={item.index}>
                 <TableCell className="text-white text-md border-white border-2" style={{ backgroundColor: (item.type == 'positive') ? '#4CAF50' : '#F44336' }}>{item.question}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
                   <TableCell
                     key={col}
-                    className="w-1/5 text-white text-center text-md"
+                    className="w-1/6 text-white text-center text-md"
                     style={{ backgroundColor: (parseInt(data[item.field]) === col) ? 'var(--primary)' : 'var(--primary-background)' }}
                   >
                     {(parseInt(data[item.field]) === col) ? col : ''}

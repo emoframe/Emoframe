@@ -87,22 +87,22 @@ const LeapResult = ({ user, evaluation, data } : {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Sentimento</TableHead>
-              <TableHead className="w-1/5">Nada ou muito ligeiramente</TableHead>
-              <TableHead className="w-1/5">Um pouco</TableHead>
-              <TableHead className="w-1/5">Moderadamente</TableHead>
-              <TableHead className="w-1/5">Bastante</TableHead>
-              <TableHead className="w-1/5">Extremamente</TableHead>
+              <TableHead className="w-1/6">Sentimento</TableHead>
+              <TableHead className="w-1/6">Nada ou muito ligeiramente</TableHead>
+              <TableHead className="w-1/6">Um pouco</TableHead>
+              <TableHead className="w-1/6">Moderadamente</TableHead>
+              <TableHead className="w-1/6">Bastante</TableHead>
+              <TableHead className="w-1/6">Extremamente</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {leapQuestions.map((factor) => (
-              <TableRow key={factor.index}>
+              <TableRow className="h-20" key={factor.index}>
                 <TableCell>{factor.question}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
                   <TableCell
                     key={col}
-                    className="w-1/5 text-white text-center text-md"
+                    className="w-1/6 text-white text-center text-md"
                     style={{ backgroundColor: (parseInt(data[factor.field]) === col) ? 'var(--primary)' : 'var(--primary-background)' }}
                   >
                     {(parseInt(data[factor.field]) === col) ? col : ''}
