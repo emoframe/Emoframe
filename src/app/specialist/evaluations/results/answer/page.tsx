@@ -3,10 +3,11 @@
 import useUser from '@/components/hooks/useUser';
 import LeapResult from '@/components/result/LeapResult';
 import PanasResult from '@/components/result/PanasResult';
+import SusResult from '@/components/result/SusResult';
 import { useToast } from '@/components/ui/use-toast';
 import { appRedirect, getSessionUser } from '@/lib/actions';
 import { getById } from '@/lib/firebase';
-import { Answer, Evaluation, Leap, Panas } from '@/types/forms';
+import { Answer, Evaluation, Leap, Panas, Sus } from '@/types/forms';
 import { User } from '@/types/users';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState, useTransition } from 'react';
@@ -24,6 +25,8 @@ const RenderComponent = ({ user, evaluation, data }: RenderComponentProps) => {
       return <PanasResult user={user} evaluation={evaluation} data={data as Panas} />;
     case 'leap':
       return <LeapResult user={user} evaluation={evaluation} data={data as Leap} />;
+    case 'sus':
+      return <SusResult user={user} evaluation={evaluation} data={data as Sus} />;
     default:
       return (
         <>
