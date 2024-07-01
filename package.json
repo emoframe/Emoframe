@@ -48,6 +48,7 @@
     "firebase": "^10.7.1",
     "framer-motion": "^10.17.11",
     "lucide-react": "^0.307.0",
+    "mathjs": "^13.0.0",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",

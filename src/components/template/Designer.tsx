@@ -35,9 +35,8 @@ const Designer = ({ uid }: { uid: string }) => {
       // Primeiro cenário
       if (droppingSidebarButtonOverDesignerDropArea) {
         let newElement;
-
         if (type === "OptionsField") {
-          const data = await getById(uid, "template"); // Assumindo que isso retorna { type: 'likert', questions_size: 5 }
+          const data = await getById(uid, "template");
           newElement = TemplateElements[type].construct(idGenerator(), {
             scaleType: data.scale_type,
             questionsSize: data.questions_size,
@@ -72,7 +71,7 @@ const Designer = ({ uid }: { uid: string }) => {
           const data = await getById(uid, "template"); 
           newElement = TemplateElements[type].construct(idGenerator(), {
             scaleType: data.scale_type,
-            optionCount: data.questions_size,
+            questionsSize: data.questions_size,
           });
         } else {
           newElement = TemplateElements[type].construct(idGenerator());

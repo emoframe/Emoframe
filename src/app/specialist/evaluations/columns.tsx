@@ -12,7 +12,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import { Evaluation, instruments } from "@/types/forms";
-import { setSelectedEvaluationUsers } from "@/lib/actions";
+import ResultsButton from "@/components/ResultsButton";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -34,8 +34,6 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   // Provide an alphanumeric fallback for when the item ranks are equal
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
 }
-
-
 
 export const columns: ColumnDef<Evaluation>[] = [
   {
@@ -151,11 +149,16 @@ export const columns: ColumnDef<Evaluation>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={async () => await setSelectedEvaluationUsers(evaluation)}
-              >
-                Ver usuários
+
+            <ResultsButton
+              evaluation={evaluation}
+              successPath="/specialist/evaluations/results"
+            >
+              <DropdownMenuItem>
+                Ver resultados
               </DropdownMenuItem>
+            </ResultsButton>
+
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(evaluation.uid!.toString());

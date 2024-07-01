@@ -20,8 +20,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useStepper } from "@/components/ui/hooks/use-stepper";
 import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { randomizeArray } from '@/lib/utils';
-import { FillEvaluationForm } from '@/types/forms';
+import { chunk, randomizeArray } from '@/lib/utils';
+import { FillEvaluationForm, panasQuestions } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -36,97 +36,50 @@ const DefaultProps: RadioItem[] = [
     {value: '3', label: '3 (Moderadamente)'},
     {value: '4', label: '4 (Bastante)'},
     {value: '5', label: '5 (Extremamente)'},
-]
-
-const steps: StepConfig[] = [
-    {label: 'Passo 1'},
-    {label: 'Passo 2'},
-] 
-
-interface PanasQuestionsProps {
-    field: "repulsion" | "tormented" | "scared" | "hearty" | 
-    "excited" | "guilty" | "enthusiastic" | "pleasantly_surprised" | 
-    "disturbed" | "trembling" | "active" | "proud" | "inspired" | "nervous" | 
-    "angry" | "determined" | "charmed" | "remorse" | "frightened" | "interested",
-    question: string,
-}
-
-const PanasQuestions: PanasQuestionsProps[][] = [
-    [
-        {field: "repulsion", question: "Estou me sentindo REPULSO(A)."},
-        {field: "tormented", question: "Estou me sentindo ATORMENTADO(A)."},
-        {field: "scared", question: "Estou me sentindo ASSUSTADO(A)."},
-        {field: "hearty", question: "Estou me sentindo CALOROSO(A)."},
-        {field: "excited", question: "Estou me sentindo EXCITADO(A)."},
-        {field: "guilty", question: "Estou me sentindo CULPADO(A)."},
-        {field: "enthusiastic", question: "Estou me sentindo ENTUSIASMADO(A)."},
-        {field: "pleasantly_surprised", question: "Estou me sentindo AGRADAVELMENTE SURPREENDIDO(A)."},
-        {field: "disturbed", question: "Estou me sentindo PERTURBADO(A)."},
-        {field: "trembling", question: "Estou me sentindo TRÊMULO(A)."},
-    ],
-    [
-        {field: "active", question: "Estou me sentindo ATIVO(A)."},
-        {field: "proud", question: "Estou me sentindo ORGULHOSO(A)."},
-        {field: "inspired", question: "Estou me sentindo INSPIRADO(A)."},
-        {field: "nervous", question: "Estou me sentindo NERVOSO(A)."},
-        {field: "angry", question: "Estou me sentindo IRRITADO(A)."},
-        {field: "determined", question: "Estou me sentindo DETERMINADO(A)."},
-        {field: "charmed", question: "Estou me sentindo ENCANTADO(A)."},
-        {field: "remorse", question: "Estou sentindo REMORSO."},
-        {field: "frightened", question: "Estou me sentindo AMEDRONTADO(A)."},
-        {field: "interested", question: "Estou me sentindo INTERESSADO(A)."},
-    ]
 ];
 
-const PanasFormSchema = z.object({
-    repulsion: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    tormented: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    scared: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    hearty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    excited: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    guilty: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    enthusiastic: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    pleasantly_surprised: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    disturbed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    trembling: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    active: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    proud: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    inspired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    nervous: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    angry: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    determined: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    charmed: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    remorse: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    frightened: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-    interested: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-})
+const PanasFormSchema = z.object(
+    Object.fromEntries(
+      panasQuestions.map(item => [
+        item.field,
+        z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {
+          errorMap: (issue, ctx) => ({ message: "Escolha uma opção" })
+        })
+      ])
+    )
+);
+  
+// Dividir panasQuestions em 2 partes
+const panasQuestionsChunks = chunk(panasQuestions, Math.ceil(panasQuestions.length / 2));
 
+// Gerar steps com 2 partes
+const steps: StepConfig[] = panasQuestionsChunks.map((_, index) => ({ label: `Passo ${index + 1}` }));
 
 const PanasForm = (params: FillEvaluationForm) => {
     const FormSchema = !("isViewable" in params) ? PanasFormSchema : z.object({}); 
     const form = useForm<z.infer<typeof PanasFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            repulsion: '',
-            tormented: '',
-            scared: '',
-            hearty: '',
+            interested: '',
+            distressed: '',
             excited: '',
+            upset: '',
+            strong: '',
             guilty: '',
+            scared: '',
+            hostile: '',
             enthusiastic: '',
-            pleasantly_surprised: '',
-            disturbed: '',
-            trembling: '',
-            active: '',
             proud: '',
+            irritable: '',
+            alert: '',
+            ashamed: '',
             inspired: '',
             nervous: '',
-            angry: '',
             determined: '',
-            charmed: '',
-            remorse: '',
-            frightened: '',
-            interested: '',
+            attentive: '',
+            jittery: '',
+            active: '',
+            afraid: ''
         }
     });
 
@@ -147,8 +100,7 @@ const PanasForm = (params: FillEvaluationForm) => {
     const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
-        PanasQuestions.forEach((questions) => (randomizeArray(questions)))
-        console.log(PanasQuestions[0])
+        panasQuestionsChunks.forEach((questions) => (randomizeArray(questions)))
         setIsReady(true);
     }, []);
 
@@ -178,7 +130,7 @@ const PanasForm = (params: FillEvaluationForm) => {
                     <Form key={activeStep} {...form}>
                         <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)}>
                             {
-                                PanasQuestions[activeStep].map((question, index) => (
+                                panasQuestionsChunks[activeStep].map((question, index) => (
                                     <>
                                         <FormField key={"formField" + index}
                                         control={form.control}
@@ -221,14 +173,14 @@ const PanasForm = (params: FillEvaluationForm) => {
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    PanasQuestions[activeStep].map((question, index) => (form.setValue(question.field, '')));
+                                    panasQuestionsChunks[activeStep].map((question, index) => (form.setValue(question.field, '')));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                 }}>Limpar</Button>
 
                                 { 
                                     (activeStep != 1) ?
                                         <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
-                                            const values = form.getValues(PanasQuestions[activeStep].map((question, index) => (question.field)));
+                                            const values = form.getValues(panasQuestionsChunks[activeStep].map((question, index) => (question.field)));
                                             const hasNull = !("isViewable" in params) ? Object.values(values).some((value) => value === "") : false;
 
                                             if (hasNull) {

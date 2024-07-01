@@ -26,16 +26,10 @@ import {
   rankItem,
 } from '@tanstack/match-sorter-utils'
 
-import React from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DataTableProps } from "@/types/forms";
+import { DataTableProps, Evaluation } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -59,15 +53,15 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed
 }
 
-export function EvaluationsDetailsDataTable<TData, TValue>({
+export function EvaluationsAnswersDataTable<TData, TValue>({
   columns,
-  data,
+  data
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = React.useState([]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const table = useReactTable({
     data,
@@ -95,9 +89,11 @@ export function EvaluationsDetailsDataTable<TData, TValue>({
     },
   });
 
+  const classNames = ["w-4", "w-1/2", "w-1/2"] //Classname para 
+
   return (
-    <div>
-      <div className="flex items-center pb-4 gap-4">
+    <div className="flex flex-col h-full">
+      <div className="flex pb-4 gap-4 w-full">
         {/* input */}
         <Input
           placeholder="Pesquise qualquer campo"
@@ -105,20 +101,20 @@ export function EvaluationsDetailsDataTable<TData, TValue>({
           onChange={(e) => {
            setGlobalFilter(e.target.value);
           }}
-          className="max-w-sm"
+          className="max-w-full"
         />
       </div>
 
       {/* table */}
-      <div className="rounded-md border">
+      <div className="flex flex-col rounded-md border h-full">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => {
               return (
                 <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
+                  {headerGroup.headers.map((header, index) => {
                     return (
-                      <TableHead key={header.id}>
+                      <TableHead key={header.id} className={classNames[index]}>
                         {flexRender(
                           header.column.columnDef.header,
                           header.getContext()
@@ -184,4 +180,4 @@ export function EvaluationsDetailsDataTable<TData, TValue>({
   );
 }
 
-export default EvaluationsDetailsDataTable;
+export default EvaluationsAnswersDataTable;

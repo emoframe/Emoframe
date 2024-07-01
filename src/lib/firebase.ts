@@ -3,7 +3,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
-import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers } from "@/types/forms";
+import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap } from "@/types/forms";
 import { Filter } from "@/types/firebase";
 import { chunk, getValuable } from "@/lib/utils";
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
@@ -51,7 +51,7 @@ export async function createUser (data : User | Specialist, specialistId?: strin
     });
 } 
 
-export async function saveAnswer (data: Panas | Sam | Sus | Eaz | Brums | Gds | TemplateAnswers, EvaluationId: string, UserId: string) : Promise<any> {
+export async function saveAnswer (data: Panas | Sam | Sus | Eaz | Brums | Gds | Leap | TemplateAnswers, EvaluationId: string, UserId: string) : Promise<any> {
   const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
   const docRef2 = doc(db, "evaluation", EvaluationId);
   const answer: any = {
@@ -139,7 +139,6 @@ export async function getById (
       });
     }
 
-    console.log("Documents has been got sucessfully!", res);
     return typeof id === "string" ? res[0] : res;
 
   } catch(error) {
@@ -210,7 +209,6 @@ export async function getSubsById (col: string, id: string, doc: string) : Promi
         res.push(newObj);
     });
 
-    console.log("Documents has been got sucessfully!", res);
     return res;
 
   } catch(error) {

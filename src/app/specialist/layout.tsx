@@ -8,7 +8,7 @@ interface SpecialistLayoutProps {
 const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
 
   const defaultLayout = (
-    <div className='flex flex-col bg-primary-background p-5 mx-[100px] rounded-md'>{children}</div>
+    <div className='flex flex-col bg-primary-background p-4 m-16 rounded-md'>{children}</div>
   );
 
   const specialLayout = (
