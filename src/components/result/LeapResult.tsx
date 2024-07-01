@@ -74,6 +74,34 @@ const LeapResult = ({ user, evaluation, data } : {
       <Separator className="my-4" />
 
       <div className="flex flex-col gap-4">
+        <h2 className="text-2xl font-bold">Nível de Presença</h2>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-1/2 text-lg font-bold border-r-2">Nível de Presença</TableHead>
+              <TableHead className="w-1/2 text-lg font-bold">Valor de Referência</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="text-md border-r-2">Baixo</TableCell>
+              <TableCell className="text-md">Entre 0 e 0,3</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-md border-r-2">Médio</TableCell>
+              <TableCell className="text-md">Entre 0,3 e 0,7</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-md border-r-2">Alto</TableCell>
+              <TableCell className="text-md">Acima de 0,7</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </div>
+
+      <Separator className="my-4" />
+
+      <div className="flex flex-col gap-4">
         <h2 className="text-2xl font-bold">Informações de Pontuação e Interpretação</h2>
         <p className="text-justify">
           A pontuação do LEAP é calculada com base em fatores específicos, cada um representando diferentes aspectos das emoções e sentimentos dos respondentes. Cada fator é calculado como a média das respostas para as questões correspondentes, normalizada para um valor entre 0 e 1.
