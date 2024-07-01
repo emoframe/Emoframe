@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Evaluation, Sus, susQuestions } from '@/types/forms';
 import { User } from '@/types/users';
+import { boldify } from '@/lib/utils';
 
 const SusResult = ({ user, evaluation, data }: {
   user: User,
@@ -30,18 +31,25 @@ const SusResult = ({ user, evaluation, data }: {
   // Calcular a pontuação do SUS
   const susScore = calculateSusScore(data);
 
-  // Dados para o gráfico de barras
+  // Dados para o gráfico de linha
   const chartData = [
-    ['Tipo de Avaliação', 'Pontuação', { role: 'style' }],
-    ['Pontuação SUS', susScore, '#4CAF50']
+    ['Questão', 'Variação', { role: 'tooltip'}],
+    ...susQuestions.map((q, index) => [
+      `Q${index + 1}`, 
+      parseInt(data[q.field as keyof Sus]), 
+      `${boldify(q.label)}\n${boldify('Valor:')} ${data[q.field as keyof Sus]}`
+    ])
   ];
 
-  // Configurações do gráfico
+  // Configurações do gráfico de linha
   const chartOptions = {
     legend: { position: 'none' },
-    hAxis: {
-      minValue: 0,
-      maxValue: 100 // Pontuação SUS vai de 0 a 100
+    hAxis: { title: 'Questões', titleTextStyle: { color: '#333' } },
+    vAxis: { minValue: 1, maxValue: 5 },
+    chartArea: { width: '80%', height: '70%' },
+    tooltip: { isHtml: false },
+    series: {
+      0: { color: '#6EA05A' } // Cor da linha do gráfico
     }
   };
 
@@ -62,8 +70,13 @@ const SusResult = ({ user, evaluation, data }: {
 
       <div className="flex flex-col gap-4">
         <h2 className="text-2xl font-bold">Resultados</h2>
-        <p className="text-justify"><b>Pontuação SUS:</b> {susScore}</p>
-        <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} options={chartOptions} />
+        <p className="text-center mt-4">
+          <span className="bg-primary text-white py-2 px-4 rounded text-2xl font-bold">
+          Pontuação: {susScore}
+          </span>
+        </p>
+
+        <Charts chartType="LineChart" width="100%" height="400px" data={chartData} options={chartOptions} />
       </div>
 
       <Separator className="my-4" />
@@ -82,6 +95,42 @@ const SusResult = ({ user, evaluation, data }: {
           </ul>
           A pontuação média do SUS é 68.
         </p>
+      </div>
+
+      <Separator className="my-4" />
+
+      <div className="flex flex-col gap-4">
+        <h2 className="text-2xl font-bold">Interpretação da Pontuação SUS</h2>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-1/2 text-lg font-bold border-r-2">Pontuação</TableHead>
+              <TableHead className="w-1/2 text-lg font-bold">Interpretação</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell className="text-md border-r-2">Menor que 60</TableCell>
+              <TableCell className="text-md">Inaceitável</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-md border-r-2">60-70</TableCell>
+              <TableCell className="text-md">Ok</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-md border-r-2">70-80</TableCell>
+              <TableCell className="text-md">Bom</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-md border-r-2">80-90</TableCell>
+              <TableCell className="text-md">Excelente</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="text-md border-r-2">Maior que 90</TableCell>
+              <TableCell className="text-md">Melhor usabilidade possível</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </div>
 
       <Separator className="my-4" />
