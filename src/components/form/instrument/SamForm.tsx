@@ -14,72 +14,24 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { saveAnswer } from '@/lib/firebase'; 
 import { Button } from '@/components/ui/button';
-import { ImageCard } from '@/components/ui/image'; 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-import { FillEvaluationForm } from '@/types/forms';
+import { FillEvaluationForm, samQuestions } from '@/types/forms';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/components/ui/use-toast';
 
-interface Sam {
-  name: "satisfaction" | "motivation" | "willpower";
-  label: string;
-}
-
-const SamQuestions: Sam[] = [
-  { name: "satisfaction", label: "Satisfação"},
-  { name: "motivation", label: "Motivação"},
-  { name: "willpower", label: "Sentimento de Controle"},
-];
-
-interface RadioItem {
-  value: string;
-  label: React.JSX.Element;
-} 
-
-const QuestionOptions: RadioItem[][] = [[
-    { value: '1', label: <ImageCard src={"/emojis/Like.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '2', label: <div className={"m-10"}></div> },
-    { value: '3', label: <ImageCard src={"/emojis/Sorriso.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '4', label: <div className={"m-10"}></div>},
-    { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '6', label: <div className={"m-10"}></div>},
-    { value: '7', label: <ImageCard src={"/emojis/Triste.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '8', label: <div className={"m-10"}></div>},
-    { value: '9', label: <ImageCard src={"/emojis/Deslike.png"} alt={"Emoji"} height={100} width={100} />},
-  ],
-  [
-    { value: '1', label: <ImageCard src={"/emojis/Criativo.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '2', label: <div className={"m-10"}></div> },
-    { value: '3', label: <ImageCard src={"/emojis/Radiante.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '4', label: <div className={"m-10"}></div>},
-    { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '6', label: <div className={"m-10"}></div>},
-    { value: '7', label: <ImageCard src={"/emojis/Entediado.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '8', label: <div className={"m-10"}></div>},
-    { value: '9', label: <ImageCard src={"/emojis/Sono.png"} alt={"Emoji"} height={100} width={100} />},
-  ],
-  [
-    { value: '9', label: <ImageCard src={"/emojis/Inteligente.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '8', label: <div className={"m-10"}></div>},
-    { value: '7', label: <ImageCard src={"/emojis/Sorriso.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '6', label: <div className={"m-10"}></div>},
-    { value: '5', label: <ImageCard src={"/emojis/Neutro.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '4', label: <div className={"m-10"}></div>},
-    { value: '3', label: <ImageCard src={"/emojis/Confuso.png"} alt={"Emoji"} height={100} width={100} />},
-    { value: '2', label: <div className={"m-10"}></div> },
-    { value: '1', label: <ImageCard src={"/emojis/Frustrado.png"} alt={"Emoji"} height={100} width={100} />},
-  ]
-];
-
-
-const SamFormSchema = z.object({
-  satisfaction: z.enum([QuestionOptions[0][0].value, ...QuestionOptions[0].slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  motivation: z.enum([QuestionOptions[1][0].value, ...QuestionOptions[1].slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-  willpower: z.enum([QuestionOptions[2][0].value, ...QuestionOptions[2].slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
-});
+const SamFormSchema = z.object(
+  Object.fromEntries(
+    samQuestions.map(item => [
+      item.field,
+      z.enum([item.options[0].value, ...item.options.slice(1).map(opt => opt.value)], {
+        errorMap: (issue, ctx) => ({ message: "Escolha uma opção" })
+      })
+    ])
+  )
+);
 
 const SamForm = (params: FillEvaluationForm) => {
   const FormSchema = !("isViewable" in params) ? SamFormSchema : z.object({}) ; 
@@ -113,12 +65,12 @@ const SamForm = (params: FillEvaluationForm) => {
           <h1 className="font-bold text-4xl self-center">SAM</h1>
           <Separator/>
           {
-            SamQuestions.map((question, index) => (
+            samQuestions.map((question) => (
               <>
                 <FormField 
-                key={index}
+                key={question.index}
                 control={form.control} 
-                name={question.name}
+                name={question.field}
                 render={({ field }) => (
                   <FormItem className="space-x-5 content-center">
                     <p className="text-xl mb-8"><b>{question.label}</b></p>
@@ -129,7 +81,7 @@ const SamForm = (params: FillEvaluationForm) => {
                       value={field.value}
                       className="flex flex-row space-x-1">
                         {
-                        QuestionOptions[index].map((option, index) => (
+                        question.options.map((option, index) => (
                           <FormItem className="flex flex-col items-center space-x-3 space-y-0" key={index}>
                               <FormControl>
                                 <RadioGroupItem value={option.value} />

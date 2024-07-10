@@ -1,5 +1,7 @@
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
 import { ColumnDef } from "@tanstack/react-table";
+import { ImageCard } from '@/components/ui/image'; 
+import { ReactElement } from "react";
 
 export type Instruments = {
     value: Lowercase<string>;
@@ -118,6 +120,60 @@ export interface Sam {
     motivation: string;
     willpower: string;
 }
+
+// Função para criar componentes ImageCard
+const createImageCard = (src: string, alt: string): ReactElement<typeof ImageCard> => <ImageCard src={src} alt={alt} height={100} width={100} />;
+
+export const samQuestions = [
+  {
+    index: 1,
+    field: "satisfaction",
+    label: "Satisfação",
+    options: [
+      { value: '1', label: createImageCard("/emojis/Like.png", "Emoji") },
+      { value: '2', label: <div className={"m-10"}></div> },
+      { value: '3', label: createImageCard("/emojis/Sorriso.png", "Emoji") },
+      { value: '4', label: <div className={"m-10"}></div> },
+      { value: '5', label: createImageCard("/emojis/Neutro.png", "Emoji") },
+      { value: '6', label: <div className={"m-10"}></div> },
+      { value: '7', label: createImageCard("/emojis/Triste.png", "Emoji") },
+      { value: '8', label: <div className={"m-10"}></div> },
+      { value: '9', label: createImageCard("/emojis/Deslike.png", "Emoji") },
+    ]
+  },
+  {
+    index: 2,
+    field: "motivation",
+    label: "Motivação",
+    options: [
+      { value: '1', label: createImageCard("/emojis/Criativo.png", "Emoji") },
+      { value: '2', label: <div className={"m-10"}></div> },
+      { value: '3', label: createImageCard("/emojis/Radiante.png", "Emoji") },
+      { value: '4', label: <div className={"m-10"}></div> },
+      { value: '5', label: createImageCard("/emojis/Neutro.png", "Emoji") },
+      { value: '6', label: <div className={"m-10"}></div> },
+      { value: '7', label: createImageCard("/emojis/Entediado.png", "Emoji") },
+      { value: '8', label: <div className={"m-10"}></div> },
+      { value: '9', label: createImageCard("/emojis/Sono.png", "Emoji") },
+    ]
+  },
+  {
+    index: 3,
+    field: "willpower",
+    label: "Sentimento de Controle",
+    options: [
+      { value: '9', label: createImageCard("/emojis/Inteligente.png", "Emoji") },
+      { value: '8', label: <div className={"m-10"}></div> },
+      { value: '7', label: createImageCard("/emojis/Sorriso.png", "Emoji") },
+      { value: '6', label: <div className={"m-10"}></div> },
+      { value: '5', label: createImageCard("/emojis/Neutro.png", "Emoji") },
+      { value: '4', label: <div className={"m-10"}></div> },
+      { value: '3', label: createImageCard("/emojis/Confuso.png", "Emoji") },
+      { value: '2', label: <div className={"m-10"}></div> },
+      { value: '1', label: createImageCard("/emojis/Frustrado.png", "Emoji") },
+    ]
+  }
+];
 
 export interface Sus {
     use_frequency: string;
