@@ -213,6 +213,24 @@ export interface Gds {
     unlucky: string,
 }
 
+export const gdsQuestions = [
+    { index: 1, field: "satisfied", score: "Negative", question: "Está satisfeito (a) com a sua vida?" },
+    { index: 2, field: "no_activities", score: "Affirmative", question: "Interrompeu muitas de suas atividades?" },
+    { index: 3, field: "empty", score: "Affirmative", question: "Acha sua vida vazia?" },
+    { index: 4, field: "upset", score: "Affirmative", question: "Aborrece-se com frequência?" },
+    { index: 5, field: "good", score: "Negative", question: "Sente-se bem com a vida na maior parte do tempo?" },
+    { index: 6, field: "bad", score: "Affirmative", question: "Teme que algo ruim lhe aconteça?" },
+    { index: 7, field: "happy", score: "Negative", question: "Sente-se alegre a maior parte do tempo?" },
+    { index: 8, field: "helpless", score: "Affirmative", question: "Sente-se desamparado com frequência?" },
+    { index: 9, field: "stay_at_home", score: "Affirmative", question: "Prefere ficar em casa a sair e fazer coisas novas?" },
+    { index: 10, field: "problems_of_memory", score: "Affirmative", question: "Acha que tem mais problemas de memória que as outras pessoas?" },
+    { index: 11, field: "wonderful_to_stay_alive", score: "Negative", question: "Acha que é maravilhoso estar vivo (a)?" },
+    { index: 12, field: "useless", score: "Affirmative", question: "Sente-se inútil?" },
+    { index: 13, field: "full_of_energy", score: "Negative", question: "Sente-se cheio (a) de energia?" },
+    { index: 14, field: "hopeless", score: "Affirmative", question: "Sente-se sem esperança?" },
+    { index: 15, field: "unlucky", score: "Affirmative", question: "Acha que os outros têm mais sorte que você?" }
+];
+
 export interface Leap {
     admiration: string,
     relieved: string,

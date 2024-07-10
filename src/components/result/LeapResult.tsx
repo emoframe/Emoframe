@@ -111,7 +111,7 @@ const LeapResult = ({ user, evaluation, data } : {
       <Separator className="my-4" />
 
       <div className="flex flex-col gap-4">
-        <h2 className="text-2xl font-bold">Respostas do Cliente</h2>
+        <h2 className="text-2xl font-bold">Respostas do Usuário</h2>
         <Table>
           <TableHeader>
             <TableRow>
