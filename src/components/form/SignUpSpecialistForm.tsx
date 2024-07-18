@@ -20,11 +20,7 @@ import Link from 'next/link';
 import { formatPhone } from '@/lib/utils';
 import { createUser } from '@/lib/firebase';
 import { Specialist } from '@/types/users';
-
-interface RadioItem {
-  value: string;
-  label: string;
-}
+import { RadioItem } from '@/types/forms';
 
 const SpecialtyProps: RadioItem[] = [
   { value: "Gerontologia", label: "Gerontologia" },
@@ -134,181 +130,159 @@ const SignUpForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className='flex sm:flex-col lg:flex-row flex-wrap justify-center gap-6'>
-          <div className='flex-col gap-x-2'>
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome</FormLabel>
-                  <FormControl>
-                    <Input placeholder='José' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='surname'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sobrenome</FormLabel>
-                  <FormControl>
-                    <Input placeholder='da Silva' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='social_name'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome Social</FormLabel>
-                  <FormControl>
-                    <Input placeholder='José da Silva' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+        <p className="font-bold text-xl self-center mb-4">Cadastro</p>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6'>
+          <FormField
+            control={form.control}
+            name='name'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome</FormLabel>
+                <FormControl>
+                  <Input placeholder='José' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='surname'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sobrenome</FormLabel>
+                <FormControl>
+                  <Input placeholder='da Silva' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className='flex-col gap-x-2'>  
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder='mail@example.com' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='phone'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Telefone</FormLabel>
-                  <FormControl>
-                    <Input 
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder='mail@example.com' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='phone'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Telefone</FormLabel>
+                <FormControl>
+                  <Input 
                     placeholder='(99) 99999-9999' 
                     {...field} 
                     onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                       field.onChange(formatPhone(e.target.value as string))
                     }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='connection'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Vínculo</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Universidade de São Paulo' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          
-          <div className='flex gap-x-4'>
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Gênero</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    > 
-                      {GenderProps.map((specialty, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={specialty.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {specialty.label}
-                            </FormLabel>
-                          </FormItem>
-                      )})}
-              
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> 
-          </div>   
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className='flex-col gap-x-2'>
-            <FormField
-              control={form.control}
-              name='specialty'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Especialidade</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Computação' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name='connection'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Vínculo</FormLabel>
+                <FormControl>
+                  <Input placeholder='Universidade de São Paulo' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='specialty'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Especialidade</FormLabel>
+                <FormControl>
+                  <Input placeholder='Computação' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <Input
-                      type='password'
-                      placeholder='Insira sua senha'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='confirm_password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirme sua senha</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='Confirme sua senha'
-                      type='password'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem className="col-span-2 space-y-3">
+                <FormLabel>Gênero</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  > 
+                    {GenderProps.map((specialty, index) => {
+                      return (
+                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                          <FormControl>
+                            <RadioGroupItem value={specialty.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {specialty.label}
+                          </FormLabel>
+                        </FormItem>
+                    )})}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          /> 
+
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Senha</FormLabel>
+                <FormControl>
+                  <Input
+                    type='password'
+                    placeholder='Insira sua senha'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='confirm_password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirme sua senha</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder='Confirme sua senha'
+                    type='password'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <Button className='w-full mt-6' type='submit'>
           Registre-se

@@ -189,323 +189,293 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
+        <p className="font-bold text-xl self-center mb-4">Cadastro de Usuário</p>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6'>
+          <FormField
+            control={form.control}
+            name='name'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nome</FormLabel>
+                <FormControl>
+                  <Input placeholder='José' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <div className='flex flex-col flex-wrap justify-center gap-6'>
+          <FormField
+            control={form.control}
+            name='surname'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Sobrenome</FormLabel>
+                <FormControl>
+                  <Input placeholder='da Silva' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className='flex flex-col md:flex-row flex-wrap justify-between gap-6'>
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder='mail@example.com' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <div className='flex-col flex-1'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome</FormLabel>
-                    <FormControl>
-                      <Input placeholder='José' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='surname'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Sobrenome</FormLabel>
-                    <FormControl>
-                      <Input placeholder='da Silva' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='social_name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome Social</FormLabel>
-                    <FormControl>
-                      <Input placeholder='José da Silva' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='birthday'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Data de aniversário</FormLabel>
-                    <FormControl>
-                      <DatePicker onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}>
-                        <DateField />
-                      </DatePicker>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          <FormField
+            control={form.control}
+            name='phone'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Telefone</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder='(99) 99999-9999'
+                    {...field}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                      field.onChange(formatPhone(e.target.value as string))
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <div className='flex-col flex-1'>
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder='mail@example.com' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='phone'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Telefone</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='(99) 99999-9999'
-                        {...field}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-                          field.onChange(formatPhone(e.target.value as string))
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='address'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Endereço</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Rua...' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+          <FormField
+            control={form.control}
+            name='address'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Endereço</FormLabel>
+                <FormControl>
+                  <Input placeholder='Rua...' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          </div>
+          <FormField
+            control={form.control}
+            name='birthday'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Data de aniversário</FormLabel>
+                <FormControl>
+                  <DatePicker
+                    onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}
+                    value={parseDate(field.value.toISOString().split('T')[0])}
+                  >
+                    <DateField />
+                  </DatePicker>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className='flex gap-x-4 items-center justify-between'>
-            <FormField
-              control={form.control}
-              name="individual_income"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Renda Individual Mensal</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      {IndividualIncomeProps.map((individual, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={individual.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {individual.label}
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      })}
+          <FormField
+            control={form.control}
+            name="individual_income"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Renda Individual Mensal</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {IndividualIncomeProps.map((individual, index) => {
+                      return (
+                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                          <FormControl>
+                            <RadioGroupItem value={individual.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {individual.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    })}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="family_income"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Renda Familiar Mensal</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {FamilyIncomeProps.map((family, index) => {
+                      return (
+                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                          <FormControl>
+                            <RadioGroupItem value={family.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {family.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    })}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="family_income"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Renda Familiar Mensal</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      {FamilyIncomeProps.map((family, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={family.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {family.label}
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      })}
+          <FormField
+            control={form.control}
+            name="race"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Raça autodeclarada</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {RaceProps.map((race, index) => {
+                      return (
+                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                          <FormControl>
+                            <RadioGroupItem value={race.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {race.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    })}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Gênero</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {GenderProps.map((specialty, index) => {
+                      return (
+                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                          <FormControl>
+                            <RadioGroupItem value={specialty.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {specialty.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    })}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className='flex gap-x-4 items-start justify-between'>
-            <FormField
-              control={form.control}
-              name="schooling"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Escolaridade</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      {SchoolingProps.map((schooling, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={schooling.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {schooling.label}
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      })}
+          <FormField
+            control={form.control}
+            name="schooling"
+            render={({ field }) => (
+              <FormItem className="col-span-2 space-y-3">
+                <FormLabel>Escolaridade</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {SchoolingProps.map((schooling, index) => {
+                      return (
+                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
+                          <FormControl>
+                            <RadioGroupItem value={schooling.value} />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {schooling.label}
+                          </FormLabel>
+                        </FormItem>
+                      )
+                    })}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Senha</FormLabel>
+                <FormControl>
+                  <Input
+                    type='password'
+                    placeholder='Insira sua senha'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="race"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Raça autodeclarada</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      {RaceProps.map((race, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={race.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {race.label}
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      })}
-
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="gender"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Gênero</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      {GenderProps.map((specialty, index) => {
-                        return (
-                          <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                            <FormControl>
-                              <RadioGroupItem value={specialty.value} />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                              {specialty.label}
-                            </FormLabel>
-                          </FormItem>
-                        )
-                      })}
-
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className='flex lg:flex-row sm:flex-col flex-wrap justify-between gap-x-6'>
-            <div className='flex-1'>
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Senha</FormLabel>
-                    <FormControl>
-                      <Input
-                        className='flex-1'
-                        type='password'
-                        placeholder='Insira sua senha'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className='flex-1'>
-              <FormField
-                control={form.control}
-                name='confirm_password'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirme sua senha</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='Confirme sua senha'
-                        type='password'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
+          <FormField
+            control={form.control}
+            name='confirm_password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirme sua senha</FormLabel>
+                <FormControl>
+                  <Input
+                    type='password'
+                    placeholder='Confirme sua senha'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
         </div>
         <Button className='w-full mt-6' type='submit'>
