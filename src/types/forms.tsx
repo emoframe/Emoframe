@@ -2,6 +2,7 @@ import { TemplateElementInstance } from "@/components/template/TemplateElements"
 import { ColumnDef } from "@tanstack/react-table";
 import { ImageCard } from '@/components/ui/image'; 
 import { ReactElement } from "react";
+import { User } from "./users";
 
 export type Instruments = {
     value: Lowercase<string>;
@@ -43,13 +44,22 @@ export type Evaluation = {
     identification: string,
     date: Date,
     method: string,
+    answers?: Answer[];
 } & (
     { instrument: "template", templateId: string } |
     { instrument: Exclude<string, "template">, templateId?: never }
 );
 
 export type Answer = {
+    uid: string;
+    datetime: Date;
     [key: string]: any;
+}
+
+export type Result = {
+    user: User,
+    evaluation: Evaluation,
+    answer: Answer
 }
 
 export type FillEvaluationForm = {
