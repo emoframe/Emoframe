@@ -121,3 +121,12 @@ export function boldify(text: string) {
   };
   return text.split('').map(c => boldMap[c] || c).join('');
 };
+
+export function convertTimestampToDate(obj: any, keys: string[]) {
+  Object.keys(obj).forEach(key => {
+    if (keys.includes(key) && obj[key].toDate) {
+      obj[key] = obj[key].toDate();
+    }
+  });
+  return obj;
+};
