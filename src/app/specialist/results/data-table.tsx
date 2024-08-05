@@ -168,7 +168,7 @@ export function ResultsDataTable<TData, TValue>({
       {/* pagination */}
       <div className="flex items-center justify-start space-x-2 py-4">
         <Button
-          variant="outline"
+          variant="default"
           size="sm"
           onClick={() => {
             table.previousPage();
@@ -178,7 +178,7 @@ export function ResultsDataTable<TData, TValue>({
           Anterior
         </Button>
         <Button
-          variant="outline"
+          variant="default"
           size="sm"
           onClick={() => {
             table.nextPage();
