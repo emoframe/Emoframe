@@ -13,8 +13,6 @@ import {
 import { ArrowUpDown, MoreHorizontal, Router } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
-import Link from "next/link";
-import { createQueryString } from "@/lib/utils";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -120,11 +118,6 @@ export const columns: ColumnDef<User>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <Link href={"/specialist/set-forms" + "?" + createQueryString("uid", person.uid!)}>
-              <DropdownMenuItem>
-                Definir form
-              </DropdownMenuItem>
-            </Link>
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(person.name.toString());
