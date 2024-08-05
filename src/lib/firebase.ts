@@ -126,7 +126,7 @@ export async function getResults(specialistId: string): Promise<Result[]> {
         const userData = await getById(subDoc.id, "user") as User;
         return {
           user: userData,
-          evaluation: evaluationData,
+          evaluation: { ...evaluationData, uid: doc.id },
           answer: { ...answerData, uid: subDoc.id },
         } as Result;
       })

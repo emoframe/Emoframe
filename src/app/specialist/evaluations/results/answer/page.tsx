@@ -71,7 +71,14 @@ const AnswerPage = () => {
         if (evaluation.answered?.includes(user.uid as string)) {
           startTransition(async () => {
             const answerData: Answer = await getById(user.uid as string, `evaluation/${evaluation.uid}/answers`);
-            delete answerData.uid; delete answerData.datetime;
+            
+            if (answerData.uid) {
+              delete answerData.uid;
+            }
+            if (answerData.datetime) {
+              delete answerData.datetime;
+            }
+
             setData(answerData);
             setInitialLoading(false);
           });

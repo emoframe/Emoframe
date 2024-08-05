@@ -51,8 +51,8 @@ export type Evaluation = {
 );
 
 export type Answer = {
-    uid: string;
-    datetime: Date;
+    uid?: string;
+    datetime?: Date;
     [key: string]: any;
 }
 
