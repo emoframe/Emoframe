@@ -13,6 +13,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import { Result, instruments } from "@/types/forms";
 import { format } from 'date-fns';
+import ResultsButton from "@/components/ResultsButton";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -53,10 +54,16 @@ const renderActionsCell = ({ row }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Ações</DropdownMenuLabel>
-        <DropdownMenuItem>
-          Ver resultados
-        </DropdownMenuItem>
+          <DropdownMenuLabel>Ações</DropdownMenuLabel>
+          <ResultsButton
+            evaluation={result.evaluation}
+            user={result.user}
+            successPath="/specialist/evaluations/results/answer"
+          >
+            <DropdownMenuItem>
+              Ver resultado
+            </DropdownMenuItem>
+          </ResultsButton>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -93,7 +100,7 @@ export const columns: ColumnDef<Result>[] = [
   {
     header: "Data da Resposta",
     meta: { name: "Data da Resposta" },
-    accessorFn: row => format(new Date(row.answer.datetime), "dd/MM/yyyy HH:mm:ss"),
+    accessorFn: row => format(new Date(row.answer.datetime ?? ''), "dd/MM/yyyy HH:mm:ss"),
   },
   {
     id: "actions",
