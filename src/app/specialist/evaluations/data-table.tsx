@@ -65,10 +65,10 @@ export function EvaluationsDataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [globalFilter, setGlobalFilter] = React.useState([]);
+  const [globalFilter, setGlobalFilter] = React.useState('');
   const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [pageSize, setPageSize] = React.useState(5);
 
   const table = useReactTable({
     data,
@@ -82,12 +82,13 @@ export function EvaluationsDataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-
+    initialState: {
+      pagination: { pageSize },
+    },
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-
     state: {
       sorting,
       globalFilter,
@@ -96,15 +97,18 @@ export function EvaluationsDataTable<TData, TValue>({
     },
   });
 
+  const rows = table.getRowModel().rows;
+  const emptyRows = pageSize - rows.length;
+
   return (
-    <div>
-      <div className="flex items-center pb-4 gap-4">
+    <div className="flex flex-col h-full">
+      <div className="flex pb-4 gap-4 w-full">
         {/* input */}
         <Input
           placeholder="Pesquise qualquer campo"
           value={globalFilter ?? ''}
           onChange={(e) => {
-           setGlobalFilter(e.target.value);
+            setGlobalFilter(e.target.value);
           }}
           className="max-w-sm"
         />
@@ -140,8 +144,8 @@ export function EvaluationsDataTable<TData, TValue>({
       </div>
 
       {/* table */}
-      <div className="rounded-md border">
-        <Table>
+      <div className="flex flex-col rounded-md border h-full">
+        <Table className="h-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => {
               return (
@@ -161,28 +165,36 @@ export function EvaluationsDataTable<TData, TValue>({
             })}
           </TableHeader>
 
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+          <TableBody className="h-full border">
+            {rows.length ? (
+              <>
+                {rows.map((row) => (
+                  <TableRow key={row.id} className="h-[calc(100%/5)]">
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+                {Array.from({ length: emptyRows }).map((_, index) => (
+                  <TableRow key={`empty-${index}`} className="h-[calc(100%/5)]">
+                    <TableCell colSpan={columns.length} />
+                  </TableRow>
+                ))}
+              </>
             ) : (
-              <TableRow>
-                <TableCell>Sem resultados</TableCell>
+              <TableRow className="h-20">
+                <TableCell colSpan={columns.length}>Sem resultados</TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
+      
       {/* pagination */}
       <div className="flex items-center justify-start space-x-2 py-4">
         <Button

@@ -89,7 +89,7 @@ export function EvaluationsAnswersDataTable<TData, TValue>({
     },
   });
 
-  const classNames = ["w-4", "w-1/2", "w-1/2"] //Classname para 
+  const classNames = ["w-4", "w-1/2", "w-1/2"]
 
   return (
     <div className="flex flex-col h-full">
