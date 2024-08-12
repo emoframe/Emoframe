@@ -47,25 +47,18 @@ const renderFullNameHeader = ({ column }) => (
 const renderActionsCell = ({ row }) => {
   const result = row.original;
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="w-8 h-8 p-0">
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-          <DropdownMenuLabel>Ações</DropdownMenuLabel>
-          <ResultsButton
-            evaluation={result.evaluation}
-            user={result.user}
-            successPath="/specialist/evaluations/results/answer"
-          >
-            <DropdownMenuItem>
-              Ver resultado
-            </DropdownMenuItem>
-          </ResultsButton>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <ResultsButton
+      evaluation={result.evaluation}
+      user={result.user}
+      successPath="/specialist/evaluations/results/answer"
+    >
+      <Button
+          variant="default"
+          size="sm"
+      >
+        Ver Resultado
+      </Button>
+    </ResultsButton>
   );
 };
 
@@ -86,7 +79,7 @@ export const columns: ColumnDef<Result>[] = [
     accessorFn: row => row.user.email,
   },
   {
-    header: "Identificação",
+    header: "Avaliação",
     meta: { name: "Identificação" },
     accessorFn: row => row.evaluation.identification,
   },

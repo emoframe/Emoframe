@@ -1,6 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
+import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData, orderBy, limit } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
 import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap, Answer, Result } from "@/types/forms";
@@ -105,6 +105,80 @@ export async function saveTemplate(data: TemplateElementInstance[], TemplateId: 
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function getSpecialtistDashboardInfo(specialistId: string): Promise<{
+  lastEvaluations: { name: string; date: string }[];
+  lastResults: { name: string; date: string }[];
+  userCount: number;
+}> {
+  const evaluationCollectionRef = collection(db, 'evaluation');
+  const userCollectionRef = collection(db, 'user');
+
+  // Buscar as últimas avaliações
+  const lastEvaluationsQuery = query(
+    evaluationCollectionRef,
+    where('specialist', '==', specialistId),
+    orderBy('date', 'desc'),
+    limit(2)
+  );
+  const lastEvaluationsSnapshot = await getDocs(lastEvaluationsQuery);
+  const lastEvaluations = lastEvaluationsSnapshot.docs.map(doc => {
+    const data = convertTimestampToDate(doc.data(), ['date']) as Evaluation;
+    return {
+      name: data.identification,
+      date: data.date.toLocaleDateString('pt-BR')
+    };
+  });
+
+  // Contar o número de usuários
+  const userCountQuery = query(userCollectionRef, where('specialistId', '==', specialistId));
+  const userCountSnapshot = await getDocs(userCountQuery);
+  const userCount = userCountSnapshot.size;
+
+  // Buscar avaliações com as respostas mais recentes
+  const results: Result[] = [];
+  const evaluationAnswersQuery = query(evaluationCollectionRef, where('specialist', '==', specialistId), where('answered', '!=', []));
+  const evaluationAnswersSnapshot = await getDocs(evaluationAnswersQuery);
+
+  for (const doc of evaluationAnswersSnapshot.docs) {
+    const evaluationData = convertTimestampToDate(doc.data(), ['date']) as Evaluation;
+
+    const answersCollectionRef = collection(doc.ref, 'answers');
+    const answersSnapshot = await getDocs(answersCollectionRef);
+    const answers = await Promise.all(
+      answersSnapshot.docs.map(async (subDoc) => {
+        const answerData = convertTimestampToDate(subDoc.data(), ['datetime']) as Answer;
+        const userData = await getById(subDoc.id, "user") as User;
+        return {
+          user: userData,
+          evaluation: { ...evaluationData, uid: doc.id },
+          answer: { ...answerData, uid: subDoc.id },
+        } as Result;
+      })
+    );
+
+    results.push(...answers);
+  }
+
+  // Ordenar os resultados pelo datetime da resposta (mais recente primeiro)
+  results.sort((a, b) => {
+    const dateA = a.answer?.datetime?.getTime() ?? 0;
+    const dateB = b.answer?.datetime?.getTime() ?? 0;
+    return dateB - dateA;
+  });
+
+  // Pegar os 2 resultados mais recentes
+  const lastResults = results.slice(0, 2).map(result => ({
+    name: result.evaluation.identification,
+    date: result.evaluation.date.toLocaleDateString('pt-BR')
+  }));
+
+  return {
+    lastEvaluations,
+    lastResults,
+    userCount
+  };
 }
 
 export async function getResults(specialistId: string): Promise<Result[]> {
