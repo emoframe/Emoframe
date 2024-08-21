@@ -55,11 +55,16 @@ type FieldName = keyof Inputs
 const steps = [
   {
     id: 'Etapa 1',
-    name: 'Informações Gerais',
-    fields: ['identification', 'date', 'method', 'instrument']
+    name: 'Dados Gerais',
+    fields: ['identification', 'date', 'method']
   },
   {
     id: 'Etapa 2',
+    name: 'Instrumento',
+    fields: ['instrument']
+  },
+  {
+    id: 'Etapa 3',
     name: 'Usuários',
     fields: []
   }
@@ -230,6 +235,15 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                     </FormItem>
                                 )}
                             />
+                        </motion.div>
+                    )}   
+                    {currentStep === 1 && (
+                        <motion.div
+                            initial={{ x: motionDirection, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className='flex flex-col flex-wrap justify-center gap-1'
+                        >
                             <div className='flex flex-col gap-3 mb-6'>
                                 <Label>Usar Templates</Label>
                                 <Switch 
@@ -237,36 +251,36 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                     onCheckedChange={setUseTemplates} 
                                 />
                             </div>
-                        <FormField
-                            control={control}
-                            name='instrument'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Instrumento de Avaliação</FormLabel>
-                                    <FormControl>
-                                        {useTemplates ? (
-                                            <Combobox
-                                                className="min-w-[400px]"
-                                                options={templates}
-                                                onSelect={(value) => setValue("templateId", value)}
-                                                placeholder="Método de Avaliação"
-                                            />
-                                        ) : (
-                                            <Combobox
-                                                className="min-w-[400px]"
-                                                options={instruments}
-                                                onSelect={(value) => setValue("instrument", value)}
-                                                placeholder="Método de Avaliação"
-                                            />
-                                        )}
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={control}
+                                name='instrument'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Instrumento de Avaliação</FormLabel>
+                                        <FormControl>
+                                            {useTemplates ? (
+                                                <Combobox
+                                                    className="min-w-[400px]"
+                                                    options={templates}
+                                                    onSelect={(value) => setValue("templateId", value)}
+                                                    placeholder="Método de Avaliação"
+                                                />
+                                            ) : (
+                                                <Combobox
+                                                    className="min-w-[400px]"
+                                                    options={instruments}
+                                                    onSelect={(value) => setValue("instrument", value)}
+                                                    placeholder="Método de Avaliação"
+                                                />
+                                            )}
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </motion.div>
-                    )}   
-                    {currentStep === 1 && (
+                    )}
+                    {currentStep === 2 && (
                         <motion.div
                             initial={{ x: motionDirection, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
