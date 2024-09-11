@@ -1,11 +1,11 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData } from "firebase/firestore";
+import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData, orderBy, limit } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
-import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap } from "@/types/forms";
+import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap, Answer, Result } from "@/types/forms";
 import { Filter } from "@/types/firebase";
-import { chunk, getValuable } from "@/lib/utils";
+import { chunk, convertTimestampToDate, getValuable } from "@/lib/utils";
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
 
 const firebaseConfig = {
@@ -107,44 +107,138 @@ export async function saveTemplate(data: TemplateElementInstance[], TemplateId: 
   }
 }
 
-export async function getById (
-  id: string | string[], 
-  col: string
-) : Promise<any> {
+export async function getSpecialtistDashboardInfo(specialistId: string): Promise<{
+  lastEvaluations: { name: string; date: string }[];
+  lastResults: { name: string; date: string }[];
+  userCount: number;
+}> {
+  const evaluationCollectionRef = collection(db, 'evaluation');
+  const userCollectionRef = collection(db, 'user');
+
+  // Buscar as últimas avaliações
+  const lastEvaluationsQuery = query(
+    evaluationCollectionRef,
+    where('specialist', '==', specialistId),
+    orderBy('date', 'desc'),
+    limit(2)
+  );
+  const lastEvaluationsSnapshot = await getDocs(lastEvaluationsQuery);
+  const lastEvaluations = lastEvaluationsSnapshot.docs.map(doc => {
+    const data = convertTimestampToDate(doc.data(), ['date']) as Evaluation;
+    return {
+      name: data.identification,
+      date: data.date.toLocaleDateString('pt-BR')
+    };
+  });
+
+  // Contar o número de usuários
+  const userCountQuery = query(userCollectionRef, where('specialistId', '==', specialistId));
+  const userCountSnapshot = await getDocs(userCountQuery);
+  const userCount = userCountSnapshot.size;
+
+  // Buscar avaliações com as respostas mais recentes
+  const results: Result[] = [];
+  const evaluationAnswersQuery = query(evaluationCollectionRef, where('specialist', '==', specialistId), where('answered', '!=', []));
+  const evaluationAnswersSnapshot = await getDocs(evaluationAnswersQuery);
+
+  for (const doc of evaluationAnswersSnapshot.docs) {
+    const evaluationData = convertTimestampToDate(doc.data(), ['date']) as Evaluation;
+
+    const answersCollectionRef = collection(doc.ref, 'answers');
+    const answersSnapshot = await getDocs(answersCollectionRef);
+    const answers = await Promise.all(
+      answersSnapshot.docs.map(async (subDoc) => {
+        const answerData = convertTimestampToDate(subDoc.data(), ['datetime']) as Answer;
+        const userData = await getById(subDoc.id, "user") as User;
+        return {
+          user: userData,
+          evaluation: { ...evaluationData, uid: doc.id },
+          answer: { ...answerData, uid: subDoc.id },
+        } as Result;
+      })
+    );
+
+    results.push(...answers);
+  }
+
+  // Ordenar os resultados pelo datetime da resposta (mais recente primeiro)
+  results.sort((a, b) => {
+    const dateA = a.answer?.datetime?.getTime() ?? 0;
+    const dateB = b.answer?.datetime?.getTime() ?? 0;
+    return dateB - dateA;
+  });
+
+  // Pegar os 2 resultados mais recentes
+  const lastResults = results.slice(0, 2).map(result => ({
+    name: result.evaluation.identification,
+    date: result.evaluation.date.toLocaleDateString('pt-BR')
+  }));
+
+  return {
+    lastEvaluations,
+    lastResults,
+    userCount
+  };
+}
+
+export async function getResults(specialistId: string): Promise<Result[]> {
+  const results: Result[] = [];
+
+  const evaluationCollectionRef = collection(db, 'evaluation');
+  const evaluationQuery = query(evaluationCollectionRef, where('specialist', '==', specialistId), where('answered', '!=', []));
+
+  const evaluationSnapshot = await getDocs(evaluationQuery);
+
+  for (const doc of evaluationSnapshot.docs) {
+    const evaluationData = convertTimestampToDate(doc.data(), ['date']) as Evaluation;
+
+    const answersCollectionRef = collection(doc.ref, 'answers');
+    const answersSnapshot = await getDocs(answersCollectionRef);
+    const answers = await Promise.all(
+      answersSnapshot.docs.map(async (subDoc) => {
+        const answerData = convertTimestampToDate(subDoc.data(), ['datetime']) as Answer;
+        const userData = await getById(subDoc.id, "user") as User;
+        return {
+          user: userData,
+          evaluation: { ...evaluationData, uid: doc.id },
+          answer: { ...answerData, uid: subDoc.id },
+        } as Result;
+      })
+    );
+
+    results.push(...answers);
+  }
+
+  return results;
+}
+
+export async function getById(id: string | string[], col: string): Promise<any> {
   try {
     const groups = (typeof id === "string") ? [[id]] : chunk(id, 10); // Separa em grupos de 10 ids
     const collectionRef = collection(db, col);
-    const res: DocumentData = new Array(); 
-    /* "for await... of" permite um loop iterando sobre objetos assíncronos. ES 2018 */
+    const res: any[] = []; 
+
     for await (const ids of groups) { // Faz a query pra cada grupo
       const q = query(collectionRef, where(documentId(), "in", ids));
       const docSnaps = await getDocs(q);
-  
-      docSnaps.forEach((doc) => {
-        if(doc.exists()) {
 
-          const newObj: any = {
+      docSnaps.forEach((doc) => {
+        if (doc.exists()) {
+          const newObj = {
             uid: doc.id,
             ...doc.data(),
-          }
+          };
 
-          let keys = ['birthday', 'date']
-          Object.keys(newObj).some(key => {
-            if(keys.includes(key))
-              newObj[key] = newObj[key].toDate();
-          })
-          
-          res.push(newObj);
+          res.push(convertTimestampToDate(newObj, ['date', 'birthday']));
         }
       });
     }
 
     return typeof id === "string" ? res[0] : res;
 
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
-  
 }
 
 export async function search(col: string, filters: Filter[]): Promise<any[]> {

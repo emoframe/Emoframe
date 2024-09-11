@@ -1,5 +1,8 @@
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
 import { ColumnDef } from "@tanstack/react-table";
+import { ImageCard } from '@/components/ui/image'; 
+import { ReactElement } from "react";
+import { User } from "./users";
 
 export type Instruments = {
     value: Lowercase<string>;
@@ -41,13 +44,22 @@ export type Evaluation = {
     identification: string,
     date: Date,
     method: string,
+    answers?: Answer[];
 } & (
     { instrument: "template", templateId: string } |
     { instrument: Exclude<string, "template">, templateId?: never }
 );
 
 export type Answer = {
+    uid?: string;
+    datetime?: Date;
     [key: string]: any;
+}
+
+export type Result = {
+    user: User,
+    evaluation: Evaluation,
+    answer: Answer
 }
 
 export type FillEvaluationForm = {
@@ -118,6 +130,60 @@ export interface Sam {
     motivation: string;
     willpower: string;
 }
+
+// Função para criar componentes ImageCard
+const createImageCard = (src: string, alt: string): ReactElement<typeof ImageCard> => <ImageCard src={src} alt={alt} height={100} width={100} />;
+
+export const samQuestions = [
+  {
+    index: 1,
+    field: "satisfaction",
+    label: "Satisfação",
+    options: [
+      { value: '1', label: createImageCard("/emojis/Like.png", "Emoji") },
+      { value: '2', label: <div className={"m-10"}></div> },
+      { value: '3', label: createImageCard("/emojis/Sorriso.png", "Emoji") },
+      { value: '4', label: <div className={"m-10"}></div> },
+      { value: '5', label: createImageCard("/emojis/Neutro.png", "Emoji") },
+      { value: '6', label: <div className={"m-10"}></div> },
+      { value: '7', label: createImageCard("/emojis/Triste.png", "Emoji") },
+      { value: '8', label: <div className={"m-10"}></div> },
+      { value: '9', label: createImageCard("/emojis/Deslike.png", "Emoji") },
+    ]
+  },
+  {
+    index: 2,
+    field: "motivation",
+    label: "Motivação",
+    options: [
+      { value: '1', label: createImageCard("/emojis/Criativo.png", "Emoji") },
+      { value: '2', label: <div className={"m-10"}></div> },
+      { value: '3', label: createImageCard("/emojis/Radiante.png", "Emoji") },
+      { value: '4', label: <div className={"m-10"}></div> },
+      { value: '5', label: createImageCard("/emojis/Neutro.png", "Emoji") },
+      { value: '6', label: <div className={"m-10"}></div> },
+      { value: '7', label: createImageCard("/emojis/Entediado.png", "Emoji") },
+      { value: '8', label: <div className={"m-10"}></div> },
+      { value: '9', label: createImageCard("/emojis/Sono.png", "Emoji") },
+    ]
+  },
+  {
+    index: 3,
+    field: "willpower",
+    label: "Sentimento de Controle",
+    options: [
+      { value: '9', label: createImageCard("/emojis/Inteligente.png", "Emoji") },
+      { value: '8', label: <div className={"m-10"}></div> },
+      { value: '7', label: createImageCard("/emojis/Sorriso.png", "Emoji") },
+      { value: '6', label: <div className={"m-10"}></div> },
+      { value: '5', label: createImageCard("/emojis/Neutro.png", "Emoji") },
+      { value: '4', label: <div className={"m-10"}></div> },
+      { value: '3', label: createImageCard("/emojis/Confuso.png", "Emoji") },
+      { value: '2', label: <div className={"m-10"}></div> },
+      { value: '1', label: createImageCard("/emojis/Frustrado.png", "Emoji") },
+    ]
+  }
+];
 
 export interface Sus {
     use_frequency: string;
@@ -212,6 +278,24 @@ export interface Gds {
     hopeless: string,
     unlucky: string,
 }
+
+export const gdsQuestions = [
+    { index: 1, field: "satisfied", score: "Negative", question: "Está satisfeito (a) com a sua vida?" },
+    { index: 2, field: "no_activities", score: "Affirmative", question: "Interrompeu muitas de suas atividades?" },
+    { index: 3, field: "empty", score: "Affirmative", question: "Acha sua vida vazia?" },
+    { index: 4, field: "upset", score: "Affirmative", question: "Aborrece-se com frequência?" },
+    { index: 5, field: "good", score: "Negative", question: "Sente-se bem com a vida na maior parte do tempo?" },
+    { index: 6, field: "bad", score: "Affirmative", question: "Teme que algo ruim lhe aconteça?" },
+    { index: 7, field: "happy", score: "Negative", question: "Sente-se alegre a maior parte do tempo?" },
+    { index: 8, field: "helpless", score: "Affirmative", question: "Sente-se desamparado com frequência?" },
+    { index: 9, field: "stay_at_home", score: "Affirmative", question: "Prefere ficar em casa a sair e fazer coisas novas?" },
+    { index: 10, field: "problems_of_memory", score: "Affirmative", question: "Acha que tem mais problemas de memória que as outras pessoas?" },
+    { index: 11, field: "wonderful_to_stay_alive", score: "Negative", question: "Acha que é maravilhoso estar vivo (a)?" },
+    { index: 12, field: "useless", score: "Affirmative", question: "Sente-se inútil?" },
+    { index: 13, field: "full_of_energy", score: "Negative", question: "Sente-se cheio (a) de energia?" },
+    { index: 14, field: "hopeless", score: "Affirmative", question: "Sente-se sem esperança?" },
+    { index: 15, field: "unlucky", score: "Affirmative", question: "Acha que os outros têm mais sorte que você?" }
+];
 
 export interface Leap {
     admiration: string,

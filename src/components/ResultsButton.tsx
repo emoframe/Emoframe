@@ -26,14 +26,18 @@ const ResultsButton: FC<ResultsButtonProps> = ({
   const router = useRouter();
 
   const handleResults = async () => {
-    if (evaluation && addEvaluation) {
+    if (evaluation && user) {
       addEvaluation(evaluation);
-      await router.push(successPath);
-    } else if (user && addUser) {
       addUser(user);
-      await router.push(successPath);
+      router.push(successPath);
+    } else if (evaluation) {
+      addEvaluation(evaluation);
+      router.push(successPath);
+    } else if (user) {
+      addUser(user);
+      router.push(successPath);
     } else {
-      await router.push(failurePath);
+      router.push(failurePath);
     }
   };
 

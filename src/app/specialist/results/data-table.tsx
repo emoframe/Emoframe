@@ -35,7 +35,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Link from "next/link";
 import { DataTableProps } from "@/types/forms";
 
 declare module '@tanstack/table-core' {
@@ -60,7 +59,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   return itemRank.passed
 }
 
-export function EvaluationsDataTable<TData, TValue>({
+export function ResultsDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -108,39 +107,10 @@ export function EvaluationsDataTable<TData, TValue>({
           placeholder="Pesquise qualquer campo"
           value={globalFilter ?? ''}
           onChange={(e) => {
-            setGlobalFilter(e.target.value);
+           setGlobalFilter(e.target.value);
           }}
-          className="max-w-sm"
+          className="max-w-full"
         />
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "default" })}>
-            Colunas
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value: boolean) => {
-                      column.toggleVisibility(!!value);
-                    }}
-                  >
-                    {column.columnDef.meta?.name}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <Link className={buttonVariants({ variant: "default" })} href="/specialist/evaluations/form">
-          Nova Avaliação
-        </Link>
       </div>
 
       {/* table */}
@@ -194,7 +164,7 @@ export function EvaluationsDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      
+
       {/* pagination */}
       <div className="flex items-center justify-start space-x-2 py-4">
         <Button
@@ -218,12 +188,8 @@ export function EvaluationsDataTable<TData, TValue>({
           Próximo
         </Button>
       </div>
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} de{" "}
-        {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
-      </div>
     </div>
   );
 }
 
-export default EvaluationsDataTable;
+export default ResultsDataTable;
