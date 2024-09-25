@@ -7,20 +7,20 @@ interface Item {
 }
 
 interface DashboardProps {
-  lastEvaluations: Item[];
-  lastResults: Item[];
+  pendingEvaluations: Item[];
+  availableResults: Item[];
 }
 
-const UserDashboard: React.FC<DashboardProps> = ({ lastEvaluations, lastResults }) => {
+const UserDashboard: React.FC<DashboardProps> = ({ pendingEvaluations, availableResults }) => {
   return (
     <div className="flex bg-background p-6 rounded-lg shadow-lg md:min-w-[600px]">
       <div className="flex-1 text-center">
         <h2 className="text-md font-medium mb-4">Avaliações Pendentes</h2>
-        <EventList lastEvents={lastEvaluations}/>
+        <EventList eventItems={pendingEvaluations}/>
       </div>
       <div className="flex-1 text-center mx-6">
         <h2 className="text-md font-medium mb-4">Resultados Disponíveis</h2>
-        <EventList lastEvents={lastResults}/>
+        <EventList eventItems={availableResults}/>
       </div>
     </div>
   );
