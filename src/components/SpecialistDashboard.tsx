@@ -1,4 +1,5 @@
 import React from 'react';
+import EventList from './EventList';
 
 interface Item {
   name: string;
@@ -16,29 +17,11 @@ const SpecialistDashboard: React.FC<DashboardProps> = ({ lastEvaluations, lastRe
     <div className="flex bg-background p-6 rounded-lg shadow-lg md:min-w-[600px]">
       <div className="flex-1 text-center">
         <h2 className="text-md font-medium mb-4">Últimas avaliações</h2>
-        <div className="bg-primary-background p-4 rounded-lg shadow-sm">
-          <ul className="space-y-2">
-            {lastEvaluations.map((item, index) => (
-              <li key={index} className="flex justify-between text-sm">
-                <span className='block text-left'>{item.name}</span>
-                <span className='block text-right'>{item.date}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <EventList lastEvents={lastEvaluations}/>
       </div>
       <div className="flex-1 text-center mx-6">
         <h2 className="text-md font-medium mb-4">Últimos resultados</h2>
-        <div className="bg-primary-background p-4 rounded-md shadow-sm">
-          <ul className="space-y-2">
-            {lastResults.map((item, index) => (
-              <li key={index} className="flex justify-between text-sm">
-                <span className='block text-left'>{item.name}</span>
-                <span className='block text-right'>{item.date}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <EventList lastEvents={lastResults}/>
       </div>
       <div className="flex-0 text-center">
         <h2 className="text-md font-medium mb-4">Nº Usuários</h2>

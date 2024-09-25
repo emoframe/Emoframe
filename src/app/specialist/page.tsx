@@ -19,7 +19,7 @@ const SpecialistPage = async () => {
         userCount={dashboardData.userCount}
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <VideosTutorials />
+        <VideosTutorials thumbnail='' title='Saiba como criar uma nova avaliação' />
         <LatestPublications />
       </div>
         <div className="bg-background p-6 rounded-lg shadow-lg mt-6">
