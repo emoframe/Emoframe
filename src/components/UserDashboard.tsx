@@ -2,6 +2,7 @@ import React from 'react';
 import EventList from './EventList';
 
 interface Item {
+  uid: string;
   name: string;
   date: string;
 }

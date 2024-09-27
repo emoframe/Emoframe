@@ -2,19 +2,6 @@ import React from "react";
 import { getUserDashboardInfo, search } from "@/lib/firebase";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../../pages/api/auth/[...nextauth]";
-// import { buttonVariants } from "@/components/ui/button";
-// import Link from "next/link";
-// import { instruments } from "@/types/forms";
-// import { OptionCard, Content } from "@/components/OptionCard";
-// import {
-//     Card,
-//     CardContent,
-//     CardDescription,
-//     CardFooter,
-//     CardHeader,
-//     CardTitle,
-// } from "@/components/ui/card";
-// import { Filter } from "@/types/firebase";
 import UserDashboard from "@/components/UserDashboard";
 import FrequentQuestions from '@/components/FrequentQuestions';
 import VideosTutorials from "@/components/VideoTutorials";
@@ -23,58 +10,11 @@ import VideosTutorials from "@/components/VideoTutorials";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-// const EvaluationsCards = async () => {
-//     const session: any = await getServerSession(authOptions);
-
-//     const filter: Filter[] = [
-//         {
-//             field: "users",
-//             operation: "array-contains",
-//             value: session?.user.uid!
-//         }
-//     ];
-//     const data = await search("evaluation", filter);
-
-//     const evaluations = data
-//         .filter((evaluation) => (
-//             evaluation.date == new Date().toLocaleDateString("pt-BR") &&
-//             !(evaluation.answered && evaluation?.answered.includes(session?.user.uid!))
-//         ))
-//         .sort((a, b) =>
-//             a.identification
-//                 .toLowerCase()
-//                 .localeCompare(b.identification.toLowerCase())
-//         );
-
-//     const transformedContent: Content[] = evaluations.map(evaluation => {
-//         // Verifica se o instrumento da avaliação é "template"
-//         const isTemplate = evaluation.instrument === "template";
-//         const instrumentLabel = instruments.find((instrument) => instrument.value === evaluation.instrument)?.label;
-
-//         return {
-//             title: evaluation.identification,
-//             description: `${isTemplate ? `Template` : instrumentLabel} - ${evaluation.method}`,
-//             href: `/user/evaluations/fill?evaluation=${evaluation.uid}`
-//         };
-//     });
-
-//     return (
-//         <>
-//             {transformedContent.length ? (
-//                 transformedContent.map((content, index) => (
-//                     <OptionCard key={index} content={content} />
-//                 ))
-//             ) : <p>Não há avaliações disponíveis</p>}
-//         </>
-//     );
-// };
-
 
 const User = async () => {
     const session: any = await getServerSession(authOptions);
 
     const dashboardData = await getUserDashboardInfo(session?.user.uid!);
-    console.log(dashboardData);
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-6">Boas vindas, {session?.user.name}!</h1>

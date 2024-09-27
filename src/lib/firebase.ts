@@ -9,7 +9,7 @@ import { chunk, convertTimestampToDate, getValuable } from "@/lib/utils";
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
 
 type SentItem = {
-    uid?: string,
+    uid: string,
     name: string,
     date: string,
 };
@@ -206,7 +206,7 @@ export async function getUserDashboardInfo(userId: string): Promise<{
         if ((pendingEvaluations.length === 2) && (availableResults.length === 2)) break;
         const data = convertTimestampToDate(doc.data(), ['date']) as Evaluation;
         const sentData = {
-            uid: data.uid,
+            uid: doc.id,
             name: data.identification,
             date: data.date.toLocaleDateString('pt-BR')
         };
