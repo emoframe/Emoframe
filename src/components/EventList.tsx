@@ -20,7 +20,7 @@ const EventList: React.FC<EventListProps> = ({ eventItems }) => {
                     <ul className="space-y-2">
                         {eventItems.map((item, index) => (
                             <Link key={index} href={`/user/evaluations/fill?evaluation=${item.uid}`}>
-                                <li className="flex justify-between text-sm">
+                                <li className="flex justify-between text-sm hover:text-primary transition-colors">
                                     <span className='block text-left'>{item.name}</span>
                                     <span className='block text-right'>{item.date}</span>
                                 </li>
