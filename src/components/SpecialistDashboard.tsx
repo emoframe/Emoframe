@@ -17,11 +17,11 @@ const SpecialistDashboard: React.FC<DashboardProps> = ({ lastEvaluations, lastRe
     <div className="flex bg-background p-6 rounded-lg shadow-lg md:min-w-[600px]">
       <div className="flex-1 text-center">
         <h2 className="text-md font-medium mb-4">Últimas avaliações</h2>
-        <EventList eventItems={lastEvaluations}/>
+        <EventList eventItems={lastEvaluations.map(e => ({href: '/specialist/evaluations', ...e}))}/>
       </div>
       <div className="flex-1 text-center mx-6">
         <h2 className="text-md font-medium mb-4">Últimos resultados</h2>
-        <EventList eventItems={lastResults}/>
+        <EventList eventItems={lastResults.map(e => ({href: '/specialist/results', ...e}))}/>
       </div>
       <div className="flex-0 text-center">
         <h2 className="text-md font-medium mb-4">Nº Usuários</h2>

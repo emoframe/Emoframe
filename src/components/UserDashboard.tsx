@@ -17,11 +17,11 @@ const UserDashboard: React.FC<DashboardProps> = ({ pendingEvaluations, available
     <div className="flex bg-background p-6 rounded-lg shadow-lg md:min-w-[600px]">
       <div className="flex-1 text-center">
         <h2 className="text-md font-medium mb-4">Avaliações Pendentes</h2>
-        <EventList eventItems={pendingEvaluations}/>
+        <EventList eventItems={pendingEvaluations.map(e => ({href: `/user/evaluations/fill?evaluation=${e.uid}`, ...e}))}/>
       </div>
       <div className="flex-1 text-center mx-6">
         <h2 className="text-md font-medium mb-4">Resultados Disponíveis</h2>
-        <EventList eventItems={availableResults}/>
+        <EventList eventItems={availableResults.map(e => ({href: `/user/evaluations/fill?evaluation=${e.uid}`, ...e}))}/>
       </div>
     </div>
   );
