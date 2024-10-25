@@ -21,7 +21,7 @@ const Evaluations = async () => {
   const data = await search("evaluation", filter);
 
   return (
-    <div className="flex flex-1 flex-col gap-4 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]">
+    <div className="flex flex-1 flex-col gap-4 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]" style={{maxWidth: 'calc(100vw - 160px)'}}>
       <EvaluationsDataTable data={data} columns={columns}/>
     </div>
   );

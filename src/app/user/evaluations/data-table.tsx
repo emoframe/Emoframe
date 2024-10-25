@@ -98,7 +98,7 @@ export function EvaluationsDataTable<TData, TValue>({
   });
 
   return (
-    <div>
+    <div style={{maxWidth: 'calc(100vw - 160px)'}}>
       <div className="flex items-center pb-4 gap-4">
         {/* input */}
         <Input
@@ -109,35 +109,10 @@ export function EvaluationsDataTable<TData, TValue>({
           }}
           className="max-w-sm"
         />
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger className={buttonVariants({ variant: "default" })}>
-            Colunas
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value: boolean) => {
-                      column.toggleVisibility(!!value);
-                    }}
-                  >
-                    {column.columnDef.meta?.name}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
 
       {/* table */}
-      <div className="rounded-md border">
+      <div className="rounded-md border overflow-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => {

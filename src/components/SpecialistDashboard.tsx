@@ -14,12 +14,12 @@ interface DashboardProps {
 
 const SpecialistDashboard: React.FC<DashboardProps> = ({ lastEvaluations, lastResults, userCount }) => {
   return (
-    <div className="flex bg-background p-6 rounded-lg shadow-lg md:min-w-[600px]">
+    <div className="flex flex-col gap-4 md:flex-row bg-background p-6 rounded-lg shadow-lg md:min-w-[600px]">
       <div className="flex-1 text-center">
         <h2 className="text-md font-medium mb-4">Últimas avaliações</h2>
         <EventList eventItems={lastEvaluations.map(e => ({href: '/specialist/evaluations', ...e}))}/>
       </div>
-      <div className="flex-1 text-center mx-6">
+      <div className="flex-1 text-center">
         <h2 className="text-md font-medium mb-4">Últimos resultados</h2>
         <EventList eventItems={lastResults.map(e => ({href: '/specialist/results', ...e}))}/>
       </div>

@@ -114,7 +114,7 @@ export function ResultsDataTable<TData, TValue>({
       </div>
 
       {/* table */}
-      <div className="flex flex-col rounded-md border h-full">
+      <div className="flex flex-col rounded-md border h-full overflow-auto">
         <Table className="h-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => {

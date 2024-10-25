@@ -102,7 +102,7 @@ export function EvaluationsDataTable<TData, TValue>({
 
     return (
         <div className="flex flex-col h-full">
-            <div className="flex pb-4 gap-4 w-full">
+            <div className="flex flex-col md:flex-row pb-4 gap-4 w-full">
                 {/* input */}
                 <Input
                     placeholder="Pesquise qualquer campo"
@@ -120,7 +120,7 @@ export function EvaluationsDataTable<TData, TValue>({
 
             {/* table */}
             <h3 className='text-xl leading-none tracking-tight mb-3'>Avaliações Cadastradas</h3>
-            <div className="flex flex-col rounded-md border h-full">
+            <div className="flex flex-col rounded-md border h-full overflow-auto">
                 <Table className="h-full">
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => {
