@@ -14,6 +14,19 @@ export const metadata: Metadata = {
     description: "Descrição",
 };
 
+const vlibras = `
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+`;
+
 export default function RootLayout({
     children
 }: {
@@ -30,6 +43,7 @@ export default function RootLayout({
                         </main>
                         <Toaster/>
                     </ThemeProvider>
+                    <div dangerouslySetInnerHTML={{__html: vlibras}}></div>
                 </body>
             </SessionProvider>
         </html>
