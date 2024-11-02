@@ -1,27 +1,33 @@
 import { FC, ReactNode } from 'react';
 import PathnameAware from '@/components/PathnameAware';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface SpecialistLayoutProps {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
 
-  const defaultLayout = (
-    <div className='flex flex-col bg-primary-background md:p-10 m-5 rounded-md p-4'>{children}</div>
-  );
+    const defaultLayout = (
+        <div className='flex flex-col bg-primary-background md:p-10 m-5 rounded-md p-4'>
+            <div className='mb-4'>
+                <Breadcrumbs homeHref="specialist" />
+            </div>
+            {children}
+        </div>
+    );
 
-  const specialLayout = (
-    <>{children}</>
-  );
+    const specialLayout = (
+        <>{children}</>
+    );
 
-  return (
-    <PathnameAware
-      defaultContent={defaultLayout}
-      specialContent={specialLayout}
-      ignorePaths="/specialist/services/templates/builder"
-    />
-  );
+    return (
+        <PathnameAware
+            defaultContent={defaultLayout}
+            specialContent={specialLayout}
+            ignorePaths="/specialist/services/templates/builder"
+        />
+    );
 };
 
 export default SpecialistLayout;
