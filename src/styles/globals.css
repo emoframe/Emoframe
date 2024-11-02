@@ -50,25 +50,25 @@ html, body {
   }
  
   .dark {
-    --background: rgb(32, 45, 37); /* Verde bem escuro */
+    --background: hsl(143, 0%, 15%);
     --foreground: rgb(249, 250, 251);
  
     --card: rgb(3, 7, 18);
     --card-foreground: rgb(249, 250, 251);
  
-    --popover: rgb(32, 45, 37);
+    --popover: hsl(143, 0%, 15%);
     --popover-foreground: rgb(249, 250, 251);
  
     --primary: rgb(171, 210, 158); /* Verde */
     --primary-foreground: rgb(122, 184, 151); /* Verde */
-    --primary-background: rgb(51, 91, 69); /* Verde escuro */
+    --primary-background: hsl(147, 0%, 28%); /* Verde escuro */
 
     --content: rgb(241, 246, 249); /*Texto Branco*/
  
     --secondary: rgb(31, 41, 55);
     --secondary-foreground: rgb(249, 250, 251);
  
-    --muted: rgb(30, 80, 50);
+    --muted: hsl(144, 0%, 22%);
     --muted-foreground: rgb(156, 163, 175);
  
     --accent: rgb(122, 184, 151); /* Verde */
@@ -77,8 +77,8 @@ html, body {
     --destructive: rgb(127, 29, 29);
     --destructive-foreground: rgb(249, 250, 251);
  
-    --border: rgba(32, 45, 37, 1);
-    --input: rgb(32, 45, 37);
+    --border: hsl(143, 0%, 15%);
+    --input: hsl(143, 0%, 15%);
     --ring: rgb(209, 213, 219);
 
     --shadow_color: rgba(30, 30, 30, 0.5);
