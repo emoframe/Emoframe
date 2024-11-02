@@ -99,8 +99,8 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "race",
   },
   {
-    header: "Aniversário",
-    meta: {name: "Aniversário"},
+    header: "Data de Nascimento",
+    meta: {name: "Data de Nascimento"},
     accessorKey: "birthday",
   },
   {

@@ -1,30 +1,16 @@
 import React from 'react'
-
-import { search } from '@/lib/firebase';
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
-import EvaluationsDataTable from './data-table';
-import { columns } from './columns';
-import { Filter } from '@/types/firebase';
+import { OptionCard } from '@/components/OptionCard';
 
 const Evaluations = async () => {
-  const session: any = await getServerSession(authOptions);
-
-  const filter: Filter[] = [
-    {
-        field: "specialist",
-        operation: "==",
-        value: session?.user.uid!
-    }
-  ];
-
-  const data = await search("evaluation", filter);
-
-  return (
-    <div className="flex flex-1 flex-col gap-4 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]">
-      <EvaluationsDataTable data={data} columns={columns}/>
-    </div>
-  );
+    return (
+        <>
+            <h1 className="text-2xl font-bold mb-6">Avaliações</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <OptionCard content={{title: 'Ver Avaliações', description: '', href: '/specialist/evaluations/list'}} />
+                <OptionCard content={{title: 'Criar Nova Avaliação', description: '', href: '/specialist/evaluations/form'}} />
+            </div>
+        </>
+    )
 };
 
 export default Evaluations;

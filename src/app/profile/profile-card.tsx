@@ -31,7 +31,7 @@ const description = {
     individual_income: "Renda Individual Mensal",
     family_income: "Renda Familiar Mensal",
     address: "Endereço",
-    birthday: "Aniversário",
+    birthday: "Data de Nascimento",
     specialistId: "ID do Especialista",
     forms: "Formulários",
 }
@@ -66,20 +66,20 @@ const ProfileCard = async ({data, className, ...props}: any) => {
     const origin_url = headersList.get('x-origin');
 
     return (
-        <Card className={cn("min-w-[600px]", className)} {...props}>
+        <Card className={cn("", className)} {...props}>
             <CardHeader>
                 <CardTitle>{essentials["name"]}</CardTitle>
                 <CardDescription>{(essentials.type == "specialist") ? "Especialista" : "Usuário"}</CardDescription>
             </CardHeader>
             <CardContent>
                 {iterator.map((key) => (
-                    <p key={key}>{`${description[key]}: ${essentials[key]}`}</p>
+                    <p style={{wordBreak: 'break-word'}} key={key}>{`${description[key]}: ${essentials[key]}`}</p>
                 ))}
 
                 <Separator className="my-4"/>
 
                 {Object.keys(userData).map((key) => (
-                    <p key={key}>{`${description[key]}: ${userData[key]}`}</p>
+                    <p style={{wordBreak: 'break-word'}} key={key}>{`${description[key]}: ${userData[key]}`}</p>
                 ))}
             </CardContent>
             <CardFooter>

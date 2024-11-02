@@ -36,7 +36,7 @@ export default function Home() {
 
     return (
         <section className="w-full h-full flex flex-col">
-            <div className="text-primary-background bg-primary flex flex-nowrap flex-row items-center justify-center gap-x-14 p-10">
+            <div className="text-primary-background bg-primary flex flex-nowrap flex-col md:flex-row items-center justify-center gap-6 md:gap-14 p-10">
                 <Reveal>
                     <Image
                         src={`/images/logo_sem_nome_${themeState}.svg`}
@@ -47,8 +47,8 @@ export default function Home() {
                 </Reveal>
                 <Reveal>
                 <div className="max-w-[700px] relative">
-                        <h1 className="text-[5rem] font-black">
-                            EmoFrame
+                        <h1 className="text-7xl font-black leading-none mb-4">
+                            Emo​Frame
                         </h1>
                         <h2 className="text-2xl font-bold mb-4">
                             Um framework de apoio à etapa de avaliação de soluções computacionais

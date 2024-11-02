@@ -23,11 +23,11 @@ import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/components/ui/use-toast';
 
 const DefaultProps: RadioItem[] = [
-  {value: '5', label: 'Concordo Plenamente'},
+  {value: '5', label: 'Concordo Fortemente'},
   {value: '4', label: 'Concordo Parcialmente'},
   {value: '3', label: 'Neutro'},
   {value: '2', label: 'Discordo Parcialmente'},
-  {value: '1', label: 'Discordo Totalmente'},
+  {value: '1', label: 'Discordo Fortemente'},
 ]
 
 const SusFormSchema = z.object(

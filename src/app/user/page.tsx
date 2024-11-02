@@ -16,7 +16,7 @@ const User = async () => {
 
     const dashboardData = await getUserDashboardInfo(session?.user.uid!);
     return (
-        <div className="container mx-auto p-4">
+        <div className="max-w-[1400px] mx-auto">
             <h1 className="text-2xl font-bold mb-6">Boas vindas, {session?.user.name}</h1>
             <UserDashboard
                 pendingEvaluations={dashboardData.pendingEvaluations}

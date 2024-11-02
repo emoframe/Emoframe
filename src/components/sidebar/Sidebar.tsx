@@ -3,7 +3,7 @@
 import {
     ChevronLast, ChevronFirst, User,
     Users, LineChart, BookOpenText, BookUser,
-    Home, Info, LogIn
+    Home, Info, PersonStanding, Sun, Moon, AArrowUp, AArrowDown
 } from "lucide-react";
 import { useContext, createContext, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -14,6 +14,7 @@ import LoginMenu from "./LoginMenu";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 type SidebarContextType = {
     expanded: boolean;
@@ -27,7 +28,7 @@ const SidebarCore = ({ children }) => {
 
     const [expanded, setExpanded] = useState(false);
 
-    const { theme } = useTheme();
+    const { theme, setTheme } = useTheme();
     const [themeState, setThemeState] = useState<string>();
 
     useEffect(() => {
@@ -77,7 +78,7 @@ const SidebarCore = ({ children }) => {
 
     return (
         <aside className="h-screen fixed z-10 top-0">
-            <nav className="h-full flex flex-col bg-primary-background shadow-md shadow-slate-800/40 dark:shadow-slate-800">
+            <nav className="h-screen flex flex-col bg-primary-background shadow-md shadow-slate-800/40 dark:shadow-slate-800">
                 <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
                     <Link href={redirect()}>
                         <Image
@@ -96,7 +97,36 @@ const SidebarCore = ({ children }) => {
                         >
                             {expanded ? <ChevronFirst /> : <ChevronLast />}
                         </Button>
-                        <ThemeToggle />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                            <Button variant="icon">
+                                <PersonStanding />
+                                <span className="sr-only">Acessibilidade</span>
+                            </Button>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent align="end">
+
+                                <DropdownMenuLabel>Acessibilidade</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+
+                                <div className="flex gap-1">
+                                    <Button variant="icon" size="icon" onClick={() => setTheme((theme === 'dark') ? 'light' : 'dark')}>
+                                        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                                        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                                        <span className="sr-only">Alto contraste</span>
+                                    </Button>
+                                    <Button variant="icon" size="icon" onClick={() => document.documentElement.style.fontSize = `${parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size')) + 2}px`}>
+                                        <AArrowUp className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>
+                                        <span className="sr-only">Aumentar fonte</span>
+                                    </Button>
+                                    <Button variant="icon" size="icon" onClick={() => document.documentElement.style.fontSize = `${parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size')) - 2}px`}>
+                                        <AArrowDown className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>
+                                        <span className="sr-only">Diminuir fonte</span>
+                                    </Button>
+                                </div>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
 
@@ -189,7 +219,6 @@ const Sidebar = () => {
 
     const globalItems: SidebarItemType[] = [
         { text: "Início", href: redirect(), icon: <Home size={20} /> },
-        { text: "Sobre nós", href: "/about", icon: <Info size={20} /> },
     ]
 
     const userItems: SidebarItemType[] = [
@@ -201,6 +230,10 @@ const Sidebar = () => {
         { text: "Avaliações", href: "/specialist/evaluations", icon: <BookOpenText size={20} /> },
         { text: "Serviços", href: "/specialist/services", icon: <BookUser size={20} /> },
         { text: "Resultados", href: "/specialist/results", icon: <LineChart size={20} /> },
+    ]
+
+    const bottomItems: SidebarItemType[] = [
+        { text: "Sobre nós", href: "/about", icon: <Info size={20} /> },
     ]
 
     return (
@@ -219,6 +252,11 @@ const Sidebar = () => {
             {
                 (session?.user.type == 'user') &&
                 userItems.map((item, index) => (
+                    <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)} />
+                ))
+            }
+            {
+                bottomItems.map((item, index) => (
                     <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)} />
                 ))
             }

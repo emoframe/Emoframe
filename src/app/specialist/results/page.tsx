@@ -15,7 +15,7 @@ const Results = async () => {
   console.dir(data, { depth: null });
 
   return (
-    <div className="flex flex-1 flex-col gap-4 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]">
+    <div className="flex flex-1 flex-col gap-4 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]" style={{maxWidth: 'calc(100vw - 160px)'}}>
       <h3 className='text-2xl font-semibold leading-none tracking-tight'>Busca de resultados</h3>
       <ResultsDataTable data={data} columns={columns}/>
     </div>

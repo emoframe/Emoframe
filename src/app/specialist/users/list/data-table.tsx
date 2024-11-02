@@ -110,8 +110,8 @@ export function UserDataTable<TData, TValue>({
     });
 
     return (
-        <div>
-            <div className="flex items-center pb-4 gap-4">
+        <div style={{maxWidth: 'calc(100vw - 160px)'}}>
+            <div className="flex flex-col md:flex-row pb-4 gap-4">
                 {/* input */}
                 <Input
                     placeholder="Pesquise qualquer campo"
@@ -122,14 +122,14 @@ export function UserDataTable<TData, TValue>({
                     className="max-w-sm"
                 />
 
-                <Link className={buttonVariants({ variant: "default" })} href="/specialist/form">
+                <Link className={buttonVariants({ variant: "default" })} href="/specialist/users/form">
                     Cadastrar Novo Usuário
                 </Link>
             </div>
 
             {/* table */}
             <h3 className='text-xl leading-none tracking-tight mb-3'>Usuários Cadastrados</h3>
-            <div className="rounded-md border">
+            <div className="rounded-md border overflow-auto">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => {

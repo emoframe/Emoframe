@@ -9,7 +9,7 @@ const Profile = async () => {
     const data = await getById(session?.user?.uid!, "user");
 
     return (
-        <ProfileCard data={data}/>
+        <ProfileCard data={data} className="m-5"/>
     )
 }
 
