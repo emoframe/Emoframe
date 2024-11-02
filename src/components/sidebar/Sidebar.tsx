@@ -116,11 +116,11 @@ const SidebarCore = ({ children }) => {
                                         <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                                         <span className="sr-only">Alto contraste</span>
                                     </Button>
-                                    <Button variant="icon" size="icon">
+                                    <Button variant="icon" size="icon" onClick={() => document.documentElement.style.fontSize = `${parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size')) + 2}px`}>
                                         <AArrowUp className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>
                                         <span className="sr-only">Aumentar fonte</span>
                                     </Button>
-                                    <Button variant="icon" size="icon">
+                                    <Button variant="icon" size="icon" onClick={() => document.documentElement.style.fontSize = `${parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size')) - 2}px`}>
                                         <AArrowDown className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>
                                         <span className="sr-only">Diminuir fonte</span>
                                     </Button>
@@ -219,7 +219,6 @@ const Sidebar = () => {
 
     const globalItems: SidebarItemType[] = [
         { text: "Início", href: redirect(), icon: <Home size={20} /> },
-        { text: "Sobre nós", href: "/about", icon: <Info size={20} /> },
     ]
 
     const userItems: SidebarItemType[] = [
@@ -231,6 +230,10 @@ const Sidebar = () => {
         { text: "Avaliações", href: "/specialist/evaluations", icon: <BookOpenText size={20} /> },
         { text: "Serviços", href: "/specialist/services", icon: <BookUser size={20} /> },
         { text: "Resultados", href: "/specialist/results", icon: <LineChart size={20} /> },
+    ]
+
+    const bottomItems: SidebarItemType[] = [
+        { text: "Sobre nós", href: "/about", icon: <Info size={20} /> },
     ]
 
     return (
@@ -249,6 +252,11 @@ const Sidebar = () => {
             {
                 (session?.user.type == 'user') &&
                 userItems.map((item, index) => (
+                    <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)} />
+                ))
+            }
+            {
+                bottomItems.map((item, index) => (
                     <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)} />
                 ))
             }
