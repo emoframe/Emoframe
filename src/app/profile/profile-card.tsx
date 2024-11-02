@@ -31,7 +31,7 @@ const description = {
     individual_income: "Renda Individual Mensal",
     family_income: "Renda Familiar Mensal",
     address: "Endereço",
-    birthday: "Aniversário",
+    birthday: "Data de Nascimento",
     specialistId: "ID do Especialista",
     forms: "Formulários",
 }

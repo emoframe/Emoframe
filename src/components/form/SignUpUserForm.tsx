@@ -272,7 +272,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name='birthday'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Data de aniversário</FormLabel>
+                <FormLabel>Data de Nascimento</FormLabel>
                 <FormControl>
                   <DatePicker
                     onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}

@@ -222,7 +222,7 @@ const EditUserDataForm = ({ data }: any) => {
                             name='birthday'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Data de aniversário</FormLabel>
+                                    <FormLabel>Data de Nascimento</FormLabel>
                                     <FormControl>
                                         <DatePicker
                                             defaultValue={parseDate(field.value.toISOString().split("T")[0])}
