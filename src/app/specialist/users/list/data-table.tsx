@@ -122,7 +122,7 @@ export function UserDataTable<TData, TValue>({
                     className="max-w-sm"
                 />
 
-                <Link className={buttonVariants({ variant: "default" })} href="/specialist/form">
+                <Link className={buttonVariants({ variant: "default" })} href="/specialist/users/form">
                     Cadastrar Novo Usuário
                 </Link>
             </div>

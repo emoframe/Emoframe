@@ -1,25 +1,15 @@
 import React from 'react'
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
-import UserDataTable from './data-table';
-import { columns } from "./columns";
-import { search } from '@/lib/firebase';
-import { Filter } from '@/types/firebase';
+import { OptionCard } from '@/components/OptionCard';
 
 const Users = async () => {
-  const session: any = await getServerSession(authOptions);
-  
-  const filter: Filter[] = [
-    {
-        field: "specialistId",
-        operation: "==",
-        value: session?.user.uid!
-    }
-  ];
-  const data = await search("user", filter);
-
   return (
-    <UserDataTable columns={columns} data={data} />
+      <>
+          <h1 className="text-2xl font-bold mb-6">Usuários</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <OptionCard content={{title: 'Ver Usuários', description: '', href: '/specialist/users/list'}} />
+              <OptionCard content={{title: 'Cadastrar Novo Usuário', description: '', href: '/specialist/users/form'}} />
+          </div>
+      </>
   )
 }
 
