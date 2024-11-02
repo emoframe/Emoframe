@@ -22,7 +22,7 @@ html, body {
     --primary-foreground: rgb(210, 238, 201); /* Verde Claro */
     --primary-background: rgb(252, 252, 252); /* Branco */
 
-    --content: rgb(115, 119, 123); /*Texto*/
+    --content: hsl(210, 3%, 30%); /*Texto*/
  
     --secondary: rgb(243, 244, 246);
     --secondary-foreground: rgb(17, 24, 39);
