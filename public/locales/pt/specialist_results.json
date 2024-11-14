@@ -1,0 +1,13 @@
+{
+    "title": "Busca de resultados",
+    "searchLabel": "Pesquise qualquer campo",
+    "noResultsFound": "Sem resultados",
+    "previousLabel": "Anterior",
+    "nextLabel": "Próximo",
+    "columnFullName": "Nome do Usuário",
+    "columnEmail": "E-mail",
+    "columnEvaluation": "Avaliação",
+    "columnInstrument": "Instrumento",
+    "columnDate": "Data da Resposta",
+    "actionsOptionView": "Ver Resultado"
+}

@@ -1,0 +1,13 @@
+{
+    "loginLabel": "Sign In",
+    "accessibilityLabel": "Accessibility",
+    "homeLabel": "Home",
+    "evaluationsLabel": "Evaluations",
+    "usersLabel": "Users",
+    "servicesLabel": "Services",
+    "resultsLabel": "Results",
+    "aboutLabel": "About us",
+    "accountMenuLabel": "My Account",
+    "accountMenuOptionProfile": "Profile",
+    "accountMenuOptionSignOut": "Sign out"
+}

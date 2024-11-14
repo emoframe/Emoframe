@@ -1,0 +1,18 @@
+{
+    "subtitle": "Um framework de apoio à etapa de avaliação de soluções computacionais",
+    "description_1": "Avaliar corretamente um produto é crucial para garantir que ele atenda aos requisitos e expectativas. No desenvolvimento de software, uma avaliação eficaz permite identificar problemas que podem ter passado despercebidos nas etapas anteriores do processo.",
+    "description_2": "O <b>EmoFrame</b> é um ambiente digital que oferece suporte à etapa de avaliação, ajudando a destacar falhas potenciais. Nossa solução foi projetada para considerar diversos fatores, como o perfil do usuário e o ambiente onde a avaliação será realizada, oferecendo uma seleção criteriosa dos métodos de avaliação mais adequados.",
+    "description_3": "Escolher o método correto pode ser um desafio, especialmente na área de Interação Humano-Computador, devido a sua natureza interdisciplinar. O <b>EmoFrame</b> combina ferramentas de diferentes domínios para apoiar profissionais de computação e outras áreas na aplicação sistemática desses instrumentos, buscando fornecer resultados precisos e confiáveis.",
+    "reasoningTitle": "Por que usar o EmoFrame?",
+    "reasoningItemTitle_1": "Avaliação Personalizada",
+    "reasoningItemDescription_1": "Considera desde o perfil do usuário até o ambiente de avaliação, garantindo que o método escolhido seja o mais adequado",
+    "reasoningItemTitle_2": "Ferramentas Integradas",
+    "reasoningItemDescription_2": "Combina instrumentos de diferentes domínios para uma aplicação sistemática e eficaz",
+    "reasoningItemTitle_3": "Processos Complexos Simplificados",
+    "reasoningItemDescription_3": "Ideal para profissionais de computação e áreas afins que buscam uma solução integrada e prática",
+    "reasoningItemTitle_4": "Apoio Multidisciplinar",
+    "reasoningItemDescription_4": "Pensado para o campo interdisciplinar da IHC, mas também aplicável a outras áreas de avaliação",
+    "knowMoreTitle": "Quer saber mais?",
+    "knowMoreDescription": "Descubra como o EmoFrame pode otimizar sua avaliação de software e melhorar a qualidade do seu produto.",
+    "registerLabel": "Cadastre-se"
+}

@@ -5,6 +5,7 @@ import { ColumnDef, RowData, SortingFn, sortingFns } from "@tanstack/react-table
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -58,6 +59,7 @@ export const columns: ColumnDef<User>[] = [
     id: 'fullName',
     meta: {name: "Nome Completo"},
     header: ({ column }) => {
+      const { t } = useTranslation('specialist_evaluations_register');
       return (
         <Button
           variant="ghost"
@@ -66,7 +68,7 @@ export const columns: ColumnDef<User>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Nome Completo   
+          {t('step3UsersColumnFullName')}   
         </Button>
       );
     },
@@ -76,7 +78,10 @@ export const columns: ColumnDef<User>[] = [
     sortingFn: fuzzySort,
   },
   {
-    header: "E-mail",
+    header: () => {
+      const { t } = useTranslation('specialist_evaluations_register');
+      return t('step3UsersColumnEmail');
+    },
     meta: {name: "E-mail"},
     accessorKey: "email",
   },

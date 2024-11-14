@@ -50,6 +50,7 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Label } from "@/components/ui/label";
 import { instruments, DataTableProps } from "@/types/forms";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
     interface FilterFns {
@@ -109,12 +110,14 @@ export function UserDataTable<TData, TValue>({
         },
     });
 
+    const { t } = useTranslation('specialist_users_view')
+
     return (
         <div style={{maxWidth: 'calc(100vw - 160px)'}}>
             <div className="flex flex-col md:flex-row pb-4 gap-4">
                 {/* input */}
                 <Input
-                    placeholder="Pesquise qualquer campo"
+                    placeholder={t('searchPlaceholder')}
                     value={globalFilter ?? ''}
                     onChange={(e) => {
                         setGlobalFilter(e.target.value);
@@ -123,12 +126,12 @@ export function UserDataTable<TData, TValue>({
                 />
 
                 <Link className={buttonVariants({ variant: "default" })} href="/specialist/users/form">
-                    Cadastrar Novo Usuário
+                    {t('registerLabel')}
                 </Link>
             </div>
 
             {/* table */}
-            <h3 className='text-xl leading-none tracking-tight mb-3'>Usuários Cadastrados</h3>
+            <h3 className='text-xl leading-none tracking-tight mb-3'>{t('title')}</h3>
             <div className="rounded-md border overflow-auto">
                 <Table>
                     <TableHeader>
@@ -182,7 +185,7 @@ export function UserDataTable<TData, TValue>({
                     }}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Anterior
+                    {t('previousPageLabel')}
                 </Button>
                 <Button
                     variant="outline"
@@ -192,12 +195,11 @@ export function UserDataTable<TData, TValue>({
                     }}
                     disabled={!table.getCanNextPage()}
                 >
-                    Próximo
+                    {t('nextPageLabel')}
                 </Button>
             </div>
             <div className="flex-1 text-sm text-muted-foreground">
-                {table.getFilteredSelectedRowModel().rows.length} de{" "}
-                {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
+                {t('selectedRows', {selected: table.getFilteredSelectedRowModel().rows.length, total: table.getFilteredRowModel().rows.length})}
             </div>
         </div>
     );

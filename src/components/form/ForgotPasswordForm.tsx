@@ -18,6 +18,8 @@ import Link from 'next/link';
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from '@/lib/firebase';
 import { useRouter, redirect } from 'next/navigation';
+import { Trans, useTranslation } from 'react-i18next';
+import "@/config/i18";
 
 
 const FormSchema = z.object({
@@ -39,6 +41,8 @@ const ForgotPasswordForm = () => {
     })
   };
 
+  const { t } = useTranslation('forgotPassword');
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
@@ -48,7 +52,7 @@ const ForgotPasswordForm = () => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('emailLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='mail@example.com' {...field} />
                 </FormControl>
@@ -58,17 +62,19 @@ const ForgotPasswordForm = () => {
           />
         </div>
         <Button className='w-full mt-6' type='submit'>
-          Enviar
+          {t('sendLabel')}
         </Button>
       </form>
       <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-       ou
+       {t('forgotPasswordAlternativesSeparator')}
       </div>
       <p className='text-center text-sm  mt-2'>
+        <Trans ns='forgotPassword' i18nKey='forgotPasswordAlternativesSignUp'>
         Se não possuir uma conta, por favor&nbsp;
         <Link className='text-blue-500 hover:underline' href='/sign-up'>
           Registre-se
         </Link>
+        </Trans>
       </p>
     </Form>
   );

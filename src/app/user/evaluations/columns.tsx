@@ -15,6 +15,7 @@ import { compareItems } from "@tanstack/match-sorter-utils";
 import Link from "next/link";
 import { createQueryString } from "@/lib/utils";
 import { Evaluation, instruments } from "@/types/forms";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -68,6 +69,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     id: 'identification',
     meta: {name: "Identificação"},
     header: ({ column }) => {
+      const { t } = useTranslation('user_evaluations');
       return (
         <Button
           variant="ghost"
@@ -76,7 +78,7 @@ export const columns: ColumnDef<Evaluation>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Identificação   
+          {t('columnId')}   
         </Button>
       );
     },
@@ -92,6 +94,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     id: 'instrument',
     meta: {name: "Instrumento"},
     header: ({ column }) => {
+      const { t } = useTranslation('user_evaluations');
       return (
         <Button
           variant="ghost"
@@ -100,7 +103,7 @@ export const columns: ColumnDef<Evaluation>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Instrumento   
+          {t('columnInstrument')}   
         </Button>
       );
     },
@@ -114,6 +117,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     id: 'method',
     meta: {name: "Método"},
     header: ({ column }) => {
+      const { t } = useTranslation('user_evaluations');
       return (
         <Button
           variant="ghost"
@@ -122,7 +126,7 @@ export const columns: ColumnDef<Evaluation>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Método   
+          {t('columnMethod')}   
         </Button>
       );
     },
@@ -132,7 +136,10 @@ export const columns: ColumnDef<Evaluation>[] = [
     sortingFn: fuzzySort,
   },
   {
-    header: "Data da Avaliação",
+    header: () => {
+      const { t } = useTranslation('user_evaluations');
+      return t('columnDate');
+    },
     meta: {name: "Data da Avaliação"},
     accessorKey: "date",
   }

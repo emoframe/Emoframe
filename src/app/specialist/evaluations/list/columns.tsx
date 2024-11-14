@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
 import { Evaluation, instruments } from "@/types/forms";
 import ResultsButton from "@/components/ResultsButton";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -66,6 +67,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     id: 'identification',
     meta: {name: "Identificação"},
     header: ({ column }) => {
+      const { t }= useTranslation('specialist_evaluations_view');
       return (
         <Button
           variant="ghost"
@@ -74,7 +76,7 @@ export const columns: ColumnDef<Evaluation>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Identificação   
+          {t('columnId')}   
         </Button>
       );
     },
@@ -90,6 +92,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     id: 'instrument',
     meta: {name: "Instrumento"},
     header: ({ column }) => {
+      const { t }= useTranslation('specialist_evaluations_view');
       return (
         <Button
           variant="ghost"
@@ -98,7 +101,7 @@ export const columns: ColumnDef<Evaluation>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Instrumento   
+          {t('columnTool')}   
         </Button>
       );
     },
@@ -112,6 +115,7 @@ export const columns: ColumnDef<Evaluation>[] = [
     id: 'method',
     meta: {name: "Método"},
     header: ({ column }) => {
+      const { t }= useTranslation('specialist_evaluations_view');
       return (
         <Button
           variant="ghost"
@@ -120,7 +124,7 @@ export const columns: ColumnDef<Evaluation>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Método   
+          {t('columnMethod')}   
         </Button>
       );
     },
@@ -130,7 +134,10 @@ export const columns: ColumnDef<Evaluation>[] = [
     sortingFn: fuzzySort,
   },
   {
-    header: "Data da Avaliação",
+    header: () => {
+      const { t }= useTranslation('specialist_evaluations_view');
+      return t('columnDate');
+    },
     meta: {name: "Data da Avaliação"},
     accessorKey: "date",
   },
@@ -140,6 +147,7 @@ export const columns: ColumnDef<Evaluation>[] = [
 
     cell: ({ row }) => {
       const evaluation = row.original;
+      const { t }= useTranslation('specialist_evaluations_view');
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -148,14 +156,14 @@ export const columns: ColumnDef<Evaluation>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('actionsLabel')}</DropdownMenuLabel>
 
             <ResultsButton
               evaluation={evaluation}
               successPath="/specialist/evaluations/results"
             >
               <DropdownMenuItem>
-                Ver resultados
+                {t('actionsOptionResults')}
               </DropdownMenuItem>
             </ResultsButton>
 
@@ -164,7 +172,7 @@ export const columns: ColumnDef<Evaluation>[] = [
                 navigator.clipboard.writeText(evaluation.uid!.toString());
               }}
             >
-              Copiar ID
+              {t('actionsOptionCopyId')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

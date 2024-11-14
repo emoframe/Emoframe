@@ -1,0 +1,13 @@
+{
+    "loginLabel": "Entre",
+    "accessibilityLabel": "Acessibilidade",
+    "homeLabel": "Início",
+    "evaluationsLabel": "Avaliações",
+    "usersLabel": "Usuários",
+    "servicesLabel": "Serviços",
+    "resultsLabel": "Resultados",
+    "aboutLabel": "Sobre nós",
+    "accountMenuLabel": "Minha Conta",
+    "accountMenuOptionProfile": "Perfil",
+    "accountMenuOptionSignOut": "Sair"
+}

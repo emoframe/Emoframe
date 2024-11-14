@@ -1,0 +1,23 @@
+{
+    "step1Id": "Etapa 1",
+    "step1Name": "Dados Gerais",
+    "step2Id": "Etapa 2",
+    "step2Name": "Instrumento",
+    "step3Id": "Etapa 3",
+    "step3Name": "Usuários",
+    "step1FieldIdentificationLabel": "Identificação da Avaliação",
+    "step1FieldDateLabel": "Data da Avaliação",
+    "step1FieldMethodLabel": "Método de Avaliação",
+    "step1FieldMethodOptionSelfEval": "Autorrelato",
+    "previousLabel": "Anterior",
+    "nextLabel": "Próximo",
+    "step2FieldTemplatesLabel": "Usar Templates",
+    "step2FieldInstrumentLabel": "Instrumento de Avaliação",
+    "step2FieldInstrumentPlaceholder": "Método de Avaliação",
+    "step3FieldUsersLabel": "Usuários",
+    "step3FieldSearchPlaceholder": "Pesquise qualquer campo",
+    "step3FieldUsersSelectedRows": "{{selected}} de {{total}} linha(s) selecionada(s)",
+    "step3ConfirmLabel": "Confirmar",
+    "step3UsersColumnFullName": "Nome Completo",
+    "step3UsersColumnEmail": "E-mail"
+}

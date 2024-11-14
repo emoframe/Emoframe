@@ -1,0 +1,13 @@
+{
+    "welcome": "Boas vindas, {{name}}",
+    "tutorialsTitle": "Vídeos e tutoriais",
+    "tutorialsDescription": "Saiba como criar uma nova avaliação",
+    "explanationTitle": "O que é o EMOFRAME?",
+    "explanationDescription": "O EmoFrame é uma plataforma digital integrada que auxilia na avaliação de produtos, combinando ferramentas de diferentes áreas para selecionar o método de avaliação ideal, especialmente no campo da Interação Humano-Computador.",
+    "recentEvaluations": "Últimas avaliações",
+    "recentResults": "Últimos resultados",
+    "userQuantity": "Nº usuários",
+    "noItemsFound": "Nenhum item encontrado",
+    "publicationsTitle": "Últimas publicações",
+    "seeMore": "Ver mais"
+}

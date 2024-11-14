@@ -1,0 +1,15 @@
+{
+    "searchPlaceholder": "Search any field",
+    "createLabel": "Create New Evaluation",
+    "title": "Registered Evaluations",
+    "previousLabel": "Previous",
+    "nextLabel": "Next",
+    "selectedRows": "{{selected}} of {{total}} row(s) selected",
+    "columnId": "Identification",
+    "columnTool": "Instrument",
+    "columnMethod": "Method",
+    "columnDate": "Evaluation Date",
+    "actionsLabel": "Actions",
+    "actionsOptionResults": "View results",
+    "actionsOptionCopyId": "Copy ID"
+}

@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { DataTableProps } from "@/types/forms";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
     interface FilterFns {
@@ -100,12 +101,14 @@ export function EvaluationsDataTable<TData, TValue>({
     const rows = table.getRowModel().rows;
     const emptyRows = pageSize - rows.length;
 
+    const { t } = useTranslation('specialist_evaluations_view');
+
     return (
         <div className="flex flex-col h-full">
             <div className="flex flex-col md:flex-row pb-4 gap-4 w-full">
                 {/* input */}
                 <Input
-                    placeholder="Pesquise qualquer campo"
+                    placeholder={t('searchPlaceholder')}
                     value={globalFilter ?? ''}
                     onChange={(e) => {
                         setGlobalFilter(e.target.value);
@@ -114,12 +117,12 @@ export function EvaluationsDataTable<TData, TValue>({
                 />
 
                 <Link className={buttonVariants({ variant: "default" })} href="/specialist/evaluations/form">
-                    Criar Nova Avaliação
+                    {t('createLabel')}
                 </Link>
             </div>
 
             {/* table */}
-            <h3 className='text-xl leading-none tracking-tight mb-3'>Avaliações Cadastradas</h3>
+            <h3 className='text-xl leading-none tracking-tight mb-3'>{t('title')}</h3>
             <div className="flex flex-col rounded-md border h-full overflow-auto">
                 <Table className="h-full">
                     <TableHeader>
@@ -181,7 +184,7 @@ export function EvaluationsDataTable<TData, TValue>({
                     }}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Anterior
+                    {t('previousLabel')}
                 </Button>
                 <Button
                     variant="default"
@@ -191,12 +194,11 @@ export function EvaluationsDataTable<TData, TValue>({
                     }}
                     disabled={!table.getCanNextPage()}
                 >
-                    Próximo
+                    {t('nextLabel')}
                 </Button>
             </div>
             <div className="flex-1 text-sm text-muted-foreground">
-                {table.getFilteredSelectedRowModel().rows.length} de{" "}
-                {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
+                {t('selectedRows', {selected: table.getFilteredSelectedRowModel().rows.length, total: table.getFilteredRowModel().rows.length})}
             </div>
         </div>
     );

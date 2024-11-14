@@ -5,6 +5,8 @@ import { authOptions } from "../../../pages/api/auth/[...nextauth]";
 import UserDashboard from "@/components/UserDashboard";
 import FrequentQuestions from '@/components/FrequentQuestions';
 import VideosTutorials from "@/components/VideoTutorials";
+import Welcome from "@/components/Welcome";
+import WhatIs from "@/components/WhatIs";
 
 //Resolve o problema de cache após atualização
 export const dynamic = "force-dynamic";
@@ -17,21 +19,16 @@ const User = async () => {
     const dashboardData = await getUserDashboardInfo(session?.user.uid!);
     return (
         <div className="max-w-[1400px] mx-auto">
-            <h1 className="text-2xl font-bold mb-6">Boas vindas, {session?.user.name}</h1>
+            <Welcome name={session?.user.name}/>
             <UserDashboard
                 pendingEvaluations={dashboardData.pendingEvaluations}
                 availableResults={dashboardData.availableResults}
             />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <VideosTutorials thumbnail="" title="Saiba como responder a uma avaliação" />
+                <VideosTutorials thumbnail="" ns="user" />
                 <FrequentQuestions />
             </div>
-            <div className="bg-background p-6 rounded-lg shadow-lg mt-6">
-                <h2 className="text-lg font-bold mb-4">O que é o EMOFRAME?</h2>
-                <p className="text-sm">
-                    O EmoFrame é uma plataforma digital integrada que auxilia na avaliação de produtos, combinando ferramentas de diferentes áreas para selecionar o método de avaliação ideal, especialmente no campo da Interação Humano-Computador.
-                </p>
-            </div>
+            <WhatIs/>
         </div>
     )
 }

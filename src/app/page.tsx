@@ -6,29 +6,32 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { Trans, useTranslation } from 'react-i18next';
+import "@/config/i18";
 
-const contents: {title: String, description: String}[] = [
+const contents: {title: string, description: string}[] = [
     {
-        title: 'Avaliação Personalizada',
-        description: 'Considera desde o perfil do usuário até o ambiente de avaliação, garantindo que o método escolhido seja o mais adequado',
+        title: 'reasoningItemTitle_1',
+        description: 'reasoningItemDescription_1',
     },
     {
-        title: 'Ferramentas Integradas',
-        description: 'Combina instrumentos de diferentes domínios para uma aplicação sistemática e eficaz',
+        title: 'reasoningItemTitle_2',
+        description: 'reasoningItemDescription_2',
     },
     {
-        title: 'Processos Complexos Simplificados',
-        description: 'Ideal para profissionais de computação e áreas afins que buscam uma solução integrada e prática',
+        title: 'reasoningItemTitle_3',
+        description: 'reasoningItemDescription_3',
     },
     {
-        title: 'Apoio Multidisciplinar',
-        description: 'Pensado para o campo interdisciplinar da IHC, mas também aplicável a outras áreas de avaliação',
+        title: 'reasoningItemTitle_4',
+        description: 'reasoningItemDescription_4',
     },
 ];
 
 export default function Home() {
     const { theme } = useTheme();
     const [themeState, setThemeState] = useState<string>();
+    const { t } = useTranslation('home');
 
     useEffect(() => {
         theme && setThemeState(theme);
@@ -51,17 +54,17 @@ export default function Home() {
                             Emo​Frame
                         </h1>
                         <h2 className="text-2xl font-bold mb-4">
-                            Um framework de apoio à etapa de avaliação de soluções computacionais
+                            {t('subtitle')}
                         </h2>
                         <div className="font-extralight text-justify flex flex-col gap-4">
                             <p>
-                                Avaliar corretamente um produto é crucial para garantir que ele atenda aos requisitos e expectativas. No desenvolvimento de software, uma avaliação eficaz permite identificar problemas que podem ter passado despercebidos nas etapas anteriores do processo.
+                                {t('description_1')}
                             </p>
                             <p>
-                                O <b>EmoFrame</b> é um ambiente digital que oferece suporte à etapa de avaliação, ajudando a destacar falhas potenciais. Nossa solução foi projetada para considerar diversos fatores, como o perfil do usuário e o ambiente onde a avaliação será realizada, oferecendo uma seleção criteriosa dos métodos de avaliação mais adequados.
+                                <Trans ns="home" i18nKey="description_2" components={{b: <b/>}}/>
                             </p>
                             <p>
-                            Escolher o método correto pode ser um desafio, especialmente na área de Interação Humano-Computador, devido a sua natureza interdisciplinar. O <b>EmoFrame</b> combina ferramentas de diferentes domínios para apoiar profissionais de computação e outras áreas na aplicação sistemática desses instrumentos, buscando fornecer resultados precisos e confiáveis.
+                            <Trans ns="home" i18nKey="description_3" components={{b: <b/>}}/>
                             </p>
                         </div>
                 </div>
@@ -75,26 +78,26 @@ export default function Home() {
             <div className="flex flex-col gap-8 p-10">
                 <div className="flex flex-col items-center">
                     <h2 className="text-2xl font-bold mb-6">
-                        Por que usar o EmoFrame?
+                        {t('reasoningTitle')}
                     </h2>
                     <div className="flex flex-wrap justify-center gap-6">
                         {contents.map(({title, description}, i) => (
                             <div key={i} className="max-w-xs flex flex-col justify-between gap-4">
-                                <h2 className="text-xl text-center font-semibold">{title}</h2>
-                                <p className="font-extralight text-justify">{description}</p>
+                                <h2 className="text-xl text-center font-semibold">{t(title)}</h2>
+                                <p className="font-extralight text-justify">{t(description)}</p>
                             </div>
                         ))}
                     </div>
                 </div>
                 <div className="flex flex-col items-center">
                     <h2 className="text-2xl font-bold mb-6">
-                        Quer saber mais?
+                        {t('knowMoreTitle')}
                     </h2>
                     <p className="font-extralight text-justify mb-5">
-                        Descubra como o EmoFrame pode otimizar sua avaliação de software e melhorar a qualidade do seu produto.
+                        {t('knowMoreDescription')}
                     </p>
                     <Link className={buttonVariants({variant: "default"})} href="/sign-up">
-                        Cadastre-se
+                        {t('registerLabel')}
                     </Link> 
                 </div>
             </div>

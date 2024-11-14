@@ -1,0 +1,10 @@
+{
+    "searchPlaceholder": "Search any field",
+    "previousLabel": "Previous",
+    "nextLabel": "Next",
+    "selectedRows": "{{selected}} of {{total}} row(s) selected",
+    "columnId": "Identification",
+    "columnInstrument": "Instrument",
+    "columnMethod": "Method",
+    "columnDate": "Evaluation Date"
+}

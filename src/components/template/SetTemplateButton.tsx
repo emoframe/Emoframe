@@ -24,6 +24,7 @@ import { createRegistration } from "@/lib/firebase";
 import { Template, scales, questions_size } from "@/types/forms";
 import { useState } from "react";
 import Combobox from "@/components/ui/combobox";
+import { useTranslation } from "react-i18next";
 
 const FormSchema = z.object({
   title: z.string().min(1, 'A seleção é obrigatória'),
@@ -70,6 +71,8 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
     }
   }
 
+  const { t } = useTranslation('specialist_services_templates');
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -78,13 +81,13 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
           className="group text-content shadow-2xl shadow-shadow_color bg-primary-background border-2 border-content border-dashed h-[250px] w-[250px] items-center justify-center flex flex-col gap-4 hover:cursor-pointer hover:border-primary duration-300"
         >
           <File className="h-8 w-8 group-hover:text-primary duration-300" />
-          <p className="font-bold text-xl group-hover:text-primary duration-300">Criar novo template</p>
+          <p className="font-bold text-xl group-hover:text-primary duration-300">{t('createLabel')}</p>
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Criar template</DialogTitle>
-          <DialogDescription>Inicie a criação de um template para ser usado em avaliações</DialogDescription>
+          <DialogTitle>{t('dialogTitle')}</DialogTitle>
+          <DialogDescription>{t('dialogDescription')}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -93,7 +96,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Título</FormLabel>
+                  <FormLabel>{t('titleLabel')}</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -106,12 +109,12 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
               name='scale_type'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Escala</FormLabel>
+                  <FormLabel>{t('scaleLabel')}</FormLabel>
                   <FormControl>
                     <Combobox
                       onSelect={(value) => field.onChange(value)}
                       options={scales}
-                      placeholder="Selecione uma opção"
+                      placeholder={t('scalePlaceholder')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -123,12 +126,12 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
               name='questions_size'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Quantidade de opções</FormLabel>
+                  <FormLabel>{t('sizeLabel')}</FormLabel>
                   <FormControl>
                     <Combobox
                       onSelect={(value) => field.onChange(value)}
                       options={questions_size}
-                      placeholder="Selecione uma opção"
+                      placeholder={t('scalePlaceholder')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -140,7 +143,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Descrição</FormLabel>
+                  <FormLabel>{t('descriptionLabel')}</FormLabel>
                   <FormControl>
                     <Textarea rows={5} {...field} />
                   </FormControl>
@@ -150,7 +153,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
             />
             <DialogFooter>
               <Button type='submit' disabled={form.formState.isSubmitting} className="w-full mt-4">
-                {!form.formState.isSubmitting && <span>Salvar</span>}
+                {!form.formState.isSubmitting && <span>{t('saveLabel')}</span>}
                 {form.formState.isSubmitting && <Loader2 className="animate-spin" />}
               </Button>
             </DialogFooter>

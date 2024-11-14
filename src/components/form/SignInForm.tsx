@@ -16,6 +16,8 @@ import { Button } from '../ui/button';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Trans, useTranslation } from 'react-i18next';
+import "@/config/i18";
 
 
 const FormSchema = z.object({
@@ -27,6 +29,7 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
+  const { t } = useTranslation('signin');
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -48,7 +51,7 @@ const SignInForm = () => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('emailLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='mail@example.com' {...field} />
                 </FormControl>
@@ -61,11 +64,11 @@ const SignInForm = () => {
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Senha</FormLabel>
+                <FormLabel>{t('passwordLabel')}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
-                    placeholder='Insira sua senha'
+                    placeholder={t('passwordPlaceholder')}
                     {...field}
                   />
                 </FormControl>
@@ -75,23 +78,22 @@ const SignInForm = () => {
           />
         </div>
         <Button className='w-full mt-6' type='submit'>
-          Entrar
+          {t('loginLabel')}
         </Button>
       </form>
       <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-       ou
+       {t('loginAlternativesSeparator')}
       </div>
       <p className='text-center text-sm  mt-2'>
-        Se não possuir uma conta, por favor&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-up'>
-          Registre-se
-        </Link>
+        <Trans ns='signin' i18nKey="loginAlternativesSignUp">Se não possuir uma conta, por favor <Link className='text-blue-500 hover:underline' href='/sign-up'>Registre-se</Link></Trans>
       </p>
       <p className='text-center text-sm  mt-2'>
+        <Trans ns="signin" i18nKey="loginAlternativesForgotPassword">
         Se esqueceu ou deseja trocar sua senha&nbsp;
         <Link className='text-blue-500 hover:underline' href='/forgot-password'>
           Acesse
         </Link>
+        </Trans>
       </p>
     </Form>
   );
