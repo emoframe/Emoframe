@@ -280,21 +280,21 @@ export interface Gds {
 }
 
 export const gdsQuestions = [
-    { index: 1, field: "satisfied", score: "Negative", question: "Está satisfeito (a) com a sua vida?" },
-    { index: 2, field: "no_activities", score: "Affirmative", question: "Interrompeu muitas de suas atividades?" },
-    { index: 3, field: "empty", score: "Affirmative", question: "Acha sua vida vazia?" },
-    { index: 4, field: "upset", score: "Affirmative", question: "Aborrece-se com frequência?" },
-    { index: 5, field: "good", score: "Negative", question: "Sente-se bem com a vida na maior parte do tempo?" },
-    { index: 6, field: "bad", score: "Affirmative", question: "Teme que algo ruim lhe aconteça?" },
-    { index: 7, field: "happy", score: "Negative", question: "Sente-se alegre a maior parte do tempo?" },
-    { index: 8, field: "helpless", score: "Affirmative", question: "Sente-se desamparado com frequência?" },
-    { index: 9, field: "stay_at_home", score: "Affirmative", question: "Prefere ficar em casa a sair e fazer coisas novas?" },
-    { index: 10, field: "problems_of_memory", score: "Affirmative", question: "Acha que tem mais problemas de memória que as outras pessoas?" },
-    { index: 11, field: "wonderful_to_stay_alive", score: "Negative", question: "Acha que é maravilhoso estar vivo (a)?" },
-    { index: 12, field: "useless", score: "Affirmative", question: "Sente-se inútil?" },
-    { index: 13, field: "full_of_energy", score: "Negative", question: "Sente-se cheio (a) de energia?" },
-    { index: 14, field: "hopeless", score: "Affirmative", question: "Sente-se sem esperança?" },
-    { index: 15, field: "unlucky", score: "Affirmative", question: "Acha que os outros têm mais sorte que você?" }
+    { index: 1, field: "satisfied", score: "Negative", question: "question1Label" },
+    { index: 2, field: "no_activities", score: "Affirmative", question: "question2Label" },
+    { index: 3, field: "empty", score: "Affirmative", question: "question3Label" },
+    { index: 4, field: "upset", score: "Affirmative", question: "question4Label" },
+    { index: 5, field: "good", score: "Negative", question: "question5Label" },
+    { index: 6, field: "bad", score: "Affirmative", question: "question6Label" },
+    { index: 7, field: "happy", score: "Negative", question: "question7Label" },
+    { index: 8, field: "helpless", score: "Affirmative", question: "question8Label" },
+    { index: 9, field: "stay_at_home", score: "Affirmative", question: "question9Label" },
+    { index: 10, field: "problems_of_memory", score: "Affirmative", question: "question10Label" },
+    { index: 11, field: "wonderful_to_stay_alive", score: "Negative", question: "question11Label" },
+    { index: 12, field: "useless", score: "Affirmative", question: "question12Label" },
+    { index: 13, field: "full_of_energy", score: "Negative", question: "question13Label" },
+    { index: 14, field: "hopeless", score: "Affirmative", question: "question14Label" },
+    { index: 15, field: "unlucky", score: "Affirmative", question: "question15Label" }
 ];
 
 export interface Leap {
