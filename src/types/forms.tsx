@@ -199,16 +199,16 @@ export interface Sus {
 }
 
 export const susQuestions = [
-    { index: 1, field: "use_frequency", label: "Eu acho que gostaria de usar esse sistema com frequência." },
-    { index: 2, field: "use_complex", label: "Eu acho o sistema desnecessariamente complexo." },
-    { index: 3, field: "use_easy", label: "Eu achei o sistema fácil de usar." },
-    { index: 4, field: "need_help", label: "Eu acho que precisaria de ajuda de uma pessoa com conhecimentos técnicos para usar o sistema." },
-    { index: 5, field: "function_integration", label: "Eu acho que as várias funções do sistema estão muito bem integradas." },
-    { index: 6, field: "inconsistency", label: "Eu acho que o sistema apresenta muita inconsistência." },
-    { index: 7, field: "learning_curve", label: "Eu imagino que as pessoas aprenderão como usar esse sistema rapidamente." },
-    { index: 8, field: "jumbled", label: "Eu achei o sistema atrapalhado de usar." },
-    { index: 9, field: "confidence", label: "Eu me senti confiante ao usar o sistema." },
-    { index: 10, field: "learn_system", label: "Eu precisei aprender várias coisas novas antes de conseguir usar o sistema." }
+    { index: 1, field: "use_frequency", label: "questionnaireUseFrequencyLabel" },
+    { index: 2, field: "use_complex", label: "questionnaireUseComplexLabel" },
+    { index: 3, field: "use_easy", label: "questionnaireUseEasyLabel" },
+    { index: 4, field: "need_help", label: "questionnaireNeedHelpLabel" },
+    { index: 5, field: "function_integration", label: "questionnaireFunctionIntegrationLabel" },
+    { index: 6, field: "inconsistency", label: "questionnaireInconsistencyLabel" },
+    { index: 7, field: "learning_curve", label: "questionnaireLearningCurveLabel" },
+    { index: 8, field: "jumbled", label: "questionnaireJumbledLabel" },
+    { index: 9, field: "confidence", label: "questionnaireConfidenceLabel" },
+    { index: 10, field: "learn_system", label: "questionnaireLearnSystemLabel" }
 ];
 
 export interface Eaz {

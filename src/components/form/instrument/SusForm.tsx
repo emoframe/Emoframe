@@ -21,13 +21,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { FillEvaluationForm, RadioItem, susQuestions } from '@/types/forms';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/components/ui/use-toast';
+import { useTranslation } from 'react-i18next';
 
 const DefaultProps: RadioItem[] = [
-  {value: '5', label: 'Concordo Fortemente'},
-  {value: '4', label: 'Concordo Parcialmente'},
-  {value: '3', label: 'Neutro'},
-  {value: '2', label: 'Discordo Parcialmente'},
-  {value: '1', label: 'Discordo Fortemente'},
+  {value: '5', label: 'scaleOption5Label'},
+  {value: '4', label: 'scaleOption4Label'},
+  {value: '3', label: 'scaleOption3Label'},
+  {value: '2', label: 'scaleOption2Label'},
+  {value: '1', label: 'scaleOption1Label'},
 ]
 
 const SusFormSchema = z.object(
@@ -60,12 +61,13 @@ const SusForm = (params: FillEvaluationForm & {identification: string}) => {
 
   const { push } = useRouter();
   const { toast } = useToast();
+  const { t } = useTranslation('specialist_services_instruments_sus');
   const onSubmit = async (values: z.infer<typeof SusFormSchema>) => {
     if(!("isViewable" in params)) {
       saveAnswer(values, params.evaluationId, params.userId).then(() => {
         toast({
-          title: "Socilitação aprovada",
-          description: "Avaliação preenchida e salva",
+          title: t("submitTitle"),
+          description: t("submitMessage"),
         });
         push('/user/evaluations');
       }); 
@@ -77,16 +79,16 @@ const SusForm = (params: FillEvaluationForm & {identification: string}) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} >
         <div className="flex flex-col flex-wrap justify-center gap-6">
-          <h1 className="font-bold text-4xl self-center">SUS - {params.identification}</h1>
+          <h1 className="font-bold text-4xl self-center">SUS - {params.identification || t('identificationExample')}</h1>
           
           <div className="flex flex-col justify-center items-center gap-4">
-            <h2 className="text-md self-center"> Clique no botão abaixo para ver exemplos de preenchimento: </h2>
-            <Button className="text-lg lg:min-w-96" type="button">Exemplos</Button>
+            <h2 className="text-md self-center"> {t('examplesButtonDescription')} </h2>
+            <Button className="text-lg lg:min-w-96" type="button">{t('examplesButtonLabel')}</Button>
           </div>
 
           <Separator/>
 
-          <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
+          <h2 className="text-md self-center"> {t('questionnaireAnswersDescription')} </h2>
           {
             susQuestions.map((question, index) => (
               <>
@@ -96,7 +98,7 @@ const SusForm = (params: FillEvaluationForm & {identification: string}) => {
                   name={question.field}
                   render={({ field }) => (
                     <FormItem className="content-center">
-                      <p className="text-xl mb-8"><b>{question.label}</b></p>
+                      <p className="text-xl mb-8"><b>{t(question.label)}</b></p>
                       <FormControl>
                         <RadioGroup
                         onValueChange={field.onChange} 
@@ -110,7 +112,7 @@ const SusForm = (params: FillEvaluationForm & {identification: string}) => {
                                   <RadioGroupItem value={option.value} />
                                 </FormControl>
                                 <FormLabel className="font-normal">
-                                  {option.label}
+                                  {t(option.label)}
                                 </FormLabel>
                               </FormItem>  
                             ))
@@ -129,10 +131,10 @@ const SusForm = (params: FillEvaluationForm & {identification: string}) => {
 
         <div className="flex flex-row justify-around my-8">
           <Button className="basis-1/8 text-lg" type="reset" size="lg" onClick={() => {form.reset()}}>
-            Limpar
+            {t('resetButtonLabel')}
           </Button>
           <Button className='basis-1/8 text-lg' type='submit' size="lg">
-            Enviar
+            {t('finishButtonLabel')}
           </Button>
         </div>
       </form>
