@@ -19,7 +19,7 @@
     "step1Label": "Step 1",
     "step2Label": "Step 2",
     "submitTitle": "Request approved",
-    "submitMessage": "Filled and saved evaluation",
+    "submitMessage": "Evaluation was filled and saved",
     "questionnaireTitle": "GERIATRIC DEPRESSION SCALE - GDS",
     "questionnaireDescription": "Apply the questionnaire by computing the answers that indicate how the person has been feeling in the last week.",
     "questionnaireAnswersDescription": "Mark YES or NO. Each answer should be scored according to the indicator next to it. The final result will be the sum of the 15 answers.",
