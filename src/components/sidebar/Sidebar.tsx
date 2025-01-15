@@ -17,6 +17,7 @@ import { usePathname } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { useTranslation } from 'react-i18next';
 import "@/config/i18";
+import { useSearchParams } from "next/navigation";
 
 type SidebarContextType = {
     expanded: boolean;
@@ -34,8 +35,12 @@ const SidebarCore = ({ children }) => {
     const [themeState, setThemeState] = useState<string>();
     
     const { t, i18n } = useTranslation('sidebar');  // Obtenha o objeto i18n diretamente
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const instrument = searchParams?.get('instrument');
     const toggleLanguage = () => {
         const newLang = i18n.language === 'en' ? 'pt' : 'en';  // Troca entre 'en' e 'pt'
+        if((newLang === 'en') && pathname && ['/specialist/services/instruments/fill'].includes(pathname) && instrument && ['eaz', 'leap'].includes(instrument)) return alert('This page is not available in English');
         i18n.changeLanguage(newLang).then(() => {
           console.log('Language changed to ' + newLang);
         }).catch(err => {
