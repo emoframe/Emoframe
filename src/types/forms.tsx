@@ -8,6 +8,7 @@ export type Instruments = {
     value: Lowercase<string>;
     label: string;
     description?: string,
+    locales: string[];
 }
 
 export type Option = {
@@ -387,37 +388,44 @@ export const instruments: Instruments[] = [
     {  
         value: "panas",
         label: "PANAS",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:panas",
+        locales: ["en", "pt"],
     },
     {  
         value: "sam",
         label: "SAM",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:sam",
+        locales: ["en", "pt"],
     },
     {  
         value: "sus",
         label: "SUS",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:sus",
+        locales: ["en", "pt"],
     },
     {  
         value: "eaz",
         label: "EAZ",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:eaz",
+        locales: ["pt"],
     },
     {  
         value: "brums",
         label: "BRUMS",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:brums",
+        locales: ["en", "pt"],
     },
     {  
         value: "gds",
         label: "GDS",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:gds",
+        locales: ["en", "pt"],
     },
     {  
         value: "leap",
         label: "LEAP",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:leap",
+        locales: ["pt"],
     },
 ];
 

@@ -6,6 +6,7 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
+import "@/config/i18";
 
 export type Content = {
     title: string,
@@ -15,7 +16,8 @@ export type Content = {
 }
 
 export const OptionCard = ({ content }: { content: Content }) => {
-    const { t } = useTranslation('specialist_users')
+    const { t } = useTranslation('specialist_services_instruments');
+    const { t: t2 } = useTranslation('specialist_users');
     return (
         <Card className="flex flex-col shadow-2xl shadow-shadow_color bg-primary-background border-background border-2 hover:-translate-y-3 duration-300 max-w-[512px]">
             <div className="flex flex-col justify-between flex-1"> {/* Container flex para gerenciar o layout interno */}
@@ -33,7 +35,7 @@ export const OptionCard = ({ content }: { content: Content }) => {
                 <CardFooter className="mt-auto"> {/* mt-auto para empurrar o rodapé para baixo */}
                     <Button asChild className="w-full mt-2 text-md gap-4">
                         <Link href={content.href}>
-                            {t('accessLabel')} <ArrowRight />
+                            {t2('accessLabel')} <ArrowRight />
                         </Link>
                     </Button>
                 </CardFooter>
