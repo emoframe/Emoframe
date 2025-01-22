@@ -7,22 +7,22 @@ const contents: {picture: string, name: string, role: string}[] = [
     {
         picture: '/images/kamila.jpeg',
         name: 'Kamila Rios',
-        role: 'Orientadora',
+        role: 'teamRoleLeadResearcher',
     },
     {
         picture: '/images/suzane.jpeg',
         name: 'Suzane Santos',
-        role: 'Coordenadora',
+        role: 'teamRoleResearcher',
     },
     {
         picture: '/images/marcus.jpeg',
         name: 'Marcus Rodrigues',
-        role: 'Desenvolvedor',
+        role: 'teamRoleDev',
     },
     {
         picture: '/images/pedro.jpg',
         name: 'Pedro Falcão',
-        role: 'Desenvolvedor',
+        role: 'teamRoleDev',
     },
 ]
 
@@ -77,10 +77,10 @@ export default function About(){
             <p className="font-extralight text-justify mb-8">{t('description_2')}</p>
             <div className="w-full flex flex-wrap justify-center gap-5 mb-8">
                 {contents.map(({picture, name, role}, i) => (
-                    <div key={i} className="bg-primary-background p-5 rounded-lg max-w-xs flex flex-col justify-between gap-4">
+                    <div key={i} className="bg-primary-background p-5 rounded-lg w-[240px] flex flex-col justify-between gap-4">
                         <Image src={picture} alt="" width="200" height="200" className="h-[200px] object-cover rounded-lg"/>
                         <h2 className="text-xl text-center font-semibold">{name}</h2>
-                        <p className="text-xl font-extralight text-center">{role}</p>
+                        <p className="text-xl font-extralight text-center">{t(role)}</p>
                     </div>
                 ))}
             </div>

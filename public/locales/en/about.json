@@ -24,5 +24,8 @@
     "benefitsDescription": "Our framework was designed to benefit not only Computer Science professionals, but also professionals from areas such as Healthcare, Psychology and Gerontology. For example:",
     "benefitsDescriptionItem_1": "Healthcare professionals can apply instruments from their domains and quickly view the results.",
     "benefitsDescriptionItem_2": "Researchers can associate evaluations of interfaces and interactions with aspects of users' lives.",
-    "publicationsTitle": "Publications"
+    "publicationsTitle": "Publications",
+    "teamRoleLeadResearcher": "Head researcher",
+    "teamRoleResearcher": "Researcher",
+    "teamRoleDev": "Developer"
 }

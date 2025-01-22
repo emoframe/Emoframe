@@ -24,5 +24,8 @@
     "benefitsDescription": "Nosso framework foi projetado para beneficiar não apenas profissionais de Computação, mas também de áreas como Saúde, Psicologia e Gerontologia. Por exemplo:",
     "benefitsDescriptionItem_1": "Profissionais da Saúde podem aplicar instrumentos de seus domínios e visualizar rapidamente os resultados.",
     "benefitsDescriptionItem_2": "Pesquisadores podem associar avaliações de interfaces e interações a aspectos da vida dos usuários.",
-    "publicationsTitle": "Publicações"
+    "publicationsTitle": "Publicações",
+    "teamRoleLeadResearcher": "Pesquisadora responsável",
+    "teamRoleResearcher": "Pesquisadora",
+    "teamRoleDev": "Desenvolvedor"
 }
