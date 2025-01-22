@@ -39,6 +39,24 @@ const DefaultProps: RadioItem[] = [
     {value: '5', label: 'scaleOption5Label'},
 ];
 
+const exampleQuestions = [
+    {
+        label: 'exampleQuestionsLabel_1',
+        selectedValue: '1',
+        description: 'exampleQuestionsDescription_1',
+    },
+    {
+        label: 'exampleQuestionsLabel_2',
+        selectedValue: '3',
+        description: 'exampleQuestionsDescription_2',
+    },
+    {
+        label: 'exampleQuestionsLabel_3',
+        selectedValue: '5',
+        description: 'exampleQuestionsDescription_3',
+    },
+];
+
 const PanasFormSchema = z.object(
     Object.fromEntries(
       panasQuestions.map(item => [
@@ -100,6 +118,7 @@ const PanasForm = (params: FillEvaluationForm) => {
     }
 
     const [isReady, setIsReady] = useState(false);
+    const [isExampleOpen, setIsExampleOpen] = useState(false);
 
     useEffect(() => {
         panasQuestionsChunks.forEach((questions) => (randomizeArray(questions)))
@@ -123,8 +142,30 @@ const PanasForm = (params: FillEvaluationForm) => {
                 <h1 className="font-bold text-4xl self-center"> PANAS </h1>
                 <h2 className="text-md self-center"> {t('questionnaireDescription')} </h2>
                 <div className="flex flex-row justify-around">
-                    <Button className="text-lg basis-1/3" type="button" size="lg">{t('examplesButtonLabel')}</Button>
+                    <Button className="text-lg basis-1/3" type="button" size="lg" onClick={() => setIsExampleOpen(!isExampleOpen)}>{t('examplesButtonLabel')}</Button>
                 </div>
+                {isExampleOpen && exampleQuestions.map(question => (<>
+                    <Separator className="my-4"/>   
+                    <div className="space-x-5 space-y-5 content-center">
+                        <p className="text-xl"><b>{t(question.label)}</b></p>
+                        <RadioGroup
+                        defaultValue={question.selectedValue}
+                        value={question.selectedValue}
+                        className="flex flex-row space-x-5 justify-between">
+                            {DefaultProps.map((defaultProp, index) => (
+                                <div className="flex flex-col items-center space-y-2" key={index}>
+                                    <div>
+                                        <RadioGroupItem value={defaultProp.value}/>
+                                    </div>
+                                    <div className="font-normal text-md">
+                                        {t(defaultProp.label)}
+                                    </div>
+                                </div>
+                            ))}
+                        </RadioGroup>
+                        <h2 className="text-md self-center">{t(question.description)}</h2>
+                    </div>
+                </>))}
                 <Separator className="my-4"/>   
                 <h2 className="text-md self-center"> {t('questionnaireAnswersDescription')} </h2>
 

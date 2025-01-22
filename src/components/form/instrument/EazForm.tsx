@@ -78,6 +78,24 @@ const EazQuestions: EazQuestionsProps[][] = [
   ]
 ];
 
+const exampleQuestions = [
+    {
+        label: 'Exemplo 1. Estou Confiante.',
+        selectedValue: '1',
+        description: 'Nesse caso, a pessoa considerou que a intensidade de confiança que sentiu durante o preenchimento da lista foi muito fraca, pois marcou a opção "1" em relaçao a frase "Estou confiante".',
+    },
+    {
+        label: 'Exemplo 2. Estou Confiante.',
+        selectedValue: '3',
+        description: 'Neste segundo exemplo, a pessoa apresentou uma resposta neutra (Moderadamente) sobre a intensidade de confiança que sentiu dutante o período estipulado, pois selecionou uma opção igualmente distante de “Nada ou muito ligeiramente” ou “Extremamente”.',
+    },
+    {
+        label: 'Exemplo 3. Estou Confiante.',
+        selectedValue: '5',
+        description: 'Já nesse caso, a pessoa considerou que a intensidade de confiança que sentiu durante o preenchimento da lista foi muito forte, uma vez que marcou a opção "5" em relação ao item "Estou confiante".',
+    },
+];
+
 const EazFormSchema = z.object({
   happy: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
   tired: z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {errorMap : (issue, ctx) => ({message: "Escolha uma opção"})}),
@@ -144,6 +162,7 @@ const EazForm = (params: FillEvaluationForm) => {
     }
 
     const [isReady, setIsReady] = useState(false);
+    const [isExampleOpen, setIsExampleOpen] = useState(false);
 
     useEffect(() => {
         EazQuestions.forEach((questions) => (randomizeArray(questions)))
@@ -169,8 +188,30 @@ const EazForm = (params: FillEvaluationForm) => {
                 <h2 className="text-md self-center">  Clique no botão abaixo para ver exemplos de preenchimento: </h2>
 
                 <div className="flex flex-row justify-around">
-                    <Button className="text-lg basis-1/3" type="button" size="lg">Exemplos</Button>
+                    <Button className="text-lg basis-1/3" type="button" size="lg" onClick={() => setIsExampleOpen(!isExampleOpen)}>Exemplos</Button>
                 </div>
+                {isExampleOpen && exampleQuestions.map(question => (<>
+                    <Separator className="my-4"/>   
+                    <div className="space-x-5 space-y-5 content-center">
+                        <p className="text-xl"><b>{question.label}</b></p>
+                        <RadioGroup
+                        defaultValue={question.selectedValue}
+                        value={question.selectedValue}
+                        className="flex flex-row space-x-5 justify-between">
+                            {DefaultProps.map((defaultProp, index) => (
+                                <div className="flex flex-col items-center space-y-2" key={index}>
+                                    <div>
+                                        <RadioGroupItem value={defaultProp.value}/>
+                                    </div>
+                                    <div className="font-normal text-md">
+                                        {defaultProp.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </RadioGroup>
+                        <h2 className="text-md self-center">{question.description}</h2>
+                    </div>
+                </>))}
                 <Separator className="my-4"/>   
                 <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
 
