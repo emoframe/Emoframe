@@ -44,31 +44,6 @@ const SchoolingProps: RadioItem[] = [
   { value: "Superior com Pós", label: "educationOptionPostGrad" },
 ];
 
-const IndividualIncomeProps: RadioItem[] = [
-  { value: "BPC", label: "incomeOptionBPC" },
-  { value: "Até 1 salário mínimo", label: "incomeOption0" },
-  { value: "Entre 1 e 2 salários mínimos", label: "incomeOption1" },
-  { value: "Entre 2 e 3 salários mínimos", label: "incomeOption2" },
-  { value: "Entre 3 e 4 salários mínimos", label: "incomeOption3" },
-  { value: "Entre 4 e 5 salários mínimos", label: "incomeOption4" },
-  { value: "Entre 5 e 10 salários mínimos", label: "incomeOption5" },
-  { value: "Mais de 10 salários mínimos", label: "incomeOption10" },
-  { value: "Prefere não informar", label: "incomeOptionUnspecified" },
-];
-
-const FamilyIncomeProps: RadioItem[] = [
-  { value: "BPC", label: "incomeOptionBPC" },
-  { value: "Até 1 salário mínimo", label: "incomeOption0" },
-  { value: "Entre 1 e 2 salários mínimos", label: "incomeOption1" },
-  { value: "Entre 2 e 3 salários mínimos", label: "incomeOption2" },
-  { value: "Entre 3 e 4 salários mínimos", label: "incomeOption3" },
-  { value: "Entre 4 e 5 salários mínimos", label: "incomeOption4" },
-  { value: "Entre 5 e 10 salários mínimos", label: "incomeOption5" },
-  { value: "Mais de 10 salários mínimos", label: "incomeOption10" },
-  { value: "Prefere não informar", label: "incomeOptionUnspecified" },
-  { value: "Não se aplica", label: "familyIncomeOptionNA" },
-];
-
 const GenderProps: RadioItem[] = [
   { value: "Feminino", label: "genderOptionF" },
   { value: "Masculino", label: "genderOptionM" },
@@ -85,12 +60,6 @@ const FormSchema = z
       errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
     schooling: z.enum([SchoolingProps[0].value, ...SchoolingProps.slice(1).map((p) => p.value)], {
-      errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
-    }),
-    individual_income: z.enum([IndividualIncomeProps[0].value, ...IndividualIncomeProps.slice(1).map((p) => p.value)], {
-      errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
-    }),
-    family_income: z.enum([FamilyIncomeProps[0].value, ...FamilyIncomeProps.slice(1).map((p) => p.value)], {
       errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
     }),
 
@@ -165,8 +134,6 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
       social_name: '',
       race: '',
       schooling: '',
-      individual_income: '',
-      family_income: '',
       address: '',
       birthday: new Date(),
       phone: '',
@@ -283,68 +250,6 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
                   >
                     <DateField />
                   </DatePicker>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="individual_income"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>{t('incomeLabel')}</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col space-y-1"
-                  >
-                    {IndividualIncomeProps.map((individual, index) => {
-                      return (
-                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                          <FormControl>
-                            <RadioGroupItem value={individual.value} />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {t(individual.label)}
-                          </FormLabel>
-                        </FormItem>
-                      )
-                    })}
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="family_income"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>{t('familyIncomeLabel')}</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-col space-y-1"
-                  >
-                    {FamilyIncomeProps.map((family, index) => {
-                      return (
-                        <FormItem className="flex items-center space-x-3 space-y-0" key={index}>
-                          <FormControl>
-                            <RadioGroupItem value={family.value} />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {t(family.label)}
-                          </FormLabel>
-                        </FormItem>
-                      )
-                    })}
-                  </RadioGroup>
                 </FormControl>
                 <FormMessage />
               </FormItem>
