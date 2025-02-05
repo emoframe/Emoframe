@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import {
     Form,
     FormControl,
@@ -23,10 +23,11 @@ import { chunk } from '@/lib/utils';
 import { FillEvaluationForm, gdsQuestions } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
+import { useTranslation } from 'react-i18next';
 
 const DefaultProps = {
-    Affirmative: [{ value: '1', label: 'Sim' }, { value: '0', label: 'Não' }],
-    Negative: [{ value: '0', label: 'Sim' }, { value: '1', label: 'Não' }],
+    Affirmative: [{ value: '1', label: 'answerYesLabel' }, { value: '0', label: 'answerNoLabel' }],
+    Negative: [{ value: '0', label: 'answerYesLabel' }, { value: '1', label: 'answerNoLabel' }],
 };
 
 const GdsFormSchema = z.object(
@@ -45,7 +46,7 @@ const GdsFormSchema = z.object(
 const gdsQuestionsChunks = chunk(gdsQuestions, Math.ceil(gdsQuestions.length / 2));
 
 // Gerar steps com 2 partes
-const steps: StepConfig[] = gdsQuestionsChunks.map((_, index) => ({ label: `Passo ${index + 1}` }));
+const steps: StepConfig[] = gdsQuestionsChunks.map((_, index) => ({ label: `step${index + 1}Label` }));
 
 const GdsForm = (params: FillEvaluationForm) => {
     const FormSchema = !("isViewable" in params) ? GdsFormSchema : z.object({});
@@ -72,12 +73,13 @@ const GdsForm = (params: FillEvaluationForm) => {
 
     const { push } = useRouter();
     const { toast } = useToast();
+    const { t } = useTranslation('specialist_services_instruments_gds');
     const onSubmit = async (values: z.infer<typeof GdsFormSchema>) => {
         if (!("isViewable" in params)) {
             saveAnswer(values, params.evaluationId, params.userId).then(() => {
                 toast({
-                    title: "Solicitação aprovada",
-                    description: "Avaliação preenchida e salva",
+                    title: t('submitTitle'),
+                    description: t('submitMessage'),
                 });
                 push('/user/evaluations');
             });
@@ -93,14 +95,14 @@ const GdsForm = (params: FillEvaluationForm) => {
         <div className='px-8'>
             <Steps activeStep={activeStep}>
                 {steps.map((step, index) => (
-                    <Step index={index} key={index} additionalClassName={{ label: "text-md" }} {...step} />
+                    <Step index={index} key={index} additionalClassName={{ label: "text-md" }} {...{label: t(`${step.label}`)}} />
                 ))}
             </Steps>
 
             <div className="flex flex-col flex-wrap justify-center gap-8 mt-8">
-                <h1 className="font-bold text-4xl self-center"> ESCALA DE DEPRESSÃO GERIÁTRICA - GDS </h1>
-                <h2 className="text-md self-center"> Aplicar o questionário computando as respostas que indicam como a pessoa tem se sentido na última semana.</h2>
-                <h2 className="text-md self-center"> Assinalar SIM ou NÃO. Cada resposta deverá ser pontuada conforme o indicativo ao lado. O resultado final será a soma das 15 respostas.</h2>
+                <h1 className="font-bold text-4xl self-center"> {t('questionnaireTitle')} </h1>
+                <h2 className="text-md self-center"> {t('questionnaireDescription')}</h2>
+                <h2 className="text-md self-center"> {t('questionnaireAnswersDescription')}</h2>
                 <Separator className="my-4" />
                 <React.Suspense key={activeStep} fallback={<Progress />}>
                     <Form key={activeStep} {...form}>
@@ -113,7 +115,7 @@ const GdsForm = (params: FillEvaluationForm) => {
                                             name={question.field}
                                             render={({ field }) => (
                                                 <FormItem className="flex flex-col items-center gap-5 content-center">
-                                                    <p className="text-xl"><b>{question.question}</b></p>
+                                                    <p className="text-xl"><b>{t(question.question)}</b></p>
                                                     <FormControl>
                                                         <RadioGroup
                                                             onValueChange={field.onChange}
@@ -126,7 +128,7 @@ const GdsForm = (params: FillEvaluationForm) => {
                                                                         <RadioGroupItem value={defaultProp.value} />
                                                                     </FormControl>
                                                                     <FormLabel className="font-normal text-md">
-                                                                        {defaultProp.label}
+                                                                        {t(defaultProp.label)}
                                                                     </FormLabel>
                                                                 </FormItem>
                                                             ))}
@@ -146,13 +148,13 @@ const GdsForm = (params: FillEvaluationForm) => {
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
                                         prevStep();
                                         window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                    }}>Anterior</Button>
+                                    }}>{t('previousButtonLabel')}</Button>
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
                                     gdsQuestionsChunks[activeStep].map((question, index) => (form.setValue(question.field, '')));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                }}>Limpar</Button>
+                                }}>{t('resetButtonLabel')}</Button>
 
                                 { 
                                     (activeStep != 1) ?
@@ -170,8 +172,8 @@ const GdsForm = (params: FillEvaluationForm) => {
                                                 nextStep();
                                                 window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                             }
-                                        }}>Próximo</Button>
-                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
+                                        }}>{t('nextButtonLabel')}</Button>
+                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">{t('finishButtonLabel')}</Button>
                                 }
                             </div>
                         </form>

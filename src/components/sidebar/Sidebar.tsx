@@ -15,6 +15,9 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { useTranslation } from 'react-i18next';
+import "@/config/i18";
+import { useSearchParams } from "next/navigation";
 
 type SidebarContextType = {
     expanded: boolean;
@@ -30,6 +33,21 @@ const SidebarCore = ({ children }) => {
 
     const { theme, setTheme } = useTheme();
     const [themeState, setThemeState] = useState<string>();
+    
+    const { t, i18n } = useTranslation('sidebar');  // Obtenha o objeto i18n diretamente
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const instrument = searchParams?.get('instrument');
+    const toggleLanguage = () => {
+        const newLang = i18n.language === 'en' ? 'pt' : 'en';  // Troca entre 'en' e 'pt'
+        if((newLang === 'en') && pathname && ['/specialist/services/instruments/fill'].includes(pathname) && instrument && ['eaz', 'leap'].includes(instrument)) return alert('This page is not available in English');
+        i18n.changeLanguage(newLang).then(() => {
+          console.log('Language changed to ' + newLang);
+        }).catch(err => {
+          console.error('Error changing language', err);
+        });
+    }
+
 
     useEffect(() => {
         theme && setThemeState(theme); // Passa o valor do hook de theme pra um state
@@ -60,7 +78,7 @@ const SidebarCore = ({ children }) => {
         } else {
             return (
                 <Link className={buttonVariants({ variant: "default" })} href="/sign-in">
-                    Entre
+                    {t('loginLabel')}
                 </Link>
             )
         }
@@ -107,7 +125,7 @@ const SidebarCore = ({ children }) => {
 
                             <DropdownMenuContent align="end">
 
-                                <DropdownMenuLabel>Acessibilidade</DropdownMenuLabel>
+                                <DropdownMenuLabel>{t('accessibilityLabel')}</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
 
                                 <div className="flex gap-1">
@@ -127,6 +145,7 @@ const SidebarCore = ({ children }) => {
                                 </div>
                             </DropdownMenuContent>
                         </DropdownMenu>
+                        <button onClick={toggleLanguage}>{i18n.language === 'en' ? 'pt' : 'en'}</button>
                     </div>
                 </div>
 
@@ -152,7 +171,8 @@ interface SidebarItemType {
 }
 
 const SidebarItem = ({ icon, text, href, active = false, alert = false }: SidebarItemType) => {
-    const { expanded } = useContext(SidebarContext)
+    const { expanded } = useContext(SidebarContext);
+    const { t } = useTranslation('sidebar');
 
     return (
         <Link href={href}>
@@ -203,6 +223,8 @@ const Sidebar = () => {
     const { data: session } = useSession();
     const currentPath = usePathname();
 
+    const { t } = useTranslation('sidebar'); 
+
     const isActive = (path: string) => {
         return currentPath === path;
     }
@@ -215,25 +237,25 @@ const Sidebar = () => {
         }
 
         return redirect;
-    }
+    }  
 
     const globalItems: SidebarItemType[] = [
-        { text: "Início", href: redirect(), icon: <Home size={20} /> },
+        { text: t('homeLabel'), href: redirect(), icon: <Home size={20} /> },
     ]
 
     const userItems: SidebarItemType[] = [
-        { text: "Avaliações", href: "/user/evaluations", icon: <BookOpenText size={20} /> },
+        { text: t('evaluationsLabel'), href: "/user/evaluations", icon: <BookOpenText size={20} /> },
     ]
 
     const specialistItems: SidebarItemType[] = [
-        { text: "Usuários", href: "/specialist/users", icon: <Users size={20} /> },
-        { text: "Avaliações", href: "/specialist/evaluations", icon: <BookOpenText size={20} /> },
-        { text: "Serviços", href: "/specialist/services", icon: <BookUser size={20} /> },
-        { text: "Resultados", href: "/specialist/results", icon: <LineChart size={20} /> },
+        { text: t('usersLabel'), href: "/specialist/users", icon: <Users size={20} /> },
+        { text: t('evaluationsLabel'), href: "/specialist/evaluations", icon: <BookOpenText size={20} /> },
+        { text: t('servicesLabel'), href: "/specialist/services", icon: <BookUser size={20} /> },
+        { text: t('resultsLabel'), href: "/specialist/results", icon: <LineChart size={20} /> },
     ]
 
     const bottomItems: SidebarItemType[] = [
-        { text: "Sobre nós", href: "/about", icon: <Info size={20} /> },
+        { text: t('aboutLabel'), href: "/about", icon: <Info size={20} /> },
     ]
 
     return (

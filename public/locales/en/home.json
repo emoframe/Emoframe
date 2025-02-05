@@ -1,0 +1,18 @@
+{
+    "subtitle": "A framework to support the evaluation of computational solutions",
+    "description_1": "Properly evaluating a product is crucial to ensuring that it meets requirements and expectations. In software development, effective evaluation allows you to identify issues that may have gone unnoticed in earlier stages of the process.",
+    "description_2": "<b>EmoFrame</b> is a digital environment that offers support in the evaluation stage, helping to highlight potential flaws. Our solution is designed to consider several factors, such as the user profile and the environment where the evaluation will be carried out, offering a careful selection of the most appropriate evaluation methods.",
+    "description_3": "Choosing the right method can be challenging, especially in the Human-Computer Interaction field, due to its interdisciplinary nature. <b>EmoFrame</b> combines tools from different domains to support specialists in computer science and other fields in the systematic application of these tools, aiming to provide accurate and reliable results.",
+    "reasoningTitle": "Why EmoFrame?",
+    "reasoningItemTitle_1": "Personalised Evaluations",
+    "reasoningItemDescription_1": "Takes into account everything from the user profile to the evaluation environment, ensuring that the chosen method is the most appropriate.",
+    "reasoningItemTitle_2": "Integrated Tools",
+    "reasoningItemDescription_2": "Combines instruments from different domains for systematic and effective application",
+    "reasoningItemTitle_3": "Complex Processes Simplified",
+    "reasoningItemDescription_3": "Ideal for computer specialists and related areas looking for an integrated and practical solution",
+    "reasoningItemTitle_4": "Multidisciplinary Support",
+    "reasoningItemDescription_4": "Designed for the interdisciplinary field of HCI, but also applicable to other areas",
+    "knowMoreTitle": "Want to know more?",
+    "knowMoreDescription": "Find out how EmoFrame can optimise your software evaluation process and improve the quality of your product.",
+    "registerLabel": "Sign Up"
+}

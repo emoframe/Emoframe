@@ -8,6 +8,7 @@ export type Instruments = {
     value: Lowercase<string>;
     label: string;
     description?: string,
+    locales: string[];
 }
 
 export type Option = {
@@ -103,26 +104,26 @@ export interface Panas {
 }
 
 export const panasQuestions = [
-    { index: 1, field: 'interested', question: 'Estou me sentindo INTERESSADO(A).', type: 'positive' },
-    { index: 2, field: 'distressed', question: 'Estou me sentindo ANGUSTIADO(A).', type: 'negative' },
-    { index: 3, field: 'excited', question: 'Estou me sentindo ANIMADO(A).', type: 'positive' },
-    { index: 4, field: 'upset', question: 'Estou me sentindo CHATEADO(A).', type: 'negative' },
-    { index: 5, field: 'strong', question: 'Estou me sentindo FORTE.', type: 'positive' },
-    { index: 6, field: 'guilty', question: 'Estou me sentindo CULPADO(A).', type: 'negative' },
-    { index: 7, field: 'scared', question: 'Estou me sentindo ASSUSTADO(A).', type: 'negative' },
-    { index: 8, field: 'hostile', question: 'Estou me sentindo HOSTIL.', type: 'negative' },
-    { index: 9, field: 'enthusiastic', question: 'Estou me sentindo ENTUSIASMADO(A).', type: 'positive' },
-    { index: 10, field: 'proud', question: 'Estou me sentindo ORGULHOSO(A).', type: 'positive' },
-    { index: 11, field: 'irritable', question: 'Estou me sentindo IRRITADO(A).', type: 'negative' },
-    { index: 12, field: 'alert', question: 'Estou me sentindo ALERTA.', type: 'positive' },
-    { index: 13, field: 'ashamed', question: 'Estou me sentindo ENVERGONHADO(A).', type: 'negative' },
-    { index: 14, field: 'inspired', question: 'Estou me sentindo INSPIRADO(A).', type: 'positive' },
-    { index: 15, field: 'nervous', question: 'Estou me sentindo NERVOSO(A).', type: 'negative' },
-    { index: 16, field: 'determined', question: 'Estou me sentindo DETERMINADO(A).', type: 'positive' },
-    { index: 17, field: 'attentive', question: 'Estou me sentindo ATENTO(A).', type: 'positive' },
-    { index: 18, field: 'jittery', question: 'Estou me sentindo TRÊMULO(A).', type: 'negative' },
-    { index: 19, field: 'active', question: 'Estou me sentindo ATIVO(A).', type: 'positive' },
-    { index: 20, field: 'afraid', question: 'Estou me sentindo COM MEDO.', type: 'negative' }
+    { index: 1, field: 'interested', question: 'questionInterestedLabel', type: 'positive' },
+    { index: 2, field: 'distressed', question: 'questionDistressedLabel', type: 'negative' },
+    { index: 3, field: 'excited', question: 'questionExcitedLabel', type: 'positive' },
+    { index: 4, field: 'upset', question: 'questionUpsetLabel', type: 'negative' },
+    { index: 5, field: 'strong', question: 'questionStrongLabel', type: 'positive' },
+    { index: 6, field: 'guilty', question: 'questionGuiltyLabel', type: 'negative' },
+    { index: 7, field: 'scared', question: 'questionScaredLabel', type: 'negative' },
+    { index: 8, field: 'hostile', question: 'questionHostileLabel', type: 'negative' },
+    { index: 9, field: 'enthusiastic', question: 'questionEnthusiasticLabel', type: 'positive' },
+    { index: 10, field: 'proud', question: 'questionProudLabel', type: 'positive' },
+    { index: 11, field: 'irritable', question: 'questionIrritableLabel', type: 'negative' },
+    { index: 12, field: 'alert', question: 'questionAlertLabel', type: 'positive' },
+    { index: 13, field: 'ashamed', question: 'questionAshamedLabel', type: 'negative' },
+    { index: 14, field: 'inspired', question: 'questionInspiredLabel', type: 'positive' },
+    { index: 15, field: 'nervous', question: 'questionNervousLabel', type: 'negative' },
+    { index: 16, field: 'determined', question: 'questionDeterminedLabel', type: 'positive' },
+    { index: 17, field: 'attentive', question: 'questionAttentiveLabel', type: 'positive' },
+    { index: 18, field: 'jittery', question: 'questionJitteryLabel', type: 'negative' },
+    { index: 19, field: 'active', question: 'questionActiveLabel', type: 'positive' },
+    { index: 20, field: 'afraid', question: 'questionAfraidLabel', type: 'negative' }
 ];
 
 export interface Sam {
@@ -199,16 +200,16 @@ export interface Sus {
 }
 
 export const susQuestions = [
-    { index: 1, field: "use_frequency", label: "Eu acho que gostaria de usar esse sistema com frequência." },
-    { index: 2, field: "use_complex", label: "Eu acho o sistema desnecessariamente complexo." },
-    { index: 3, field: "use_easy", label: "Eu achei o sistema fácil de usar." },
-    { index: 4, field: "need_help", label: "Eu acho que precisaria de ajuda de uma pessoa com conhecimentos técnicos para usar o sistema." },
-    { index: 5, field: "function_integration", label: "Eu acho que as várias funções do sistema estão muito bem integradas." },
-    { index: 6, field: "inconsistency", label: "Eu acho que o sistema apresenta muita inconsistência." },
-    { index: 7, field: "learning_curve", label: "Eu imagino que as pessoas aprenderão como usar esse sistema rapidamente." },
-    { index: 8, field: "jumbled", label: "Eu achei o sistema atrapalhado de usar." },
-    { index: 9, field: "confidence", label: "Eu me senti confiante ao usar o sistema." },
-    { index: 10, field: "learn_system", label: "Eu precisei aprender várias coisas novas antes de conseguir usar o sistema." }
+    { index: 1, field: "use_frequency", label: "questionnaireUseFrequencyLabel" },
+    { index: 2, field: "use_complex", label: "questionnaireUseComplexLabel" },
+    { index: 3, field: "use_easy", label: "questionnaireUseEasyLabel" },
+    { index: 4, field: "need_help", label: "questionnaireNeedHelpLabel" },
+    { index: 5, field: "function_integration", label: "questionnaireFunctionIntegrationLabel" },
+    { index: 6, field: "inconsistency", label: "questionnaireInconsistencyLabel" },
+    { index: 7, field: "learning_curve", label: "questionnaireLearningCurveLabel" },
+    { index: 8, field: "jumbled", label: "questionnaireJumbledLabel" },
+    { index: 9, field: "confidence", label: "questionnaireConfidenceLabel" },
+    { index: 10, field: "learn_system", label: "questionnaireLearnSystemLabel" }
 ];
 
 export interface Eaz {
@@ -280,21 +281,21 @@ export interface Gds {
 }
 
 export const gdsQuestions = [
-    { index: 1, field: "satisfied", score: "Negative", question: "Está satisfeito (a) com a sua vida?" },
-    { index: 2, field: "no_activities", score: "Affirmative", question: "Interrompeu muitas de suas atividades?" },
-    { index: 3, field: "empty", score: "Affirmative", question: "Acha sua vida vazia?" },
-    { index: 4, field: "upset", score: "Affirmative", question: "Aborrece-se com frequência?" },
-    { index: 5, field: "good", score: "Negative", question: "Sente-se bem com a vida na maior parte do tempo?" },
-    { index: 6, field: "bad", score: "Affirmative", question: "Teme que algo ruim lhe aconteça?" },
-    { index: 7, field: "happy", score: "Negative", question: "Sente-se alegre a maior parte do tempo?" },
-    { index: 8, field: "helpless", score: "Affirmative", question: "Sente-se desamparado com frequência?" },
-    { index: 9, field: "stay_at_home", score: "Affirmative", question: "Prefere ficar em casa a sair e fazer coisas novas?" },
-    { index: 10, field: "problems_of_memory", score: "Affirmative", question: "Acha que tem mais problemas de memória que as outras pessoas?" },
-    { index: 11, field: "wonderful_to_stay_alive", score: "Negative", question: "Acha que é maravilhoso estar vivo (a)?" },
-    { index: 12, field: "useless", score: "Affirmative", question: "Sente-se inútil?" },
-    { index: 13, field: "full_of_energy", score: "Negative", question: "Sente-se cheio (a) de energia?" },
-    { index: 14, field: "hopeless", score: "Affirmative", question: "Sente-se sem esperança?" },
-    { index: 15, field: "unlucky", score: "Affirmative", question: "Acha que os outros têm mais sorte que você?" }
+    { index: 1, field: "satisfied", score: "Negative", question: "question1Label" },
+    { index: 2, field: "no_activities", score: "Affirmative", question: "question2Label" },
+    { index: 3, field: "empty", score: "Affirmative", question: "question3Label" },
+    { index: 4, field: "upset", score: "Affirmative", question: "question4Label" },
+    { index: 5, field: "good", score: "Negative", question: "question5Label" },
+    { index: 6, field: "bad", score: "Affirmative", question: "question6Label" },
+    { index: 7, field: "happy", score: "Negative", question: "question7Label" },
+    { index: 8, field: "helpless", score: "Affirmative", question: "question8Label" },
+    { index: 9, field: "stay_at_home", score: "Affirmative", question: "question9Label" },
+    { index: 10, field: "problems_of_memory", score: "Affirmative", question: "question10Label" },
+    { index: 11, field: "wonderful_to_stay_alive", score: "Negative", question: "question11Label" },
+    { index: 12, field: "useless", score: "Affirmative", question: "question12Label" },
+    { index: 13, field: "full_of_energy", score: "Negative", question: "question13Label" },
+    { index: 14, field: "hopeless", score: "Affirmative", question: "question14Label" },
+    { index: 15, field: "unlucky", score: "Affirmative", question: "question15Label" }
 ];
 
 export interface Leap {
@@ -387,37 +388,44 @@ export const instruments: Instruments[] = [
     {  
         value: "panas",
         label: "PANAS",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:panas",
+        locales: ["en", "pt"],
     },
     {  
         value: "sam",
         label: "SAM",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:sam",
+        locales: ["en", "pt"],
     },
     {  
         value: "sus",
         label: "SUS",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:sus",
+        locales: ["en", "pt"],
     },
     {  
         value: "eaz",
         label: "EAZ",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:eaz",
+        locales: ["pt"],
     },
     {  
         value: "brums",
         label: "BRUMS",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:brums",
+        locales: ["en", "pt"],
     },
     {  
         value: "gds",
         label: "GDS",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:gds",
+        locales: ["en", "pt"],
     },
     {  
         value: "leap",
         label: "LEAP",
-        description: "Lorem Ipsum",
+        description: "specialist_services_instruments:leap",
+        locales: ["pt"],
     },
 ];
 

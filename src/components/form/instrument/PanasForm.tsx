@@ -24,6 +24,7 @@ import { chunk, randomizeArray } from '@/lib/utils';
 import { FillEvaluationForm, panasQuestions } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
+import { useTranslation } from 'react-i18next';
 
 interface RadioItem {
     value: string;
@@ -31,11 +32,29 @@ interface RadioItem {
 }
 
 const DefaultProps: RadioItem[] = [
-    {value: '1', label: '1 (Nada ou muito ligeiramente)'},
-    {value: '2', label: '2 (Um pouco)'},
-    {value: '3', label: '3 (Moderadamente)'},
-    {value: '4', label: '4 (Bastante)'},
-    {value: '5', label: '5 (Extremamente)'},
+    {value: '1', label: 'scaleOption1Label'},
+    {value: '2', label: 'scaleOption2Label'},
+    {value: '3', label: 'scaleOption3Label'},
+    {value: '4', label: 'scaleOption4Label'},
+    {value: '5', label: 'scaleOption5Label'},
+];
+
+const exampleQuestions = [
+    {
+        label: 'exampleQuestionsLabel_1',
+        selectedValue: '1',
+        description: 'exampleQuestionsDescription_1',
+    },
+    {
+        label: 'exampleQuestionsLabel_2',
+        selectedValue: '3',
+        description: 'exampleQuestionsDescription_2',
+    },
+    {
+        label: 'exampleQuestionsLabel_3',
+        selectedValue: '5',
+        description: 'exampleQuestionsDescription_3',
+    },
 ];
 
 const PanasFormSchema = z.object(
@@ -53,7 +72,7 @@ const PanasFormSchema = z.object(
 const panasQuestionsChunks = chunk(panasQuestions, Math.ceil(panasQuestions.length / 2));
 
 // Gerar steps com 2 partes
-const steps: StepConfig[] = panasQuestionsChunks.map((_, index) => ({ label: `Passo ${index + 1}` }));
+const steps: StepConfig[] = panasQuestionsChunks.map((_, index) => ({ label: `step${index + 1}Label` }));
 
 const PanasForm = (params: FillEvaluationForm) => {
     const FormSchema = !("isViewable" in params) ? PanasFormSchema : z.object({}); 
@@ -85,12 +104,13 @@ const PanasForm = (params: FillEvaluationForm) => {
 
     const { push } = useRouter();
     const { toast } = useToast();
+    const { t } = useTranslation('specialist_services_instruments_panas');
     const onSubmit = async (values: z.infer<typeof PanasFormSchema>) => {
         if(!("isViewable" in params)) {
             saveAnswer(values, params.evaluationId, params.userId).then(() => {
                 toast({
-                    title: "Socilitação aprovada",
-                    description: "Avaliação preenchida e salva",
+                    title: t('submitTitle'),
+                    description: t('submitMessage'),
                 });
                 push('/user/evaluations');
             });  
@@ -98,6 +118,7 @@ const PanasForm = (params: FillEvaluationForm) => {
     }
 
     const [isReady, setIsReady] = useState(false);
+    const [isExampleOpen, setIsExampleOpen] = useState(false);
 
     useEffect(() => {
         panasQuestionsChunks.forEach((questions) => (randomizeArray(questions)))
@@ -113,18 +134,40 @@ const PanasForm = (params: FillEvaluationForm) => {
     return (
         <div>
             <Steps activeStep={activeStep}>
-                {steps.map((step, index) => ( <Step index={index} key={index} additionalClassName={{label: "text-md"}} {...step} /> ))}
+                {steps.map((step, index) => ( <Step index={index} key={index} additionalClassName={{label: "text-md"}} {...{label: t(`${step.label}`)}} /> ))}
             </Steps>
            
             <div className="flex flex-col flex-wrap justify-center gap-8">
                 
                 <h1 className="font-bold text-4xl self-center"> PANAS </h1>
-                <h2 className="text-md self-center"> Esta escala consiste num conjunto de palavras que descrevem diferentes sentimentos e emoções. Leia cada palavra e marque a resposta adequada a palavra. Veja a escala e exemplos de preenchimento abaixo: </h2>
+                <h2 className="text-md self-center"> {t('questionnaireDescription')} </h2>
                 <div className="flex flex-row justify-around">
-                    <Button className="text-lg basis-1/3" type="button" size="lg">Exemplos</Button>
+                    <Button className="text-lg basis-1/3" type="button" size="lg" onClick={() => setIsExampleOpen(!isExampleOpen)}>{t('examplesButtonLabel')}</Button>
                 </div>
+                {isExampleOpen && exampleQuestions.map(question => (<>
+                    <Separator className="my-4"/>   
+                    <div className="space-x-5 space-y-5 content-center">
+                        <p className="text-xl"><b>{t(question.label)}</b></p>
+                        <RadioGroup
+                        defaultValue={question.selectedValue}
+                        value={question.selectedValue}
+                        className="flex flex-row space-x-5 justify-between">
+                            {DefaultProps.map((defaultProp, index) => (
+                                <div className="flex flex-col items-center space-y-2" key={index}>
+                                    <div>
+                                        <RadioGroupItem value={defaultProp.value}/>
+                                    </div>
+                                    <div className="font-normal text-md">
+                                        {t(defaultProp.label)}
+                                    </div>
+                                </div>
+                            ))}
+                        </RadioGroup>
+                        <h2 className="text-md self-center">{t(question.description)}</h2>
+                    </div>
+                </>))}
                 <Separator className="my-4"/>   
-                <h2 className="text-md self-center"> Indique em que medida está sentindo cada uma das emoções AGORA: </h2>
+                <h2 className="text-md self-center"> {t('questionnaireAnswersDescription')} </h2>
 
                 <React.Suspense key={activeStep} fallback={<Progress />}>
                     <Form key={activeStep} {...form}>
@@ -137,7 +180,7 @@ const PanasForm = (params: FillEvaluationForm) => {
                                         name={question.field}
                                         render={({field}) => (
                                             <FormItem className="space-x-5 space-y-5 content-center">
-                                                <p className="text-xl"><b>{question.question}</b></p>
+                                                <p className="text-xl"><b>{t(question.question)}</b></p>
                                             <FormControl>
                                                 <RadioGroup
                                                 onValueChange={field.onChange}
@@ -150,7 +193,7 @@ const PanasForm = (params: FillEvaluationForm) => {
                                                                 <RadioGroupItem value={defaultProp.value}/> 
                                                             </FormControl>
                                                             <FormLabel className="font-normal text-md">
-                                                                {defaultProp.label}
+                                                                {t(defaultProp.label)}
                                                             </FormLabel>
                                                         </FormItem>
                                                     ))}
@@ -169,13 +212,13 @@ const PanasForm = (params: FillEvaluationForm) => {
                                     <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
                                         prevStep();
                                         window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                    }}>Anterior</Button>
+                                    }}>{t('previousButtonLabel')}</Button>
                                 }
                                 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
                                     panasQuestionsChunks[activeStep].map((question, index) => (form.setValue(question.field, '')));
                                     window.scrollTo({top: 0, left: 0, behavior: "smooth"});
-                                }}>Limpar</Button>
+                                }}>{t('resetButtonLabel')}</Button>
 
                                 { 
                                     (activeStep != 1) ?
@@ -193,8 +236,8 @@ const PanasForm = (params: FillEvaluationForm) => {
                                                 nextStep();
                                                 window.scrollTo({top: 0, left: 0, behavior: "smooth"});
                                             }
-                                        }}>Próximo</Button>
-                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">Enviar</Button>
+                                        }}>{t('nextButtonLabel')}</Button>
+                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">{t('finishButtonLabel')}</Button>
                                 }
                             </div>
                         </form>

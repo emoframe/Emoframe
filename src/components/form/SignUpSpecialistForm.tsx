@@ -21,6 +21,8 @@ import { formatPhone } from '@/lib/utils';
 import { createUser } from '@/lib/firebase';
 import { Specialist } from '@/types/users';
 import { RadioItem } from '@/types/forms';
+import { Trans, useTranslation } from 'react-i18next';
+import "@/config/i18";
 
 const SpecialtyProps: RadioItem[] = [
   { value: "Gerontologia", label: "Gerontologia" },
@@ -32,10 +34,10 @@ const SpecialtyProps: RadioItem[] = [
 ];
 
 const GenderProps: RadioItem[] = [
-  { value: "Feminino", label: "Feminino" },
-  { value: "Masculino", label: "Masculino" },
-  { value: "Não sei", label: "Não sei/Prefiro não dizer" },
-  { value: "Outro", label: "Outro" },
+  { value: "Feminino", label: "genderOptionFLabel" },
+  { value: "Masculino", label: "genderOptionMLabel" },
+  { value: "Não sei", label: "genderOptionUnknownLabel" },
+  { value: "Outro", label: "genderOptionOtherLabel" },
 ];
 
 const FormSchema = z
@@ -127,17 +129,19 @@ const SignUpForm = () => {
     })
   };
 
+  const { t } = useTranslation('signup');
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <p className="font-bold text-xl self-center mb-4">Cadastro</p>
+        <p className="font-bold text-xl self-center mb-4">{t('title')}</p>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6'>
           <FormField
             control={form.control}
             name='name'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nome</FormLabel>
+                <FormLabel>{t('nameLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='José' {...field} />
                 </FormControl>
@@ -150,7 +154,7 @@ const SignUpForm = () => {
             name='surname'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sobrenome</FormLabel>
+                <FormLabel>{t('surnameLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='da Silva' {...field} />
                 </FormControl>
@@ -164,7 +168,7 @@ const SignUpForm = () => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('emailLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='mail@example.com' {...field} />
                 </FormControl>
@@ -177,7 +181,7 @@ const SignUpForm = () => {
             name='phone'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Telefone</FormLabel>
+                <FormLabel>{t('phoneLabel')}</FormLabel>
                 <FormControl>
                   <Input 
                     placeholder='(99) 99999-9999' 
@@ -197,7 +201,7 @@ const SignUpForm = () => {
             name='connection'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Vínculo</FormLabel>
+                <FormLabel>{t('associationLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='Universidade de São Paulo' {...field} />
                 </FormControl>
@@ -210,9 +214,9 @@ const SignUpForm = () => {
             name='specialty'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Especialidade</FormLabel>
+                <FormLabel>{t('specialtyLabel')}</FormLabel>
                 <FormControl>
-                  <Input placeholder='Computação' {...field} />
+                  <Input placeholder={t('specialtyPlaceholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -224,7 +228,7 @@ const SignUpForm = () => {
             name="gender"
             render={({ field }) => (
               <FormItem className="col-span-2 space-y-3">
-                <FormLabel>Gênero</FormLabel>
+                <FormLabel>{t('genderLabel')}</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -238,7 +242,7 @@ const SignUpForm = () => {
                             <RadioGroupItem value={specialty.value} />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            {specialty.label}
+                            {t(specialty.label)}
                           </FormLabel>
                         </FormItem>
                     )})}
@@ -254,11 +258,11 @@ const SignUpForm = () => {
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Senha</FormLabel>
+                <FormLabel>{t('passwordLabel')}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
-                    placeholder='Insira sua senha'
+                    placeholder={t('passwordPlaceholder')}
                     {...field}
                   />
                 </FormControl>
@@ -271,10 +275,10 @@ const SignUpForm = () => {
             name='confirm_password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirme sua senha</FormLabel>
+                <FormLabel>{t('confirmPasswordLabel')}</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder='Confirme sua senha'
+                    placeholder={t('confirmPasswordPlaceholder')}
                     type='password'
                     {...field}
                   />
@@ -285,17 +289,19 @@ const SignUpForm = () => {
           />
         </div>
         <Button className='w-full mt-6' type='submit'>
-          Registre-se
+          {t('signUpLabel')}
         </Button>
       </form>
       <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-        ou
+        {t('signUpAlternativesSeparator')}
       </div>
       <p className='text-center text-sm  mt-2'>
+        <Trans ns='signup' i18nKey='signUpAlternativesSignIn'>
         Se possuir uma conta, por favor&nbsp;
         <Link className='text-blue-500 hover:underline' href='/sign-in'>
           Entre
         </Link>
+        </Trans>
       </p>
     </Form>
   );

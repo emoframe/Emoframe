@@ -30,6 +30,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTableProps } from '@/types/forms';
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -109,12 +110,14 @@ export function UserDataTable<TData, TValue>(
     setRowSelection(selectedRowIds || {});
   }, [selectedRowIds]);
 
+  const { t } = useTranslation('specialist_evaluations_register');
+
   return (
     <div>
       <div className="flex items-center pb-4 gap-4">
         {/* input */}
         <Input
-          placeholder="Pesquise qualquer campo"
+          placeholder={t('step3FieldSearchPlaceholder')}
           value={globalFilter ?? ''}
           onChange={(e) => {
            setGlobalFilter(e.target.value);
@@ -178,7 +181,7 @@ export function UserDataTable<TData, TValue>(
           }}
           disabled={!table.getCanPreviousPage()}
         >
-          Anterior
+          {t('previousLabel')}
         </Button>
         <Button
           variant="outline"
@@ -188,12 +191,11 @@ export function UserDataTable<TData, TValue>(
           }}
           disabled={!table.getCanNextPage()}
         >
-          Próximo
+          {t('nextLabel')}
         </Button>
       </div>
       <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} de{" "}
-        {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
+        {t('step3FieldUsersSelectedRows', {selected: table.getFilteredSelectedRowModel().rows.length, total: table.getFilteredRowModel().rows.length})}
       </div>
     </div>
   );

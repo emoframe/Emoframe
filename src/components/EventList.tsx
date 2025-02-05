@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Item {
     href: string;
@@ -13,6 +16,7 @@ interface EventListProps {
 
 
 const EventList: React.FC<EventListProps> = ({ eventItems }) => {
+    const { t } = useTranslation('specialist');
     return (
         <div className="bg-primary-background p-4 rounded-md shadow-sm">
             {
@@ -27,7 +31,7 @@ const EventList: React.FC<EventListProps> = ({ eventItems }) => {
                             </Link>
                         ))}
                     </ul>
-                ) : 'Nenhum item encontrado'
+                ) : t('noItemsFound')
             }
         </div>
     );

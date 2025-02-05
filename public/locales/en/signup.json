@@ -1,0 +1,22 @@
+{
+    "title": "Sign Up",
+    "nameLabel": "Name",
+    "surnameLabel": "Surname",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "associationLabel": "Association",
+    "specialtyLabel": "Specialty",
+    "specialtyPlaceholder": "Computer Science",
+    "genderLabel": "Gender",
+    "genderOptionFLabel": "Feminine",
+    "genderOptionMLabel": "Masculine",
+    "genderOptionUnknownLabel": "Not sure/Prefer not to say",
+    "genderOptionOtherLabel": "Other",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPasswordLabel": "Confirm password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "signUpLabel": "Sign Up",
+    "signUpAlternativesSeparator": "or",
+    "signUpAlternativesSignIn": "If you have an account, please <1>sign in</1>"
+}

@@ -1,0 +1,16 @@
+{
+    "searchPlaceholder": "Pesquise qualquer campo",
+    "registerLabel": "Cadastrar Novo Usuário",
+    "title": "Usuários Cadastrados",
+    "previousPageLabel": "Anterior",
+    "nextPageLabel": "Próximo",
+    "selectedRows": "{{selected}} de {{total}} linha(s) selecionada(s)",
+    "columnFullName": "Nome Completo",
+    "columnEmail": "E-mail",
+    "columnGender": "Gênero",
+    "columnEthnicity": "Etnia",
+    "columnBirthDate": "Data de Nascimento",
+    "actionsLabel": "Ações",
+    "actionsCopyName": "Copiar nome",
+    "actionsCopyId": "Copiar ID"
+}

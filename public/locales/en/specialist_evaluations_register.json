@@ -1,0 +1,23 @@
+{
+    "step1Id": "Step 1",
+    "step1Name": "General Information",
+    "step2Id": "Step 2",
+    "step2Name": "Intrument",
+    "step3Id": "Step 3",
+    "step3Name": "Users",
+    "step1FieldIdentificationLabel": "Evaluation Identification",
+    "step1FieldDateLabel": "Evaluation Date",
+    "step1FieldMethodLabel": "Method",
+    "step1FieldMethodOptionSelfEval": "Self-evaluation",
+    "previousLabel": "Previous",
+    "nextLabel": "Next",
+    "step2FieldTemplatesLabel": "Use Templates",
+    "step2FieldInstrumentLabel": "Instrument",
+    "step2FieldInstrumentPlaceholder": "Evaluation Method",
+    "step3FieldUsersLabel": "Users",
+    "step3FieldSearchPlaceholder": "Search any field",
+    "step3FieldUsersSelectedRows": "{{selected}} of {{total}} row(s) selected",
+    "step3ConfirmLabel": "Confirm",
+    "step3UsersColumnFullName": "Full Name",
+    "step3UsersColumnEmail": "E-mail"
+}

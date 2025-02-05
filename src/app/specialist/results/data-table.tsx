@@ -36,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTableProps } from "@/types/forms";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -99,12 +100,14 @@ export function ResultsDataTable<TData, TValue>({
   const rows = table.getRowModel().rows;
   const emptyRows = pageSize - rows.length;
 
+  const { t } = useTranslation('specialist_results');
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex pb-4 gap-4 w-full">
         {/* input */}
         <Input
-          placeholder="Pesquise qualquer campo"
+          placeholder={t('searchLabel')}
           value={globalFilter ?? ''}
           onChange={(e) => {
            setGlobalFilter(e.target.value);
@@ -158,7 +161,7 @@ export function ResultsDataTable<TData, TValue>({
               </>
             ) : (
               <TableRow className="h-20">
-                <TableCell colSpan={columns.length}>Sem resultados</TableCell>
+                <TableCell colSpan={columns.length}>{t('noResultsFound')}</TableCell>
               </TableRow>
             )}
           </TableBody>
@@ -175,7 +178,7 @@ export function ResultsDataTable<TData, TValue>({
           }}
           disabled={!table.getCanPreviousPage()}
         >
-          Anterior
+          {t('previousLabel')}
         </Button>
         <Button
           variant="default"
@@ -185,7 +188,7 @@ export function ResultsDataTable<TData, TValue>({
           }}
           disabled={!table.getCanNextPage()}
         >
-          Próximo
+          {t('nextLabel')}
         </Button>
       </div>
     </div>

@@ -1,0 +1,10 @@
+{
+    "searchPlaceholder": "Pesquise qualquer campo",
+    "previousLabel": "Anterior",
+    "nextLabel": "Próximo",
+    "selectedRows": "{{selected}} de {{total}} linha(s) selecionada(s)",
+    "columnId": "Identificação",
+    "columnInstrument": "Instrumento",
+    "columnMethod": "Método",
+    "columnDate": "Data da Avaliação"
+}

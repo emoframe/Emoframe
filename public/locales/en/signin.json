@@ -1,0 +1,9 @@
+{
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "loginLabel": "Sign In",
+    "loginAlternativesSeparator": "or",
+    "loginAlternativesSignUp": "If you don't have an account, please <1>sign up</1>",
+    "loginAlternativesForgotPassword": "If you have forgotten or want to change your password, click <1>here</1>"
+}

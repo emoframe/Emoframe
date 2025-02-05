@@ -1,0 +1,22 @@
+{
+    "title": "Cadastro",
+    "nameLabel": "Nome",
+    "surnameLabel": "Sobrenome",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefone",
+    "associationLabel": "Vínculo",
+    "specialtyLabel": "Especialidade",
+    "specialtyPlaceholder": "Computação",
+    "genderLabel": "Gênero",
+    "genderOptionFLabel": "Feminino",
+    "genderOptionMLabel": "Masculino",
+    "genderOptionUnknownLabel": "Não sei/Prefiro não dizer",
+    "genderOptionOtherLabel": "Outro",
+    "passwordLabel": "Senha",
+    "passwordPlaceholder": "Insira sua senha",
+    "confirmPasswordLabel": "Confirme sua senha",
+    "confirmPasswordPlaceholder": "Confirme sua senha",
+    "signUpLabel": "Registre-se",
+    "signUpAlternativesSeparator": "ou",
+    "signUpAlternativesSignIn": "Se possuir uma conta, por favor <1>entre</1>"
+}

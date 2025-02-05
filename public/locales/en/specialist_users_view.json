@@ -1,0 +1,16 @@
+{
+    "searchPlaceholder": "Search any field",
+    "registerLabel": "Register New User",
+    "title": "Registered Users",
+    "previousPageLabel": "Previous",
+    "nextPageLabel": "Next",
+    "selectedRows": "{{selected}} of {{total}} row(s) selected",
+    "columnFullName": "Full Name",
+    "columnEmail": "E-mail",
+    "columnGender": "Gender",
+    "columnEthnicity": "Ethnicity",
+    "columnBirthDate": "Birth Date",
+    "actionsLabel": "Actions",
+    "actionsCopyName": "Copy name",
+    "actionsCopyId": "Copy ID"
+}

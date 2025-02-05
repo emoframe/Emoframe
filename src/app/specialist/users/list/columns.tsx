@@ -13,6 +13,7 @@ import {
 import { ArrowUpDown, MoreHorizontal, Router } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { compareItems } from "@tanstack/match-sorter-utils";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -66,6 +67,7 @@ export const columns: ColumnDef<User>[] = [
     id: 'fullName',
     meta: {name: "Nome Completo"},
     header: ({ column }) => {
+      const { t } = useTranslation('specialist_users_view');
       return (
         <Button
           variant="ghost"
@@ -74,7 +76,7 @@ export const columns: ColumnDef<User>[] = [
           }}
         >
           <ArrowUpDown className="mr-2 h-4 w-4" />
-          Nome Completo   
+          {t('columnFullName')}   
         </Button>
       );
     },
@@ -84,31 +86,44 @@ export const columns: ColumnDef<User>[] = [
     sortingFn: fuzzySort,
   },
   {
-    header: "E-mail",
+    header: () => {
+      const { t } = useTranslation('specialist_users_view');
+      return t('columnEmail')
+    },
     meta: {name: "E-mail"},
     accessorKey: "email",
   },
   {
-    header: "Gênero",
+    header: () => {
+      const { t } = useTranslation('specialist_users_view');
+      return t('columnGender')
+    },
     meta: {name: "Gênero"},
     accessorKey: "gender",
   },
   {
-    header: "Etnia",
+    header: () => {
+      const { t } = useTranslation('specialist_users_view');
+      return t('columnEthnicity')
+    },
     meta: {name: "Etnia"},
     accessorKey: "race",
   },
   {
-    header: "Data de Nascimento",
+    header: () => {
+      const { t } = useTranslation('specialist_users_view');
+      return t('columnBirthDate')
+    },
     meta: {name: "Data de Nascimento"},
     accessorKey: "birthday",
   },
   {
     id: "actions",
-    meta: {name: "Ações"},
+    meta: {name: "actionsLabel"},
 
     cell: ({ row }) => {
       const person = row.original;
+      const { t } = useTranslation('specialist_users_view');
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -117,20 +132,20 @@ export const columns: ColumnDef<User>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('actionsLabel')}</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(person.name.toString());
               }}
             >
-              Copiar nome
+              {t('actionsCopyName')}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
                 navigator.clipboard.writeText(person.uid!.toString());
               }}
             >
-              Copiar ID
+              {t('actionsCopyId')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

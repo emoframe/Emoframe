@@ -1,0 +1,18 @@
+{
+    "/specialist/evaluations": "Avaliações",
+    "/specialist/evaluations/form": "Nova",
+    "/specialist/evaluations/list": "Ver Todos",
+    "/specialist/evaluations/results": "Resultados",
+    "/specialist/evaluations/results/answer": "Resposta",
+    "/specialist/results": "Resultados",
+    "/specialist/services": "Serviços",
+    "/specialist/services/instruments": "Instrumentos de Autorrelato",
+    "/specialist/services/instruments/fill": "Exemplo",
+    "/specialist/services/templates": "Templates Flexíveis",
+    "/specialist/services/templates/builder": "",
+    "/specialist/users": "Usuários",
+    "/specialist/users/form": "Novo",
+    "/specialist/users/list": "Ver Todos",
+    "/user/evaluations": "Avaliações",
+    "/user/evaluations/fill": "Preenchimento"
+}

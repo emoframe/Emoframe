@@ -1,13 +1,14 @@
 import React from 'react'
 import { OptionCard } from '@/components/OptionCard';
+import CardsTitle from '@/components/CardsTitle';
 
 const Evaluations = async () => {
     return (
         <>
-            <h1 className="text-2xl font-bold mb-6">Avaliações</h1>
+            <CardsTitle ns="specialist_evaluations"/>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <OptionCard content={{title: 'Ver Avaliações', description: '', href: '/specialist/evaluations/list'}} />
-                <OptionCard content={{title: 'Criar Nova Avaliação', description: '', href: '/specialist/evaluations/form'}} />
+                <OptionCard content={{title: 'specialist_evaluations:optionViewTitle', description: '', href: '/specialist/evaluations/list'}} />
+                <OptionCard content={{title: 'specialist_evaluations:optionRegisterTitle', description: '', href: '/specialist/evaluations/form'}} />
             </div>
         </>
     )

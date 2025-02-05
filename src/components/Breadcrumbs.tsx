@@ -4,9 +4,11 @@ import React from 'react';
 import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 import { getPageTitle } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const Breadcrumbs: React.FC<{homeHref: string}> = ({homeHref}) => {
     const pathname = usePathname();
+    const { t } = useTranslation('breadcrumbs');
     return (
         <div className='flex gap-1'>
             <Link href={`/${homeHref}`} className='hover:text-primary transition-colors'>Home</Link>
@@ -15,7 +17,7 @@ const Breadcrumbs: React.FC<{homeHref: string}> = ({homeHref}) => {
                 return (
                     <React.Fragment key={path}>
                         <span>/</span>
-                        <Link href={path} className='hover:text-primary transition-colors'>{getPageTitle(path) ?? pathSlice}</Link>
+                        <Link href={path} className='hover:text-primary transition-colors'>{t(path, pathSlice)}</Link>
                     </React.Fragment>
                 )
             })}

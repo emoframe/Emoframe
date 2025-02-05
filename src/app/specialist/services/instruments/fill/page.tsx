@@ -25,7 +25,7 @@ const ViewInstrument = async ({
       },
       {
         value: "sus",
-        component: <SusForm isViewable identification="Exemplo"/>
+        component: <SusForm isViewable identification=""/>
       },
       {
         value: "eaz",

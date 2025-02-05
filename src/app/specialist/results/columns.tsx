@@ -14,6 +14,7 @@ import { compareItems } from "@tanstack/match-sorter-utils";
 import { Result, instruments } from "@/types/forms";
 import { format } from 'date-fns';
 import ResultsButton from "@/components/ResultsButton";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta<TData extends RowData, TValue> {
@@ -34,18 +35,22 @@ const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 }
 
-const renderFullNameHeader = ({ column }) => (
-  <Button
-    variant="ghost"
-    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  >
-    <ArrowUpDown className="mr-2 h-4 w-4"/>
-    Nome do Usuário
-  </Button>
-);
+const renderFullNameHeader = ({ column }) => {
+  const { t } = useTranslation('specialist_results');
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    >
+      <ArrowUpDown className="mr-2 h-4 w-4"/>
+      {t('columnFullName')}
+    </Button>
+  );
+}
 
 const renderActionsCell = ({ row }) => {
   const result = row.original;
+  const { t } = useTranslation('specialist_results');
   return (
     <ResultsButton
       evaluation={result.evaluation}
@@ -56,7 +61,7 @@ const renderActionsCell = ({ row }) => {
           variant="default"
           size="sm"
       >
-        Ver Resultado
+        {t('actionsOptionView')}
       </Button>
     </ResultsButton>
   );
@@ -74,24 +79,40 @@ export const columns: ColumnDef<Result>[] = [
     sortingFn: fuzzySort,
   },
   {
-    header: "E-mail",
+    id: 'columnEmail',
+    header: () => {
+      const { t } = useTranslation('specialist_results');
+      return t('columnEmail');
+    },
     meta: { name: "E-mail" },
     accessorFn: row => row.user.email,
   },
   {
-    header: "Avaliação",
+    id: 'columnEvaluation',
+    header: () => {
+      const { t } = useTranslation('specialist_results');
+      return t('columnEvaluation');
+    },
     meta: { name: "Identificação" },
     accessorFn: row => row.evaluation.identification,
   },
   {
-    header: "Instrumento",
+    id: 'columnInstrument',
+    header: () => {
+      const { t } = useTranslation('specialist_results');
+      return t('columnInstrument');
+    },
     meta: { name: "Instrumento" },
     accessorFn: row => (row.evaluation.instrument !== "template") ? 
       instruments.find((instrument) => instrument.value === row.evaluation.instrument)?.label : 
       "Template",
   },
   {
-    header: "Data da Resposta",
+    id: 'columnDate',
+    header: () => {
+      const { t } = useTranslation('specialist_results');
+      return t('columnDate');
+    },
     meta: { name: "Data da Resposta" },
     accessorFn: row => format(new Date(row.answer.datetime ?? ''), "dd/MM/yyyy HH:mm:ss"),
   },

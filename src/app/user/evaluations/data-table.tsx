@@ -38,6 +38,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTableProps } from "@/types/forms";
+import { useTranslation } from "react-i18next";
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -97,12 +98,14 @@ export function EvaluationsDataTable<TData, TValue>({
     },
   });
 
+  const { t } = useTranslation('user_evaluations');
+
   return (
     <div style={{maxWidth: 'calc(100vw - 160px)'}}>
       <div className="flex items-center pb-4 gap-4">
         {/* input */}
         <Input
-          placeholder="Pesquise qualquer campo"
+          placeholder={t('searchPlaceholder')}
           value={globalFilter ?? ''}
           onChange={(e) => {
            setGlobalFilter(e.target.value);
@@ -165,7 +168,7 @@ export function EvaluationsDataTable<TData, TValue>({
           }}
           disabled={!table.getCanPreviousPage()}
         >
-          Anterior
+          {t('previousLabel')}
         </Button>
         <Button
           variant="outline"
@@ -175,12 +178,11 @@ export function EvaluationsDataTable<TData, TValue>({
           }}
           disabled={!table.getCanNextPage()}
         >
-          Próximo
+          {t('nextLabel')}
         </Button>
       </div>
       <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} de{" "}
-        {table.getFilteredRowModel().rows.length} linha(s) selecionada(s)
+        {t('selectedRows', {selected: table.getFilteredSelectedRowModel().rows.length, total: table.getFilteredRowModel().rows.length})}
       </div>
     </div>
   );

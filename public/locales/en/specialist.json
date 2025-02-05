@@ -1,0 +1,13 @@
+{
+    "welcome": "Welcome, {{name}}",
+    "tutorialsTitle": "Videos and tutorials",
+    "tutorialsDescription": "Learn how to create a new evaluation",
+    "explanationTitle": "What is EmoFrame?",
+    "explanationDescription": "EmoFrame is an integrated digital platform that assists in product evaluation, combining tools from different areas to select the ideal evaluation method, especially in the field of Human-Computer Interaction.",
+    "recentEvaluations": "Recent evaluations",
+    "recentResults": "Recent results",
+    "userQuantity": "Nº of users",
+    "noItemsFound": "No items found",
+    "publicationsTitle": "Recent publications",
+    "seeMore": "See more"
+}

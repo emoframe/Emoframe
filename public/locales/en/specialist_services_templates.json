@@ -1,0 +1,11 @@
+{
+    "createLabel": "Create new template",
+    "dialogTitle": "Create template",
+    "dialogDescription": "Start creating a template to be used in evaluations",
+    "titleLabel": "Title",
+    "scaleLabel": "Scale",
+    "scalePlaceholder": "Select an option",
+    "sizeLabel": "Number of options",
+    "descriptionLabel": "Description",
+    "saveLabel": "Save"
+}

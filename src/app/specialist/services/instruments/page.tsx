@@ -1,14 +1,18 @@
+'use client'
+
 import { OptionCard, Content } from '@/components/OptionCard';
 import { instruments } from '@/types/forms';
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 
-const transformedContent: Content[] = instruments.map(instrument => ({
-  title: instrument.label,
-  description: instrument.description || '', // String vazia se desciption for undefined
-  href: `/specialist/services/instruments/fill?instrument=${instrument.value}`
-}));
 
 const InstrumentsCards = () => {
+  const { i18n } = useTranslation('specialist_services_instruments');
+  const transformedContent: Content[] = instruments.filter(ins => ins.locales.includes(i18n.language)).map(instrument => ({
+    title: instrument.label,
+    description: instrument.description || '', // String vazia se desciption for undefined
+    href: `/specialist/services/instruments/fill?instrument=${instrument.value}`
+  }));
   return (
     <>
       {transformedContent.map((content, index) => (

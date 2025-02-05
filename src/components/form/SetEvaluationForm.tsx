@@ -30,9 +30,10 @@ import { useRouter } from 'next/navigation';
 import { DataTableProps, Evaluation, instruments, RadioItem, Option } from '@/types/forms';
 import { User } from '@/types/users';
 import { Label } from '../ui/label';
+import { useTranslation } from 'react-i18next';
 
 const MethodProps: RadioItem[] = [
-    { value: "Autorrelato", label: "Autorrelato" },
+    { value: "Autorrelato", label: "step1FieldMethodOptionSelfEval" },
 ];
 
 const FormSchema = z.object({
@@ -54,18 +55,18 @@ type FieldName = keyof Inputs
 
 const steps = [
   {
-    id: 'Etapa 1',
-    name: 'Dados Gerais',
+    id: 'step1Id',
+    name: 'step1Name',
     fields: ['identification', 'date', 'method']
   },
   {
-    id: 'Etapa 2',
-    name: 'Instrumento',
+    id: 'step2Id',
+    name: 'step2Name',
     fields: ['instrument']
   },
   {
-    id: 'Etapa 3',
-    name: 'Usuários',
+    id: 'step3Id',
+    name: 'step3Name',
     fields: []
   }
 ]
@@ -107,6 +108,8 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
             setValue("templateId", "");  // Limpar templateId quando não estiver usando templates
         }
     }, [useTemplates, watch, setValue]);
+
+    const { t } = useTranslation('specialist_evaluations_register');
 
     const onSubmit = async (values: Inputs) => {
 
@@ -156,7 +159,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                 {steps.map((step, index) => (
                     <li key={step.name} className='md:flex-1'>
                         <div className={`group flex w-full flex-col border-l-4 ${currentStep >= index ? 'border-primary' : 'border-content'} py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4`}>
-                            <span className={`text-sm font-medium transition-colors ${currentStep >= index ? 'text-primary' : 'text-content'}`}>{step.id} - {step.name}</span>
+                            <span className={`text-sm font-medium transition-colors ${currentStep >= index ? 'text-primary' : 'text-content'}`}>{t(step.id)} - {t(step.name)}</span>
                         </div>
                     </li>
                 ))}
@@ -177,7 +180,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                 name='identification'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Identificação da Avaliação</FormLabel>
+                                        <FormLabel>{t('step1FieldIdentificationLabel')}</FormLabel>
                                         <FormControl>
                                             <Input placeholder='' {...field} />
                                         </FormControl>
@@ -190,7 +193,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                 name='date'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Data da Avaliação</FormLabel>
+                                        <FormLabel>{t('step1FieldDateLabel')}</FormLabel>
                                         <FormControl>
                                             <DatePicker 
                                                 onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}
@@ -209,7 +212,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                 name="method"
                                 render={({ field }) => (
                                     <FormItem className="space-y-3">
-                                    <FormLabel>Método de Avaliação</FormLabel>
+                                    <FormLabel>{t('step1FieldMethodLabel')}</FormLabel>
                                     <FormControl>
                                         <RadioGroup
                                             onValueChange={field.onChange}
@@ -223,7 +226,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                                 <RadioGroupItem value={individual.value} />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
-                                                {individual.label}
+                                                {t(individual.label)}
                                                 </FormLabel>
                                             </FormItem>
                                             )
@@ -245,7 +248,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                         className='flex flex-col flex-wrap justify-center gap-1'
                         >
                             <div className='flex flex-col gap-3 mb-6'>
-                                <Label>Usar Templates</Label>
+                                <Label>{t('step2FieldTemplatesLabel')}</Label>
                                 <Switch 
                                     checked={useTemplates}
                                     onCheckedChange={setUseTemplates} 
@@ -256,21 +259,21 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                 name='instrument'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Instrumento de Avaliação</FormLabel>
+                                        <FormLabel>{t('step2FieldInstrumentLabel')}</FormLabel>
                                         <FormControl>
                                             {useTemplates ? (
                                                 <Combobox
                                                     className="min-w-[400px]"
                                                     options={templates}
                                                     onSelect={(value) => setValue("templateId", value)}
-                                                    placeholder="Método de Avaliação"
+                                                    placeholder={t('step2FieldInstrumentPlaceholder')}
                                                 />
                                             ) : (
                                                 <Combobox
                                                     className="min-w-[400px]"
                                                     options={instruments}
                                                     onSelect={(value) => setValue("instrument", value)}
-                                                    placeholder="Método de Avaliação"
+                                                    placeholder={t('step2FieldInstrumentPlaceholder')}
                                                 />
                                             )}
                                         </FormControl>
@@ -292,7 +295,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                 name='users'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Usuários</FormLabel>
+                                        <FormLabel>{t('step3FieldUsersLabel')}</FormLabel>
                                         <FormControl>
                                         <UserDataTable 
                                             data={dataTable.data} 
@@ -308,7 +311,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                             />
                             
                             <Button className='w-full mt-6' type='submit'>
-                                Confirmar
+                                {t('step3ConfirmLabel')}
                             </Button>
                         </motion.div>
                     )}
@@ -321,14 +324,14 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                         onClick={prev}
                         disabled={currentStep === 0}
                     >
-                        <ChevronLeft/> Anterior
+                        <ChevronLeft/> {t('previousLabel')}
                     </Button>
                     <Button
                         variant='icon'
                         onClick={next}
                         disabled={currentStep === steps.length - 1}
                     >
-                        Próximo <ChevronRight/>
+                        {t('nextLabel')} <ChevronRight/>
                     </Button>
                 </div>
         </section>

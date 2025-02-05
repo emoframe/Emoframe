@@ -1,0 +1,13 @@
+{
+    "title": "Results search",
+    "searchLabel": "Search any field",
+    "noResultsFound": "No results found",
+    "previousLabel": "Previous",
+    "nextLabel": "Next",
+    "columnFullName": "Full Name",
+    "columnEmail": "E-mail",
+    "columnEvaluation": "Evaluation",
+    "columnInstrument": "Instrument",
+    "columnDate": "Date Answered",
+    "actionsOptionView": "View Result"
+}

@@ -23,56 +23,57 @@ import { useRouter } from 'next/navigation';
 import { createUser } from '@/lib/firebase';
 import { User } from '@/types/users';
 import { RadioItem } from '@/types/forms';
+import { useTranslation } from 'react-i18next';
 
 const RaceProps: RadioItem[] = [
-  { value: "Amarelo", label: "Amarelo" },
-  { value: "Branco", label: "Branco" },
-  { value: "Indígena", label: "Indígena" },
-  { value: "Pardo", label: "Pardo" },
-  { value: "Preto", label: "Preto" },
+  { value: "Amarelo", label: "raceOptionAsian" },
+  { value: "Branco", label: "raceOptionCaucasian" },
+  { value: "Indígena", label: "raceOptionNative" },
+  { value: "Pardo", label: "raceOptionMixed" },
+  { value: "Preto", label: "raceOptionBlack" },
 ];
 
 const SchoolingProps: RadioItem[] = [
-  { value: "Analfabeto", label: "Analfabeto(a)" },
-  { value: "Fundamental Incompleto", label: "Ensino fundamental (incompleto)" },
-  { value: "Fundamental Completo", label: "Ensino fundamental (completo)" },
-  { value: "Médio Incompleto", label: "Ensino médio (incompleto)" },
-  { value: "Médio Completo", label: "Ensino médio (completo)" },
-  { value: "Superior Incompleto", label: "Ensino superior (incompleto)" },
-  { value: "Superior Completo", label: "Ensino superior (completo)" },
-  { value: "Superior com Pós", label: "Ensino superior (com pós-graduação)" },
+  { value: "Analfabeto", label: "educationOptionIlliterate" },
+  { value: "Fundamental Incompleto", label: "educationOptionPreElementary" },
+  { value: "Fundamental Completo", label: "educationOptionElementary" },
+  { value: "Médio Incompleto", label: "educationOptionPreHighschool" },
+  { value: "Médio Completo", label: "educationOptionHighschool" },
+  { value: "Superior Incompleto", label: "educationOptionPreHigher" },
+  { value: "Superior Completo", label: "educationOptionHigher" },
+  { value: "Superior com Pós", label: "educationOptionPostGrad" },
 ];
 
 const IndividualIncomeProps: RadioItem[] = [
-  { value: "BPC", label: "BPC" },
-  { value: "Até 1 salário mínimo", label: "Até 1 salário mínimo" },
-  { value: "Entre 1 e 2 salários mínimos", label: "Entre 1 e 2 salários mínimos" },
-  { value: "Entre 2 e 3 salários mínimos", label: "Entre 2 e 3 salários mínimos" },
-  { value: "Entre 3 e 4 salários mínimos", label: "Entre 3 e 4 salários mínimos" },
-  { value: "Entre 4 e 5 salários mínimos", label: "Entre 4 e 5 salários mínimos" },
-  { value: "Entre 5 e 10 salários mínimos", label: "Entre 5 e 10 salários mínimos" },
-  { value: "Mais de 10 salários mínimos", label: "Mais de 10 salários mínimos" },
-  { value: "Prefere não informar", label: "Prefere não informar" },
+  { value: "BPC", label: "incomeOptionBPC" },
+  { value: "Até 1 salário mínimo", label: "incomeOption0" },
+  { value: "Entre 1 e 2 salários mínimos", label: "incomeOption1" },
+  { value: "Entre 2 e 3 salários mínimos", label: "incomeOption2" },
+  { value: "Entre 3 e 4 salários mínimos", label: "incomeOption3" },
+  { value: "Entre 4 e 5 salários mínimos", label: "incomeOption4" },
+  { value: "Entre 5 e 10 salários mínimos", label: "incomeOption5" },
+  { value: "Mais de 10 salários mínimos", label: "incomeOption10" },
+  { value: "Prefere não informar", label: "incomeOptionUnspecified" },
 ];
 
 const FamilyIncomeProps: RadioItem[] = [
-  { value: "BPC", label: "BPC" },
-  { value: "Até 1 salário mínimo", label: "Até 1 salário mínimo" },
-  { value: "Entre 1 e 2 salários mínimos", label: "Entre 1 e 2 salários mínimos" },
-  { value: "Entre 2 e 3 salários mínimos", label: "Entre 2 e 3 salários mínimos" },
-  { value: "Entre 3 e 4 salários mínimos", label: "Entre 3 e 4 salários mínimos" },
-  { value: "Entre 4 e 5 salários mínimos", label: "Entre 4 e 5 salários mínimos" },
-  { value: "Entre 5 e 10 salários mínimos", label: "Entre 5 e 10 salários mínimos" },
-  { value: "Mais de 10 salários mínimos", label: "Mais de 10 salários mínimos" },
-  { value: "Prefere não informar", label: "Prefere não informar" },
-  { value: "Não se aplica", label: "Não se aplica" },
+  { value: "BPC", label: "incomeOptionBPC" },
+  { value: "Até 1 salário mínimo", label: "incomeOption0" },
+  { value: "Entre 1 e 2 salários mínimos", label: "incomeOption1" },
+  { value: "Entre 2 e 3 salários mínimos", label: "incomeOption2" },
+  { value: "Entre 3 e 4 salários mínimos", label: "incomeOption3" },
+  { value: "Entre 4 e 5 salários mínimos", label: "incomeOption4" },
+  { value: "Entre 5 e 10 salários mínimos", label: "incomeOption5" },
+  { value: "Mais de 10 salários mínimos", label: "incomeOption10" },
+  { value: "Prefere não informar", label: "incomeOptionUnspecified" },
+  { value: "Não se aplica", label: "familyIncomeOptionNA" },
 ];
 
 const GenderProps: RadioItem[] = [
-  { value: "Feminino", label: "Feminino" },
-  { value: "Masculino", label: "Masculino" },
-  { value: "Não sei", label: "Não sei/Prefiro não dizer" },
-  { value: "Outro", label: "Outro" },
+  { value: "Feminino", label: "genderOptionF" },
+  { value: "Masculino", label: "genderOptionM" },
+  { value: "Não sei", label: "genderOptionUnspecified" },
+  { value: "Outro", label: "genderOptionOther" },
 ];
 
 const FormSchema = z
@@ -186,17 +187,19 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
     push("/specialist");
   };
 
+  const { t } = useTranslation('specialist_users_register');
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <p className="font-bold text-xl self-center mb-4">Cadastro de Usuário</p>
+        <p className="font-bold text-xl self-center mb-4">{t('title')}</p>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-x-6'>
           <FormField
             control={form.control}
             name='name'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nome</FormLabel>
+                <FormLabel>{t('nameLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='José' {...field} />
                 </FormControl>
@@ -210,7 +213,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name='surname'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sobrenome</FormLabel>
+                <FormLabel>{t('surnameLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='da Silva' {...field} />
                 </FormControl>
@@ -224,7 +227,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t('emailLabel')}</FormLabel>
                 <FormControl>
                   <Input placeholder='mail@example.com' {...field} />
                 </FormControl>
@@ -238,7 +241,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name='phone'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Telefone</FormLabel>
+                <FormLabel>{t('phoneLabel')}</FormLabel>
                 <FormControl>
                   <Input
                     placeholder='(99) 99999-9999'
@@ -258,9 +261,9 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name='address'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Endereço</FormLabel>
+                <FormLabel>{t('addressLabel')}</FormLabel>
                 <FormControl>
-                  <Input placeholder='Rua...' {...field} />
+                  <Input placeholder={t('addressPlaceholder')} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -272,7 +275,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name='birthday'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Data de Nascimento</FormLabel>
+                <FormLabel>{t('birthdateLabel')}</FormLabel>
                 <FormControl>
                   <DatePicker
                     onChange={(value) => field.onChange(value.toDate(getLocalTimeZone()))}
@@ -291,7 +294,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name="individual_income"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Renda Individual Mensal</FormLabel>
+                <FormLabel>{t('incomeLabel')}</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -305,7 +308,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
                             <RadioGroupItem value={individual.value} />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            {individual.label}
+                            {t(individual.label)}
                           </FormLabel>
                         </FormItem>
                       )
@@ -322,7 +325,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name="family_income"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Renda Familiar Mensal</FormLabel>
+                <FormLabel>{t('familyIncomeLabel')}</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -336,7 +339,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
                             <RadioGroupItem value={family.value} />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            {family.label}
+                            {t(family.label)}
                           </FormLabel>
                         </FormItem>
                       )
@@ -353,7 +356,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name="race"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Raça autodeclarada</FormLabel>
+                <FormLabel>{t('raceLabel')}</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -367,7 +370,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
                             <RadioGroupItem value={race.value} />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            {race.label}
+                            {t(race.label)}
                           </FormLabel>
                         </FormItem>
                       )
@@ -384,7 +387,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name="gender"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Gênero</FormLabel>
+                <FormLabel>{t('genderLabel')}</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -398,7 +401,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
                             <RadioGroupItem value={specialty.value} />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            {specialty.label}
+                            {t(specialty.label)}
                           </FormLabel>
                         </FormItem>
                       )
@@ -415,7 +418,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name="schooling"
             render={({ field }) => (
               <FormItem className="col-span-2 space-y-3">
-                <FormLabel>Escolaridade</FormLabel>
+                <FormLabel>{t('educationLabel')}</FormLabel>
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
@@ -429,7 +432,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
                             <RadioGroupItem value={schooling.value} />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            {schooling.label}
+                            {t(schooling.label)}
                           </FormLabel>
                         </FormItem>
                       )
@@ -446,11 +449,11 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Senha</FormLabel>
+                <FormLabel>{t('passwordLabel')}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
-                    placeholder='Insira sua senha'
+                    placeholder={t('passwordPlaceholder')}
                     {...field}
                   />
                 </FormControl>
@@ -464,11 +467,11 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
             name='confirm_password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirme sua senha</FormLabel>
+                <FormLabel>{t('confirmPasswordLabel')}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
-                    placeholder='Confirme sua senha'
+                    placeholder={t('confirmPasswordPlaceholder')}
                     {...field}
                   />
                 </FormControl>
@@ -479,7 +482,7 @@ const SignUpForm = ({ specialistId } : { specialistId: string }) => {
 
         </div>
         <Button className='w-full mt-6' type='submit'>
-          Cadastrar
+          {t('registerLabel')}
         </Button>
       </form>
     </Form>

@@ -1,0 +1,15 @@
+{
+    "searchPlaceholder": "Pesquise qualquer campo",
+    "createLabel": "Criar Nova Avaliação",
+    "title": "Avaliações Cadastradas",
+    "previousLabel": "Anterior",
+    "nextLabel": "Próximo",
+    "selectedRows": "{{selected}} de {{total}} linha(s) selecionada(s)",
+    "columnId": "Identificação",
+    "columnTool": "Instrumento",
+    "columnMethod": "Método",
+    "columnDate": "Data da Avaliação",
+    "actionsLabel": "Ações",
+    "actionsOptionResults": "Ver resultados",
+    "actionsOptionCopyId": "Copiar ID"
+}
