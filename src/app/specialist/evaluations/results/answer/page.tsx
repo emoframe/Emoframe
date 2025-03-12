@@ -9,19 +9,21 @@ import SamResult from '@/components/result/SamResult';
 import { useToast } from '@/components/ui/use-toast';
 import { appRedirect, getSessionUser } from '@/lib/actions';
 import { getById } from '@/lib/firebase';
-import { Answer, Evaluation, Gds, Leap, Panas, Sam, Sus } from '@/types/forms';
+import { Answer, Evaluation, Gds, Leap, Panas, Sam, Sus, Template } from '@/types/forms';
 import { User } from '@/types/users';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState, useTransition } from 'react';
+import { Filter } from '@/types/firebase';
+import TemplateResult from '@/components/result/TemplateResult';
 
 type RenderComponentProps = {
   user: User;
   evaluation: Evaluation;
   data: Answer;
+  template: Template | null;
 };
 
-const RenderComponent = ({ user, evaluation, data }: RenderComponentProps) => {
-  const commonProps = { user, evaluation, data };
+const RenderComponent = ({ user, evaluation, data, template }: RenderComponentProps) => {
   switch (evaluation.instrument) {
     case 'panas':
       return <PanasResult user={user} evaluation={evaluation} data={data as Panas} />;
@@ -33,12 +35,18 @@ const RenderComponent = ({ user, evaluation, data }: RenderComponentProps) => {
       return <GdsResult user={user} evaluation={evaluation} data={data as Gds} />;
     case 'sam':
       return <SamResult user={user} evaluation={evaluation} data={data as Sam} />;
+    case 'template':
+      return <TemplateResult user={user} evaluation={evaluation} data={data as Answer} template={template as Template}/>;
     default:
       return (
         <>
           <h3 className="text-2xl font-semibold leading-none tracking-tight">Resposta</h3>
           <pre className="whitespace-pre-wrap break-words bg-white p-4 rounded-lg border border-gray-300">
-            {JSON.stringify(data, null, 2)}
+            Evaluation: {JSON.stringify(evaluation, null, 2)} <br/>
+
+            Data: {JSON.stringify(data, null, 2)} <br/>
+
+            Template: {JSON.stringify(template, null, 2)} <br/>
           </pre>
         </>
       );
@@ -48,6 +56,7 @@ const RenderComponent = ({ user, evaluation, data }: RenderComponentProps) => {
 const AnswerPage = () => {
   const { user, evaluation } = useUser();
   const [data, setData] = useState<Answer | null>(null);
+  const [template, setTemplate] = useState<Template | null>(null);
   const [loading, startTransition] = useTransition();
   const [initialLoading, setInitialLoading] = useState(true);
   const { toast } = useToast();
@@ -80,11 +89,16 @@ const AnswerPage = () => {
             }
 
             setData(answerData);
-            setInitialLoading(false);
           });
-        } else {
-          setInitialLoading(false);
         }
+
+        if (evaluation.instrument == "template") {
+          const templateData = await getById(evaluation.templateId as string, "template");
+          setTemplate(templateData);
+        }
+        
+        setInitialLoading(false);
+
       } catch (error) {
         console.log('Redirecionando devido ao erro: ', error);
         toast({
@@ -106,7 +120,7 @@ const AnswerPage = () => {
 
   return (
     <div
-       className="flex flex-1 flex-col gap-4 min-h-[600px]"
+      className="flex flex-1 flex-col gap-4 min-h-[600px] mx-auto"
       style={{ maxWidth: `calc(80vw - var(--sidebar)` }}
     >
       {loading ? (
@@ -116,6 +130,7 @@ const AnswerPage = () => {
           user={user as User}
           evaluation={evaluation as Evaluation}
           data={data as Answer}
+          template={template}
         />
       )}
     </div>

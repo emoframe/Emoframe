@@ -9,7 +9,7 @@ interface SpecialistLayoutProps {
 const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
 
     const defaultLayout = (
-        <div className='flex flex-col bg-primary-background md:p-10 m-5 rounded-md p-4'>
+        <div className='flex flex-col w-full justify-center bg-primary-background md:p-10 m-5 rounded-md p-4'>
             <div className='mb-4'>
                 <Breadcrumbs homeHref="specialist" />
             </div>
