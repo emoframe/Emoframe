@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from '@/components/ui/separator';;
 import { Input } from '../ui/input';
+import { Checkbox } from '../ui/checkbox';
 
 const DefaultProps = {
     Affirmative: [{ value: '1', label: '1 = SIM' }, { value: '0', label: '0 = NÃO' }],
@@ -26,7 +27,14 @@ const DefaultProps = {
 const BooleanProps = [{value: '1', label: 'SIM'}, {value: '0', label: 'NÃO'}];
 
 const SocioenvironmentalFormSchema = z.object({
-    support_55: z.string().array().length(6),
+    support_55: z.object({
+        spouse: z.enum(['', 'on']),
+        parents: z.enum(['', 'on']),
+        siblings: z.string(),
+        children: z.string(),
+        grandchildren: z.string(),
+        greatgrandchildren: z.string(),
+    }),
     support: z.enum(
         [DefaultProps.Affirmative[0].value, DefaultProps.Affirmative[1].value],
         { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
@@ -57,7 +65,14 @@ const PageSocioenvironmentalForm = ({onSubmit}) => {
     const form = useForm<z.infer<typeof SocioenvironmentalFormSchema>>({
         resolver: zodResolver(SocioenvironmentalFormSchema),
         defaultValues: {
-            support_55: ['', '', '', '', '', ''],
+            support_55: {
+                spouse: '',
+                parents: '',
+                siblings: '',
+                children: '',
+                grandchildren: '',
+                greatgrandchildren: '',
+            },
             support: ['', '', '', '', '', '', '', ''],
             support_result: '',
             violence: ['', '', '', '', '', '', '', ''],
@@ -79,10 +94,44 @@ const PageSocioenvironmentalForm = ({onSubmit}) => {
                     name='support_55'
                     render={({ field }) => (
                         <FormItem className="flex flex-col items-center gap-5 content-center">
-                            <p className="text-xl">55 -O(a) senhor(a) tem: cônjuge, pais, irmãos (nª), filhos(nª) , netos(nª) e bisnetos (n°).</p>
+                            <p className="text-xl">55 -O(a) senhor(a) tem:</p>
                             <p className="text-xl"><b>[Instruções: Fazer registro dos familiares vivos].</b></p>
-                            <FormControl>
-                            </FormControl>
+                            <div className='flex flex-row gap-3 items-center'>
+                                <FormControl>
+                                    <Checkbox onChange={field.onChange} defaultValue={field.value.spouse} value={field.value.spouse}/>
+                                </FormControl>
+                                <FormLabel className="text-xl">Cônjuge</FormLabel>
+                            </div>
+                            <div className='flex flex-row gap-3 items-center'>
+                                <FormControl>
+                                    <Checkbox onChange={field.onChange} defaultValue={field.value.parents} value={field.value.parents}/>
+                                </FormControl>
+                                <FormLabel className="text-xl">Pais</FormLabel>
+                            </div>
+                            <div className='flex flex-row gap-3 items-center'>
+                                <FormControl>
+                                    <Input onChange={event => form.setValue('support_55.siblings', event.target.value)} />
+                                </FormControl>
+                                <FormLabel className="text-xl">irmãos (nª)</FormLabel>
+                            </div>
+                            <div className='flex flex-row gap-3 items-center'>
+                                <FormControl>
+                                    <Input onChange={event => form.setValue('support_55.children', event.target.value)} />
+                                </FormControl>
+                                <FormLabel className="text-xl">filhos(nª)</FormLabel>
+                            </div>
+                            <div className='flex flex-row gap-3 items-center'>
+                                <FormControl>
+                                    <Input onChange={event => form.setValue('support_55.grandchildren', event.target.value)} />
+                                </FormControl>
+                                <FormLabel className="text-xl">netos(nª)</FormLabel>
+                            </div>
+                            <div className='flex flex-row gap-3 items-center'>
+                                <FormControl>
+                                    <Input onChange={event => form.setValue('support_55.greatgrandchildren', event.target.value)} />
+                                </FormControl>
+                                <FormLabel className="text-xl">bisnetos (n°)</FormLabel>
+                            </div>
                             <FormMessage />
                         </FormItem>
                     )}

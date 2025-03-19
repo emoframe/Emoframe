@@ -61,17 +61,11 @@ const BiologicalFormSchema = z.object({
         { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
     ),
     medicine_44: z.object({
-        checks: z.enum(
-            [DefaultProps.Affirmative[0].value, DefaultProps.Affirmative[1].value],
-            { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-        ).array().length(11),
+        checks: z.enum(['', 'on']).array().length(11),
         others: z.string(),
     }),
     medicine_45: z.object({
-        checks: z.enum(
-            [DefaultProps.Affirmative[0].value, DefaultProps.Affirmative[1].value],
-            { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-        ).array().length(7),
+        checks: z.enum(['', 'on']).array().length(7),
         others: z.string(),
     }),
     medicine: z.enum(
