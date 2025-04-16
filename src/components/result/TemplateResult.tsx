@@ -102,29 +102,35 @@ export default function TemplateResult({
   //   - series[0].targetAxisIndex = 0 => usa o eixo vertical da esquerda
   //   - A 2ª vAxis serve apenas para exibir os rótulos do lado direito
   const chartOptions = {
-    legend: { position: "none" },
+    // 1) foco em cada ponto individual
+    focusTarget: 'datum',                // mantém tooltip por ponto, não por categoria :contentReference[oaicite:0]{index=0}
+  
+    legend: { position: 'none' },
     hAxis: {
-      title: "Escala (1 a 5)",
+      title: 'Escala (1 a 5)',
       viewWindow: { min: 1, max: 5 },
       ticks: [1, 2, 3, 4, 5],
     },
     series: {
       0: {
-        // Primeira série (coluna "DimIndexLeft")
-        targetAxisIndex: 0,        // usa vAxes[0]
-        lineDashStyle: [4, 2],     // tracejada (remova se quiser contínua)
+        // desliga tooltip da série 0
+        tooltip: false,                  
+        enableInteractivity: false,       // também bloqueia hover nesta série :contentReference[oaicite:1]{index=1}
+        lineDashStyle: [4, 2],
         lineWidth: 3,
         pointSize: 6,
       },
       1: {
-        // Segunda série (coluna "DimIndexRight")
-        targetAxisIndex: 1,        // usa vAxes[1]
-        lineWidth: 0,              // sem linha
-        pointSize: 0,              // sem pontos
-        visibleInLegend: false,     // não aparece na legenda
+        // ativa **apenas** o tooltip da série 1
+        tooltip: true,                    
+        enableInteractivity: true,
+        lineWidth: 0,                     // sem linha
+        pointSize: 8,                     // exibe o marcador, ampliando a "área ativa" do hover
+        visibleInLegend: false,
+        color: 'blue',
       },
     },
-    // Eixos verticais: um para o lado esquerdo, outro para o direito
+
     vAxes: {
       0: {
         ticks: leftTicks,
@@ -137,11 +143,9 @@ export default function TemplateResult({
         viewWindow: { min: 1, max: combined.length },
       },
     },
-    chartArea: {
-      width: "70%",
-      height: "70%",
-    },
-    tooltip: { isHtml: false },
+  
+    chartArea: { width: '70%', height: '70%' },
+    tooltip: { isHtml: false },           // remove trigger global para não interferir
   };
 
   return (
