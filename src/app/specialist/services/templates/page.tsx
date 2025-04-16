@@ -38,7 +38,7 @@ const TemplatesPage = async () => {
   const session: any = await getServerSession(authOptions);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid gap-6 items-stretch auto-rows-fr grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       <SetTemplateButton specialistId={session?.user.uid!}/>
       <TemplatesCards/>
     </div>
