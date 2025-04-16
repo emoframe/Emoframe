@@ -119,10 +119,7 @@ const AnswerPage = () => {
   }
 
   return (
-    <div
-      className="flex flex-1 flex-col gap-4 min-h-[600px] mx-auto"
-      style={{ maxWidth: `calc(80vw - var(--sidebar)` }}
-    >
+    <div className="w-full flex flex-col gap-4 min-h-[600px]">
       {loading ? (
         <Loader2 className="animate-spin" />
       ) : (

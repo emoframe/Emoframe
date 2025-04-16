@@ -16,7 +16,7 @@ const Results = async () => {
   console.dir(data, { depth: null });
 
   return (
-    <div className="flex flex-1 flex-col md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]" style={{maxWidth: 'calc(100vw - 160px)'}}>
+    <div className="w-full flex flex-col">
       <CardsTitle ns='specialist_results'/>
       <ResultsDataTable data={data} columns={columns}/>
     </div>

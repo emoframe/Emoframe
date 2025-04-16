@@ -145,7 +145,7 @@ export default function TemplateResult({
   };
 
   return (
-    <div className="flex flex-col gap-8 p-8 w-full">
+    <div className="flex flex-col gap-8 p-8 w-full w-min[800px]">
       <h1 className="font-bold text-4xl self-center">{template.title}</h1>
       {template.description && (
         <p className="text-center">{template.description}</p>
