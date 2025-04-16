@@ -11,7 +11,7 @@ const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
     const defaultLayout = (
         <div className="flex justify-center w-full bg-primary-background px-4 py-6">
           <div className="flex flex-col justify-center items-center w-full max-w-6xl bg-white md:p-10 p-4 rounded-md shadow">
-            <div>
+            <div className='w-full'>
                 <div className="mb-4">
                 <Breadcrumbs homeHref="specialist" />
                 </div>
