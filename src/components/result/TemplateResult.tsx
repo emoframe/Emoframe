@@ -102,9 +102,7 @@ export default function TemplateResult({
   //   - series[0].targetAxisIndex = 0 => usa o eixo vertical da esquerda
   //   - A 2ª vAxis serve apenas para exibir os rótulos do lado direito
   const chartOptions = {
-    // 1) foco em cada ponto individual
-    focusTarget: 'datum',                // mantém tooltip por ponto, não por categoria :contentReference[oaicite:0]{index=0}
-  
+    focusTarget: 'datum',
     legend: { position: 'none' },
     hAxis: {
       title: 'Escala (1 a 5)',
@@ -113,39 +111,39 @@ export default function TemplateResult({
     },
     series: {
       0: {
-        // desliga tooltip da série 0
-        tooltip: false,                  
-        enableInteractivity: false,       // também bloqueia hover nesta série :contentReference[oaicite:1]{index=1}
+        targetAxisIndex: 0,       // eixo da esquerda
+        tooltip: false,
+        enableInteractivity: false,
         lineDashStyle: [4, 2],
         lineWidth: 3,
         pointSize: 6,
       },
       1: {
-        // ativa **apenas** o tooltip da série 1
-        tooltip: true,                    
+        targetAxisIndex: 1,       // **mapeia pro eixo da direita**
+        tooltip: true,
         enableInteractivity: true,
-        lineWidth: 0,                     // sem linha
-        pointSize: 8,                     // exibe o marcador, ampliando a "área ativa" do hover
-        visibleInLegend: false,
+        lineWidth: 0,
+        pointSize: 8,
         color: 'blue',
+        visibleInLegend: false,
       },
     },
-
     vAxes: {
       0: {
         ticks: leftTicks,
         direction: -1,
         viewWindow: { min: 1, max: combined.length },
+        textPosition: 'out',
       },
       1: {
         ticks: rightTicks,
         direction: -1,
         viewWindow: { min: 1, max: combined.length },
+        textPosition: 'out',
       },
     },
-  
     chartArea: { width: '70%', height: '70%' },
-    tooltip: { isHtml: false },           // remove trigger global para não interferir
+    tooltip: { isHtml: false },
   };
 
   return (
