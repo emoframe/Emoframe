@@ -91,27 +91,37 @@ export async function createRegistration(data: Evaluation | Template, type: stri
     }
 }
 
-export async function saveTemplate(data: TemplateElementInstance[], TemplateId: string, publish: boolean = false): Promise<any> {
+export async function saveTemplate(
+    data: TemplateElementInstance[],
+    TemplateId: string,
+    publish: boolean = false
+    ): Promise<void> {
     const docRef = doc(db, "template", TemplateId);
-    const questions: any = {
-        ...getValuable(data),
-    }
 
-    // Se a flag publish for true, adicionar `published: true` ao objeto de atualização
-    const updateData: any = {
-        questions: questions
-    };
+    // 1) percorre o array original
+    const questions = data.map((el) => ({
+        // filtra só as props definidas de cada elemento
+        ...getValuable(el),
+        // filtra só as props definidas de extraAttributes
+        extraAttributes: getValuable(el.extraAttributes as Record<string, any>)
+    }));
 
-    if (publish) {
-        updateData.published = true;
-    }
+    // 2) (opcional) stringify/parse para eliminar QUALQUER undefined profundo
+    const cleaned = JSON.parse(JSON.stringify(questions));
 
+    // 3) monta o payload
+    const updateData: any = { questions: cleaned };
+    if (publish) updateData.published = true;
+
+    // 4) salva no Firestore
     try {
         await updateDoc(docRef, updateData);
     } catch (error) {
-        console.log(error);
+        console.error("Erro ao salvar template:", error);
+        throw error;
     }
 }
+  
 
 export async function getSpecialtistDashboardInfo(specialistId: string): Promise<{
     lastEvaluations: { name: string; date: string }[];
