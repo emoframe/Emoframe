@@ -1,6 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData, orderBy, limit } from "firebase/firestore";
+import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData, orderBy, limit, FirestoreError, serverTimestamp } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User } from "@/types/users";
 import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap, Answer, Result } from "@/types/forms";
@@ -57,24 +57,50 @@ export async function createUser(data: User | Specialist, specialistId?: string)
         });
 }
 
-export async function saveAnswer(data: Panas | Sam | Sus | Eaz | Brums | Gds | Leap | TemplateAnswers, EvaluationId: string, UserId: string): Promise<any> {
-    const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
-    const docRef2 = doc(db, "evaluation", EvaluationId);
-    const answer: any = {
+export async function saveAnswer(
+  data: Panas | Sam | Sus | Eaz | Brums | Gds | Leap | TemplateAnswers,
+  evaluationId: string,
+  userId: string
+): Promise<void> {
+  const evalRef = doc(db, "evaluation", evaluationId);
+
+  try {
+    // lê o documento inteiro para saber se é PrePostResponse e qual a fase
+    const snap = await getDoc(evalRef);
+    if (!snap.exists()) {
+      console.error(`Avaliação ${evaluationId} não encontrada`);
+      return;
+    }
+
+    const evalData = snap.data() as Evaluation;
+
+    // monta o objeto que vai dentro de answers.{userId}[.pre|.post]
+    const answerPayload = {
+      answer: {
         datetime: new Date(),
         ...getValuable(data),
-    }
+      },
+      answeredAt: serverTimestamp(),
+    };
 
-    try {
-        await setDoc(docRef, answer);
-        await updateDoc(docRef2, {
-            answered: arrayUnion(UserId) //[] permite que seja usado o valor da variável como o nome do campo
-        });
+    if (!evalData.PrePostResponse) {
+      // modo single-response
+      await updateDoc(evalRef, {
+        [`answers.${userId}`]: answerPayload,
+      });
+    } else {
+      // modo pre-post: decide se é pre (primeira) ou post (segunda)
+      const userMap = evalData.answers?.[userId] ?? {};
+      const phase = userMap.pre ? "post" : "pre";
 
+      await updateDoc(evalRef, {
+        [`answers.${userId}.${phase}`]: answerPayload,
+      });
     }
-    catch (error) {
-        console.log(error)
-    }
+  } catch (err) {
+    const e = err as FirestoreError;
+    console.error("Erro ao salvar resposta:", e.message);
+  }
 }
 
 export async function createRegistration(data: Evaluation | Template, type: string): Promise<any> {
@@ -198,39 +224,59 @@ export async function getSpecialtistDashboardInfo(specialistId: string): Promise
 }
 
 export async function getUserDashboardInfo(userId: string): Promise<{
-    pendingEvaluations: SentItem[];
-    availableResults: SentItem[];
+  pendingEvaluations: SentItem[]
+  availableResults: SentItem[]
 }> {
-    const evaluationCollectionRef = collection(db, 'evaluation');
+  const evaluationCollectionRef = collection(db, 'evaluation')
 
-    const resultsQuery = query(
-        evaluationCollectionRef,
-        where('users', 'array-contains', userId),
-        orderBy('date', 'desc'),
-    );
+  const resultsQuery = query(
+    evaluationCollectionRef,
+    where('users', 'array-contains', userId),
+    orderBy('date', 'desc')
+  )
 
-    const resultsSnapshot = await getDocs(resultsQuery);
-    const pendingEvaluations: SentItem[] = [];
-    const availableResults: SentItem[] = [];
-    for (const doc of resultsSnapshot.docs) {
-        if ((pendingEvaluations.length === 2) && (availableResults.length === 2)) break;
-        const data = convertTimestampToDate(doc.data(), ['date']) as Evaluation;
-        const sentData = {
-            uid: doc.id,
-            name: data.identification,
-            date: data.date.toLocaleDateString('pt-BR')
-        };
-        if (data.answered?.includes(userId)) {
-            if (availableResults.length < 2) availableResults.push(sentData);
-            continue;
-        }
-        if (pendingEvaluations.length < 2) pendingEvaluations.push(sentData);
+  const resultsSnapshot = await getDocs(resultsQuery)
+  const pendingEvaluations: SentItem[] = []
+  const availableResults: SentItem[]   = []
+
+  for (const docSnap of resultsSnapshot.docs) {
+    if (pendingEvaluations.length === 2 && availableResults.length === 2) break
+
+    const data = convertTimestampToDate(docSnap.data(), ['date']) as Evaluation
+    const sentData = {
+      uid:  docSnap.id,
+      name: data.identification,
+      date: data.date.toLocaleDateString('pt-BR'),
     }
 
-    return {
-        pendingEvaluations,
-        availableResults,
-    };
+    // 1) single-response
+    if (!data.PrePostResponse) {
+      // TS sabe que aqui answers tem a forma Record<string, {answer,answeredAt}>
+      const entry = data.answers?.[userId]
+      if (entry?.answer) {
+        if (availableResults.length < 2) availableResults.push(sentData)
+      } else {
+        if (pendingEvaluations.length < 2) pendingEvaluations.push(sentData)
+      }
+      continue 
+    }
+
+    // 2) pre-post
+    {
+      // TS sabe que aqui answers tem a forma Record<string, {pre?,post?}>
+      const entry = data.answers?.[userId]
+      const hasPre  = !!entry?.pre
+      const hasPost = !!entry?.post
+
+      if (hasPre && hasPost) {
+        if (availableResults.length < 2) availableResults.push(sentData)
+      } else {
+        if (pendingEvaluations.length < 2) pendingEvaluations.push(sentData)
+      }
+    }
+  }
+
+  return { pendingEvaluations, availableResults }
 }
 
 export async function getResults(specialistId: string): Promise<Result[]> {
