@@ -37,25 +37,53 @@ export interface Template {
     published: boolean,
 }
 
-export type Evaluation = {
-    uid?: string,
-    specialist: string,
-    users: string[],
-    answered?: string[],
-    identification: string,
-    date: Date,
-    method: string,
-    answers?: Answer[];
-} & (
-    { instrument: "template", templateId: string } |
-    { instrument: Exclude<string, "template">, templateId?: never }
-);
-
 export type Answer = {
-    uid?: string;
-    datetime?: Date;
-    [key: string]: any;
+  uid?: string
+  datetime?: Date
+  [key: string]: any
 }
+
+// campos comuns
+type BaseEvaluation = {
+  uid?: string
+  specialist: string
+  users: string[]
+  identification: string
+  date: Date
+  method: string
+}
+
+// diferencia template das demais
+type TemplateOption =
+  | { instrument: "template"; templateId: string }
+  | { instrument: Exclude<string, "template">; templateId?: never }
+
+// mapeamento de respostas
+type AnswersOption =
+  // modo "single‐response"
+  | {
+      PrePostResponse: false
+      // cada chave é um userId, valor é a resposta e timestamp
+      answers: Record<
+        string,                  // userId
+        { answer: Answer; answeredAt: Date }
+      >
+    }
+  // modo "pre‐post"
+  | {
+      PrePostResponse: true
+      // cada chave é um userId, valor pode ter pre e post
+      answers: Record<
+        string,                  // userId
+        {
+          pre?:  { answer: Answer; answeredAt: Date }
+          post?: { answer: Answer; answeredAt: Date }
+        }
+      >
+    }
+
+// tipo final de avaliação
+export type Evaluation = BaseEvaluation & TemplateOption & AnswersOption
 
 export type Result = {
     user: User,
