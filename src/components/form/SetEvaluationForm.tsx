@@ -47,7 +47,8 @@ const FormSchema = z.object({
     }),
     instrument: z.string().min(1, 'A seleção é obrigatória'),
     templateId: z.string().optional(),
-    users: z.string().array().min(1, 'Pelo menos um usuário deve ser selecionado')
+    users: z.string().array().min(1, 'Pelo menos um usuário deve ser selecionado'),
+    PrePostResponse: z.boolean().optional(),
 });
 
 type Inputs = z.infer<typeof FormSchema>
@@ -78,6 +79,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
 }) => {
     
     const [useTemplates, setUseTemplates] = useState(false);
+    const [usePrePost, setUsePrePost] = useState(false);
 
     const [previousStep, setPreviousStep] = useState(0);
     const [currentStep, setCurrentStep] = useState(0);
@@ -85,7 +87,7 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
 
     const [selectedRowIds, setSelectedRowIds] = useState<Record<string, boolean>>({});
 
-    const form = useForm({
+    const form = useForm<Inputs>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             identification: '',
@@ -93,11 +95,12 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
             method: MethodProps[0].value,
             instrument: '',
             templateId: '',
-            users: []
+            users: [],
+            PrePostResponse: false,
         },
     });
 
-    const { control, setValue, handleSubmit, watch, trigger } = form;
+    const { control, setValue, handleSubmit, trigger } = form;
     const { toast } = useToast();
     const router = useRouter();
 
@@ -107,7 +110,11 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
         } else {
             setValue("templateId", "");  // Limpar templateId quando não estiver usando templates
         }
-    }, [useTemplates, watch, setValue]);
+    }, [useTemplates, setValue]);
+
+    useEffect(() => {
+        setValue('PrePostResponse', usePrePost)
+    }, [usePrePost, setValue])
 
     const { t } = useTranslation('specialist_evaluations_register');
 
@@ -252,6 +259,15 @@ const SetEvaluationForm = ({ specialistId, dataTable, templates } : {
                                 <Switch 
                                     checked={useTemplates}
                                     onCheckedChange={setUseTemplates} 
+                                />
+                            </div>
+
+                            {/* switch de Pre/Post responses */}
+                            <div className='flex flex-col gap-2 mb-6'>
+                                <Label>Requerir respostas duplicadas</Label>
+                                <Switch 
+                                checked={usePrePost}
+                                onCheckedChange={setUsePrePost}
                                 />
                             </div>
                             <FormField
