@@ -9,11 +9,15 @@ interface SpecialistLayoutProps {
 const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
 
     const defaultLayout = (
-        <div className='flex flex-col bg-primary-background md:p-10 m-5 rounded-md p-4 print:!m-0 print:!p-0 print:items-center print:w-full'>
-            <div className='mb-4'>
+        <div className="flex justify-center w-full px-4 py-6 print:!p-0">
+          <div className="flex flex-col justify-center items-center bg-primary-background p-4 rounded-md shadow print:w-full">
+            <div className='flex flex-col w-full print:items-center'>
+                <div className="mb-4">
                 <Breadcrumbs homeHref="specialist" />
+                </div>
+                {children}
             </div>
-            {children}
+          </div>
         </div>
     );
 
