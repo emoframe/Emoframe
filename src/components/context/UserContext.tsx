@@ -17,6 +17,9 @@ type UserContextType = {
   addAnswer: (answer: Answer) => void;
   removeAnswer: () => void;
 
+  users: User[] | null;
+  addUsers: (users: User[]) => void;
+  removeUsers: () => void;
 };
 
 const UserContext = createContext<UserContextType | null>(null);
