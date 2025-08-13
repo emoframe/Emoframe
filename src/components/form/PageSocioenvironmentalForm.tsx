@@ -17,23 +17,24 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from '@/components/ui/separator';;
 import { Input } from '../ui/input';
 import { Checkbox } from '../ui/checkbox';
+import { Textarea } from '../ui/textarea';
 
 const DefaultProps = {
     Affirmative: [{ value: '1', label: '1 = SIM' }, { value: '0', label: '0 = NÃO' }],
     Negative: [{ value: '0', label: '0 = SIM' }, { value: '1', label: '1 = NÃO' }],
-    Neutral: [{ value: '0', label: '0 = SIM' }, { value: '0', label: '0 = NÃO' }],
+    Neutral: [{ value: '0', label: '0 = SIM' }, { value: '00', label: '0 = NÃO' }],
 };
 
 const BooleanProps = [{value: '1', label: 'SIM'}, {value: '0', label: 'NÃO'}];
 
 const SocioenvironmentalFormSchema = z.object({
     support_55: z.object({
-        spouse: z.enum(['', 'on']),
-        parents: z.enum(['', 'on']),
-        siblings: z.string(),
-        children: z.string(),
-        grandchildren: z.string(),
-        greatgrandchildren: z.string(),
+        spouse: z.enum(['', 'on'], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+        parents: z.enum(['', 'on'], { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+        siblings: z.string({ errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+        children: z.string({ errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+        grandchildren: z.string({ errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
+        greatgrandchildren: z.string({ errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }),
     }),
     support: z.enum(
         [DefaultProps.Affirmative[0].value, DefaultProps.Affirmative[1].value],
@@ -54,32 +55,18 @@ const SocioenvironmentalFormSchema = z.object({
     environment: z.enum(
         [DefaultProps.Affirmative[0].value, DefaultProps.Affirmative[1].value],
         { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
-    ).array().length(15),
+    ).array().length(16),
     environment_result: z.enum(
         [BooleanProps[0].value, BooleanProps[1].value],
         { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
     ),
+    socioenvironmental_note: z.string().optional(),
 });
 
-const PageSocioenvironmentalForm = ({onSubmit}) => {
+const PageSocioenvironmentalForm = ({onSubmit, prevStep, data}) => {
     const form = useForm<z.infer<typeof SocioenvironmentalFormSchema>>({
         resolver: zodResolver(SocioenvironmentalFormSchema),
-        defaultValues: {
-            support_55: {
-                spouse: '',
-                parents: '',
-                siblings: '',
-                children: '',
-                grandchildren: '',
-                greatgrandchildren: '',
-            },
-            support: ['', '', '', '', '', '', '', ''],
-            support_result: '',
-            violence: ['', '', '', '', '', '', '', ''],
-            violence_result: '',
-            environment: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-            environment_result: '',
-        }
+        defaultValues: data,
     });
 
     const calcResult = section => form.watch(section).reduce((acc, e) => acc + (e ? Number(e) : 0), 0);
@@ -96,43 +83,48 @@ const PageSocioenvironmentalForm = ({onSubmit}) => {
                         <FormItem className="flex flex-col items-center gap-5 content-center">
                             <p className="text-xl">55 -O(a) senhor(a) tem:</p>
                             <p className="text-xl"><b>[Instruções: Fazer registro dos familiares vivos].</b></p>
-                            <div className='flex flex-row gap-3 items-center'>
+                            <FormItem className='flex flex-row gap-3 items-center'>
                                 <FormControl>
-                                    <Checkbox onChange={field.onChange} defaultValue={field.value.spouse} value={field.value.spouse}/>
+                                    <Checkbox onChange={field.onChange} name='spouse' />
                                 </FormControl>
                                 <FormLabel className="text-xl">Cônjuge</FormLabel>
-                            </div>
-                            <div className='flex flex-row gap-3 items-center'>
+                                <FormMessage />
+                            </FormItem>
+                            <FormItem className='flex flex-row gap-3 items-center'>
                                 <FormControl>
-                                    <Checkbox onChange={field.onChange} defaultValue={field.value.parents} value={field.value.parents}/>
+                                    <Checkbox onChange={field.onChange} name='parents' />
                                 </FormControl>
                                 <FormLabel className="text-xl">Pais</FormLabel>
-                            </div>
-                            <div className='flex flex-row gap-3 items-center'>
+                                <FormMessage />
+                            </FormItem>
+                            <FormItem className='flex flex-row gap-3 items-center'>
                                 <FormControl>
                                     <Input onChange={event => form.setValue('support_55.siblings', event.target.value)} />
                                 </FormControl>
                                 <FormLabel className="text-xl">irmãos (nª)</FormLabel>
-                            </div>
-                            <div className='flex flex-row gap-3 items-center'>
+                                <FormMessage />
+                            </FormItem>
+                            <FormItem className='flex flex-row gap-3 items-center'>
                                 <FormControl>
                                     <Input onChange={event => form.setValue('support_55.children', event.target.value)} />
                                 </FormControl>
                                 <FormLabel className="text-xl">filhos(nª)</FormLabel>
-                            </div>
-                            <div className='flex flex-row gap-3 items-center'>
+                                <FormMessage />
+                            </FormItem>
+                            <FormItem className='flex flex-row gap-3 items-center'>
                                 <FormControl>
                                     <Input onChange={event => form.setValue('support_55.grandchildren', event.target.value)} />
                                 </FormControl>
                                 <FormLabel className="text-xl">netos(nª)</FormLabel>
-                            </div>
-                            <div className='flex flex-row gap-3 items-center'>
+                                <FormMessage />
+                            </FormItem>
+                            <FormItem className='flex flex-row gap-3 items-center'>
                                 <FormControl>
                                     <Input onChange={event => form.setValue('support_55.greatgrandchildren', event.target.value)} />
                                 </FormControl>
                                 <FormLabel className="text-xl">bisnetos (n°)</FormLabel>
-                            </div>
-                            <FormMessage />
+                                <FormMessage />
+                            </FormItem>
                         </FormItem>
                     )}
                 />
@@ -1159,9 +1151,35 @@ const PageSocioenvironmentalForm = ({onSubmit}) => {
                     )}
                 />
                 <Separator className="mb-8" />
-                <Button className='w-full mt-6' type='submit'>
-                    Próximo
-                </Button>
+                <FormField
+                    control={form.control}
+                    name='socioenvironmental_note'
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Anotações</FormLabel>
+                            <FormControl>
+                                <Textarea {...field}/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Separator className="mb-8" />
+                <div className='flex flex-row gap-4'>
+                    <Button className='w-full mt-6' type='button' onClick={prevStep}>
+                        Anterior
+                    </Button>
+                    <Button className='w-full mt-6' type='submit' onClick={() => {
+                        try{
+                            SocioenvironmentalFormSchema.parse(form.getValues());
+                        }
+                        catch (error) {
+                            console.error(error);
+                        }
+                        console.log(form.getValues())}}>
+                        Próximo
+                    </Button>
+                </div>
             </form>
         </Form>
     );

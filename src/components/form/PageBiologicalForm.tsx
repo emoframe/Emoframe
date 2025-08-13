@@ -76,31 +76,13 @@ const BiologicalFormSchema = z.object({
         [BooleanProps[0].value, BooleanProps[1].value],
         { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
     ),
+    biological_note: z.string().optional(),
 });
 
-const PageBiologicalForm = ({onSubmit}) => {
+const PageBiologicalForm = ({onSubmit, prevStep, data}) => {
     const form = useForm<z.infer<typeof BiologicalFormSchema>>({
         resolver: zodResolver(BiologicalFormSchema),
-        defaultValues: {
-            sensorial: ['', '', '', ''],
-            sensorial_result: '',
-            functional: ['', '', '', '', '', ''],
-            functional_result: '',
-            malnutrition: ['', '', '', '', '', ''],
-            malnutrition_result: '',
-            cardiovasculars: ['', '', '', '', '', '', '', ''],
-            cardiovasculars_result: '',
-            medicine_44: {
-                checks: ['', '', '', '', '', '', '', '', '', '', ''],
-                others: '',
-            },
-            medicine_45: {
-                checks: ['', '', '', '', '', '', ''],
-                others: '',
-            },
-            medicine: ['', '', '', '', '', '', '', '', ''],
-            medicine_result: '',
-        }
+        defaultValues: data,
     });
 
     const [weight, setWeight] = useState(1);
@@ -628,7 +610,7 @@ const PageBiologicalForm = ({onSubmit}) => {
                                     <label className="text-xl">Qual a sua estatura? (cm)</label>
                                     <Input className='w-auto' type='number' value={height} onChange={event => setHeight(event.target.value)} />
                                 </div>
-                                <p className='text-xl font-bold'>IMC = {weight / ((height / 100) ** 2)}</p>
+                                <p className='text-xl font-bold'>IMC = {(weight / ((height / 100) ** 2)).toFixed(2)}</p>
                             </div>
                             <p className="text-xl font-bold">[Instruções: Medir o peso e a altura do(a) idoso(a). Caso não seja possível, seguir com os dados que forem autorreferidos pelo(a) idoso(a)].</p>
                             <FormControl>
@@ -917,7 +899,7 @@ const PageBiologicalForm = ({onSubmit}) => {
                     render={({ field }) => (
                         <FormItem className="flex flex-col items-center gap-5 content-center">
                             <p className="text-xl">43-IMC para obesidade: ≥27 Kg/m2 <b>[Instruções: verificar na questão 35]</b></p>
-                            <p className="text-xl"><b>IMC = {weight / ((height / 100) ** 2)}</b></p>
+                            <p className="text-xl"><b>IMC = {(weight / ((height / 100) ** 2)).toFixed(2)}</b></p>
                             <FormControl>
                                 <RadioGroup
                                     onValueChange={field.onChange}
@@ -997,26 +979,55 @@ const PageBiologicalForm = ({onSubmit}) => {
                                     'Problemas de circulação',
                                     'Depressão'
                                 ].map((prop, index) => (
-                                    <div className="flex flex-row items-center gap-3" key={index}>
+                                    <FormItem className="flex flex-row items-center gap-3" key={index}>
                                         <FormControl>
                                             <Checkbox onChange={field.onChange} defaultValue={field.value.checks[index]} value={field.value.checks[index]}/>
                                         </FormControl>
                                         <FormLabel className="font-normal text-md">{prop}</FormLabel>
-                                    </div>
+                                    </FormItem>
                                 ))}
-                                <div className='flex flex-row gap-3 items-center'>
+                                <FormItem className='flex flex-row gap-3 items-center'>
                                     <FormLabel className="text-xl">Outra?</FormLabel>
                                     <FormControl>
                                         <Input onChange={event => form.setValue('medicine_44.others', event.target.value)} />
                                     </FormControl>
-                                </div>
+                                </FormItem>
                             </div>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
                 <Separator className="mb-8" />
-                <FormField
+                <div>
+                    <div className='flex flex-col items-center gap-5 content-center'>
+                        <p className="text-xl">45 -O(a) senhor(a) tem algum dos seguintes problemas de saúde:</p>
+                        <div className='flex flex-col items-start gap-3'>
+                            {[
+                                'Dor de cabeça',
+                                'Dor nas costas ou em outra parte do corpo',
+                                'Alergia',
+                                'Problema emocional',
+                                'Tontura',
+                                'Dificuldades para dormir',
+                                'Incontinência urinária/perda de urina (por esforço)',
+                            ].map((prop, index) => (
+                                <FormField
+                                    control={form.control}
+                                    name={`medicine_45.checks.${index}`}
+                                    render={({ field }) => (
+                                        <FormItem onChange={() => console.log(field)}>
+                                            <FormControl>
+                                                <Checkbox value='on'/>
+                                            </FormControl>
+                                            <FormLabel>{prop}</FormLabel>
+                                        </FormItem>
+                                    )}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                {/* <FormField
                     control={form.control}
                     name='medicine_45'
                     render={({ field }) => (
@@ -1032,24 +1043,24 @@ const PageBiologicalForm = ({onSubmit}) => {
                                     'Dificuldades para dormir',
                                     'Incontinência urinária/perda de urina (por esforço)',
                                 ].map((prop, index) => (
-                                    <div className="flex flex-row items-center gap-3" key={index}>
+                                    <FormItem className="flex flex-row items-center gap-3" key={index}>
                                         <FormControl>
                                             <Checkbox onChange={field.onChange} defaultValue={field.value.checks[index]} value={field.value.checks[index]}/>
                                         </FormControl>
                                         <FormLabel className="font-normal text-md">{prop}</FormLabel>
-                                    </div>
+                                    </FormItem>
                                 ))}
-                                <div className='flex flex-row gap-3 items-center'>
+                                <FormItem className='flex flex-row gap-3 items-center'>
                                     <FormLabel className="text-xl">Outro?</FormLabel>
                                     <FormControl>
                                         <Input onChange={event => form.setValue('medicine_45.others', event.target.value)} />
                                     </FormControl>
-                                </div>
+                                </FormItem>
                             </div>
                             <FormMessage />
                         </FormItem>
                     )}
-                />
+                /> */}
                 <Separator className="mb-8" />
                 <FormField
                     control={form.control}
@@ -1379,9 +1390,28 @@ const PageBiologicalForm = ({onSubmit}) => {
                     )}
                 />
                 <Separator className="mb-8" />
-                <Button className='w-full mt-6' type='submit'>
-                    Próximo
-                </Button>
+                <FormField
+                    control={form.control}
+                    name='biological_note'
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Anotações</FormLabel>
+                            <FormControl>
+                                <Textarea {...field}/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Separator className="mb-8" />
+                <div className='flex flex-row gap-4'>
+                    <Button className='w-full mt-6' type='button' onClick={prevStep}>
+                        Anterior
+                    </Button>
+                    <Button className='w-full mt-6' type='submit'>
+                        Próximo
+                    </Button>
+                </div>
             </form>
         </Form>
     );

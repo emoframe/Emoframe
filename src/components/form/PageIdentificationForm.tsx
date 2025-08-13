@@ -23,6 +23,9 @@ import { getLocalTimeZone, parseDate, today } from "@internationalized/date"
 import { RadioItem } from '@/types/forms';
 import Combobox from '../ui/combobox';
 import { Textarea } from '../ui/textarea';
+import { PageUser } from '@/types/users';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const RaceProps: RadioItem[] = [
     { value: "Amarelo", label: "Amarelo(a)" },
@@ -262,45 +265,28 @@ const FormSchema = z
         retirement: z.enum([BooleanProps[0].value, ...BooleanProps.slice(1).map((p) => p.value)], {
             errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
         }),
+        career: z.string().max(100),
         job: z.enum([BooleanProps[0].value, ...BooleanProps.slice(1).map((p) => p.value)], {
             errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
         }),
+        job_name: z.string().max(100),
         religion: z.enum([BooleanProps[0].value, ...BooleanProps.slice(1).map((p) => p.value)], {
             errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
         }),
+        religion_name: z.string().max(100),
 
         selfreport: z.string().min(1, 'Auto Relato em Saúde é obrigatório').max(1000, 'Auto Relato em Saúde deve ter no máximo 1000 caracteres'),
         
         housemates: z.enum([HousematesProps[0].value, ...HousematesProps.slice(1).map((p) => p.value)], {
             errorMap: (issue, ctx) => ({ message: 'Selecione uma opção' })
         }),
+        housemates_name: z.string().max(100),
     });
 
-const PageIdentificationForm = ({onSubmit}) => {
+const PageIdentificationForm = ({onSubmit, data}) => {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        defaultValues: {
-            name: '',
-            race: '',
-            schooling: '',
-            individual_income: '',
-            family_income: '',
-            address: '',
-            city: '',
-            state: '',
-            birthday: new Date(),
-            age: 0,
-            phone: '',
-            gender: '',
-            sex: '',
-            status: '',
-            schooling_years: 0,
-            retirement: '',
-            job: '',
-            religion: '',
-            selfreport: '',
-            housemates: '',
-        },
+        defaultValues: data,
     });
 
     return (
@@ -684,6 +670,22 @@ const PageIdentificationForm = ({onSubmit}) => {
                         )}
                     />
 
+                    {form.watch('housemates') === 'OTHERS' && (
+                        <FormField
+                            control={form.control}
+                            name='housemates_name'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Com quem você mora atualmente?</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='Amigo' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    )}
+
                     <FormField
                         control={form.control}
                         name="retirement"
@@ -709,6 +711,20 @@ const PageIdentificationForm = ({onSubmit}) => {
                                             )
                                         })}
                                     </RadioGroup>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name='career'
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>{(form.watch('retirement') === 'TRUE') ? 'Qual a profissão que exerceu por mais tempo?' : 'Qual é a sua profissão atual?'}</FormLabel>
+                                <FormControl>
+                                    <Input placeholder='Engenheiro' {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -746,6 +762,22 @@ const PageIdentificationForm = ({onSubmit}) => {
                         )}
                     />
 
+                    {form.watch('job') === 'TRUE' && (
+                        <FormField
+                            control={form.control}
+                            name='job_name'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Qual trabalho remunerado exerce?</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='Engenheiro' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    )}
+
                     <FormField
                         control={form.control}
                         name="religion"
@@ -777,6 +809,22 @@ const PageIdentificationForm = ({onSubmit}) => {
                         )}
                     />
 
+                    {form.watch('religion') === 'TRUE' && (
+                        <FormField
+                            control={form.control}
+                            name='religion_name'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Religião</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='Cristianismo' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    )}
+
                     <FormField
                         control={form.control}
                         name='selfreport'
@@ -793,7 +841,7 @@ const PageIdentificationForm = ({onSubmit}) => {
 
                 </div>
                 <Button className='w-full mt-6' type='submit'>
-                    Cadastrar
+                    Salvar e Continuar
                 </Button>
             </form>
         </Form>

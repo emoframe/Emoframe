@@ -52,19 +52,13 @@ const PsychologicalFormSchema = z.object({
         [BooleanProps[0].value, BooleanProps[1].value],
         { errorMap: (issue, ctx) => ({ message: "Escolha uma opção" }) }
     ),
+    psychological_note: z.string().optional(),
 });
 
-const PagePsychologicalForm = ({onSubmit}) => {
+const PagePsychologicalForm = ({onSubmit, prevStep, data}) => {
     const form = useForm<z.infer<typeof PsychologicalFormSchema>>({
         resolver: zodResolver(PsychologicalFormSchema),
-        defaultValues: {
-            cognitive: ['', '', '', '', '', ''],
-            cognitive_result: '',
-            age: ['', '', '', '', '', '', '', ''],
-            age_result: '',
-            depression: ['', '', '', '', ''],
-            depression_result: '',
-        }
+        defaultValues: data,
     });
 
     const calcResult = section => form.watch(section).reduce((acc, e) => acc + (e ? Number(e) : 0), 0);
@@ -773,9 +767,28 @@ const PagePsychologicalForm = ({onSubmit}) => {
                     )}
                 />
                 <Separator className="mb-8" />
-                <Button className='w-full mt-6' type='submit'>
-                    Próximo
-                </Button>
+                <FormField
+                    control={form.control}
+                    name='psychological_note'
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Anotações</FormLabel>
+                            <FormControl>
+                                <Textarea {...field}/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Separator className="mb-8" />
+                <div className='flex flex-row gap-4'>
+                    <Button className='w-full mt-6' type='button' onClick={prevStep}>
+                        Anterior
+                    </Button>
+                    <Button className='w-full mt-6' type='submit'>
+                        Próximo
+                    </Button>
+                </div>
             </form>
         </Form>
     );
