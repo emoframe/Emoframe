@@ -13,6 +13,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [evaluation, setEvaluation] = useState<Evaluation | null>(null);
   // Estado para answer
   const [answer, setAnswer] = useState<Answer | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
 
   // Adicionar e remover user
   const addUser = useCallback((newUser: User) => {
@@ -37,6 +38,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const removeAnswer = useCallback(() => {
     setAnswer(null);
   }, []);
+  
+  const addUsers = useCallback((newUsers: User[]) => {
+    setUsers(newUsers);
+  }, []);
+  const removeUsers = useCallback(() => {
+    setUsers([]);
+  }, []);
 
   // O valor que será passado para os consumidores do contexto
   const value = {
@@ -49,6 +57,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     answer,
     addAnswer,
     removeAnswer,
+    users,
+    addUsers,
+    removeUsers,
   };
 
   return (

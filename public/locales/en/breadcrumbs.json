@@ -4,6 +4,7 @@
     "/specialist/evaluations/list": "Show All",
     "/specialist/evaluations/results": "Results",
     "/specialist/evaluations/results/answer": "Response",
+    "/specialist/evaluations/results/groupanswer": "Responses",
     "/specialist/results": "Results",
     "/specialist/services": "Services",
     "/specialist/services/instruments": "Self-evaluation Instruments",

@@ -9,26 +9,24 @@ import { erf } from 'mathjs';
 import { User } from '@/types/users';
 import { useTranslation } from 'react-i18next';
 
-const PanasResult = ({ user, evaluation, data }: {
-    user: User,
+const PanasResult = ({ evaluation, answers }: {
     evaluation: Evaluation,
-    data: Panas
+    answers: {
+        user: User,
+        data: Panas,
+    }[],
 }) => {
-    console.log(data);
     const { t } = useTranslation('specialist_services_instruments_panas');
 
     // Função para calcular o escore somando os valores das respostas para cada item
-    const calculateScore = (items: { index: number, field: string, type: string }[], type: string) => {
-        return items
+    const calculateScore = (type: string, data: Panas) => {
+        return panasQuestions
             .filter(item => item.type === type)
             .reduce((acc, item) => {
                 const response = data[item.field as keyof Panas];
                 return acc + (response ? parseInt(response) : 0);
             }, 0);
     };
-
-    const positiveAffectScore = calculateScore(panasQuestions, 'positive'); // Escore de Afeto Positivo
-    const negativeAffectScore = calculateScore(panasQuestions, 'negative'); // Escore de Afeto Negativo
 
     // Função para calcular percentil baseado na distribuição normal
     const calculatePercentile = (score: number, mean: number, sd: number) => {
@@ -44,15 +42,13 @@ const PanasResult = ({ user, evaluation, data }: {
     const sdNegative = 5.4; // Desvio padrão dos escores de Afeto Negativo
 
     // Cálculo dos percentis com base nos escores e nos dados normativos
-    const positiveAffectPercentile = calculatePercentile(positiveAffectScore, meanPositive, sdPositive);
-    const negativeAffectPercentile = calculatePercentile(negativeAffectScore, meanNegative, sdNegative);
 
     // Dados para o gráfico de barras
-    const chartData = [
-        ['Tipo de Afeto', 'Pontuação', { role: 'style' }],
-        ['Afeto Positivo', positiveAffectScore, '#4CAF50'],
-        ['Afeto Negativo', negativeAffectScore, '#F44336']
-    ];
+    // const chartData = [
+    //   ['Tipo de Afeto', 'Pontuação', { role: 'style' }],
+    //   ['Afeto Positivo', positiveAffectScore, '#4CAF50'],
+    //   ['Afeto Negativo', negativeAffectScore, '#F44336']
+    // ];
 
     // Configurações do gráfico
     const chartOptions = {
@@ -67,24 +63,74 @@ const PanasResult = ({ user, evaluation, data }: {
         <div className="flex flex-col gap-8 p-8">
             <h1 className="font-bold text-4xl self-center">Resultado PANAS</h1>
             <div className="flex flex-col gap-4">
-                <h2 className="text-2xl font-bold">Informações do Usuário</h2>
-                <p><b>Nome do Usuário:</b> {user.name} {user.surname}</p>
-                <p><b>Data de Nascimento (idade):</b> {user.birthday?.toLocaleDateString()} ({new Date().getFullYear() - (user.birthday?.getFullYear() as number)} anos)</p>
-                <p><b>E-mail:</b> {user.email}</p>
-                <p><b>Telefone:</b> {user.phone}</p>
-                <p><b>Avaliação:</b> {evaluation.identification}</p>
-                <p><b>Data da Avaliação:</b> {evaluation.date.toString()}</p>
+                <h2 className="text-2xl font-bold">Informações dos Usuários</h2>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Nome do Usuário</TableHead>
+                            <TableHead>Data de Nascimento (idade)</TableHead>
+                            <TableHead>E-mail</TableHead>
+                            <TableHead>Telefone</TableHead>
+                            <TableHead>Avaliação</TableHead>
+                            <TableHead>Data da Avaliação</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {answers.map(({ user }) => (
+                            <TableRow key={user.uid}>
+                                <TableCell>{user.name} {user.surname}</TableCell>
+                                <TableCell>{user.birthday?.toLocaleDateString()} ({new Date().getFullYear() - (user.birthday?.getFullYear() as number)} anos)</TableCell>
+                                <TableCell>{user.email}</TableCell>
+                                <TableCell>{user.phone}</TableCell>
+                                <TableCell>{evaluation.identification}</TableCell>
+                                <TableCell>{evaluation.date.toString()}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </div>
 
             <Separator className="my-4" />
 
             <div className="flex flex-col gap-4">
                 <h2 className="text-2xl font-bold">Resultados</h2>
-                <p className="text-justify"><b>Escore de Afeto Positivo (10-50):</b> {positiveAffectScore}</p>
-                <p className="text-justify"><b>Percentil Normativo:</b> {positiveAffectPercentile}</p>
-                <p className="text-justify"><b>Escore de Afeto Negativo (10-50):</b> {negativeAffectScore}</p>
-                <p className="text-justify"><b>Percentil Normativo:</b> {negativeAffectPercentile}</p>
-                <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} options={chartOptions} />
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead></TableHead>
+                            {answers.map(({ user }) => (
+                                <TableHead key={user.uid}>{user.name} {user.surname}</TableHead>
+                            ))}
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        <TableRow>
+                            <TableHead>Escore de Afeto Positivo (10-50)</TableHead>
+                            {answers.map(({ data }, index) => (
+                                <TableCell key={index}>{calculateScore('positive', data)}</TableCell>
+                            ))}
+                        </TableRow>
+                        <TableRow>
+                            <TableHead>Percentil Normativo</TableHead>
+                            {answers.map(({ data }, index) => (
+                                <TableCell key={index}>{calculatePercentile(calculateScore('positive', data), meanPositive, sdPositive)}</TableCell>
+                            ))}
+                        </TableRow>
+                        <TableRow>
+                            <TableHead>Escore de Afeto Negativo (10-50)</TableHead>
+                            {answers.map(({ data }, index) => (
+                                <TableCell key={index}>{calculateScore('negative', data)}</TableCell>
+                            ))}
+                        </TableRow>
+                        <TableRow>
+                            <TableHead>Percentil Normativo</TableHead>
+                            {answers.map(({ data }, index) => (
+                                <TableCell key={index}>{calculatePercentile(calculateScore('negative', data), meanNegative, sdNegative)}</TableCell>
+                            ))}
+                        </TableRow>
+                    </TableBody>
+                </Table>
+                {/* <Charts chartType="ColumnChart" width="100%" height="400px" data={chartData} options={chartOptions} /> */}
             </div>
 
             <Separator className="my-4" />
@@ -113,30 +159,22 @@ const PanasResult = ({ user, evaluation, data }: {
             <Separator className="my-4" />
 
             <div className="flex flex-col gap-4">
-                <h2 className="text-2xl font-bold">Respostas do Usuário</h2>
+                <h2 className="text-2xl font-bold">Respostas dos Usuários</h2>
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead className="w-1/6">Sentimento</TableHead>
-                            <TableHead className="w-1/6">Nada ou muito ligeiramente</TableHead>
-                            <TableHead className="w-1/6">Um pouco</TableHead>
-                            <TableHead className="w-1/6">Moderadamente</TableHead>
-                            <TableHead className="w-1/6">Bastante</TableHead>
-                            <TableHead className="w-1/6">Extremamente</TableHead>
+                            <TableHead>Sentimento</TableHead>
+                            {answers.map(({ user }) => (
+                                <TableHead key={user.uid}>{user.name} {user.surname}</TableHead>
+                            ))}
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {panasQuestions.map((item) => (
                             <TableRow className="h-20" key={item.index}>
                                 <TableCell className="text-white text-md border-white border-2" style={{ backgroundColor: (item.type == 'positive') ? '#4CAF50' : '#F44336' }}>{t(item.question)}</TableCell>
-                                {[1, 2, 3, 4, 5].map((col) => (
-                                    <TableCell
-                                        key={col}
-                                        className="w-1/6 text-white text-center text-md"
-                                        style={{ backgroundColor: (parseInt(data[item.field]) === col) ? 'var(--primary)' : 'var(--primary-background)' }}
-                                    >
-                                        {(parseInt(data[item.field]) === col) ? col : ''}
-                                    </TableCell>
+                                {answers.map(({ data }, index) => (
+                                    <TableCell key={index}>{data[item.field]}</TableCell>
                                 ))}
                             </TableRow>
                         ))}
