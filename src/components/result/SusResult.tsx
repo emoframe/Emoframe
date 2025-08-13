@@ -7,12 +7,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Evaluation, Sus, susQuestions } from '@/types/forms';
 import { User } from '@/types/users';
 import { boldify } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 const SusResult = ({ user, evaluation, data }: {
   user: User,
   evaluation: Evaluation,
   data: Sus
 }) => {
+  const { t } = useTranslation('specialist_services_instruments_sus');
 
   // Função para calcular a pontuação do SUS
   const calculateSusScore = (data: Sus) => {
@@ -151,7 +153,7 @@ const SusResult = ({ user, evaluation, data }: {
           <TableBody>
             {susQuestions.map((item) => (
               <TableRow className="h-36" key={item.index}>
-                <TableCell className="text-md border-r-2">{item.label}</TableCell>
+                <TableCell className="text-md border-r-2">{t(item.label)}</TableCell>
                 {[1, 2, 3, 4, 5].map((col) => (
                   <TableCell
                     key={col}
