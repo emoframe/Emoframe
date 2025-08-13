@@ -2,8 +2,8 @@ import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData, orderBy, limit } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
-import { Specialist, User } from "@/types/users";
-import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap, Answer, Result } from "@/types/forms";
+import { Specialist, User, PageUser } from "@/types/users";
+import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap, Answer, Result, Page, PageFeedback } from "@/types/forms";
 import { Filter } from "@/types/firebase";
 import { chunk, convertTimestampToDate, getValuable } from "@/lib/utils";
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
@@ -57,6 +57,30 @@ export async function createUser(data: User | Specialist, specialistId?: string)
         });
 }
 
+export async function savePageUser(data: PageUser, specialistId?: string): Promise<string> {
+    data.job = '';
+    data.religion = '';
+    const user = getValuable(data);
+    user.type = 'page_user'
+    user.specialistId = specialistId;
+    if (user.id) {
+        const docRef = doc(db, "page_user", user.id);
+        await setDoc(docRef, user, { merge: true })
+            .then(docRef => {
+                console.log(`Document has been modified successfully`)
+            })
+            .catch((error) => {
+                console.log(error.code + ": " + error.message);
+            });
+        return user.id;
+    } else {
+        const user = getValuable(data);
+        const docRef = collection(db, "page_user");
+        const newDocRef = await addDoc(docRef, { ...user, type: 'page_user', specialistId });
+        return newDocRef.id;
+    }
+}
+
 export async function saveAnswer(data: Panas | Sam | Sus | Eaz | Brums | Gds | Leap | TemplateAnswers, EvaluationId: string, UserId: string): Promise<any> {
     const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
     const docRef2 = doc(db, "evaluation", EvaluationId);
@@ -71,6 +95,41 @@ export async function saveAnswer(data: Panas | Sam | Sus | Eaz | Brums | Gds | L
             answered: arrayUnion(UserId) //[] permite que seja usado o valor da variável como o nome do campo
         });
 
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+export async function createPageAnswer(data: Page, userId: string, specialistId): Promise<any> {
+    const docRef = collection(db, "page_answer");
+    const registration = {
+        user: userId,
+        specialist: specialistId,
+        datetime: new Date(),
+        ...getValuable(data),
+    }
+    try {
+        addDoc(docRef, registration)
+            .then((docRef) => console.log("Registration has been inserted sucessfully!"))
+            .catch((error) => console.log(error.code + ": " + error.message))
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
+export async function createPageFeedback(data: PageFeedback): Promise<any> {
+    const answer = await getById(data.evaluationId, 'page_answer');
+    if(!answer) return console.log("Answer not found for evaluationId:", data.evaluationId);
+    const feedback = await getById(data.evaluationId, 'page_feedback');
+    if(feedback) return console.log("Feedback already exists for evaluationId:", data.evaluationId);
+    const valuableData = getValuable(data);
+    try {
+        setDoc(doc(db, 'page_feedback', data.evaluationId), valuableData)
+            .then((docRef) => console.log("Registration has been inserted sucessfully!"))
+            .catch((error) => console.log(error.code + ": " + error.message))
     }
     catch (error) {
         console.log(error)
@@ -307,7 +366,7 @@ export async function search(col: string, filters: Filter[]): Promise<any[]> {
         };
 
         // Transformar datas, se necessário
-        let dateKeys = ['birthday', 'date'];
+        let dateKeys = ['date', 'datetime'];
         Object.keys(newObj).forEach(key => {
             if (dateKeys.includes(key) && newObj[key].toDate) {
                 newObj[key] = newObj[key].toDate().toLocaleDateString('pt-BR');

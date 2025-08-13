@@ -35,15 +35,15 @@ export default function RootLayout({
     return (
         <html lang="en">
             <SessionProvider>
-                <body className={cn("flex flex-1 w-full min-h-full h-fit bg-background", inter.className)}>
+                <body className={cn("flex flex-1 w-full min-h-full h-fit bg-background print:bg-white", inter.className)}>
                     <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
                         <Sidebar/>
-                        <main className="flex flex-1 flex-col justify-center items-center ml-sidebar">
+                        <main className="flex flex-1 flex-col justify-center items-center ml-sidebar print:ml-0">
                             {children}
                         </main>
                         <Toaster/>
                     </ThemeProvider>
-                    <div dangerouslySetInnerHTML={{__html: vlibras}}></div>
+                    <div className='print:hidden' dangerouslySetInnerHTML={{__html: vlibras}}></div>
                 </body>
             </SessionProvider>
         </html>

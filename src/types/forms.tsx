@@ -456,3 +456,67 @@ export const questions_size: Option[] = [
     },
   ];
 
+export interface Page {
+    cognitive: string[],
+    cognitive_result: string,
+    age: string[],
+    age_result: string,
+    depression: string[],
+    depression_result: string,
+    sensorial: string[],
+    sensorial_result: string,   
+    functional: string[],
+    functional_result: string,
+    malnutrition: string[],
+    malnutrition_result: string,
+    cardiovasculars: string[],
+    cardiovasculars_result: string,
+    medicine_44: {
+        checks: string[],
+        others: string,
+    },
+    medicine_45: {
+        checks: string[],
+        others: string,
+    },
+    medicine: string[],
+    medicine_result: string,
+    support_55: {
+        spouse: string,
+        parents: string,
+        siblings: string,
+        children: string,
+        grandchildren: string,
+        greatgrandchildren: string,
+    },
+    support: string[],
+    support_result: string,
+    violence: string[],
+    violence_result: string,
+    environment: string[],
+    environment_result: string,
+    falls_90: string,
+    falls: string[],
+    falls_result: string,
+    psychological_note: string,
+    biological_note: string,
+    socioenvironmental_note: string,
+    multidimensional_note: string,
+}
+
+interface ActionsAndServicesItem {
+    date: Date,
+    actions: string,
+    services: string,
+}
+
+export interface PageFeedback {
+    evaluationId: string,
+    otherRequirements?: string,
+    gerontologistEvaluation: string,
+    problems: string,
+    objectives: string,
+    actionsAndServices: string,
+    actionsAndServicesCoordination: ActionsAndServicesItem[],
+    reevaluation: ActionsAndServicesItem[],
+}

@@ -10,7 +10,7 @@ const Breadcrumbs: React.FC<{homeHref: string}> = ({homeHref}) => {
     const pathname = usePathname();
     const { t } = useTranslation('breadcrumbs');
     return (
-        <div className='flex gap-1'>
+        <div className='print:hidden flex gap-1'>
             <Link href={`/${homeHref}`} className='hover:text-primary transition-colors'>Home</Link>
             {pathname?.split('/').slice(2).map((pathSlice, i, arr) => {
                 const path = `/${homeHref}/${arr.slice(0, i + 1).join('/')}`;

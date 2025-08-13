@@ -1,7 +1,7 @@
 import { FC, ReactElement, cloneElement } from "react";
 import useUser from "./hooks/useUser";
 import { useRouter } from "next/navigation";
-import { Evaluation } from "@/types/forms";
+import { Answer, Evaluation } from "@/types/forms";
 import { User } from "@/types/users";
 
 type BaseProps = {
@@ -11,8 +11,9 @@ type BaseProps = {
 }
 
 type ResultsButtonProps = BaseProps & (
-  | { evaluation: Evaluation; user?: never }
-  | { evaluation?: never; user: User }
+  | { evaluation: Evaluation; user?: never; answer?: never }
+  | { evaluation?: never; user: User; answer?: never }
+  | { evaluation?: never; user?: never; answer: Answer }
 );
 
 const ResultsButton: FC<ResultsButtonProps> = ({
@@ -20,9 +21,10 @@ const ResultsButton: FC<ResultsButtonProps> = ({
   user,
   children,
   successPath,
+  answer,
   failurePath = '/denied'
 }) => {
-  const { addEvaluation, addUser } = useUser();
+  const { addEvaluation, addUser, addAnswer } = useUser();
   const router = useRouter();
 
   const handleResults = async () => {
@@ -35,6 +37,9 @@ const ResultsButton: FC<ResultsButtonProps> = ({
       router.push(successPath);
     } else if (user) {
       addUser(user);
+      router.push(successPath);
+    } else if (answer) {
+      addAnswer(answer);
       router.push(successPath);
     } else {
       router.push(failurePath);

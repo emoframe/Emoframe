@@ -1,6 +1,7 @@
-import { Template, Option } from "@/types/forms";
+import { Template, Option, Answer } from "@/types/forms";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import XLSX from 'xlsx';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
@@ -150,4 +151,81 @@ export function getPageTitle(pathName: string){
         '/user/evaluations': 'Avaliações',
         '/user/evaluations/fill': 'Preenchimento',
     }[pathName];
+}
+
+export function getAnswerScores(answer: Answer) {
+    const calculateScore = (items: string[]) => {
+        return items.reduce((acc, e) => acc + (e ? Number(e) : 0), 0);
+    };
+    
+    const cognitiveScore = calculateScore(answer.cognitive);
+    const ageScore = calculateScore(answer.age);
+    const depressionScore = calculateScore(answer.depression);
+    const sensorialScore = calculateScore(answer.sensorial);
+    const functionalScore = calculateScore(answer.functional);
+    const malnutritionScore = calculateScore(answer.malnutrition);
+    const cardiovascularScore = calculateScore(answer.cardiovasculars);
+    const medicineScore = calculateScore(answer.medicine);
+    const supportScore = calculateScore(answer.support);
+    const violenceScore = calculateScore(answer.violence);
+    const environmentScore = calculateScore(answer.environment);
+    const fallsScore = calculateScore(answer.falls);
+    const psychologicalScore = cognitiveScore + ageScore + depressionScore;
+    const biologicalScore = sensorialScore + functionalScore + malnutritionScore + cardiovascularScore + medicineScore;
+    const socioenvironmentalScore = supportScore + violenceScore + environmentScore;
+    const transversalScore = fallsScore;
+    const totalScore = psychologicalScore + biologicalScore + socioenvironmentalScore + transversalScore;
+    return {
+        cognitiveScore,
+        ageScore,
+        depressionScore,
+        sensorialScore,
+        functionalScore,
+        malnutritionScore,
+        cardiovascularScore,
+        medicineScore,
+        supportScore,
+        violenceScore,
+        environmentScore,
+        fallsScore,
+        psychologicalScore,
+        biologicalScore,
+        socioenvironmentalScore,
+        transversalScore,
+        totalScore,
+    };
+}
+
+export function getAnswerXlsx(answer: Answer) {
+    const {
+        psychologicalScore,
+        biologicalScore,
+        socioenvironmentalScore,
+        transversalScore,
+        totalScore,
+    } = getAnswerScores(answer);
+    const ws = XLSX.utils.aoa_to_sheet([
+        ['Informações do Usuário', ,],
+        ['Nome'                  , answer.user.name],
+        ['Data de Nascimento'    , answer.user.birthday?.toLocaleDateString()],
+        ['Idade'                 , answer.user.age],
+        ['Telefone'              , answer.user.phone],
+        ['Data da Avaliação'     , answer.datetime?.toString()],
+        [],
+        ['ESCORES'                             ,                                                , ,],
+        ['PONTUAÇÃO POR DIMENSÃO'              , 'ASPECTOS PSICOLÓGICOS (MÁXIMA = 19 PONTOS)'   , psychologicalScore],
+        [                                      , 'ASPECTOS BIOLÓGICOS (MÁXIMA = 33 PONTOS)'     , biologicalScore],
+        [                                      , 'ASPECTOS SOCIOAMBIENTAIS (MÁXIMA = 31 PONTOS)', socioenvironmentalScore],
+        [                                      , 'QUEDAS (MÁXIMA = 16 PONTOS)'                  , transversalScore],
+        ['PONTUAÇÃO TOTAL (MÁXIMA = 99 PONTOS)',                                                , totalScore],
+    ]);
+    ws['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 1 } },
+        { s: { r: 7, c: 0 }, e: { r: 7, c: 2 } },
+        { s: { r: 8, c: 0 }, e: { r: 11, c: 0 } },
+        { s: { r: 12, c: 0 }, e: { r: 12, c: 1 } },
+    ];
+    ws['!cols'] = [{width: 22}, {width: 40}];
+    const wb = XLSX.utils.book_new(ws);
+    XLSX.writeFile(wb, `${answer.user.name}.xlsx`,);
 }
