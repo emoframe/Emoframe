@@ -5,6 +5,7 @@
 html, body {
   @apply h-screen;
   @apply m-0;
+
 }
  
 @layer base {
@@ -22,7 +23,11 @@ html, body {
     --primary-foreground: rgb(210, 238, 201); /* Verde Claro */
     --primary-background: rgb(252, 252, 252); /* Branco */
 
+    --full-white: rgb(255,255,255);
+    --darker-white: rgb(248,248,248) /*Branco mais escuro *
+
     --content: hsl(210, 3%, 30%); /*Texto*/
+    --content-home: #777777
  
     --secondary: rgb(243, 244, 246);
     --secondary-foreground: rgb(17, 24, 39);
@@ -87,7 +92,7 @@ html, body {
  
 @layer base {
   * {
-    @apply border-border;
+    @apply box-border;
   }
   body {
     @apply bg-background text-content;

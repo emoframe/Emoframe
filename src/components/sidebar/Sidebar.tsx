@@ -3,7 +3,11 @@
 import {
     ChevronLast, ChevronFirst, User,
     Users, LineChart, BookOpenText, BookUser,
-    Home, Info, PersonStanding, Sun, Moon, AArrowUp, AArrowDown
+    Home, Info, PersonStanding, Sun, Moon, AArrowUp, AArrowDown,
+    Menu,
+    ChevronLeft,
+    ChevronRight,
+    X
 } from "lucide-react";
 import { useContext, createContext, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -18,33 +22,70 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { useTranslation } from 'react-i18next';
 import "@/config/i18";
 import { useSearchParams } from "next/navigation";
+import { useTutorial } from "../context/TutorialContext";
 
 type SidebarContextType = {
     expanded: boolean;
 }
 
+interface SidebarCoreProps {
+    children: React.ReactNode,
+    tutorial: boolean
+}
 const SidebarContext = createContext<SidebarContextType>({ expanded: false });
 
-const SidebarCore = ({ children }) => {
+const SidebarCore = ({ children }: SidebarCoreProps) => {
 
     const { data: session } = useSession();
+    const { showTutorial, setTutorial, currentStep, setCurrentStep } = useTutorial();
 
     const [expanded, setExpanded] = useState(false);
 
     const { theme, setTheme } = useTheme();
     const [themeState, setThemeState] = useState<string>();
-    
+
+
     const { t, i18n } = useTranslation('sidebar');  // Obtenha o objeto i18n diretamente
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const instrument = searchParams?.get('instrument');
+
+    const tutorialSteps = [
+        { top: 80, text: "Aqui é a página inicial, onde você vê um resumo de tudo." },
+        { top: 135, text: "Nesta aba você gerencia todos os seus usuários." },
+        { top: 190, text: "Acesse aqui todas as avaliações realizadas." },
+        { top: 245, text: "Gerencie os serviços disponíveis na plataforma." },
+        { top: 300, text: "Saiba mais sobre nosso projeto e equipe" },
+
+    ];
+
+    const handleNext = () => {
+        if (currentStep < tutorialSteps.length - 1) {
+            setCurrentStep(prev => prev + 1);
+        }
+    };
+
+    const handlePrev = () => {
+        if (currentStep > 0) {
+            setCurrentStep(prev => prev - 1);
+        }
+    };
+
+    const handleClose = () => {
+        setTutorial(false);
+        setCurrentStep(0);
+    }
+
+
+
+
     const toggleLanguage = () => {
         const newLang = i18n.language === 'en' ? 'pt' : 'en';  // Troca entre 'en' e 'pt'
-        if((newLang === 'en') && pathname && ['/specialist/services/instruments/fill'].includes(pathname) && instrument && ['eaz', 'leap'].includes(instrument)) return alert('This page is not available in English');
+        if ((newLang === 'en') && pathname && ['/specialist/services/instruments/fill'].includes(pathname) && instrument && ['eaz', 'leap'].includes(instrument)) return alert('This page is not available in English');
         i18n.changeLanguage(newLang).then(() => {
-          console.log('Language changed to ' + newLang);
+            console.log('Language changed to ' + newLang);
         }).catch(err => {
-          console.error('Error changing language', err);
+            console.error('Error changing language', err);
         });
     }
 
@@ -96,9 +137,9 @@ const SidebarCore = ({ children }) => {
 
     return (
         <aside className="print:hidden h-screen fixed z-10 top-0">
-            <nav className="h-screen flex flex-col bg-primary-background shadow-md shadow-slate-800/40 dark:shadow-slate-800">
+            <nav className="h-screen flex flex-col bg-primary-background "> {/*shadow-md shadow-slate-800/40 dark:shadow-slate-800*/}
                 <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
-                    <Link href={redirect()}>
+                    {/* <Link href={redirect()}>
                         <Image
                             src={`/images/logo_emoframe.svg`}
                             className={`overflow-hidden transition-all`}
@@ -106,16 +147,16 @@ const SidebarCore = ({ children }) => {
                             width={expanded ? 160 : 0}
                             height={expanded ? 40 : 0}
                         />
-                    </Link>
+                    </Link> */}
 
                     <div className="flex flex-col flex-wrap justify-between items-center gap-2">
                         <Button
                             onClick={() => setExpanded((curr) => !curr)}
                             variant="icon"
                         >
-                            {expanded ? <ChevronFirst /> : <ChevronLast />}
+                            <Menu />
                         </Button>
-                        <DropdownMenu>
+                        {/* <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                             <Button variant="icon">
                                 <PersonStanding />
@@ -145,7 +186,7 @@ const SidebarCore = ({ children }) => {
                                 </div>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <button onClick={toggleLanguage}>{i18n.language === 'en' ? 'pt' : 'en'}</button>
+                        <button onClick={toggleLanguage}>{i18n.language === 'en' ? 'pt' : 'en'}</button> */}
                     </div>
                 </div>
 
@@ -154,10 +195,46 @@ const SidebarCore = ({ children }) => {
 
                 </SidebarContext.Provider>
 
-                <div className={`absolute bottom-0 w-full flex justify-center items-center border-t border-muted p-3 ${!expanded && "invisible"}`}>
+                {/* <div className={`absolute bottom-0 w-full flex justify-center items-center border-t border-muted p-3 ${!expanded && "invisible"}`}>
                     <Login />
-                </div>
+                </div> */}
+                {
+                    showTutorial && (
+                        <div
+                            className="absolute left-20 z-50 w-64 bg-blue-500 p-4 rounded-lg shadow-xl text-white transition-all duration-300 ease-in-out"
+                            style={{ top: `${tutorialSteps[currentStep].top}px` }}
+                        >
+                            <button onClick={handleClose} className="absolute top-2 right-2 text-blue-200 hover:text-white">
+                                <X size={16} />
+                            </button>
+
+                            <p className="font-bold mb-2">Passo {currentStep + 1} de {tutorialSteps.length}</p>
+                            <p className="text-sm mb-4">{tutorialSteps[currentStep].text}</p>
+
+                            <div className="flex justify-between mt-2">
+                                <button
+                                    onClick={handlePrev}
+                                    disabled={currentStep === 0}
+                                    className={`flex items-center px-2 py-1 rounded text-sm ${currentStep === 0 ? 'opacity-50 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+                                >
+                                    <ChevronLeft size={16} /> Anterior
+                                </button>
+
+                                <button
+                                    onClick={handleNext}
+                                    disabled={currentStep === tutorialSteps.length - 1}
+                                    className={`flex items-center px-2 py-1 rounded text-sm ${currentStep === tutorialSteps.length - 1 ? 'opacity-50 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+                                >
+                                    Próximo <ChevronRight size={16} />
+                                </button>
+                            </div>
+                        </div>
+                    )
+                }
+
             </nav>
+
+
         </aside>
     )
 }
@@ -182,7 +259,7 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false }: Sideba
           font-medium rounded-md cursor-pointer
           transition-colors group
           ${active
-                        ? "bg-gradient-to-tr from-primary to-primary-foreground text-primary-background"
+                        ? "bg-primary text-primary-background"
                         : "hover:bg-primary-foreground "
                     }
           ${!expanded && "justify-center"}
@@ -219,11 +296,15 @@ const SidebarItem = ({ icon, text, href, active = false, alert = false }: Sideba
     )
 }
 
-const Sidebar = () => {
+interface sidebarProps {
+    tutorial?: boolean
+}
+
+const Sidebar = ({ tutorial = false }: sidebarProps) => {
     const { data: session } = useSession();
     const currentPath = usePathname();
 
-    const { t } = useTranslation('sidebar'); 
+    const { t } = useTranslation('sidebar');
 
     const isActive = (path: string) => {
         return currentPath === path;
@@ -237,7 +318,7 @@ const Sidebar = () => {
         }
 
         return redirect;
-    }  
+    }
 
     const globalItems: SidebarItemType[] = [
         { text: t('homeLabel'), href: redirect(), icon: <Home size={20} /> },
@@ -259,7 +340,7 @@ const Sidebar = () => {
     ]
 
     return (
-        <SidebarCore>
+        <SidebarCore tutorial={tutorial}>
             {
                 globalItems.map((item, index) => (
                     <SidebarItem key={index} text={item.text} href={item.href} icon={item.icon} active={isActive(item.href)} />

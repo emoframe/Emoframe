@@ -8,23 +8,38 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Trans, useTranslation } from 'react-i18next';
 import "@/config/i18";
+import HomeCard from "@/components/HomeCard";
+import { HomeModel } from "@/types/forms";
 
-const contents: {title: string, description: string}[] = [
+
+const contents: { title: string, description: string, type: HomeModel, odd: boolean, image: string}[] = [
     {
-        title: 'reasoningItemTitle_1',
-        description: 'reasoningItemDescription_1',
+        title: 'Avaliação Personalizada',
+        description: 'Considera desde o perfil do usuário até o ambiente de avaliação, garantindo que o método escolhido seja o mais adequado',
+        type: HomeModel.Avaliation,
+        odd: true,
+        image: `/images/emo_smile.svg`
     },
     {
-        title: 'reasoningItemTitle_2',
-        description: 'reasoningItemDescription_2',
+        title: 'Ferramentas Integradas',
+        description: 'Combina instrumentos de diferentes domínios para uma aplicação sistemática e eficaz.',
+        type: HomeModel.Tool,
+        odd: false,
+        image: `/images/emo_tool.svg`
     },
     {
-        title: 'reasoningItemTitle_3',
-        description: 'reasoningItemDescription_3',
+        title: 'Processos Simplificados',
+        description: 'Ideal para profissionais de computação e áreas afins que buscam uma solução integrada e prática',
+        type: HomeModel.Process,
+        odd: true,
+        image: `/images/emo_process.svg`
     },
     {
-        title: 'reasoningItemTitle_4',
-        description: 'reasoningItemDescription_4',
+        title: 'Apoio Multidisciplinar',
+        description: 'Pensado para o campo interdisciplinar da IHC, mas também aplicável a outras áreas de avaliação',
+        type: HomeModel.Support,
+        odd: false,
+        image: `/images/emo_support.svg`
     },
 ];
 
@@ -38,69 +53,58 @@ export default function Home() {
     }, [theme])
 
     return (
-        <section className="w-full h-full flex flex-col">
-            <div className="text-primary-background bg-primary flex flex-nowrap flex-col md:flex-row items-center justify-center gap-6 md:gap-14 p-10">
-                <Reveal>
+        <main className="w-full h-full flex flex-col items-center">
+            <header className="w-full p-8 pl-20 h-16 flex items-center justify-between bg-[#ffffff] shadow-[0px_9px_6px_0px_rgba(0,_0,_0,_0.1)]">
+                <div>
                     <Image
-                        src={`/images/logo_sem_nome_${themeState}.svg`}
+                        src={`/images/home_page_logo_${themeState}.svg`}
                         alt=""
-                        height="256"
-                        width="256"
+                        height="160"
+                        width="160"
                     />
-                </Reveal>
-                <Reveal>
-                <div className="max-w-[700px] relative">
-                        <h1 className="text-7xl font-black leading-none mb-4">
-                            Emo​Frame
-                        </h1>
-                        <h2 className="text-2xl font-bold mb-4">
-                            {t('subtitle')}
-                        </h2>
-                        <div className="font-extralight text-justify flex flex-col gap-4">
-                            <p>
-                                {t('description_1')}
-                            </p>
-                            <p>
-                                <Trans ns="home" i18nKey="description_2" components={{b: <b/>}}/>
-                            </p>
-                            <p>
-                            <Trans ns="home" i18nKey="description_3" components={{b: <b/>}}/>
-                            </p>
-                        </div>
                 </div>
-                </Reveal>
-            </div>
-            <div className="bg-primary w-full h-24">
-                <svg className="h-24 w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-                    <path className="text-background fill-current" fillOpacity="0.99" d="M0,288L60,245.3C120,203,240,117,360,112C480,107,600,181,720,229.3C840,277,960,299,1080,256C1200,213,1320,107,1380,53.3L1440,0L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
-                </svg>  
-            </div>
-            <div className="flex flex-col gap-8 p-10">
-                <div className="flex flex-col items-center">
-                    <h2 className="text-2xl font-bold mb-6">
-                        {t('reasoningTitle')}
-                    </h2>
-                    <div className="flex flex-wrap justify-center gap-6">
-                        {contents.map(({title, description}, i) => (
-                            <div key={i} className="max-w-xs flex flex-col justify-between gap-4">
-                                <h2 className="text-xl text-center font-semibold">{t(title)}</h2>
-                                <p className="font-extralight text-justify">{t(description)}</p>
-                            </div>
-                        ))}
-                    </div>
+
+                <div className="flex items-center gap-6">
+                    <Link className={buttonVariants({ variant: "alternative" })} href="/sign-in">
+                        Fazer login
+                    </Link>
+                    <Link className={buttonVariants({ variant: "default" })} href="/sign-up">
+                        Criar uma conta
+                    </Link>
                 </div>
-                <div className="flex flex-col items-center">
-                    <h2 className="text-2xl font-bold mb-6">
-                        {t('knowMoreTitle')}
-                    </h2>
-                    <p className="font-extralight text-justify mb-5">
-                        {t('knowMoreDescription')}
-                    </p>
-                    <Link className={buttonVariants({variant: "default"})} href="/sign-up">
-                        {t('registerLabel')}
-                    </Link> 
+            </header>
+
+            <section className="flex items-center w-full justify-evenly h-screen">
+                <div className="flex flex-col justify-center gap-8">
+                    <div><h2 className="text-5xl font-black text-primary">Um Framework para<br />Avaliação de Soluções<br />Computacionais</h2></div>
+                    <div><p className="text-primary">Avaliar corretamente um produto é crucial para garantir<br /> que ele atenda aos requisitos e expectativas.</p></div>
                 </div>
-            </div>
-        </section>
+                <div className="flex flex-col items-center justify-center gap-4">
+                    <Image
+                        src={`/images/fun_icons.svg`}
+                        alt=""
+                        height="240"
+                        width="240"
+                    />
+                    <Link className={buttonVariants({ variant: "default" })} href="/sign-up">
+                        Criar uma conta
+                    </Link>
+                </div>
+            </section>
+
+            <section className="h-fit w-full flex items-center justify-between gap-40 flex-col pb-20">
+                {contents.map(({title, description, odd, type, image}) => (
+                    <HomeCard 
+                        title={title}
+                        description={description}
+                        odd={odd}
+                        image={image}
+                        type={type}
+                    />
+                ))}
+                
+            </section>
+
+        </main>
     );
 }
