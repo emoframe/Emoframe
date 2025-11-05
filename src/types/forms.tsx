@@ -520,3 +520,11 @@ export interface PageFeedback {
     actionsAndServicesCoordination: ActionsAndServicesItem[],
     reevaluation: ActionsAndServicesItem[],
 }
+
+
+export enum HomeModel{
+    Avaliation,
+    Process,
+    Tool,
+    Support
+}

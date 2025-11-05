@@ -1,6 +1,6 @@
 import React from 'react'
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
+import { authOptions } from '../../../../../../pages/api/auth/[...nextauth]';
 import { OptionCard, Content } from '@/components/OptionCard';
 import { search } from '@/lib/firebase';
 import SetTemplateButton from '@/components/template/SetTemplateButton';

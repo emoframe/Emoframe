@@ -37,8 +37,7 @@ export default function RootLayout({
             <SessionProvider>
                 <body className={cn("flex flex-1 w-full min-h-full h-fit bg-background print:bg-white", inter.className)}>
                     <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
-                        <Sidebar/>
-                        <main className="flex flex-1 flex-col justify-center items-center ml-sidebar print:ml-0">
+                        <main className="flex flex-1 print:ml-0">
                             {children}
                         </main>
                         <Toaster/>

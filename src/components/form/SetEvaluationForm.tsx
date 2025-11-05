@@ -24,7 +24,7 @@ import Combobox from '@/components/ui/combobox';
 import { getLocalTimeZone, parseDate } from '@internationalized/date';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import UserDataTable from '@/app/specialist/evaluations/form/data-table';
+import UserDataTable from '@/app/(authenticated)/specialist/evaluations/form/data-table';
 import { useRouter } from 'next/navigation';
 
 import { DataTableProps, Evaluation, instruments, RadioItem, Option } from '@/types/forms';
