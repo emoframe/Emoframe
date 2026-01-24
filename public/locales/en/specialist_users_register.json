@@ -1,5 +1,8 @@
 {
     "title": "User Registration",
+    "labelStep0": "Personal Data and Contact Information",
+    "labelStep1": "Education",
+    "labelStep2": "Profile and Security",
     "nameLabel": "Name",
     "surnameLabel": "Surname",
     "emailLabel": "Email",

@@ -1,7 +1,14 @@
 {
-    "searchPlaceholder": "Search any field",
-    "registerLabel": "Register New User",
+    "label": "Hello, ",
+    "mainLabel": "User Management",  
+    "searchPlaceholder": "Search for users by name or email.",
+    "registerLabel": "Add new user",
     "title": "Registered Users",
+    "labelGenderF": "Female",
+    "labelGenderM": "Male",
+    "labelPendingEvaluations": "Pending evaluations",
+    "labelConcludedEvaluations": "Concluded evaluations",
+    
     "previousPageLabel": "Previous",
     "nextPageLabel": "Next",
     "selectedRows": "{{selected}} of {{total}} row(s) selected",

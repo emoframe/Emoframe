@@ -61,7 +61,7 @@ const ViewInstrument = async ({
   }
 
   return (
-    <div className='flex flex-col bg-primary-background p-5 mx-[100px] rounded-md'>
+    <div className='flex flex-col p-5 mx-[100px] rounded-md'>
       <ConditionalRendering/>
     </div>
   );

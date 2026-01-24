@@ -139,7 +139,7 @@ export const samQuestions = [
   {
     index: 1,
     field: "satisfaction",
-    label: "Satisfação",
+    label: "Satisfaction",
     options: [
       { value: '1', label: createImageCard("/emojis/Like.png", "Emoji") },
       { value: '2', label: <div className={"m-10"}></div> },
@@ -155,7 +155,7 @@ export const samQuestions = [
   {
     index: 2,
     field: "motivation",
-    label: "Motivação",
+    label: "Motivation",
     options: [
       { value: '1', label: createImageCard("/emojis/Criativo.png", "Emoji") },
       { value: '2', label: <div className={"m-10"}></div> },
@@ -171,7 +171,7 @@ export const samQuestions = [
   {
     index: 3,
     field: "willpower",
-    label: "Sentimento de Controle",
+    label: "Feeling of Control",
     options: [
       { value: '9', label: createImageCard("/emojis/Inteligente.png", "Emoji") },
       { value: '8', label: <div className={"m-10"}></div> },

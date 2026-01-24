@@ -1,5 +1,8 @@
 {
     "title": "Cadastro de Usuário",
+    "labelStep0": "Dados Pessoais e Contato",
+    "labelStep1": "Educação",
+    "labelStep2": "Perfil e Segurança",
     "nameLabel": "Nome",
     "surnameLabel": "Sobrenome",
     "emailLabel": "Email",

@@ -12,7 +12,7 @@ import {
 import { z } from "zod";
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { saveAnswer } from '@/lib/firebase'; 
+import { saveAnswer } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Progress } from "@/components/ui/progress";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,6 +24,7 @@ import { FillEvaluationForm, gdsQuestions } from '@/types/forms';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslation } from 'react-i18next';
+import Combobox from '@/components/ui/combobox';
 
 const DefaultProps = {
     Affirmative: [{ value: '1', label: 'answerYesLabel' }, { value: '0', label: 'answerNoLabel' }],
@@ -95,85 +96,107 @@ const GdsForm = (params: FillEvaluationForm) => {
         <div className='px-8'>
             <Steps activeStep={activeStep}>
                 {steps.map((step, index) => (
-                    <Step index={index} key={index} additionalClassName={{ label: "text-md" }} {...{label: t(`${step.label}`)}} />
+                    <Step index={index} key={index} additionalClassName={{ label: "text-md" }} {...{ label: t(`${step.label}`) }} />
                 ))}
             </Steps>
 
             <div className="flex flex-col flex-wrap justify-center gap-8 mt-8">
-                <h1 className="font-bold text-4xl self-center"> {t('questionnaireTitle')} </h1>
-                <h2 className="text-md self-center"> {t('questionnaireDescription')}</h2>
-                <h2 className="text-md self-center"> {t('questionnaireAnswersDescription')}</h2>
-                <Separator className="my-4" />
+                <h1 className="font-bold text-4xl self-start"> {t('questionnaireTitle')} </h1>
+                <div>
+                    <h2 className="text-md self-start"> {t('questionnaireDescription')}</h2>
+                    <h2 className="text-md self-start"> {t('questionnaireAnswersDescription')}</h2>
+                </div>
+
                 <React.Suspense key={activeStep} fallback={<Progress />}>
-                    <Form key={activeStep} {...form}>
-                        <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)}>
+                    <Form key={activeStep} {...form} >
+                        <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-8'>
                             {
-                                gdsQuestionsChunks[activeStep].map((question, index) => (
-                                    <React.Fragment key={question.field}>
-                                        <FormField
-                                            control={form.control}
-                                            name={question.field}
-                                            render={({ field }) => (
-                                                <FormItem className="flex flex-col items-center gap-5 content-center">
-                                                    <p className="text-xl"><b>{t(question.question)}</b></p>
-                                                    <FormControl>
-                                                        <RadioGroup
-                                                            onValueChange={field.onChange}
-                                                            defaultValue={field.value}
-                                                            value={field.value}
-                                                            className="flex flex-row justify-between">
-                                                            {DefaultProps[question.score].map((defaultProp, index) => (
-                                                                <FormItem className="flex flex-col gap-y-2 items-center" key={index}>
-                                                                    <FormControl>
-                                                                        <RadioGroupItem value={defaultProp.value} />
-                                                                    </FormControl>
-                                                                    <FormLabel className="font-normal text-md">
-                                                                        {t(defaultProp.label)}
-                                                                    </FormLabel>
-                                                                </FormItem>
-                                                            ))}
-                                                        </RadioGroup>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <Separator className="mb-8" />
-                                    </React.Fragment>
-                                ))
+                                gdsQuestionsChunks[activeStep].map((question, index) => {
+                                    const options = DefaultProps[question.score].map((option) => ({
+                                        value: option.value,
+                                        label: t(option.label)
+                                    }))
+                                    return (
+                                        <React.Fragment key={question.field}>
+                                            <FormField
+                                                control={form.control}
+                                                name={question.field}
+                                                render={({ field }) => (
+                                                    <FormItem className="flex flex-col items-center content-center gap-5">
+                                                        <div className='bg-primary flex justify-end w-1/2 gap-4 rounded-l-lg'>
+                                                            <div className='bg-white px-4 pt-8 pb-10 w-[98%] flex flex-col gap-8'>
+                                                                <p className="text-2xl text-[#323232]"><b>{t(question.question)}</b></p>
+                                                                <FormControl>
+                                                                    {/* <RadioGroup
+                                                                    onValueChange={field.onChange}
+                                                                    defaultValue={field.value}
+                                                                    value={field.value}
+                                                                    className="flex flex-row justify-between">
+                                                                    {DefaultProps[question.score].map((defaultProp, index) => (
+                                                                        <FormItem className="flex flex-col gap-y-2 items-center" key={index}>
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value={defaultProp.value} />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal text-md">
+                                                                                {t(defaultProp.label)}
+                                                                            </FormLabel>
+                                                                        </FormItem>
+                                                                    ))}
+                                                                </RadioGroup> */}
+                                                                    <Combobox
+                                                                        placeholder={"Escolher"}
+                                                                        onSelect={(value) => field.onChange(value)}
+                                                                        options={options}
+                                                                        className='bg-white w-1/2'
+                                                                    >
+
+
+                                                                    </Combobox>
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </div>
+
+                                                        </div>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            {/* <Separator className="mb-8" /> */}
+                                        </React.Fragment>
+                                    )
+                                })
                             }
                             <div key="buttons" className="flex flex-row justify-around mt-8">
-                                { 
-                                    (activeStep != 0) && 
-                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
+                                {
+                                    (activeStep != 0) &&
+                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                         prevStep();
-                                        window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                                     }}>{t('previousButtonLabel')}</Button>
                                 }
-                                
+
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
                                     gdsQuestionsChunks[activeStep].map((question, index) => (form.setValue(question.field, '')));
-                                    window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                                 }}>{t('resetButtonLabel')}</Button>
 
-                                { 
+                                {
                                     (activeStep != 1) ?
                                         <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                             const values = form.getValues(gdsQuestionsChunks[activeStep].map((question, index) => (question.field)));
                                             const hasNull = !("isViewable" in params) ? Object.values(values).some((value) => value === "") : false;
-                                            
+
                                             if (hasNull) {
                                                 toast({
                                                     title: "Solicitação negada",
                                                     description: "Preencha todos os campos!",
                                                 });
                                             }
-                                            else{
+                                            else {
                                                 nextStep();
-                                                window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                                window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                                             }
                                         }}>{t('nextButtonLabel')}</Button>
-                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">{t('finishButtonLabel')}</Button>
+                                        : <Button className="basis-1/8 text-lg" type="submit" size="lg">{t('finishButtonLabel')}</Button>
                                 }
                             </div>
                         </form>

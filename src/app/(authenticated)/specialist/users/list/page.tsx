@@ -19,7 +19,9 @@ const Users = async () => {
   const data = await search("user", filter);
 
   return (
-    <UserDataTable columns={columns} data={data} />
+    <div className="flex justify-center w-full px-4 py-6 print:!p-0">
+      <UserDataTable columns={columns} data={data} />
+    </div>
   )
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../../../pages/api/auth/[...nextauth]';
+import { authOptions } from '../../../../../../pages/api/auth/[...nextauth]';
 import { getById } from '@/lib/firebase';
 import { appRedirect } from '@/lib/actions';
 import PanasForm from '@/components/form/instrument/PanasForm';

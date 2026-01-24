@@ -138,55 +138,26 @@ const SidebarCore = ({ children }: SidebarCoreProps) => {
     return (
         <aside className="print:hidden h-screen fixed z-10 top-0">
             <nav className="h-screen flex flex-col bg-primary-background "> {/*shadow-md shadow-slate-800/40 dark:shadow-slate-800*/}
-                <div className="p-4 pb-2 flex flex-wrap justify-between items-center">
-                    {/* <Link href={redirect()}>
+                <div className="p-4 pb-2 flex flex-wrap justify-end items-end">
+                    <Link href={redirect()} className="absolute top-4 left-2">
                         <Image
                             src={`/images/logo_emoframe.svg`}
-                            className={`overflow-hidden transition-all`}
+                            className={``}
                             alt=""
-                            width={expanded ? 160 : 0}
+                            width={expanded ? 120 : 0}
                             height={expanded ? 40 : 0}
                         />
-                    </Link> */}
+                    </Link>
 
                     <div className="flex flex-col flex-wrap justify-between items-center gap-2">
                         <Button
                             onClick={() => setExpanded((curr) => !curr)}
                             variant="icon"
+                            className=""
                         >
                             <Menu />
                         </Button>
-                        {/* <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                            <Button variant="icon">
-                                <PersonStanding />
-                                <span className="sr-only">Acessibilidade</span>
-                            </Button>
-                            </DropdownMenuTrigger>
-
-                            <DropdownMenuContent align="end">
-
-                                <DropdownMenuLabel>{t('accessibilityLabel')}</DropdownMenuLabel>
-                                <DropdownMenuSeparator />
-
-                                <div className="flex gap-1">
-                                    <Button variant="icon" size="icon" onClick={() => setTheme((theme === 'dark') ? 'light' : 'dark')}>
-                                        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                                        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                                        <span className="sr-only">Alto contraste</span>
-                                    </Button>
-                                    <Button variant="icon" size="icon" onClick={() => document.documentElement.style.fontSize = `${parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size')) + 2}px`}>
-                                        <AArrowUp className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>
-                                        <span className="sr-only">Aumentar fonte</span>
-                                    </Button>
-                                    <Button variant="icon" size="icon" onClick={() => document.documentElement.style.fontSize = `${parseFloat(window.getComputedStyle(document.documentElement, null).getPropertyValue('font-size')) - 2}px`}>
-                                        <AArrowDown className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all"/>
-                                        <span className="sr-only">Diminuir fonte</span>
-                                    </Button>
-                                </div>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                        <button onClick={toggleLanguage}>{i18n.language === 'en' ? 'pt' : 'en'}</button> */}
+                        
                     </div>
                 </div>
 

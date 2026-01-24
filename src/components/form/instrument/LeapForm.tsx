@@ -24,13 +24,14 @@ import { FillEvaluationForm, RadioItem, leapQuestions } from "@/types/forms";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { chunk } from "@/lib/utils";
+import { t } from "i18next";
 
 const DefaultProps: RadioItem[] = [
-    { value: "1", label: "1 (Nada ou muito ligeiramente)" },
-    { value: "2", label: "2 (Um pouco)" },
-    { value: "3", label: "3 (Moderadamente)" },
-    { value: "4", label: "4 (Bastante)" },
-    { value: "5", label: "5 (Extremamente)" },
+    { value: "1", label: "Nada ou muito ligeiramente" },
+    { value: "2", label: "Um pouco" },
+    { value: "3", label: "Moderadamente" },
+    { value: "4", label: "Bastante" },
+    { value: "5", label: "Extremamente" },
 ];
 
 const exampleQuestions = [
@@ -174,17 +175,17 @@ const LeapForm = (params: FillEvaluationForm) => {
                     </Button>
                 </div>
                 {isExampleOpen && exampleQuestions.map(question => (<>
-                    <Separator className="my-4"/>   
+                    <Separator className="my-4" />
                     <div className="space-x-5 space-y-5 content-center">
                         <p className="text-xl"><b>{question.label}</b></p>
                         <RadioGroup
-                        defaultValue={question.selectedValue}
-                        value={question.selectedValue}
-                        className="flex flex-row space-x-5 justify-between">
+                            defaultValue={question.selectedValue}
+                            value={question.selectedValue}
+                            className="flex flex-row space-x-5 justify-between">
                             {DefaultProps.map((defaultProp, index) => (
                                 <div className="flex flex-col items-center space-y-2" key={index}>
                                     <div>
-                                        <RadioGroupItem value={defaultProp.value}/>
+                                        <RadioGroupItem value={defaultProp.value} />
                                     </div>
                                     <div className="font-normal text-md">
                                         {defaultProp.label}
@@ -212,6 +213,7 @@ const LeapForm = (params: FillEvaluationForm) => {
                         <form
                             key={activeStep}
                             onSubmit={form.handleSubmit(onSubmit)}
+                            className='flex flex-col gap-8'
                         >
                             {leapQuestionsChunks[activeStep].map((question, index) => (
                                 <>
@@ -220,37 +222,35 @@ const LeapForm = (params: FillEvaluationForm) => {
                                         control={form.control}
                                         name={question.field}
                                         render={({ field }) => (
-                                            <FormItem className="space-x-5 space-y-5 content-center">
-                                                <p className="text-xl">
-                                                    <b>{question.question}</b>
-                                                </p>
-                                                <FormControl>
-                                                    <RadioGroup
-                                                        onValueChange={field.onChange}
-                                                        defaultValue={field.value}
-                                                        value={field.value}
-                                                        className="flex flex-row space-x-5 justify-between"
-                                                    >
-                                                        {DefaultProps.map((defaultProp, index) => (
-                                                            <FormItem
-                                                                className="flex flex-col items-center space-y-2"
-                                                                key={index}
-                                                            >
-                                                                <FormControl>
-                                                                    <RadioGroupItem value={defaultProp.value} />
-                                                                </FormControl>
-                                                                <FormLabel className="font-normal text-md">
-                                                                    {defaultProp.label}
-                                                                </FormLabel>
-                                                            </FormItem>
-                                                        ))}
-                                                    </RadioGroup>
-                                                </FormControl>
-                                                <FormMessage />
+                                            <FormItem className="flex flex-col items-center content-center gap-5">
+                                                <div className='bg-primary flex justify-end w-1/2 gap-4 rounded-l-lg'>
+                                                    <div className='bg-white px-4 pt-8 pb-10 w-[98%] flex flex-col'>
+                                                        <p className="text-xl pb-12"><b>{t(question.question)}</b></p>
+                                                        <FormControl>
+                                                            <RadioGroup
+                                                                onValueChange={field.onChange}
+                                                                defaultValue={field.value}
+                                                                value={field.value}
+                                                                className="flex flex-row space-x-5 justify-between">
+                                                                {DefaultProps.map((defaultProp, index) => (
+                                                                    <FormItem className="flex flex-col-reverse items-center justify-between gap-6" key={index}>
+                                                                        <FormControl>
+                                                                            <RadioGroupItem value={defaultProp.value} />
+                                                                        </FormControl>
+                                                                        <FormLabel className="font-medium text-[#323232] text-lg text-center whitespace-pre-line">
+                                                                            {t(defaultProp.label)}
+                                                                        </FormLabel>
+                                                                    </FormItem>
+                                                                ))}
+                                                            </RadioGroup>
+                                                        </FormControl>
+                                                        <FormMessage />
+
+                                                    </div>
+                                                </div>
                                             </FormItem>
                                         )}
                                     />
-                                    <Separator className="mb-8" />
                                 </>
                             ))}
                             <div
