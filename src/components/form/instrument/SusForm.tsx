@@ -97,7 +97,7 @@ const SusForm = (params: FillEvaluationForm & { identification: string }) => {
     return (
         <React.Suspense fallback={<Progress />}>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} >
+                <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-8'>
                     <div className="flex flex-col flex-wrap justify-center gap-6">
                         <h1 className="font-bold text-4xl self-center">SUS - {params.identification || t('identificationExample')}</h1>
 
@@ -106,17 +106,17 @@ const SusForm = (params: FillEvaluationForm & { identification: string }) => {
                             <Button className="text-lg lg:min-w-96" type="button" onClick={() => setIsExampleOpen(!isExampleOpen)}>{t('examplesButtonLabel')}</Button>
                         </div>
                         {isExampleOpen && exampleQuestions.map(question => (<>
-                            <Separator />   
+                            <Separator />
                             <div className="space-y-5 content-center">
                                 <p className="text-xl mb-8"><b>{t(question.label)}</b></p>
                                 <RadioGroup
-                                defaultValue={question.selectedValue}
-                                value={question.selectedValue}
-                                className="flex flex-row space-x-5 justify-between">
+                                    defaultValue={question.selectedValue}
+                                    value={question.selectedValue}
+                                    className="flex flex-row space-x-5 justify-between">
                                     {DefaultProps.map((defaultProp, index) => (
                                         <div className="flex flex-col items-center space-y-2" key={index}>
                                             <div>
-                                                <RadioGroupItem value={defaultProp.value}/>
+                                                <RadioGroupItem value={defaultProp.value} />
                                             </div>
                                             <div className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 font-normal">
                                                 {t(defaultProp.label)}
@@ -139,33 +139,35 @@ const SusForm = (params: FillEvaluationForm & { identification: string }) => {
                                         control={form.control}
                                         name={question.field}
                                         render={({ field }) => (
-                                            <FormItem className="content-center">
-                                                <p className="text-xl mb-8"><b>{t(question.label)}</b></p>
-                                                <FormControl>
-                                                    <RadioGroup
-                                                        onValueChange={field.onChange}
-                                                        defaultValue={field.value}
-                                                        value={field.value}
-                                                        className="flex flex-row space-x-5 justify-between">
-                                                        {
-                                                            DefaultProps.map((option, index) => (
-                                                                <FormItem className="flex flex-col items-center space-y-2" key={index}>
-                                                                    <FormControl>
-                                                                        <RadioGroupItem value={option.value} />
-                                                                    </FormControl>
-                                                                    <FormLabel className="font-normal">
-                                                                        {t(option.label)}
-                                                                    </FormLabel>
-                                                                </FormItem>
-                                                            ))
-                                                        }
-                                                    </RadioGroup>
-                                                </FormControl>
-                                                <FormMessage />
+                                            <FormItem className="flex flex-col items-center content-center gap-5">
+                                                <div className='bg-primary flex justify-end w-1/2 gap-4 rounded-l-lg'>
+                                                    <div className='bg-white px-4 pt-8 pb-10 w-[98%] flex flex-col'>
+                                                        <p className="text-xl pb-12"><b>{t(question.label)}</b></p>
+                                                        <FormControl>
+                                                            <RadioGroup
+                                                                onValueChange={field.onChange}
+                                                                defaultValue={field.value}
+                                                                value={field.value}
+                                                                className="flex flex-row space-x-5 justify-between">
+                                                                {DefaultProps.map((defaultProp, index) => (
+                                                                    <FormItem className="flex flex-col-reverse items-center justify-between gap-6" key={index}>
+                                                                        <FormControl>
+                                                                            <RadioGroupItem value={defaultProp.value} />
+                                                                        </FormControl>
+                                                                        <FormLabel className="font-medium text-[#323232] text-lg text-center whitespace-pre-line">
+                                                                            {t(defaultProp.label)}
+                                                                        </FormLabel>
+                                                                    </FormItem>
+                                                                ))}
+                                                            </RadioGroup>
+                                                        </FormControl>
+                                                        <FormMessage />
+
+                                                    </div>
+                                                </div>
                                             </FormItem>
                                         )}
                                     />
-                                    <Separator />
                                 </>
                             ))
                         }

@@ -9,11 +9,11 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-  } from '../../ui/form';
+} from '../../ui/form';
 import { z } from "zod";
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { saveAnswer } from '@/lib/firebase'; 
+import { saveAnswer } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Progress } from "@/components/ui/progress";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -32,11 +32,11 @@ interface RadioItem {
 }
 
 const DefaultProps: RadioItem[] = [
-    {value: '1', label: 'scaleOption1Label'},
-    {value: '2', label: 'scaleOption2Label'},
-    {value: '3', label: 'scaleOption3Label'},
-    {value: '4', label: 'scaleOption4Label'},
-    {value: '5', label: 'scaleOption5Label'},
+    { value: '1', label: 'scaleOption1Label' },
+    { value: '2', label: 'scaleOption2Label' },
+    { value: '3', label: 'scaleOption3Label' },
+    { value: '4', label: 'scaleOption4Label' },
+    { value: '5', label: 'scaleOption5Label' },
 ];
 
 const exampleQuestions = [
@@ -59,15 +59,15 @@ const exampleQuestions = [
 
 const PanasFormSchema = z.object(
     Object.fromEntries(
-      panasQuestions.map(item => [
-        item.field,
-        z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {
-          errorMap: (issue, ctx) => ({ message: "Escolha uma opção" })
-        })
-      ])
+        panasQuestions.map(item => [
+            item.field,
+            z.enum([DefaultProps[0].value, ...DefaultProps.slice(1).map((p) => p.value)], {
+                errorMap: (issue, ctx) => ({ message: "Escolha uma opção" })
+            })
+        ])
     )
 );
-  
+
 // Dividir panasQuestions em 2 partes
 const panasQuestionsChunks = chunk(panasQuestions, Math.ceil(panasQuestions.length / 2));
 
@@ -75,7 +75,7 @@ const panasQuestionsChunks = chunk(panasQuestions, Math.ceil(panasQuestions.leng
 const steps: StepConfig[] = panasQuestionsChunks.map((_, index) => ({ label: `step${index + 1}Label` }));
 
 const PanasForm = (params: FillEvaluationForm) => {
-    const FormSchema = !("isViewable" in params) ? PanasFormSchema : z.object({}); 
+    const FormSchema = !("isViewable" in params) ? PanasFormSchema : z.object({});
     const form = useForm<z.infer<typeof PanasFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -106,15 +106,15 @@ const PanasForm = (params: FillEvaluationForm) => {
     const { toast } = useToast();
     const { t } = useTranslation('specialist_services_instruments_panas');
     const onSubmit = async (values: z.infer<typeof PanasFormSchema>) => {
-        if(!("isViewable" in params)) {
+        if (!("isViewable" in params)) {
             saveAnswer(values, params.evaluationId, params.userId).then(() => {
                 toast({
                     title: t('submitTitle'),
                     description: t('submitMessage'),
                 });
                 push('/user/evaluations');
-            });  
-        }    
+            });
+        }
     }
 
     const [isReady, setIsReady] = useState(false);
@@ -130,32 +130,32 @@ const PanasForm = (params: FillEvaluationForm) => {
         steps,
     })
 
-    if(!isReady) return null;
+    if (!isReady) return null;
     return (
         <div>
             <Steps activeStep={activeStep}>
-                {steps.map((step, index) => ( <Step index={index} key={index} additionalClassName={{label: "text-md"}} {...{label: t(`${step.label}`)}} /> ))}
+                {steps.map((step, index) => (<Step index={index} key={index} additionalClassName={{ label: "text-md" }} {...{ label: t(`${step.label}`) }} />))}
             </Steps>
-           
+
             <div className="flex flex-col flex-wrap justify-center gap-8">
-                
+
                 <h1 className="font-bold text-4xl self-center"> PANAS </h1>
                 <h2 className="text-md self-center"> {t('questionnaireDescription')} </h2>
                 <div className="flex flex-row justify-around">
                     <Button className="text-lg basis-1/3" type="button" size="lg" onClick={() => setIsExampleOpen(!isExampleOpen)}>{t('examplesButtonLabel')}</Button>
                 </div>
                 {isExampleOpen && exampleQuestions.map(question => (<>
-                    <Separator className="my-4"/>   
+                    <Separator className="my-4" />
                     <div className="space-x-5 space-y-5 content-center">
                         <p className="text-xl"><b>{t(question.label)}</b></p>
                         <RadioGroup
-                        defaultValue={question.selectedValue}
-                        value={question.selectedValue}
-                        className="flex flex-row space-x-5 justify-between">
+                            defaultValue={question.selectedValue}
+                            value={question.selectedValue}
+                            className="flex flex-row space-x-5 justify-between">
                             {DefaultProps.map((defaultProp, index) => (
                                 <div className="flex flex-col items-center space-y-2" key={index}>
                                     <div>
-                                        <RadioGroupItem value={defaultProp.value}/>
+                                        <RadioGroupItem value={defaultProp.value} />
                                     </div>
                                     <div className="font-normal text-md">
                                         {t(defaultProp.label)}
@@ -166,61 +166,65 @@ const PanasForm = (params: FillEvaluationForm) => {
                         <h2 className="text-md self-center">{t(question.description)}</h2>
                     </div>
                 </>))}
-                <Separator className="my-4"/>   
+                <Separator className="my-4" />
                 <h2 className="text-md self-center"> {t('questionnaireAnswersDescription')} </h2>
 
                 <React.Suspense key={activeStep} fallback={<Progress />}>
                     <Form key={activeStep} {...form}>
-                        <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)}>
+                        <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-8'>
                             {
                                 panasQuestionsChunks[activeStep].map((question, index) => (
                                     <>
                                         <FormField key={"formField" + index}
-                                        control={form.control}
-                                        name={question.field}
-                                        render={({field}) => (
-                                            <FormItem className="space-x-5 space-y-5 content-center">
-                                                <p className="text-xl"><b>{t(question.question)}</b></p>
-                                            <FormControl>
-                                                <RadioGroup
-                                                onValueChange={field.onChange}
-                                                defaultValue={field.value}
-                                                value={field.value}
-                                                className="flex flex-row space-x-5 justify-between">
-                                                    {DefaultProps.map((defaultProp, index) => (
-                                                        <FormItem className="flex flex-col items-center space-y-2" key={index}>
+                                            control={form.control}
+                                            name={question.field}
+                                            render={({ field }) => (
+                                                <FormItem className="flex flex-col items-center content-center gap-5">
+                                                    <div className='bg-primary flex justify-end w-1/2 gap-4 rounded-l-lg'>
+                                                        <div className='bg-white px-4 pt-8 pb-10 w-[98%] flex flex-col'>
+                                                            <p className="text-xl pb-12"><b>{t(question.question)}</b></p>
                                                             <FormControl>
-                                                                <RadioGroupItem value={defaultProp.value}/> 
+                                                                <RadioGroup
+                                                                    onValueChange={field.onChange}
+                                                                    defaultValue={field.value}
+                                                                    value={field.value}
+                                                                    className="flex flex-row space-x-5 justify-between">
+                                                                    {DefaultProps.map((defaultProp, index) => (
+                                                                        <FormItem className="flex flex-col-reverse items-center justify-between gap-6" key={index}>
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value={defaultProp.value} />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-medium text-[#323232] text-lg text-center whitespace-pre-line">
+                                                                                {t(defaultProp.label)}
+                                                                            </FormLabel>
+                                                                        </FormItem>
+                                                                    ))}
+                                                                </RadioGroup>
                                                             </FormControl>
-                                                            <FormLabel className="font-normal text-md">
-                                                                {t(defaultProp.label)}
-                                                            </FormLabel>
-                                                        </FormItem>
-                                                    ))}
-                                                </RadioGroup>
-                                                </FormControl>
-                                                <FormMessage />
-                                        </FormItem>
-                                        )} />
-                                        <Separator className="mb-8"/>   
+                                                            <FormMessage />
+
+                                                        </div>
+                                                    </div>
+                                                </FormItem>
+                                            )} />
                                     </>
                                 ))
                             }
                             <div key="buttons" className="flex flex-row justify-around mt-8">
-                                { 
-                                    (activeStep != 0) && 
-                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {    
+                                {
+                                    (activeStep != 0) &&
+                                    <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                         prevStep();
-                                        window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                                     }}>{t('previousButtonLabel')}</Button>
                                 }
-                                
+
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
                                     panasQuestionsChunks[activeStep].map((question, index) => (form.setValue(question.field, '')));
-                                    window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                                 }}>{t('resetButtonLabel')}</Button>
 
-                                { 
+                                {
                                     (activeStep != 1) ?
                                         <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
                                             const values = form.getValues(panasQuestionsChunks[activeStep].map((question, index) => (question.field)));
@@ -232,19 +236,19 @@ const PanasForm = (params: FillEvaluationForm) => {
                                                     description: "Preencha todos os campos!",
                                                 });
                                             }
-                                            else{
+                                            else {
                                                 nextStep();
-                                                window.scrollTo({top: 0, left: 0, behavior: "smooth"});
+                                                window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                                             }
                                         }}>{t('nextButtonLabel')}</Button>
-                                    : <Button className="basis-1/8 text-lg" type="submit" size="lg">{t('finishButtonLabel')}</Button>
+                                        : <Button className="basis-1/8 text-lg" type="submit" size="lg">{t('finishButtonLabel')}</Button>
                                 }
                             </div>
                         </form>
                     </Form>
                 </React.Suspense>
             </div>
-       </div>
+        </div>
     );
 }
 

@@ -1,5 +1,5 @@
 {
-    "welcome": "Welcome, {{name}}",
+    "welcome": "Specialist | {{specialty}}",
     "tutorialsTitle": "Videos and tutorials",
     "tutorialsDescription": "Learn how to create a new evaluation",
     "explanationTitle": "What is EmoFrame?",

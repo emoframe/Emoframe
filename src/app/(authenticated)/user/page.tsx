@@ -1,16 +1,13 @@
 import React from "react";
 import { getUserDashboardInfo, search } from "@/lib/firebase";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../../pages/api/auth/[...nextauth]";
+import { authOptions } from "../../../../pages/api/auth/[...nextauth]";
 import UserDashboard from "@/components/UserDashboard";
 import FrequentQuestions from '@/components/FrequentQuestions';
 import VideosTutorials from "@/components/VideoTutorials";
 import Welcome from "@/components/Welcome";
 import WhatIs from "@/components/WhatIs";
 
-//Resolve o problema de cache após atualização
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 
 const User = async () => {

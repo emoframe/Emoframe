@@ -12,7 +12,7 @@
     "@brazilian-utils/brazilian-utils": "^1.0.0-rc.12",
     "@chakra-ui/react": "^2.8.2",
     "@dnd-kit/core": "^6.1.0",
-    "@hookform/resolvers": "^3.3.4",
+    "@hookform/resolvers": "^3.10.0",
     "@internationalized/date": "^3.5.1",
     "@nextui-org/react": "^2.2.9",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -22,13 +22,14 @@
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-icons": "^1.3.0",
-    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-progress": "^1.0.3",
     "@radix-ui/react-radio-group": "^1.1.3",
+    "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slider": "^1.1.2",
-    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
@@ -66,7 +67,7 @@
     "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
     "react-google-charts": "^4.0.1",
-    "react-hook-form": "^7.49.3",
+    "react-hook-form": "^7.68.0",
     "react-i18next": "^15.1.1",
     "react-icons": "^5.2.1",
     "react-input-mask": "^2.0.4",
@@ -77,7 +78,7 @@
     "typescript": "5.3.3",
     "use-mask-input": "^3.3.7",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
-    "zod": "^3.22.4"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/react-input-mask": "^3.0.5"

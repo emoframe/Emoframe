@@ -11,7 +11,8 @@ const InstrumentsCards = () => {
   const transformedContent: Content[] = instruments.filter(ins => ins.locales.includes(i18n.language)).map(instrument => ({
     title: instrument.label,
     description: instrument.description || '', // String vazia se desciption for undefined
-    href: `/specialist/services/instruments/fill?instrument=${instrument.value}`
+    href: `/specialist/services/instruments/fill?instrument=${instrument.value}`,
+    instruments: true
   }));
   return (
     <>
@@ -24,7 +25,7 @@ const InstrumentsCards = () => {
 
 const InstrumentsPage = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="flex flex-col p-sidebar gap-6 items-center">
       <InstrumentsCards/>
     </div>
   )

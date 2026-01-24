@@ -2,7 +2,7 @@ import React from 'react'
 
 import { search } from '@/lib/firebase';
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]';
+import { authOptions } from '@/../../pages/api/auth/[...nextauth]';
 import EvaluationsDataTable from './data-table';
 import { columns } from './columns';
 import { Filter } from '@/types/firebase';

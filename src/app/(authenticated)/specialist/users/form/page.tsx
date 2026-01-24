@@ -7,7 +7,10 @@ const SpecialistForm = async () => {
   const session: any = await getServerSession(authOptions);
   
   return (
-    <SignUpForm specialistId={session?.user.uid!}/>
+    <div className='flex-1 flex justify-center w-full px-4 py-6 print:!p-0'>
+      <SignUpForm specialistId={session?.user.uid!}/>
+
+    </div>
   );
 };
 
