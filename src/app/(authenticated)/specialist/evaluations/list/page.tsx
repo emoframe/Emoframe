@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { search } from '@/lib/firebase';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../../../../pages/api/auth/[...nextauth]';
@@ -21,7 +20,7 @@ const Evaluations = async () => {
   const data = await search("evaluation", filter);
 
   return (
-    <div className="flex flex-1 flex-col gap-4 md:min-w-[50vw] lg:min-w-[70vw] md:min-h-[600px]" style={{maxWidth: 'calc(100vw - 160px)'}}>
+    <div className="flex px-sidebar flex-col w-full h-full p-2 md:p-4 gap-4">
       <EvaluationsDataTable data={data} columns={columns}/>
     </div>
   );

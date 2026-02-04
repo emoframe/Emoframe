@@ -1,60 +1,87 @@
 "use client";
 import { FC, ReactNode, useState } from 'react';
 import PathnameAware from '@/components/PathnameAware';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import Sidebar from '@/components/sidebar/Sidebar';
 import { TutorialContext } from '@/components/context/TutorialContext';
 import { signOut, useSession } from 'next-auth/react';
-import { AArrowDown, AArrowUp, Languages, LogOut, MessageCircleQuestion, Moon, PersonStanding, Settings, Sun } from 'lucide-react';
+import { 
+    AArrowDown, AArrowUp, Languages, LogOut, MessageCircleQuestion, 
+    Moon, PersonStanding, Settings, Sun, Menu 
+} from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { i18n, useTranslation } from '@/config/i18';
+import { useTranslation } from '@/config/i18';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { 
+    DropdownMenu, DropdownMenuContent, DropdownMenuLabel, 
+    DropdownMenuSeparator, DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
 import { useTheme } from 'next-themes';
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"; 
 
 interface SpecialistLayoutProps {
     children: ReactNode;
 }
 
 const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
     const [showTutorial, setTutorial] = useState(false);
     const [currentStep, setCurrentStep] = useState(0);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const { t, i18n } = useTranslation('headerMenu');  // Obtenha o objeto i18n diretamente
+    
+    const { t, i18n } = useTranslation('headerMenu');
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const instrument = searchParams?.get('instrument');
     const { theme, setTheme } = useTheme();
 
     const toggleLanguage = () => {
-        const newLang = i18n.language === 'en' ? 'pt' : 'en';  // Troca entre 'en' e 'pt'
+        const newLang = i18n.language === 'en' ? 'pt' : 'en';
         if ((newLang === 'en') && pathname && ['/specialist/services/instruments/fill'].includes(pathname) && instrument && ['eaz', 'leap'].includes(instrument)) return alert('This page is not available in English');
-        i18n.changeLanguage(newLang).then(() => {
-            console.log('Language changed to ' + newLang);
-        }).catch(err => {
-            console.error('Error changing language', err);
-        });
+        i18n.changeLanguage(newLang);
     }
 
-
     const defaultLayout = (
-        <div className='flex flex-1 min-h-screen'>
-            <Sidebar />
-            <main className='flex-1 flex flex-col'>
-                <header className='flex h-16 w-full bg-primary-background px-sidebar items-center justify-between'>
-                    <Image src={"/images/logo_sem_nome_dark.svg"} alt='logo' width={1} height={1} />
-                    <nav className='flex items-center p-8 gap-8 '>
-                        <button onClick={() => setTutorial(prev => !prev)}>
+        <div className='flex flex-1 min-h-screen bg-gray-50'>
+            
+            {/* Sidebar Desktop: Visível apenas em telas grandes (lg) */}
+            <div className="hidden lg:flex h-screen sticky top-0 z-50">
+                <Sidebar />
+            </div>
+
+            <main className='flex-1 flex flex-col min-w-0'>
+                {/* Header */}
+                <header className='flex h-16 w-full bg-primary-background border-b border-gray-200 px-4 items-center justify-between sticky top-0 z-40'>
+                    
+                    {/* Lado Esquerdo: Apenas o Botão Menu Mobile */}
+                    <div className="flex items-center">
+                        <Sheet>
+                            <SheetTrigger asChild>
+                                <Button variant="ghost" size="icon" className="lg:hidden">
+                                    <Menu size={24} />
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent side="left" className="p-0 w-72">
+                                <Sidebar /> 
+                            </SheetContent>
+                        </Sheet>
+                        {/* Removi a imagem/logo daqui */}
+                    </div>
+
+                    {/* Lado Direito: Menu Original */}
+                    <nav className='flex items-center gap-4 lg:gap-8 relative'>
+                        <button onClick={() => setTutorial(prev => !prev)} className="hidden sm:block">
                             <MessageCircleQuestion size={40} color='#323232' />
                         </button>
+                        
                         <button onClick={() => setIsProfileOpen(prev => !prev)}>
-                            <Image className='rounded-full' src={"/images/user.svg"} alt='logo' width={52} height={52} />
+                            <Image className='rounded-full border border-gray-200' src={"/images/user.svg"} alt='logo' width={52} height={52} />
                         </button>
+
+                        {/* SEU MENU ORIGINAL (MANTIDO) */}
                         {isProfileOpen && (
-                            <div className='absolute top-20 right-8 w-64 bg-white rounded-md shadow-lg border border-gray-200 z-50 p-4 flex flex-col'>
+                            <div className='absolute top-16 right-0 w-72 bg-white rounded-md shadow-lg border border-gray-200 z-50 p-4 flex flex-col'>
 
                                 <div>
                                     <div className='flex items-center justify-between gap-3 mb-3 w-full'>
@@ -66,7 +93,7 @@ const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
                                                 width={40}
                                                 height={40}
                                             />
-                                            <p className='font-semibold text-sm text-gray-800'>{session?.user.name}</p>
+                                            <p className='font-semibold text-sm text-gray-800 truncate max-w-[120px]'>{session?.user.name}</p>
                                         </div>
 
                                         <div className='flex items-center justify-around'>
@@ -150,10 +177,10 @@ const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
                         )}
                     </nav>
                 </header>
-                <div className="flex-1">
-
+                
+                {/* Conteúdo da Página */}
+                <div className="flex-1 overflow-x-hidden">
                     {children}
-
                 </div>
 
             </main>
@@ -170,7 +197,6 @@ const SpecialistLayout: FC<SpecialistLayoutProps> = ({ children }) => {
                 defaultContent={defaultLayout}
                 specialContent={specialLayout}
                 ignorePaths="/specialist/services/templates/builder"
-
             />
         </TutorialContext.Provider>
     );
