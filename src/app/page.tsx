@@ -12,37 +12,6 @@ import HomeCard from "@/components/HomeCard";
 import { HomeModel } from "@/types/forms";
 
 
-const contents: { title: string, description: string, type: HomeModel, odd: boolean, image: string}[] = [
-    {
-        title: 'Avaliação Personalizada',
-        description: 'Considera desde o perfil do usuário até o ambiente de avaliação, garantindo que o método escolhido seja o mais adequado',
-        type: HomeModel.Avaliation,
-        odd: true,
-        image: `/images/emo_smile.svg`
-    },
-    {
-        title: 'Ferramentas Integradas',
-        description: 'Combina instrumentos de diferentes domínios para uma aplicação sistemática e eficaz.',
-        type: HomeModel.Tool,
-        odd: false,
-        image: `/images/emo_tool.svg`
-    },
-    {
-        title: 'Processos Simplificados',
-        description: 'Ideal para profissionais de computação e áreas afins que buscam uma solução integrada e prática',
-        type: HomeModel.Process,
-        odd: true,
-        image: `/images/emo_process.svg`
-    },
-    {
-        title: 'Apoio Multidisciplinar',
-        description: 'Pensado para o campo interdisciplinar da IHC, mas também aplicável a outras áreas de avaliação',
-        type: HomeModel.Support,
-        odd: false,
-        image: `/images/emo_support.svg`
-    },
-];
-
 export default function Home() {
     const { theme } = useTheme();
     const [themeState, setThemeState] = useState<string>();
@@ -52,57 +21,103 @@ export default function Home() {
         theme && setThemeState(theme);
     }, [theme])
 
+
+
+const contents: { title: string, description: string, type: HomeModel, odd: boolean, image: string}[] = [
+    {
+        title: t('reasoningItemTitle_1'),
+        description: t('reasoningItemDescription_1'),
+        type: HomeModel.Avaliation,
+        odd: true,
+        image: `/images/emo_smile.svg`
+    },
+    {
+        title: t('reasoningItemTitle_2'),
+        description: t('reasoningItemDescription_2'),
+        type: HomeModel.Tool,
+        odd: false,
+        image: `/images/emo_tool.svg`
+    },
+    {
+        title: t('reasoningItemTitle_3'),
+        description: t('reasoningItemDescription_3'),
+        type: HomeModel.Process,
+        odd: true,
+        image: `/images/emo_process.svg`
+    },
+    {
+        title: t('reasoningItemTitle_2'),
+        description: t('reasoningItemDescription_2'),
+        type: HomeModel.Support,
+        odd: false,
+        image: `/images/emo_support.svg`
+    },
+];
+
     return (
-        <main className="w-full h-full flex flex-col items-center">
-            <header className="w-full p-8 pl-20 h-16 flex items-center justify-between bg-[#ffffff] shadow-[0px_9px_6px_0px_rgba(0,_0,_0,_0.1)]">
-                <div>
+        <main className="w-full h-full flex flex-col items-center overflow-x-hidden">
+            <header className="w-full p-4 md:pl-20 min-h-6 flex flex-col md:flex-row items-center justify-between bg-[#ffffff] shadow-[0px_9px_6px_0px_rgba(0,_0,_0,_0.1)] gap-4 md:gap-0">
+                <div className="shrink-0">
                     <Image
                         src={`/images/home_page_logo_${themeState}.svg`}
-                        alt=""
+                        alt="Logo"
                         height="160"
                         width="160"
+                        className="w-32 md:w-40 h-auto" 
                     />
                 </div>
 
-                <div className="flex items-center gap-6">
-                    <Link className={buttonVariants({ variant: "alternative" })} href="/sign-in">
+                <div className="flex items-center gap-4 md:gap-6">
+                    <Link className={buttonVariants({ variant: "alternative", size: "sm" })} href="/sign-in">
                         Fazer login
                     </Link>
-                    <Link className={buttonVariants({ variant: "default" })} href="/sign-up">
+                    <Link className={buttonVariants({ variant: "default", size: "sm" })} href="/sign-up">
                         Criar uma conta
                     </Link>
                 </div>
             </header>
 
-            <section className="flex items-center w-full justify-evenly h-screen">
-                <div className="flex flex-col justify-center gap-8">
-                    <div><h2 className="text-5xl font-black text-primary">Um Framework para<br />Avaliação de Soluções<br />Computacionais</h2></div>
-                    <div><p className="text-primary">Avaliar corretamente um produto é crucial para garantir<br /> que ele atenda aos requisitos e expectativas.</p></div>
+            <section className="flex flex-col lg:flex-row items-center w-full justify-center lg:justify-evenly min-h-[calc(100vh-80px)] py-12 px-6 gap-10 lg:gap-0">
+                <div className="flex flex-col justify-center gap-6 md:gap-8 text-center lg:text-left max-w-2xl">
+                    <div>
+                        <h2 className="text-3xl md:text-5xl font-black text-primary leading-tight">
+                            {t('subtitle')}
+                        </h2>
+                    </div>
+                    <div>
+                        <p className="text-primary text-base md:text-lg">
+                            {t('description_1')}
+                        </p>
+                    </div>
                 </div>
-                <div className="flex flex-col items-center justify-center gap-4">
+
+                <div className="flex flex-col items-center justify-center gap-6">
                     <Image
                         src={`/images/fun_icons.svg`}
-                        alt=""
+                        alt="Icons"
                         height="240"
                         width="240"
+                        className="w-48 h-48 md:w-60 md:h-60" 
                     />
-                    <Link className={buttonVariants({ variant: "default" })} href="/sign-up">
+                    <Link className={`${buttonVariants({ variant: "default" })} w-full md:w-auto`} href="/sign-up">
                         Criar uma conta
                     </Link>
                 </div>
             </section>
 
-            <section className="h-fit w-full flex items-center justify-between gap-40 flex-col pb-20">
-                {contents.map(({title, description, odd, type, image}) => (
-                    <HomeCard 
-                        title={title}
-                        description={description}
-                        odd={odd}
-                        image={image}
-                        type={type}
-                    />
-                ))}
-                
+            <section className="h-fit w-full flex items-center justify-between flex-col pb-20 px-4 md:px-0">
+                <div className="flex flex-col gap-16 md:gap-40 w-full max-w-6xl items-center">
+                    {contents.map(({title, description, odd, type, image}, index) => (
+                        <HomeCard 
+                            key={index}
+                            title={title}
+                            description={description}
+                            odd={odd}
+                            image={image}
+                            type={type}
+                        />
+                    ))}
+                </div>
             </section>
 
         </main>

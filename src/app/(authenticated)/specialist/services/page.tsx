@@ -4,6 +4,7 @@ import React from 'react'
 import flexible from '@/../public/images/flexible.svg'
 import toolbox from '@/../public/images/toolbox.svg'
 import hospital from '@/../public/images/hospital.svg'
+
 const contents: Content[] = [
     { title: "specialist_services:optionInstrumentsTitle", description: "specialist_services:optionInstrumentsDescription", href: "/specialist/services/instruments", image: toolbox},
     { title: "specialist_services:optionTemplatesTitle", description: "specialist_services:optionTemplatesDescription", href: "/specialist/services/templates", image: flexible},
@@ -17,21 +18,25 @@ const contents: Content[] = [
 
 const ServiceCards = () => {
     return (
-        <>
+        <div className="w-full max-w-4xl flex flex-col gap-6">
             {contents.map((content, index) => (
-                <OptionCard className='w-1/2' key={index} content={content} />
+                <OptionCard className='w-full' key={index} content={content} />
             ))}
-        </>
+        </div>
     );
 }
 
 const ServicesPage = () => {
     return (
-        <div className="flex justify-center w-full px-4 py-6 print:!p-0">
-            <div className="flex flex-col justify-center items-center p-4 print:w-full">
-                <div className='flex flex-col w-full print:items-center px-sidebar'>
+        <div className="flex justify-center w-full min-h-[calc(100vh-80px)] px-4 py-8 print:!p-0">
+            
+            <div className="flex flex-col w-full max-w-screen-xl items-center p-4 print:w-full">
+                
+                <div className='flex flex-col w-full print:items-center px-sidebar gap-8'>
+                    
                     <CardsTitle ns='specialist_services' />
-                    <div className="flex flex-col items-center gap-6">
+                    
+                    <div className="flex flex-col items-center w-full">
                         <ServiceCards />
                     </div>
                 </div>

@@ -9,5 +9,19 @@
     "userQuantity": "Nº usuários",
     "noItemsFound": "Nenhum item encontrado",
     "publicationsTitle": "Últimas publicações",
-    "seeMore": "Ver mais"
+    "seeMore": "Ver mais",
+    "role": "Especialista | Ciência da Computação",
+    "stats": {
+        "users": "nº de usuários",
+        "publications": "nº de publicações"
+    },
+    "sections": {
+        "evaluations": "Últimas avaliações",
+        "publications": "Últimas publicações",
+        "results": "Últimos Resultados"
+    },
+    "actions": {
+        "read_all": "ler todas",
+        "read_more": "ler mais"
+    }
 }

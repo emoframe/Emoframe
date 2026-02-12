@@ -9,5 +9,19 @@
     "userQuantity": "Nº of users",
     "noItemsFound": "No items found",
     "publicationsTitle": "Recent publications",
-    "seeMore": "See more"
+    "seeMore": "See more",
+    "role": "Specialist | Computer Science",
+    "stats": {
+        "users": "No. of users",
+        "publications": "No. of publications"
+    },
+    "sections": {
+        "evaluations": "Latest evaluations",
+        "publications": "Latest publications",
+        "results": "Latest Results"
+    },
+    "actions": {
+        "read_all": "read all",
+        "read_more": "read more"
+    }
 }

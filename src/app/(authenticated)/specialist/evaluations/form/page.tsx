@@ -43,11 +43,13 @@ const EvaluationsForm = async () => {
   }
 
   return (
+    <div className='w-full flex justify-center'>
     <SetEvaluationForm 
       specialistId={session?.user.uid!} 
       dataTable={dataTable} 
       templates={templateOptions}
     />
+    </div>
   );
 };
 
