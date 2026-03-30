@@ -1,5 +1,6 @@
 'use client';
 
+import type { ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -279,8 +280,8 @@ const SignUpForm = ({specialistId}) => {
                       <Input 
                       placeholder='(99) 99999-9999' 
                       {...field} 
-                      onChange={(value: any): void => {
-                        field.onChange(formatPhone(value))
+                      onChange={(e: ChangeEvent<HTMLInputElement>): void => {
+                        field.onChange(formatPhone(e.target.value))
                       }} 
                       />
                     </FormControl>
