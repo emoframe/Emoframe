@@ -1,5 +1,6 @@
 'use client';
 
+import type { ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import {
@@ -164,8 +165,8 @@ const EditSpecialistDataForm = ({ data }: any) => {
                     <Input 
                     placeholder='(99) 99999-9999' 
                     {...field} 
-                    onChange={(value: string): void => {
-                      field.onChange(formatPhone(value))
+                    onChange={(e: ChangeEvent<HTMLInputElement>): void => {
+                      field.onChange(formatPhone(e.target.value))
                     }} 
                     />
                   </FormControl>
