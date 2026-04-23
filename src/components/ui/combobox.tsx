@@ -37,7 +37,7 @@ const Combobox = ({ onSelect, options, placeholder, className }:
     },[selectedOption])
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover modal={true} open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button
                     variant="outline"
@@ -79,7 +79,7 @@ const Combobox = ({ onSelect, options, placeholder, className }:
                         ))}
                     </CommandGroup>
                 </Command>
-            </PopoverContent>
+            </PopoverContent>   
         </Popover>
     )
 }

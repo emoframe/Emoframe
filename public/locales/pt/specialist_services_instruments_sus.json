@@ -18,14 +18,14 @@
     "questionnaireAnswersDescription": "Indique em que medida está sentindo cada uma das emoções AGORA:",
     "finishButtonLabel": "Enviar",
     "resetButtonLabel": "Limpar",
-    "questionnaireUseFrequencyLabel": "Eu acho que gostaria de usar esse sistema com frequência.",
-    "questionnaireUseComplexLabel": "Eu acho o sistema desnecessariamente complexo.",
-    "questionnaireUseEasyLabel": "Eu achei o sistema fácil de usar.",
-    "questionnaireNeedHelpLabel": "Eu acho que precisaria de ajuda de uma pessoa com conhecimentos técnicos para usar o sistema.",
-    "questionnaireFunctionIntegrationLabel": "Eu acho que as várias funções do sistema estão muito bem integradas.",
+    "questionnaireUseFrequencyLabel": "Eu acho que gostaria de usar esse sistema frequentemente.",
+    "questionnaireUseComplexLabel": "Eu achei esse sistema desnecessariamente complexo.",
+    "questionnaireUseEasyLabel": "Eu achei esse sistema fácil de usar.",
+    "questionnaireNeedHelpLabel": "Eu achei que precisaria de ajuda de uma pessoa técnica para ser capaz de usar esse sistema.",
+    "questionnaireFunctionIntegrationLabel": "Eu achei que as várias funções desse sistema foram bem integradas.",
     "questionnaireInconsistencyLabel": "Eu acho que o sistema apresenta muita inconsistência.",
-    "questionnaireLearningCurveLabel": "Eu imagino que as pessoas aprenderão como usar esse sistema rapidamente.",
-    "questionnaireJumbledLabel": "Eu achei o sistema atrapalhado de usar.",
-    "questionnaireConfidenceLabel": "Eu me senti confiante ao usar o sistema.",
-    "questionnaireLearnSystemLabel": "Eu precisei aprender várias coisas novas antes de conseguir usar o sistema."
+    "questionnaireLearningCurveLabel": "Eu imagino que a maioria das pessoas pode aprender a usar esse sistema rapidamente.",
+    "questionnaireJumbledLabel": "Eu achei esse sistema muito pesado para usar.",
+    "questionnaireConfidenceLabel": "Eu me senti muito seguro usando o sistema.",
+    "questionnaireLearnSystemLabel": "Eu precisei aprender muitas coisas antes que pudesse utilizar esse sistema."
 }

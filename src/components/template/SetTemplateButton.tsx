@@ -90,7 +90,7 @@ const SetTemplateButton = ({specialistId}: {specialistId: string}) => {
           <DialogDescription>{t('dialogDescription')}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 z-50">
             <FormField
               control={form.control}
               name="title"
