@@ -30,6 +30,7 @@ const RenderComponent = ({ user, evaluation, data, template }: RenderComponentPr
     case 'leap':
       return <LeapResult user={user} evaluation={evaluation} data={data as Leap} />;
     case 'sus':
+    case 'sus_mf':
       return <SusResult user={user} evaluation={evaluation} data={data as Sus} />;
     case 'gds':
       return <GdsResult user={user} evaluation={evaluation} data={data as Gds} />;

@@ -6,6 +6,7 @@ import { appRedirect } from '@/lib/actions';
 import PanasForm from '@/components/form/instrument/PanasForm';
 import SamForm from '@/components/form/instrument/SamForm';
 import SusForm from '@/components/form/instrument/SusForm';
+import { SusInstrument as MfSusForm } from '@/components/form/instrument/MfSusForm';
 import EazForm from '@/components/form/instrument/EazForm';
 import BrumsForm from '@/components/form/instrument/BrumsForm';
 import GdsForm from '@/components/form/instrument/GdsForm';
@@ -33,6 +34,8 @@ const RenderComponent = ({ instrument, userId, evaluationId, identification, tem
       return <SamForm {...commonProps} />;
     case "sus":
       return <SusForm {...commonProps} identification={identification} />;
+    case "sus_mf":
+      return <MfSusForm {...commonProps} />;
     case "eaz":
       return <EazForm {...commonProps} />;
     case "brums":

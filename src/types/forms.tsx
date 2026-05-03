@@ -404,6 +404,12 @@ export const instruments: Instruments[] = [
         locales: ["en", "pt"],
     },
     {  
+        value: "sus_mf",
+        label: "MF-SUS (Web Component)",
+        description: "specialist_services_instruments:sus",
+        locales: ["pt"],
+    },
+    {  
         value: "eaz",
         label: "EAZ",
         description: "specialist_services_instruments:eaz",
