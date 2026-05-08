@@ -56,6 +56,7 @@ const RenderComponent = ({ evaluation, answers }: RenderComponentProps) => {
         case 'leap':
             return <LeapResultMultiple evaluation={evaluation} answers={answers as LeapAnswer[]} />;
         case 'sus':
+        case 'sus_mf':
             return <SusResultMultiple evaluation={evaluation} answers={answers as SusAnswer[]}/>;
         case 'gds':
             return <GdsResultMultiple evaluation={evaluation} answers={answers as GdsAnswer[]}/>;
