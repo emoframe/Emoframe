@@ -1,0 +1,55 @@
+{
+    "gameWasFunLabel": "Jogar foi divertido.",
+    "enjoyedPlayingLabel": "Gostei de jogar.",
+    "enjoyedALotLabel": "Eu aproveitei bastante quando joguei.",
+    "pleasurableExperienceLabel": "Minha experiência com o jogo foi prazerosa.",
+    "highlyEngagingLabel": "Acredito que o jogo é muito envolvente.",
+    "playVoluntarilyLabel": "Eu jogaria por vontade própria, não apenas quando me pedissem.",
+    
+    "forgotLocationLabel": "Jogar me fez esquecer onde eu estava.",
+    "forgotSurroundingsLabel": "Esqueci o que estava à minha volta enquanto jogava.",
+    "backToRealityLabel": "Após jogar, senti como se estivesse “de volta ao mundo real” depois de uma jornada.",
+    "disconnectFromEverythingLabel": "Jogar permitiu me “desligar de tudo”.",
+    "ignoredSurroundingsLabel": "Enquanto jogava, eu perdi a atenção de tudo ao meu redor.",
+    "lostTrackOfTimeLabel": "Enquanto jogava, perdi a noção do tempo.",
+    
+    "stimulatedImaginationLabel": "Jogar estimulou minha imaginação.",
+    "feltCreativeLabel": "Enquanto jogava, me senti criativo.",
+    "senseOfExplorationLabel": "Enquanto jogava, senti que poderia explorar.",
+    "feltAdventurousLabel": "Enquanto jogava, me sentia aventureiro (a).",
+    
+    "feltActiveLabel": "Enquanto jogava, me senti ligado (a).",
+    "feltRestlessLabel": "Enquanto jogava, me senti inquieto (a).",
+    "feltFranticLabel": "Enquanto jogava, me senti frenético (a).",
+    "feltExcitedLabel": "Enquanto jogava, me senti animado (a).",
+    
+    "feltUpsetLabel": "Enquanto jogava, me senti chateado (a).",
+    "feltNervousLabel": "Enquanto jogava, me senti nervoso.",
+    "feltFrustratedLabel": "Enquanto jogava, me senti frustrado (a).",
+    
+    "feltInCommandLabel": "Enquanto jogava, me senti no comando.",
+    "feltInfluentialLabel": "Enquanto jogava, me senti influente.",
+    "feltIndependentLabel": "Enquanto jogava, me senti independente.",
+    "feltConfidentLabel": "Enquanto jogava, me senti confiante.",
+    
+    "attentionCheckLabel": "Esta é uma pergunta de checagem de atenção. Por favor, selecione a opção 1.",
+
+    "scaleOption7Label": "Concordo Totalmente",
+    "scaleOption6Label": "Concordo moderadamente",
+    "scaleOption5Label": "Concordo um pouco",
+    "scaleOption4Label": "Neutro",
+    "scaleOption3Label": "Discordo um pouco",
+    "scaleOption2Label": "Discordo moderadamente",
+    "scaleOption1Label": "Discordo Totalmente",
+
+    "submitTitle": "Sucesso",
+    "submitMessage": "A avaliação foi preenchida e salva com sucesso",
+    "questionnaireTitle": "GAMEX",
+    "questionnaireDescription": "Por favor, leia cada afirmação cuidadosamente e selecione a avaliação que melhor reflete sua experiência.",
+    "questionnaireAnswersDescription": "Avalie sua concordância com cada afirmação em uma escala de 1 (Discordo Totalmente) a 7 (Concordo Totalmente).",
+    "identificationExample": "Nova Avaliação",
+    "previousButtonLabel": "Anterior",
+    "nextButtonLabel": "Próximo",
+    "finishButtonLabel": "Enviar",
+    "resetButtonLabel": "Limpar"
+}

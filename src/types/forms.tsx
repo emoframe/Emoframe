@@ -212,6 +212,118 @@ export const susQuestions = [
     { index: 10, field: "learn_system", label: "questionnaireLearnSystemLabel" }
 ];
 
+
+export interface Iuxrv {
+    feeling_nauseous: number;
+    feeling_dizzy: number;
+    general_discomfort: number;
+    tired_eyes: number;
+    headache: number;
+    easy_to_do_things: number;
+    did_things_confidently: number;
+    few_steps_required: number;
+    felt_in_control: number;
+    learned_quickly: number;
+    elegant_world: number;
+    fascinating_world: number;
+    beautiful_world: number;
+    fun_world: number;
+    exciting_world: number;
+    forgot_it_was_virtual: number;
+    forgot_vr_equipment: number;
+    believed_things_were_real: number;
+    forgot_real_world: number;
+    felt_it_could_be_real: number;
+    felt_good: number;
+    felt_content: number;
+    felt_irritated: number;
+    felt_frustrated: number;
+    felt_happy: number;
+}
+
+
+
+export interface Gamex {
+    game_was_fun: number;
+    enjoyed_playing: number;
+    enjoyed_a_lot: number;
+    pleasurable_experience: number;
+    highly_engaging: number;
+    play_voluntarily: number;
+
+    forgot_location: number;
+    forgot_surroundings: number;
+    back_to_reality: number;
+    disconnect_from_everything: number;
+    ignored_surroundings: number;
+    lost_track_of_time: number;
+
+    stimulated_imagination: number;
+    felt_creative: number;
+    sense_of_exploration: number;
+    felt_adventurous: number;
+
+    felt_active: number;
+    felt_restless: number;
+    felt_frantic: number;
+    felt_excited: number;
+
+    felt_upset: number;
+    felt_nervous: number;
+    felt_frustrated: number;
+
+    felt_in_command: number;
+    felt_influential: number;
+    felt_independent: number;
+    felt_confident: number;
+
+    attention_check: number;
+}
+
+export const gamexQuestions = [
+    // Diversão (Enjoyment)
+    { index: 1, field: "game_was_fun", label: "gameWasFunLabel" },
+    { index: 2, field: "enjoyed_playing", label: "enjoyedPlayingLabel" },
+    { index: 3, field: "enjoyed_a_lot", label: "enjoyedALotLabel" },
+    { index: 4, field: "pleasurable_experience", label: "pleasurableExperienceLabel" },
+    { index: 5, field: "highly_engaging", label: "highlyEngagingLabel" },
+    { index: 6, field: "play_voluntarily", label: "playVoluntarilyLabel" },
+    
+    // Imersão (Immersion)
+    { index: 7, field: "forgot_location", label: "forgotLocationLabel" },
+    { index: 8, field: "forgot_surroundings", label: "forgotSurroundingsLabel" },
+    { index: 9, field: "back_to_reality", label: "backToRealityLabel" },
+    { index: 10, field: "disconnect_from_everything", label: "disconnectFromEverythingLabel" },
+    { index: 11, field: "ignored_surroundings", label: "ignoredSurroundingsLabel" },
+    { index: 12, field: "lost_track_of_time", label: "lostTrackOfTimeLabel" },
+    
+    // Pensamento Criativo (Creative Thinking)
+    { index: 13, field: "stimulated_imagination", label: "stimulatedImaginationLabel" },
+    { index: 14, field: "felt_creative", label: "feltCreativeLabel" },
+    { index: 15, field: "sense_of_exploration", label: "senseOfExplorationLabel" },
+    { index: 16, field: "felt_adventurous", label: "feltAdventurousLabel" },
+    
+    // Ativação (Activation)
+    { index: 17, field: "felt_active", label: "feltActiveLabel" },
+    { index: 18, field: "felt_restless", label: "feltRestlessLabel" },
+    { index: 19, field: "felt_frantic", label: "feltFranticLabel" },
+    { index: 20, field: "felt_excited", label: "feltExcitedLabel" },
+    
+    // Ausência de Afeto Negativo (Negative Affect)
+    { index: 21, field: "felt_upset", label: "feltUpsetLabel" },
+    { index: 22, field: "felt_nervous", label: "feltNervousLabel" },
+    { index: 23, field: "felt_frustrated", label: "feltFrustratedLabel" },
+    
+    // Dominância (Dominance)
+    { index: 24, field: "felt_in_command", label: "feltInCommandLabel" },
+    { index: 25, field: "felt_influential", label: "feltInfluentialLabel" },
+    { index: 26, field: "felt_independent", label: "feltIndependentLabel" },
+    { index: 27, field: "felt_confident", label: "feltConfidentLabel" },
+    
+    // Pergunta de Checagem (Isca)
+    { index: 28, field: "attention_check", label: "attentionCheckLabel" }
+] as const;
+
 export interface Eaz {
     happy: string,
     tired: string,
@@ -426,6 +538,18 @@ export const instruments: Instruments[] = [
         label: "LEAP",
         description: "specialist_services_instruments:leap",
         locales: ["pt"],
+    },
+    {  
+        value: "gamex",
+        label: "GAMEX",
+        description: "specialist_services_instruments:gamex",
+        locales: ["en", "pt"],
+    },
+    {  
+        value: "iuxrv",
+        label: "IUXRV",
+        description: "specialist_services_instruments:iuxrv",
+        locales: ["en", "pt"],
     },
 ];
 

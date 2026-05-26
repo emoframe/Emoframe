@@ -1,0 +1,55 @@
+{
+    "gameWasFunLabel": "Playing the game was fun.",
+    "enjoyedPlayingLabel": "I liked playing the game.",
+    "enjoyedALotLabel": "I enjoyed playing the game very much.",
+    "pleasurableExperienceLabel": "My game experience was pleasurable.",
+    "highlyEngagingLabel": "I think playing the game is very entertaining.",
+    "playVoluntarilyLabel": "I would play this game for its own sake, not only when being asked to.",
+    
+    "forgotLocationLabel": "Playing the game made me forget where I am.",
+    "forgotSurroundingsLabel": "I forgot about my immediate surroundings while I played the game.",
+    "backToRealityLabel": "After playing the game, I felt like coming back to the ‘real world’ after a journey.",
+    "disconnectFromEverythingLabel": "Playing the game ‘got me away from it all.’",
+    "ignoredSurroundingsLabel": "While playing the game I was completely oblivious to everything around me.",
+    "lostTrackOfTimeLabel": "While playing the game I lost track of time.",
+    
+    "stimulatedImaginationLabel": "Playing the game sparked my imagination.",
+    "feltCreativeLabel": "While playing the game I felt creative.",
+    "senseOfExplorationLabel": "While playing the game I felt that I could explore things.",
+    "feltAdventurousLabel": "While playing the game I felt adventurous.",
+    
+    "feltActiveLabel": "While playing the game I felt activated.",
+    "feltRestlessLabel": "While playing the game I felt jittery.",
+    "feltFranticLabel": "While playing the game I felt frenzied.",
+    "feltExcitedLabel": "While playing the game I felt excited.",
+    
+    "feltUpsetLabel": "While playing the game I felt upset.",
+    "feltNervousLabel": "While playing the game I felt hostile.",
+    "feltFrustratedLabel": "While playing the game I felt frustrated.",
+    
+    "feltInCommandLabel": "While playing the game I had the feeling of being in charge.",
+    "feltInfluentialLabel": "While playing the game I felt influential.",
+    "feltIndependentLabel": "While playing the game I felt autonomous.",
+    "feltConfidentLabel": "While playing the game I felt confident.",
+    
+    "attentionCheckLabel": "This is an attention check. Please select option 1.",
+
+    "scaleOption7Label": "7 - Strongly Agree",
+    "scaleOption6Label": "6",
+    "scaleOption5Label": "5",
+    "scaleOption4Label": "4",
+    "scaleOption3Label": "3",
+    "scaleOption2Label": "2",
+    "scaleOption1Label": "1 - Strongly Disagree",
+
+    "submitTitle": "Request approved",
+    "submitMessage": "Evaluation was filled and saved",
+    "questionnaireTitle": "GAMEX",
+    "questionnaireDescription": "Please read each statement carefully and select the rating that best reflects your experience.",
+    "questionnaireAnswersDescription": "Rate your agreement with each statement on a scale from 1 (Strongly Disagree) to 7 (Strongly Agree).",
+    "identificationExample": "New Evaluation",
+    "previousButtonLabel": "Previous",
+    "nextButtonLabel": "Next",
+    "finishButtonLabel": "Submit",
+    "resetButtonLabel": "Clear"
+}

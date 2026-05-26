@@ -1,0 +1,50 @@
+{
+    "feelingNauseousLabel": "Eu estou me sentindo enjoado.*",
+    "feelingDizzyLabel": "Eu estou me sentindo tonto.*",
+    "generalDiscomfortLabel": "Eu estou sentindo um mal-estar geral.*",
+    "tiredEyesLabel": "Eu estou sentindo meus olhos cansados.*",
+    "headacheLabel": "Eu estou com dor de cabeça.*",
+    
+    "easyToDoThingsLabel": "Eu achei fácil fazer as coisas no mundo virtual.",
+    "didThingsConfidentlyLabel": "Eu fiz as coisas no mundo virtual com confiança.",
+    "fewStepsRequiredLabel": "Eu consegui fazer as coisas que queria em poucos passos.",
+    "feltInControlLabel": "Eu tive controle sobre as coisas que eu fazia no mundo virtual.",
+    "learnedQuicklyLabel": "Eu acho que aprendi rápido a fazer as coisas no mundo virtual.",
+    
+    "elegantWorldLabel": "Eu achei que o mundo virtual é elegante.",
+    "fascinatingWorldLabel": "Eu achei que o mundo virtual é fascinante.",
+    "beautifulWorldLabel": "Eu achei que o mundo virtual é bonito.",
+    "funWorldLabel": "Eu achei que o mundo virtual é divertido.",
+    "excitingWorldLabel": "Eu achei que o mundo virtual é empolgante.",
+    
+    "forgotItWasVirtualLabel": "Eu cheguei a esquecer que o mundo era apenas virtual.",
+    "forgotVrEquipmentLabel": "Eu cheguei a esquecer que estava usando equipamento de Realidade Virtual.",
+    "believedThingsWereRealLabel": "Eu acreditei que as coisas no mundo virtual estavam acontecendo de verdade.",
+    "forgotRealWorldLabel": "Eu esqueci totalmente do mundo real enquanto estava no mundo virtual.",
+    "feltItCouldBeRealLabel": "Eu senti que o mundo virtual poderia ser real.",
+    
+    "feltGoodLabel": "Eu me senti bem no mundo virtual.",
+    "feltContentLabel": "Eu me senti contente no mundo virtual.",
+    "feltIrritatedLabel": "Eu me senti irritado no mundo virtual.*",
+    "feltFrustratedLabel": "Eu me senti frustrado no mundo virtual.*",
+    "feltHappyLabel": "Eu me senti feliz no mundo virtual.",
+
+    "scaleOption7Label": "Concordo Totalmente",
+    "scaleOption6Label": "Concordo moderadamente",
+    "scaleOption5Label": "Concordo um pouco",
+    "scaleOption4Label": "Neutro",
+    "scaleOption3Label": "Discordo um pouco",
+    "scaleOption2Label": "Discordo moderadamente",
+    "scaleOption1Label": "Discordo Totalmente",
+
+    "submitTitle": "Sucesso",
+    "submitMessage": "A avaliação foi preenchida e salva com sucesso",
+    "questionnaireTitle": "IUXRV",
+    "questionnaireDescription": "Por favor, leia cada afirmação cuidadosamente e selecione a avaliação que melhor reflete sua experiência.",
+    "questionnaireAnswersDescription": "Avalie sua concordância com cada afirmação em uma escala de 1 (Discordo Totalmente) a 7 (Concordo Totalmente).",
+    "identificationExample": "Nova Avaliação",
+    "previousButtonLabel": "Anterior",
+    "nextButtonLabel": "Próximo",
+    "finishButtonLabel": "Enviar",
+    "resetButtonLabel": "Limpar"
+}

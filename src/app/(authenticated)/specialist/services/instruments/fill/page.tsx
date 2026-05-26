@@ -6,6 +6,8 @@ import EazForm from '@/components/form/instrument/EazForm';
 import BrumsForm from '@/components/form/instrument/BrumsForm';
 import GdsForm from '@/components/form/instrument/GdsForm';
 import LeapForm from '@/components/form/instrument/LeapForm';
+import GamexForm from '@/components/form/instrument/GamexForm';
+import IuxrvForm from '@/components/form/instrument/IuxrvForm';
 
 const ViewInstrument = async ({
 	searchParams,
@@ -42,6 +44,14 @@ const ViewInstrument = async ({
       {
         value: "leap",
         component: <LeapForm isViewable/>
+      },
+      {
+        value: "gamex",
+        component: <GamexForm isViewable identification=""/>
+      },
+      {
+        value: "iuxrv",
+        component: <IuxrvForm isViewable identification=""/>
       }
     ]
 
