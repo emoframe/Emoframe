@@ -433,6 +433,12 @@ export const instruments: Instruments[] = [
         description: "specialist_services_instruments:leap",
         locales: ["pt"],
     },
+    {
+        value: "tuq_mf",
+        label: "TUQ MF",
+        description: "specialist_services_instruments:tuq_mf",
+        locales: ["pt"],
+    },
 ];
 
 
@@ -533,4 +539,30 @@ export enum HomeModel{
     Process,
     Tool,
     Support
+}
+
+export interface TuqRespostas {
+  q1?: string | 'na';
+  q2?: string | 'na';
+  q3?: string | 'na';
+  q4?: string | 'na';
+  q5?: string | 'na';
+  q6?: string | 'na';
+  q7?: string | 'na';
+  q8?: string | 'na';
+  q9?: string | 'na';
+  q10?: string | 'na';
+  q11?: string | 'na';
+  q12?: string | 'na';
+  q13?: string | 'na';
+  q14?: string | 'na';
+  q15?: string | 'na';
+  q16?: string | 'na';
+  q17?: string | 'na';
+  q18?: string | 'na';
+  q19?: string | 'na';
+  q20?: string | 'na';
+  q21?: string | 'na';
+  score?: number;
+  totalRespondidas?: number;
 }

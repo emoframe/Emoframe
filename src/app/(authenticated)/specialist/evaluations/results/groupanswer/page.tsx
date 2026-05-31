@@ -6,10 +6,11 @@ import PanasResultMultiple from '@/components/result/PanasResultMultiple';
 import SusResultMultiple from '@/components/result/SusResultMultiple';
 import GdsResultMultiple from '@/components/result/GdsResultMultiple';
 import SamResultMultiple from '@/components/result/SamResultMultiple';
+import TuqResult from '@/components/result/TuqResult';
 import { useToast } from '@/components/ui/use-toast';
 import { appRedirect, getSessionUser } from '@/lib/actions';
 import { getById } from '@/lib/firebase';
-import { Answer, Evaluation, Gds, Leap, Panas, Sam, Sus } from '@/types/forms';
+import { Answer, Evaluation, Gds, Leap, Panas, Sam, Sus, TuqRespostas } from '@/types/forms';
 import { User } from '@/types/users';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState, useTransition } from 'react';
@@ -58,6 +59,14 @@ const RenderComponent = ({ evaluation, answers }: RenderComponentProps) => {
         case 'sus':
         case 'sus_mf':
             return <SusResultMultiple evaluation={evaluation} answers={answers as SusAnswer[]}/>;
+        case 'tuq_mf':
+            return (
+                <div className="flex flex-col gap-16">
+                    {answers.map((answer, index) => (
+                        <TuqResult key={index} user={answer.user} evaluation={evaluation} data={answer.data as TuqRespostas} />
+                    ))}
+                </div>
+            );
         case 'gds':
             return <GdsResultMultiple evaluation={evaluation} answers={answers as GdsAnswer[]}/>;
         case 'sam':

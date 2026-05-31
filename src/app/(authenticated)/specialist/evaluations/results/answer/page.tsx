@@ -6,10 +6,11 @@ import PanasResult from '@/components/result/PanasResult';
 import SusResult from '@/components/result/SusResult';
 import GdsResult from '@/components/result/GdsResult';
 import SamResult from '@/components/result/SamResult';
+import TuqResult from '@/components/result/TuqResult';
 import { useToast } from '@/components/ui/use-toast';
 import { appRedirect, getSessionUser } from '@/lib/actions';
 import { getById } from '@/lib/firebase';
-import { Answer, Evaluation, Gds, Leap, Panas, Sam, Sus, Template } from '@/types/forms';
+import { Answer, Evaluation, Gds, Leap, Panas, Sam, Sus, Template, TuqRespostas } from '@/types/forms';
 import { User } from '@/types/users';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState, useTransition } from 'react';
@@ -32,6 +33,8 @@ const RenderComponent = ({ user, evaluation, data, template }: RenderComponentPr
     case 'sus':
     case 'sus_mf':
       return <SusResult user={user} evaluation={evaluation} data={data as Sus} />;
+    case 'tuq_mf':
+      return <TuqResult user={user} evaluation={evaluation} data={data as TuqRespostas} />;
     case 'gds':
       return <GdsResult user={user} evaluation={evaluation} data={data as Gds} />;
     case 'sam':
