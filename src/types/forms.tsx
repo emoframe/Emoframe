@@ -439,6 +439,12 @@ export const instruments: Instruments[] = [
         description: "specialist_services_instruments:tuq_mf",
         locales: ["pt"],
     },
+    {
+        value: "sus_adaptado_mf",
+        label: "SUS Adaptado MF",
+        description: "specialist_services_instruments:sus_adaptado_mf",
+        locales: ["pt"],
+    },
 ];
 
 
