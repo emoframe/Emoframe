@@ -20,10 +20,10 @@ export function SusInstrument({ evaluationId, userId }: SusInstrumentProps) {
     useEffect(() => {
         const handleMfEvent = (event: Event) => {
             const customEvent = event as CustomEvent;
-            const { values, evaluationId, userId } = customEvent.detail;
+            const { answers, score, evaluationId, userId } = customEvent.detail;
             console.log('Dados recebidos do MF:', customEvent.detail);
-            
-            saveAnswer(values, evaluationId, userId).then(() => {
+
+            saveAnswer({ ...answers, score }, evaluationId, userId).then(() => {
                 toast({
                     title: t("submitTitle", "Avaliação salva com sucesso!"),
                     description: t("submitMessage", "Obrigado por responder o formulário."),
@@ -39,8 +39,8 @@ export function SusInstrument({ evaluationId, userId }: SusInstrumentProps) {
             });
         };
 
-        window.addEventListener('sus-form-submitted', handleMfEvent);
-        return () => window.removeEventListener('sus-form-submitted', handleMfEvent);
+        window.addEventListener('sus-completed', handleMfEvent);
+        return () => window.removeEventListener('sus-completed', handleMfEvent);
     }, []);
 
     return (
