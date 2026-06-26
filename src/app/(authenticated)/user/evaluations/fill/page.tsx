@@ -7,6 +7,7 @@ import PanasForm from '@/components/form/instrument/PanasForm';
 import SamForm from '@/components/form/instrument/SamForm';
 import SusForm from '@/components/form/instrument/SusForm';
 import { SusInstrument as MfSusForm } from '@/components/form/instrument/MfSusForm';
+import { MfSusAdaptadoForm } from '@/components/form/instrument/MfSusAdaptadoForm';
 import { MfTuqForm } from '@/components/form/instrument/MfTuqForm';
 import EazForm from '@/components/form/instrument/EazForm';
 import BrumsForm from '@/components/form/instrument/BrumsForm';
@@ -37,6 +38,8 @@ const RenderComponent = ({ instrument, userId, evaluationId, identification, tem
       return <SusForm {...commonProps} identification={identification} />;
     case "sus_mf":
       return <MfSusForm {...commonProps} />;
+    case "sus_adaptado_mf":
+      return <MfSusAdaptadoForm {...commonProps} />;
     case "tuq_mf":
       return <MfTuqForm {...commonProps} />;
     case "eaz":

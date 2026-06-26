@@ -32,6 +32,8 @@ const RenderComponent = ({ user, evaluation, data, template }: RenderComponentPr
       return <LeapResult user={user} evaluation={evaluation} data={data as Leap} />;
     case 'sus':
     case 'sus_mf':
+    case 'sus_adaptado_mf':
+      // Reaproveitamos o SusResult porque o payload e a lógica do sus_adaptado_mf são estruturalmente idênticos (10 campos, 1 a 5)
       return <SusResult user={user} evaluation={evaluation} data={data as Sus} />;
     case 'tuq_mf':
       return <TuqResult user={user} evaluation={evaluation} data={data as TuqRespostas} />;

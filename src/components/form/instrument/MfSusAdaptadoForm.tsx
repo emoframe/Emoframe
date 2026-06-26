@@ -1,13 +1,12 @@
-'use client'; // Obrigatório no Next.js (App Router)
+'use client';
 
 import Script from 'next/script';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { saveAnswer } from '@/lib/firebase';
 import { useToast } from '@/components/ui/use-toast';
-import { useTranslation } from 'react-i18next';
 
-interface SusInstrumentProps {
+interface SusAdaptadoInstrumentProps {
     evaluationId: string;
     userId: string;
 }
@@ -16,7 +15,7 @@ interface SusInstrumentProps {
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'emoframe-mf-sus': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+      'emoframe-mf-sus-adaptado': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         'evaluation-id'?: string;
         'user-id'?: string;
       };
@@ -24,25 +23,24 @@ declare global {
   }
 }
 
-export function SusInstrument({ evaluationId, userId }: SusInstrumentProps) {
+export function MfSusAdaptadoForm({ evaluationId, userId }: SusAdaptadoInstrumentProps) {
     const { push } = useRouter();
     const { toast } = useToast();
-    const { t } = useTranslation('specialist_services_instruments_sus');
 
     useEffect(() => {
         const handleMfEvent = (event: Event) => {
             const customEvent = event as CustomEvent;
             const { answers, score, evaluationId, userId } = customEvent.detail;
-            console.log('Dados recebidos do MF:', customEvent.detail);
-
+            console.log('Dados recebidos do MF SUS Adaptado:', customEvent.detail);
+            
             saveAnswer({ ...answers, score }, evaluationId, userId).then(() => {
                 toast({
-                    title: t("submitTitle", "Avaliação salva com sucesso!"),
-                    description: t("submitMessage", "Obrigado por responder o formulário."),
+                    title: "Avaliação salva com sucesso!",
+                    description: "Obrigado por responder o formulário.",
                 });
                 push('/user/evaluations');
             }).catch((err) => {
-                console.error("Erro ao salvar avaliação do MF", err);
+                console.error("Erro ao salvar avaliação do MF SUS Adaptado", err);
                 toast({
                     title: "Erro",
                     description: "Ocorreu um erro ao salvar as respostas.",
@@ -51,24 +49,25 @@ export function SusInstrument({ evaluationId, userId }: SusInstrumentProps) {
             });
         };
 
-        window.addEventListener('sus-completed', handleMfEvent);
-        return () => window.removeEventListener('sus-completed', handleMfEvent);
+        window.addEventListener('sus-adaptado-completed', handleMfEvent);
+        return () => window.removeEventListener('sus-adaptado-completed', handleMfEvent);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const mfUrl = process.env.NEXT_PUBLIC_MF_SUS_URL || 'http://localhost:5173/sus-form.js';
+    const mfUrl = process.env.NEXT_PUBLIC_MF_SUS_ADAPTADO_URL || 'http://localhost:5175/sus-adaptado-form.js';
     const isDev = mfUrl.includes('localhost');
 
     return (
-        <div className="sus-wrapper">
+        <div className="sus-adaptado-wrapper">
             {isDev ? (
                 <>
                     <Script
-                        src="http://localhost:5173/@vite/client"
+                        src="http://localhost:5175/@vite/client"
                         strategy="lazyOnload"
                         type="module"
                     />
                     <Script
-                        src="http://localhost:5173/src/main.tsx"
+                        src="http://localhost:5175/src/main.tsx"
                         strategy="lazyOnload"
                         type="module"
                     />
@@ -81,11 +80,10 @@ export function SusInstrument({ evaluationId, userId }: SusInstrumentProps) {
                 />
             )}
 
-            {/* A nossa tag customizada registrada pelo MF */}
-            <emoframe-mf-sus
+            <emoframe-mf-sus-adaptado
                 evaluation-id={evaluationId}
                 user-id={userId}
-            ></emoframe-mf-sus>
+            ></emoframe-mf-sus-adaptado>
         </div>
     );
 }
