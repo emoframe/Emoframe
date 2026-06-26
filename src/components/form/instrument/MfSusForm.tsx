@@ -12,6 +12,18 @@ interface SusInstrumentProps {
     userId: string;
 }
 
+// Declarar o custom element para o TypeScript
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'emoframe-mf-sus': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        'evaluation-id'?: string;
+        'user-id'?: string;
+      };
+    }
+  }
+}
+
 export function SusInstrument({ evaluationId, userId }: SusInstrumentProps) {
     const { push } = useRouter();
     const { toast } = useToast();
@@ -43,22 +55,31 @@ export function SusInstrument({ evaluationId, userId }: SusInstrumentProps) {
         return () => window.removeEventListener('sus-completed', handleMfEvent);
     }, []);
 
+    const mfUrl = process.env.NEXT_PUBLIC_MF_SUS_URL || 'http://localhost:5173/sus-form.js';
+    const isDev = mfUrl.includes('localhost');
+
     return (
         <div className="sus-wrapper">
-            {/* 
-                Em desenvolvimento local, consumimos diretamente o servidor do Vite (porta 5173).
-                Em produção, este script deve apontar para o bundle gerado (ex: dist/sus-form.js).
-            */}
-            <Script
-                src="http://localhost:5173/@vite/client"
-                strategy="lazyOnload"
-                type="module"
-            />
-            <Script
-                src="http://localhost:5173/src/main.tsx"
-                strategy="lazyOnload"
-                type="module"
-            />
+            {isDev ? (
+                <>
+                    <Script
+                        src="http://localhost:5173/@vite/client"
+                        strategy="lazyOnload"
+                        type="module"
+                    />
+                    <Script
+                        src="http://localhost:5173/src/main.tsx"
+                        strategy="lazyOnload"
+                        type="module"
+                    />
+                </>
+            ) : (
+                <Script
+                    src={mfUrl}
+                    strategy="lazyOnload"
+                    type="module"
+                />
+            )}
 
             {/* A nossa tag customizada registrada pelo MF */}
             <emoframe-mf-sus
