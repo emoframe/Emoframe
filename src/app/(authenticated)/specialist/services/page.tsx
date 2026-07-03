@@ -3,17 +3,25 @@ import { OptionCard, Content } from '@/components/OptionCard';
 import React from 'react'
 import flexible from '@/../public/images/flexible.svg'
 import toolbox from '@/../public/images/toolbox.svg'
-import hospital from '@/../public/images/hospital.svg'
+import pen from '@/../public/images/pen-tool.svg'
+import compass from '@/../public/images/compass.svg'
 
 const contents: Content[] = [
     { title: "specialist_services:optionInstrumentsTitle", description: "specialist_services:optionInstrumentsDescription", href: "/specialist/services/instruments", image: toolbox},
     { title: "specialist_services:optionTemplatesTitle", description: "specialist_services:optionTemplatesDescription", href: "/specialist/services/templates", image: flexible},
     {
-        title: "specialist_services:optionPageTitle",
-        description: "specialist_services:optionPageDescription",
+        title: "specialist_services:optionRecomendationTitle",
+        description: "specialist_services:optionRecomendationDescription",
         href: "/specialist/services/page",
-        image: hospital,
+        image: compass,
     },
+    {
+        title: "specialist_services:optionUxTitle",
+        description: "specialist_services:optionUxDescription",
+        href: "/specialist/services/page",
+        image: pen,
+    },
+    
 ]
 
 const ServiceCards = () => {
@@ -32,10 +40,8 @@ const ServicesPage = () => {
             
             <div className="flex flex-col w-full max-w-screen-xl items-center p-4 print:w-full">
                 
-                <div className='flex flex-col w-full print:items-center px-sidebar gap-8'>
-                    
+                        <div className='flex flex-col w-full print:items-center px-sidebar gap-8'>
                     <CardsTitle ns='specialist_services' />
-                    
                     <div className="flex flex-col items-center w-full">
                         <ServiceCards />
                     </div>
