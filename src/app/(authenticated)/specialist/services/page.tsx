@@ -5,6 +5,7 @@ import flexible from '@/../public/images/flexible.svg'
 import toolbox from '@/../public/images/toolbox.svg'
 import pen from '@/../public/images/pen-tool.svg'
 import compass from '@/../public/images/compass.svg'
+import file from '@/../public/images/file-text.svg'
 
 const contents: Content[] = [
     { title: "specialist_services:optionInstrumentsTitle", description: "specialist_services:optionInstrumentsDescription", href: "/specialist/services/instruments", image: toolbox},
@@ -20,6 +21,12 @@ const contents: Content[] = [
         description: "specialist_services:optionUxDescription",
         href: "/specialist/services/page",
         image: pen,
+    },
+    {
+        title: "Diretrizes",
+        description: "Diretrizes dos instrumentos",
+        href: "/specialist/services/guidelines",
+        image: file,
     },
     
 ]
