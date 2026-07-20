@@ -212,6 +212,71 @@ export const susQuestions = [
     { index: 10, field: "learn_system", label: "questionnaireLearnSystemLabel" }
 ];
 
+export interface GamefulQuest {
+    acc_complete_things: number;
+    acc_strive_accomplishments: number;
+    acc_maintain_standards: number;
+    acc_success_accomplishments: number;
+    acc_next_level: number;
+    acc_progress_better: number;
+    acc_clear_goals: number;
+    acc_reach_goals: number;
+
+    cha_push_limits: number;
+    cha_brink_give_up: number;
+    cha_positive_pressure: number;
+    cha_challenges_me: number;
+    cha_lot_effort: number;
+    cha_highly_demanding: number;
+    cha_continuously_improve: number;
+    cha_close_capable: number;
+
+    com_participate_competition: number;
+    com_inspires_compete: number;
+    com_competitive_aspects: number;
+    com_first_place: number;
+    com_victory_important: number;
+    com_feel_race: number;
+    com_win_to_succeed: number;
+
+    gui_feel_guided: number;
+    gui_sense_directed: number;
+    gui_keeping_track: number;
+    gui_have_instructor: number;
+    attention_check_4: number; // Questão de atenção
+    gui_structured_help: number;
+    gui_know_do_better: number;
+    gui_useful_feedback: number;
+
+    imm_time_fast: number;
+    imm_grabs_attention: number;
+    imm_separated_world: number;
+    imm_lose_myself: number;
+    imm_actions_automatic: number;
+    imm_stop_tired: number;
+    imm_forget_concerns: number;
+    imm_ignore_around: number;
+    imm_emotionally_involved: number;
+
+    pla_playful_experience: number;
+    pla_room_spontaneous: number;
+    pla_taps_imagination: number;
+    pla_can_be_creative: number;
+    pla_explore_things: number;
+    pla_mystery_reveal: number;
+    pla_what_comes_next: number;
+    pla_discover_new: number;
+    pla_appeals_curiosity: number;
+
+    soc_not_alone: number;
+    soc_social_support: number;
+    soc_socially_involved: number;
+    soc_connected_others: number;
+    soc_social_experience: number;
+    soc_share_endeavors: number;
+    soc_influences_social: number;
+    soc_noticed_achieved: number;
+}
 
 export interface Iuxrv {
     feeling_nauseous: number;

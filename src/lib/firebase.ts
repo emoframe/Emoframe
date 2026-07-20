@@ -3,7 +3,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, setDoc, getDoc, getDocs, collection, doc, query, where, updateDoc, arrayUnion, arrayRemove, writeBatch, documentId, DocumentData, orderBy, limit } from "firebase/firestore";
 import { getFirestore } from 'firebase/firestore';
 import { Specialist, User, PageUser } from "@/types/users";
-import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap, Answer, Result, Page, PageFeedback, type Gamex, type Iuxrv } from "@/types/forms";
+import { Panas, Evaluation, Sam, Sus, Eaz, Brums, Gds, Template, TemplateAnswers, Leap, Answer, Result, Page, PageFeedback, type Gamex, type Iuxrv, GamefulQuest } from "@/types/forms";
 import { Filter } from "@/types/firebase";
 import { chunk, convertTimestampToDate, getValuable } from "@/lib/utils";
 import { TemplateElementInstance } from "@/components/template/TemplateElements";
@@ -81,7 +81,7 @@ export async function savePageUser(data: PageUser, specialistId?: string): Promi
     }
 }
 
-export async function saveAnswer(data: Panas | Sam | Sus | Eaz | Brums | Gds | Leap | Gamex | Iuxrv | TemplateAnswers, EvaluationId: string, UserId: string): Promise<any> {
+export async function saveAnswer(data: Panas | Sam | Sus | Eaz | Brums | Gds | Leap | Gamex | Iuxrv | GamefulQuest | TemplateAnswers, EvaluationId: string, UserId: string): Promise<any> {
     const docRef = doc(db, "evaluation", EvaluationId, "answers", UserId);
     const docRef2 = doc(db, "evaluation", EvaluationId);
     const answer: any = {
