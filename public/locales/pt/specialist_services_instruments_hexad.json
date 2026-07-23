@@ -1,0 +1,52 @@
+{
+  "identificationExample": "Identificação",
+  "questionnaireAnswersDescription": "Por favor, avalie o quão bem cada uma das seguintes afirmações o descreve.",
+  
+    "scaleOption7Label": "Concordo Totalmente",
+    "scaleOption6Label": "Concordo moderadamente",
+    "scaleOption5Label": "Concordo um pouco",
+    "scaleOption4Label": "Neutro",
+    "scaleOption3Label": "Discordo um pouco",
+    "scaleOption2Label": "Discordo moderadamente",
+    "scaleOption1Label": "Discordo Totalmente",
+
+  "phiHelpOthersLabel": "Sinto-me feliz se sou capaz de ajudar os outros.",
+  "phiOrientSituationsLabel": "Gosto de ajudar os outros a se orientarem em situações novas.",
+  "phiShareKnowledgeLabel": "Gosto de compartilhar meu conhecimento com os outros.",
+  "phiWellbeingOthersLabel": "O bem-estar dos demais é importante para mim.",
+
+  "socInteractingImportantLabel": "Interagir com os demais é importante para mim.",
+  "socPartOfTeamLabel": "Gosto de fazer parte de uma equipe.",
+  "socPartOfCommunityLabel": "É importante para mim sentir que faço parte de uma comunidade.",
+  "socEnjoyGroupLabel": "Gosto de atividades em grupo.",
+
+  "freOwnPathLabel": "É importante para mim seguir meu próprio caminho.",
+  "freCuriosityGuideLabel": "Frequentemente deixo-me guiar pela curiosidade.",
+  "freIndependentLabel": "Ser independente é importante para mim.",
+  "freSelfExpressionLabel": "Considero importantes as oportunidades para expressar a mim mesmo.",
+
+  "achDefeatingObstaclesLabel": "Gosto de superar obstáculos.",
+  "achMasteringDifficultLabel": "Gosto de dominar tarefas difíceis.",
+  "achImproveSkillsLabel": "É importante para mim aprimorar continuamente as minhas habilidades.",
+  "achEmergingVictoriousLabel": "Gosto de sair vitorioso de circunstâncias difíceis.",
+
+  "plaCompetitionsPrizeLabel": "Gosto de competições em que possa ganhar prêmios.",
+  "plaRewardsMotivateLabel": "Recompensas são uma ótima forma de me motivar.",
+  "plaRoiImportantLabel": "Retorno de investimento é importante para mim.",
+  "plaRewardEffortLabel": "Se a recompensa for suficiente, farei o esforço.",
+
+  "disProvokeLabel": "Gosto de provocar.",
+  "disQuestionStatusQuoLabel": "Gosto de questionar o status quo.",
+  "disRebelLabel": "Vejo-me como um rebelde.",
+  "disDislikeRulesLabel": "Não gosto de seguir regras.",
+
+  "attentionCheckHexadLabel": "Esta é uma afirmação apenas para checar sua atenção no formulário. Se você leu esta frase, por favor, selecione a alternativa equivalente ao valor 4 (Neutro).",
+
+  "previousButtonLabel": "Anterior",
+  "resetButtonLabel": "Limpar página",
+  "nextButtonLabel": "Próxima",
+  "finishButtonLabel": "Finalizar avaliação",
+  
+  "submitTitle": "Respostas enviadas!",
+  "submitMessage": "Sua avaliação foi salva com sucesso."
+}

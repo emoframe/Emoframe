@@ -9,7 +9,7 @@ import {
     FormMessage,
 } from '../../ui/form';
 import { z } from "zod";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { saveAnswer } from '@/lib/firebase';
@@ -21,22 +21,19 @@ import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-// Ajuste os imports dos tipos conforme sua arquitetura
-import { FillEvaluationForm, GamefulQuest } from '@/types/forms'; 
+import { FillEvaluationForm, Hexad } from '@/types/forms';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslation } from 'react-i18next';
 
 const steps: StepConfig[] = [
-    { label: 'Conquista' },
-    { label: 'Desafio' },
-    { label: 'Competição' },
-    { label: 'Condução' },
-    { label: 'Imersão' },
-    { label: 'Ludicidade' },
-    { label: 'Experiência Social' },
+    { label: 'Parte 1' },
+    { label: 'Parte 2' },
+    { label: 'Parte 3' },
+    { label: 'Parte 4' },
+    { label: 'Parte 5' },
 ];
 
-const GamefulScaleProps = [
+const HexadScaleProps = [
     { value: '1', label: 'scaleOption1Label' },
     { value: '2', label: 'scaleOption2Label' },
     { value: '3', label: 'scaleOption3Label' },
@@ -46,86 +43,43 @@ const GamefulScaleProps = [
     { value: '7', label: 'scaleOption7Label' },
 ];
 
-const gamefulQuestionPages = [
-    // 1. Accomplishment / Conquista
-    [
-        { field: 'acc_complete_things', label: 'accCompleteThingsLabel' },
-        { field: 'acc_strive_accomplishments', label: 'accStriveAccomplishmentsLabel' },
-        { field: 'acc_maintain_standards', label: 'accMaintainStandardsLabel' },
-        { field: 'acc_success_accomplishments', label: 'accSuccessAccomplishmentsLabel' },
-        { field: 'acc_next_level', label: 'accNextLevelLabel' },
-        { field: 'acc_progress_better', label: 'accProgressBetterLabel' },
-        { field: 'acc_clear_goals', label: 'accClearGoalsLabel' },
-        { field: 'acc_reach_goals', label: 'accReachGoalsLabel' },
-    ],
-    [
-        { field: 'cha_push_limits', label: 'chaPushLimitsLabel' },
-        { field: 'cha_brink_give_up', label: 'chaBrinkGiveUpLabel' },
-        { field: 'cha_positive_pressure', label: 'chaPositivePressureLabel' },
-        { field: 'cha_challenges_me', label: 'chaChallengesMeLabel' },
-        { field: 'cha_lot_effort', label: 'chaLotEffortLabel' },
-        { field: 'cha_highly_demanding', label: 'chaHighlyDemandingLabel' },
-        { field: 'cha_continuously_improve', label: 'chaContinuouslyImproveLabel' },
-        { field: 'cha_close_capable', label: 'chaCloseCapableLabel' },
-    ],
-    [
-        { field: 'com_participate_competition', label: 'comParticipateCompetitionLabel' },
-        { field: 'com_inspires_compete', label: 'comInspiresCompeteLabel' },
-        { field: 'com_competitive_aspects', label: 'comCompetitiveAspectsLabel' },
-        { field: 'com_first_place', label: 'comFirstPlaceLabel' },
-        { field: 'com_victory_important', label: 'comVictoryImportantLabel' },
-        { field: 'com_feel_race', label: 'comFeelRaceLabel' },
-        { field: 'com_win_to_succeed', label: 'comWinToSucceedLabel' },
-    ],
-    [
-        { field: 'gui_feel_guided', label: 'guiFeelGuidedLabel' },
-        { field: 'gui_sense_directed', label: 'guiSenseDirectedLabel' },
-        { field: 'gui_keeping_track', label: 'guiKeepingTrackLabel' },
-        { field: 'gui_have_instructor', label: 'guiHaveInstructorLabel' },
-        { field: 'attention_check_4', label: 'attentionCheck4Label' }, 
-        { field: 'gui_structured_help', label: 'guiStructuredHelpLabel' },
-        { field: 'gui_know_do_better', label: 'guiKnowDoBetterLabel' },
-        { field: 'gui_useful_feedback', label: 'guiUsefulFeedbackLabel' },
-    ],
-    [
-        { field: 'imm_time_fast', label: 'immTimeFastLabel' },
-        { field: 'imm_grabs_attention', label: 'immGrabsAttentionLabel' },
-        { field: 'imm_separated_world', label: 'immSeparatedWorldLabel' },
-        { field: 'imm_lose_myself', label: 'immLoseMyselfLabel' },
-        { field: 'imm_actions_automatic', label: 'immActionsAutomaticLabel' },
-        { field: 'imm_stop_tired', label: 'immStopTiredLabel' },
-        { field: 'imm_forget_concerns', label: 'immForgetConcernsLabel' },
-        { field: 'imm_ignore_around', label: 'immIgnoreAroundLabel' },
-        { field: 'imm_emotionally_involved', label: 'immEmotionallyInvolvedLabel' },
-    ],
-    [
-        { field: 'pla_playful_experience', label: 'plaPlayfulExperienceLabel' },
-        { field: 'pla_room_spontaneous', label: 'plaRoomSpontaneousLabel' },
-        { field: 'pla_taps_imagination', label: 'plaTapsImaginationLabel' },
-        { field: 'pla_can_be_creative', label: 'plaCanBeCreativeLabel' },
-        { field: 'pla_explore_things', label: 'plaExploreThingsLabel' },
-        { field: 'pla_mystery_reveal', label: 'plaMysteryRevealLabel' },
-        { field: 'pla_what_comes_next', label: 'plaWhatComesNextLabel' },
-        { field: 'pla_discover_new', label: 'plaDiscoverNewLabel' },
-        { field: 'pla_appeals_curiosity', label: 'plaAppealsCuriosityLabel' },
-    ],
-    [
-        { field: 'soc_not_alone', label: 'socNotAloneLabel' },
-        { field: 'soc_social_support', label: 'socSocialSupportLabel' },
-        { field: 'soc_socially_involved', label: 'socSociallyInvolvedLabel' },
-        { field: 'soc_connected_others', label: 'socConnectedOthersLabel' },
-        { field: 'soc_social_experience', label: 'socSocialExperienceLabel' },
-        { field: 'soc_share_endeavors', label: 'socShareEndeavorsLabel' },
-        { field: 'soc_influences_social', label: 'socInfluencesSocialLabel' },
-        { field: 'soc_noticed_achieved', label: 'socNoticedAchievedLabel' },
-    ],
+const baseHexadQuestions = [
+    { field: 'phi_help_others', label: 'phiHelpOthersLabel' },
+    { field: 'phi_orient_situations', label: 'phiOrientSituationsLabel' },
+    { field: 'phi_share_knowledge', label: 'phiShareKnowledgeLabel' },
+    { field: 'phi_wellbeing_others', label: 'phiWellbeingOthersLabel' },
+    
+    { field: 'soc_interacting_important', label: 'socInteractingImportantLabel' },
+    { field: 'soc_part_of_team', label: 'socPartOfTeamLabel' },
+    { field: 'soc_part_of_community', label: 'socPartOfCommunityLabel' },
+    { field: 'soc_enjoy_group', label: 'socEnjoyGroupLabel' },
+    
+    { field: 'fre_own_path', label: 'freOwnPathLabel' },
+    { field: 'fre_curiosity_guide', label: 'freCuriosityGuideLabel' },
+    { field: 'fre_independent', label: 'freIndependentLabel' },
+    { field: 'fre_self_expression', label: 'freSelfExpressionLabel' },
+    
+    { field: 'ach_defeating_obstacles', label: 'achDefeatingObstaclesLabel' },
+    { field: 'ach_mastering_difficult', label: 'achMasteringDifficultLabel' },
+    { field: 'ach_improve_skills', label: 'achImproveSkillsLabel' },
+    { field: 'ach_emerging_victorious', label: 'achEmergingVictoriousLabel' },
+    
+    { field: 'pla_competitions_prize', label: 'plaCompetitionsPrizeLabel' },
+    { field: 'pla_rewards_motivate', label: 'plaRewardsMotivateLabel' },
+    { field: 'pla_roi_important', label: 'plaRoiImportantLabel' },
+    { field: 'pla_reward_effort', label: 'plaRewardEffortLabel' },
+    
+    { field: 'dis_provoke', label: 'disProvokeLabel' },
+    { field: 'dis_question_status_quo', label: 'disQuestionStatusQuoLabel' },
+    { field: 'dis_rebel', label: 'disRebelLabel' },
+    { field: 'dis_dislike_rules', label: 'disDislikeRulesLabel' },
+    
+    { field: 'attention_check_hexad', label: 'attentionCheckHexadLabel' },
 ] as const;
 
-const flatGamefulQuestions = gamefulQuestionPages.flat();
-
-const GamefulFormSchema = z.object(
+const HexadFormSchema = z.object(
     Object.fromEntries(
-        flatGamefulQuestions.map(item => [
+        baseHexadQuestions.map(item => [
             item.field,
             z.coerce.number({ invalid_type_error: "Escolha uma opção" })
               .min(1, "A resposta mínima é 1")
@@ -136,42 +90,67 @@ const GamefulFormSchema = z.object(
 
 type SubmitModeProps = FillEvaluationForm & { identification: string };
 type ViewModeProps = { isViewable: true; identification?: string };
-type GamefulFormProps = SubmitModeProps | ViewModeProps;
+type HexadFormProps = SubmitModeProps | ViewModeProps;
 
-const GamefulQuestForm = (params: GamefulFormProps) => {
-    const FormSchema = !("isViewable" in params) ? GamefulFormSchema : z.object({});
+type QuestionItem = { field: string; label: string };
+
+const HexadForm = (params: HexadFormProps) => {
+    const FormSchema = !("isViewable" in params) ? HexadFormSchema : z.object({});
     
+    const [shuffledPages, setShuffledPages] = useState<QuestionItem[][]>([]);
+    const [isMounted, setIsMounted] = useState(false);
+
     const defaultValues = Object.fromEntries(
-        flatGamefulQuestions.map(item => [item.field, 0])
+        baseHexadQuestions.map(item => [item.field, 0])
     );
 
-    const form = useForm<z.infer<typeof GamefulFormSchema>>({
+    const form = useForm<z.infer<typeof HexadFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues,
     });
 
     const { push } = useRouter();
     const { toast } = useToast();
-    const { t } = useTranslation('specialist_services_instruments_gamefulquest');
+    const { t } = useTranslation('specialist_services_instruments_hexad');
 
     const { activeStep, nextStep, prevStep } = useStepper({
         initialStep: 0,
         steps,
     });
 
-    const onSubmit = async (values: z.infer<typeof GamefulFormSchema>) => {
+    useEffect(() => {
+        const shuffleArray = (array: any[]) => {
+            const newArr = [...array];
+            for (let i = newArr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+            }
+            return newArr;
+        };
+
+        const randomized = shuffleArray([...baseHexadQuestions]);
+        
+        const chunks: QuestionItem[][] = [];
+        for (let i = 0; i < randomized.length; i += 5) {
+            chunks.push(randomized.slice(i, i + 5));
+        }
+
+        setShuffledPages(chunks);
+        setIsMounted(true);
+    }, []);
+
+    const onSubmit = async (values: z.infer<typeof HexadFormSchema>) => {
         if (!("isViewable" in params)) {
             
-            if (values.attention_check_4 !== 4) {
+            if (values.attention_check_hexad !== 4) {
                 toast({
                     title: "Aviso de Qualidade",
-                    description: "Parece que você não leu todas as questões atentamente. Sua resposta não será contabilizada de forma válida.",
+                    description: "Detectamos desatenção na resposta da questão de controle. Sua resposta será sinalizada.",
                     variant: "destructive",
                 });
-                
             }
 
-            const payload = values as unknown as GamefulQuest;
+            const payload = values as unknown as Hexad;
             
             saveAnswer(payload, params.evaluationId, params.userId).then(() => {
                 toast({
@@ -189,6 +168,14 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
         }
     };
 
+    if (!isMounted || shuffledPages.length === 0) {
+        return (
+            <div className="flex w-full h-64 items-center justify-center">
+                <Progress value={30} className="w-[60%]" />
+            </div>
+        );
+    }
+
     return (
         <div>
             <Steps activeStep={activeStep}>
@@ -203,7 +190,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
             </Steps>
 
             <div className="flex flex-col flex-wrap justify-center gap-6 pt-8">
-                <h1 className="font-bold text-4xl self-center">GamefulQuest - {params.identification || t('identificationExample')}</h1>
+                <h1 className="font-bold text-4xl self-center">Hexad - {params.identification || t('identificationExample')}</h1>
                 <Separator />
                 <h2 className="text-md self-center text-center"> {t('questionnaireAnswersDescription')} </h2>
                 
@@ -211,11 +198,11 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                     <Form key={activeStep} {...form}>
                         <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-8'>
                             
-                            {gamefulQuestionPages[activeStep].map((question, index) => (
+                            {shuffledPages[activeStep].map((question, index) => (
                                 <FormField
-                                    key={"formField" + index}
+                                    key={"formField" + question.field}
                                     control={form.control}
-                                    name={question.field}
+                                    name={question.field as any}
                                     render={({ field }) => (
                                         <FormItem className="flex flex-col items-center content-center gap-5 w-full">
                                             <div className='bg-primary flex justify-end w-full md:w-11/12 lg:w-10/12 xl:w-8/12 2xl:w-7/12 gap-4 rounded-l-lg'>
@@ -230,7 +217,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                                             value={field.value?.toString()}
                                                             className="flex flex-row flex-wrap gap-y-6 gap-x-2 sm:gap-x-4 justify-between w-full">
                                                             
-                                                            {GamefulScaleProps.map((scaleProp, i) => (
+                                                            {HexadScaleProps.map((scaleProp, i) => (
                                                                 <FormItem className="flex flex-col-reverse items-center justify-between gap-4" key={i}>
                                                                     <FormControl>
                                                                         <RadioGroupItem value={scaleProp.value} />
@@ -263,7 +250,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                 }
 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    gamefulQuestionPages[activeStep].forEach((question) => {
+                                    shuffledPages[activeStep].forEach((question) => {
                                         form.setValue(question.field as any, 0);
                                     });
                                     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -274,7 +261,8 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                 {
                                     (activeStep < steps.length - 1) ?
                                         <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
-                                            const stepFields = gamefulQuestionPages[activeStep].map(q => q.field);
+                                            // Pega apenas as chaves (fields) da aba atual para validar
+                                            const stepFields = shuffledPages[activeStep].map(q => q.field);
                                             const values = form.getValues(stepFields as any);
                                             
                                             const hasNull = !("isViewable" in params) 
@@ -307,4 +295,4 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
     )
 }
 
-export default GamefulQuestForm;
+export default HexadForm;

@@ -21,22 +21,18 @@ import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-// Ajuste os imports dos tipos conforme sua arquitetura
-import { FillEvaluationForm, GamefulQuest } from '@/types/forms'; 
+import { FillEvaluationForm, Pq } from '@/types/forms';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslation } from 'react-i18next';
 
 const steps: StepConfig[] = [
-    { label: 'Conquista' },
-    { label: 'Desafio' },
-    { label: 'Competição' },
-    { label: 'Condução' },
-    { label: 'Imersão' },
-    { label: 'Ludicidade' },
-    { label: 'Experiência Social' },
+    { label: 'Adaptação / Imersão' },
+    { label: 'Qualidade da Interface' },
+    { label: 'Envolvimento' },
+    { label: 'Fidelidade Sensorial' },
 ];
 
-const GamefulScaleProps = [
+const PqScaleProps = [
     { value: '1', label: 'scaleOption1Label' },
     { value: '2', label: 'scaleOption2Label' },
     { value: '3', label: 'scaleOption3Label' },
@@ -46,86 +42,56 @@ const GamefulScaleProps = [
     { value: '7', label: 'scaleOption7Label' },
 ];
 
-const gamefulQuestionPages = [
-    // 1. Accomplishment / Conquista
+const pqQuestionPages = [
+    // 1. Adaptação / Imersão
     [
-        { field: 'acc_complete_things', label: 'accCompleteThingsLabel' },
-        { field: 'acc_strive_accomplishments', label: 'accStriveAccomplishmentsLabel' },
-        { field: 'acc_maintain_standards', label: 'accMaintainStandardsLabel' },
-        { field: 'acc_success_accomplishments', label: 'accSuccessAccomplishmentsLabel' },
-        { field: 'acc_next_level', label: 'accNextLevelLabel' },
-        { field: 'acc_progress_better', label: 'accProgressBetterLabel' },
-        { field: 'acc_clear_goals', label: 'accClearGoalsLabel' },
-        { field: 'acc_reach_goals', label: 'accReachGoalsLabel' },
+        { field: 'ada_control_events', label: 'adaControlEventsLabel' },
+        { field: 'ada_anticipate_happen', label: 'adaAnticipateHappenLabel' },
+        { field: 'ada_survey_vision', label: 'adaSurveyVisionLabel' },
+        { field: 'ada_moving_around', label: 'adaMovingAroundLabel' },
+        { field: 'ada_examine_objects', label: 'adaExamineObjectsLabel' },
+        { field: 'ada_examine_multiple_viewpoints', label: 'adaExamineMultipleViewpointsLabel' },
+        { field: 'ada_manipulate_objects', label: 'adaManipulateObjectsLabel' },
+        { field: 'ada_adjust_experience', label: 'adaAdjustExperienceLabel' },
+        { field: 'ada_proficient_moving', label: 'adaProficientMovingLabel' },
+        { field: 'ada_adjust_control_devices', label: 'adaAdjustControlDevicesLabel' },
     ],
+    // 2. Qualidade da Interface
     [
-        { field: 'cha_push_limits', label: 'chaPushLimitsLabel' },
-        { field: 'cha_brink_give_up', label: 'chaBrinkGiveUpLabel' },
-        { field: 'cha_positive_pressure', label: 'chaPositivePressureLabel' },
-        { field: 'cha_challenges_me', label: 'chaChallengesMeLabel' },
-        { field: 'cha_lot_effort', label: 'chaLotEffortLabel' },
-        { field: 'cha_highly_demanding', label: 'chaHighlyDemandingLabel' },
-        { field: 'cha_continuously_improve', label: 'chaContinuouslyImproveLabel' },
-        { field: 'cha_close_capable', label: 'chaCloseCapableLabel' },
+        { field: 'ifq_responsive_environment', label: 'ifqResponsiveEnvironmentLabel' },
+        { field: 'ifq_delay_actions', label: 'ifqDelayActionsLabel' },
+        { field: 'ifq_visual_interfere', label: 'ifqVisualInterfereLabel' },
+        { field: 'ifq_control_interfere', label: 'ifqControlInterfereLabel' },
+        { field: 'ifq_concentrate_tasks', label: 'ifqConcentrateTasksLabel' },
     ],
+    // 3. Envolvimento
     [
-        { field: 'com_participate_competition', label: 'comParticipateCompetitionLabel' },
-        { field: 'com_inspires_compete', label: 'comInspiresCompeteLabel' },
-        { field: 'com_competitive_aspects', label: 'comCompetitiveAspectsLabel' },
-        { field: 'com_first_place', label: 'comFirstPlaceLabel' },
-        { field: 'com_victory_important', label: 'comVictoryImportantLabel' },
-        { field: 'com_feel_race', label: 'comFeelRaceLabel' },
-        { field: 'com_win_to_succeed', label: 'comWinToSucceedLabel' },
+        { field: 'inv_natural_interactions', label: 'invNaturalInteractionsLabel' },
+        { field: 'inv_visual_involve', label: 'invVisualInvolveLabel' },
+        { field: 'inv_natural_mechanism', label: 'invNaturalMechanismLabel' },
+        { field: 'attention_check_pq', label: 'attentionCheckPqLabel' }, // Pergunta Falsa
+        { field: 'inv_involved_experience', label: 'invInvolvedExperienceLabel' },
+        { field: 'inv_senses_engaged', label: 'invSensesEngagedLabel' },
+        { field: 'inv_focused_task', label: 'invFocusedTaskLabel' },
     ],
+    // 4. Fidelidade Sensorial
     [
-        { field: 'gui_feel_guided', label: 'guiFeelGuidedLabel' },
-        { field: 'gui_sense_directed', label: 'guiSenseDirectedLabel' },
-        { field: 'gui_keeping_track', label: 'guiKeepingTrackLabel' },
-        { field: 'gui_have_instructor', label: 'guiHaveInstructorLabel' },
-        { field: 'attention_check_4', label: 'attentionCheck4Label' }, 
-        { field: 'gui_structured_help', label: 'guiStructuredHelpLabel' },
-        { field: 'gui_know_do_better', label: 'guiKnowDoBetterLabel' },
-        { field: 'gui_useful_feedback', label: 'guiUsefulFeedbackLabel' },
-    ],
-    [
-        { field: 'imm_time_fast', label: 'immTimeFastLabel' },
-        { field: 'imm_grabs_attention', label: 'immGrabsAttentionLabel' },
-        { field: 'imm_separated_world', label: 'immSeparatedWorldLabel' },
-        { field: 'imm_lose_myself', label: 'immLoseMyselfLabel' },
-        { field: 'imm_actions_automatic', label: 'immActionsAutomaticLabel' },
-        { field: 'imm_stop_tired', label: 'immStopTiredLabel' },
-        { field: 'imm_forget_concerns', label: 'immForgetConcernsLabel' },
-        { field: 'imm_ignore_around', label: 'immIgnoreAroundLabel' },
-        { field: 'imm_emotionally_involved', label: 'immEmotionallyInvolvedLabel' },
-    ],
-    [
-        { field: 'pla_playful_experience', label: 'plaPlayfulExperienceLabel' },
-        { field: 'pla_room_spontaneous', label: 'plaRoomSpontaneousLabel' },
-        { field: 'pla_taps_imagination', label: 'plaTapsImaginationLabel' },
-        { field: 'pla_can_be_creative', label: 'plaCanBeCreativeLabel' },
-        { field: 'pla_explore_things', label: 'plaExploreThingsLabel' },
-        { field: 'pla_mystery_reveal', label: 'plaMysteryRevealLabel' },
-        { field: 'pla_what_comes_next', label: 'plaWhatComesNextLabel' },
-        { field: 'pla_discover_new', label: 'plaDiscoverNewLabel' },
-        { field: 'pla_appeals_curiosity', label: 'plaAppealsCuriosityLabel' },
-    ],
-    [
-        { field: 'soc_not_alone', label: 'socNotAloneLabel' },
-        { field: 'soc_social_support', label: 'socSocialSupportLabel' },
-        { field: 'soc_socially_involved', label: 'socSociallyInvolvedLabel' },
-        { field: 'soc_connected_others', label: 'socConnectedOthersLabel' },
-        { field: 'soc_social_experience', label: 'socSocialExperienceLabel' },
-        { field: 'soc_share_endeavors', label: 'socShareEndeavorsLabel' },
-        { field: 'soc_influences_social', label: 'socInfluencesSocialLabel' },
-        { field: 'soc_noticed_achieved', label: 'socNoticedAchievedLabel' },
+        { field: 'sen_auditory_involve', label: 'senAuditoryInvolveLabel' },
+        { field: 'sen_compelling_objects', label: 'senCompellingObjectsLabel' },
+        { field: 'sen_consistent_real_world', label: 'senConsistentRealWorldLabel' },
+        { field: 'sen_identify_sounds', label: 'senIdentifySoundsLabel' },
+        { field: 'sen_localize_sounds', label: 'senLocalizeSoundsLabel' },
+        { field: 'sen_survey_touch', label: 'senSurveyTouchLabel' },
+        { field: 'sen_identify_physical', label: 'senIdentifyPhysicalLabel' },
+        { field: 'sen_consistent_senses', label: 'senConsistentSensesLabel' },
     ],
 ] as const;
 
-const flatGamefulQuestions = gamefulQuestionPages.flat();
+const flatPqQuestions = pqQuestionPages.flat();
 
-const GamefulFormSchema = z.object(
+const PqFormSchema = z.object(
     Object.fromEntries(
-        flatGamefulQuestions.map(item => [
+        flatPqQuestions.map(item => [
             item.field,
             z.coerce.number({ invalid_type_error: "Escolha uma opção" })
               .min(1, "A resposta mínima é 1")
@@ -136,42 +102,42 @@ const GamefulFormSchema = z.object(
 
 type SubmitModeProps = FillEvaluationForm & { identification: string };
 type ViewModeProps = { isViewable: true; identification?: string };
-type GamefulFormProps = SubmitModeProps | ViewModeProps;
+type PqFormProps = SubmitModeProps | ViewModeProps;
 
-const GamefulQuestForm = (params: GamefulFormProps) => {
-    const FormSchema = !("isViewable" in params) ? GamefulFormSchema : z.object({});
+const PqForm = (params: PqFormProps) => {
+    const FormSchema = !("isViewable" in params) ? PqFormSchema : z.object({});
     
     const defaultValues = Object.fromEntries(
-        flatGamefulQuestions.map(item => [item.field, 0])
+        flatPqQuestions.map(item => [item.field, 0])
     );
 
-    const form = useForm<z.infer<typeof GamefulFormSchema>>({
+    const form = useForm<z.infer<typeof PqFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues,
     });
 
     const { push } = useRouter();
     const { toast } = useToast();
-    const { t } = useTranslation('specialist_services_instruments_gamefulquest');
+    const { t } = useTranslation('specialist_services_instruments_pq');
 
     const { activeStep, nextStep, prevStep } = useStepper({
         initialStep: 0,
         steps,
     });
 
-    const onSubmit = async (values: z.infer<typeof GamefulFormSchema>) => {
+    const onSubmit = async (values: z.infer<typeof PqFormSchema>) => {
         if (!("isViewable" in params)) {
             
-            if (values.attention_check_4 !== 4) {
+            // Verificação de segurança da resposta (Questão de Controle)
+            if (values.attention_check_pq !== 4) {
                 toast({
                     title: "Aviso de Qualidade",
-                    description: "Parece que você não leu todas as questões atentamente. Sua resposta não será contabilizada de forma válida.",
+                    description: "Parece que você não leu todas as questões atentamente. Sua resposta será sinalizada.",
                     variant: "destructive",
                 });
-                
             }
 
-            const payload = values as unknown as GamefulQuest;
+            const payload = values as unknown as Pq;
             
             saveAnswer(payload, params.evaluationId, params.userId).then(() => {
                 toast({
@@ -203,7 +169,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
             </Steps>
 
             <div className="flex flex-col flex-wrap justify-center gap-6 pt-8">
-                <h1 className="font-bold text-4xl self-center">GamefulQuest - {params.identification || t('identificationExample')}</h1>
+                <h1 className="font-bold text-4xl self-center">PQ - {params.identification || t('identificationExample')}</h1>
                 <Separator />
                 <h2 className="text-md self-center text-center"> {t('questionnaireAnswersDescription')} </h2>
                 
@@ -211,7 +177,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                     <Form key={activeStep} {...form}>
                         <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-8'>
                             
-                            {gamefulQuestionPages[activeStep].map((question, index) => (
+                            {pqQuestionPages[activeStep].map((question, index) => (
                                 <FormField
                                     key={"formField" + index}
                                     control={form.control}
@@ -230,7 +196,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                                             value={field.value?.toString()}
                                                             className="flex flex-row flex-wrap gap-y-6 gap-x-2 sm:gap-x-4 justify-between w-full">
                                                             
-                                                            {GamefulScaleProps.map((scaleProp, i) => (
+                                                            {PqScaleProps.map((scaleProp, i) => (
                                                                 <FormItem className="flex flex-col-reverse items-center justify-between gap-4" key={i}>
                                                                     <FormControl>
                                                                         <RadioGroupItem value={scaleProp.value} />
@@ -263,7 +229,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                 }
 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    gamefulQuestionPages[activeStep].forEach((question) => {
+                                    pqQuestionPages[activeStep].forEach((question) => {
                                         form.setValue(question.field as any, 0);
                                     });
                                     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -274,7 +240,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                 {
                                     (activeStep < steps.length - 1) ?
                                         <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
-                                            const stepFields = gamefulQuestionPages[activeStep].map(q => q.field);
+                                            const stepFields = pqQuestionPages[activeStep].map(q => q.field);
                                             const values = form.getValues(stepFields as any);
                                             
                                             const hasNull = !("isViewable" in params) 
@@ -307,4 +273,4 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
     )
 }
 
-export default GamefulQuestForm;
+export default PqForm;

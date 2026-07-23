@@ -1,0 +1,53 @@
+{
+  "identificationExample": "Identificação",
+  "questionnaireAnswersDescription": "Por favor, avalie as afirmações abaixo sobre a sua experiência com o sistema.",
+  
+  "scaleOption1Label": "Discordo totalmente",
+  "scaleOption2Label": "Discordo",
+  "scaleOption3Label": "Neutro",
+  "scaleOption4Label": "Concordo",
+  "scaleOption5Label": "Concordo totalmente",
+
+  "faLostMyselfLabel": "Eu me concentrei intensamente nessa experiência.",
+  "faLostTrackTimeLabel": "Fiquei tão envolvido nessa experiência que perdi a noção do tempo.",
+  "faBlockedOutThingsLabel": "Esqueci das coisas ao meu redor quando estava usando {{application}}.",
+  "faLostTrackWorldLabel": "Quando eu estava usando {{application}}, eu perdi a noção do mundo ao meu redor.",
+  "faTimeSlippedAwayLabel": "O tempo que passei usando {{application}} simplesmente voou.",
+  "faAbsorbedLabel": "Fiquei absorvido nessa experiência.",
+  "faLetMyselfGoLabel": "Durante essa experiência, eu me deixei levar.",
+
+  "puFrustratedRevLabel": "Fiquei frustrado ao usar {{application}}.",
+  "puConfusingRevLabel": "Achei {{application}} confusa de usar.",
+  "puAnnoyedRevLabel": "Fiquei irritado ao usar {{application}}.",
+  "puDiscouragedRevLabel": "Fiquei desanimado ao usar {{application}}.",
+  "puTaxingRevLabel": "Foi muito cansativo usar {{application}}.",
+  "puDemandingRevLabel": "Essa experiência exigiu muito de mim.",
+  "puInControlLabel": "Eu me senti no controle ao usar {{application}}.",
+  "puCouldNotDoRevLabel": "Não consegui fazer algumas das coisas que eu precisava fazer enquanto estava usando {{application}}.",
+
+  "aeAttractiveLabel": "{{application}} é atraente.",
+  "aeAestheticallyAppealingLabel": "{{application}} é esteticamente agradável.",
+  "attentionCheckUesLabel": "Esta é uma afirmação de controle. Por favor, marque 'Concordo totalmente'.",
+  "aeLikedGraphicsLabel": "Gostei dos elementos gráficos e das imagens de {{application}}.",
+  "aeAppealedVisualLabel": "{{application}} chamou minha atenção visualmente.",
+  "aeVisuallyPleasingLabel": "A distribuição dos elementos na tela de {{application}} é visualmente agradável.",
+
+  "rwWorthwhileLabel": "Valeu a pena usar {{application}}.",
+  "rwSuccessLabel": "Acho que minha experiência foi um sucesso.",
+  "rwDidNotWorkOutRevLabel": "Essa experiência não foi do jeito que eu esperava.",
+  "rwRewardingLabel": "Minha experiência foi gratificante.",
+  "rwRecommendLabel": "Eu recomendaria {{application}} para familiares e amigos.",
+  "rwContinuedCuriosityLabel": "Continuei usando {{application}} por curiosidade.",
+  "rwIncitedCuriosityLabel": "O conteúdo de {{application}} despertou minha curiosidade.",
+  "rwDrawnInLabel": "Fiquei muito atraído por essa experiência.",
+  "rwInvolvedLabel": "Eu me senti inserido nessa experiência.",
+  "rwFunLabel": "Essa experiência foi divertida.",
+
+  "previousButtonLabel": "Anterior",
+  "resetButtonLabel": "Limpar página",
+  "nextButtonLabel": "Próxima",
+  "finishButtonLabel": "Finalizar avaliação",
+  
+  "submitTitle": "Respostas enviadas!",
+  "submitMessage": "Sua avaliação foi salva com sucesso."
+}

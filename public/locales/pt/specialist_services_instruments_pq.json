@@ -1,0 +1,54 @@
+{
+  "identificationExample": "Identificação",
+  "questionnaireAnswersDescription": "Por favor, avalie a sua experiência no ambiente virtual de acordo com as perguntas abaixo:",
+  
+  "scaleOption1Label": "De modo algum",
+  "scaleOption2Label": "",
+  "scaleOption3Label": "",
+  "scaleOption4Label": "Moderadamente",
+  "scaleOption5Label": "",
+  "scaleOption6Label": "",
+  "scaleOption7Label": "Completamente",
+
+  "adaControlEventsLabel": "O quanto você foi capaz de controlar eventos?",
+  "adaAnticipateHappenLabel": "Você foi capaz de antecipar o que aconteceria a seguir em resposta às ações que você desempenhou?",
+  "adaSurveyVisionLabel": "O quão capaz você foi de, ativamente, explorar ou investigar o ambiente usando a visão?",
+  "adaMovingAroundLabel": "Quão convincente foi sua sensação de mover-se dentro do ambiente virtual?",
+  "adaExamineObjectsLabel": "O quão detalhadamente você foi capaz de examinar objetos?",
+  "adaExamineMultipleViewpointsLabel": "Quão bem você foi capaz de observar objetos sob vários ângulos?",
+  "adaManipulateObjectsLabel": "Quão bem você pôde de mover ou manipular objetos no ambiente virtual?",
+  "adaAdjustExperienceLabel": "Quão rápido você se adaptou à experiência no ambiente virtual?",
+  "adaProficientMovingLabel": "O quão proficiente em mover e interagir com o ambiente virtual, você se sentiu ao final da experiência?",
+  "adaAdjustControlDevicesLabel": "O quão facilmente você se ajustou aos dispositivos de controle usados para interagir com o ambiente virtual?",
+
+  "ifqResponsiveEnvironmentLabel": "O quanto o ambiente foi responsivo às ações que você iniciou ou desempenhou?",
+  "ifqDelayActionsLabel": "Quanta demora você experienciou entre suas ações e os desfechos esperados?",
+  "ifqVisualInterfereLabel": "O quanto a qualidade do dispositivo de visualização interferiu ou distraiu você na performance das tarefas designadas ou atividades requeridas?",
+  "ifqControlInterfereLabel": "O quanto os dispositivos de controle interferiram no desempenho das tarefas determinadas ou nas demais atividades?",
+  "ifqConcentrateTasksLabel": "Quão bem você pode se concentrar nas tarefas ou atividades exigidas ao invés de se concentrar nos mecanismos utilizados para realizar essas tarefas ou atividades?",
+
+  "invNaturalInteractionsLabel": "Quão natural pareceram suas interações com o ambiente?",
+  "invVisualInvolveLabel": "O quanto os aspectos visuais do ambiente envolveram você?",
+  "invNaturalMechanismLabel": "Quão natural foi o mecanismo que controlava o movimento no ambiente?",
+  "attentionCheckPqLabel": "Esta é uma afirmação apenas para checar sua atenção no formulário. Se você leu esta frase, por favor, marque a opção equivalente a 'Moderadamente'.",
+  "invInvolvedExperienceLabel": "O quão envolvido você estava na experiência do ambiente virtual?",
+  "invSensesEngagedLabel": "Quão completamente os seus sentidos estavam envolvidos nessa experiência?",
+  "invFocusedTaskLabel": "Houve momentos durante a experiência no ambiente virtual em que você se sentiu completamente focado na tarefa ou no ambiente?",
+
+  "senAuditoryInvolveLabel": "O quanto os aspectos sonoros do ambiente envolveram você?",
+  "senCompellingObjectsLabel": "O quão convincente foi sua sensação sobre os objetos se movendo pelo espaço?",
+  "senConsistentRealWorldLabel": "O quanto as suas experiências no ambiente virtual se pareceram com suas experiências no mundo real?",
+  "senIdentifySoundsLabel": "Quão bem você conseguiu identificar sons?",
+  "senLocalizeSoundsLabel": "Quão bem você conseguiu localizar sons?",
+  "senSurveyTouchLabel": "Quão bem você foi capaz de, ativamente, explorar o ambiente usando o tato?",
+  "senIdentifyPhysicalLabel": "O quão fácil foi identificar objetos por meio da interação física, como tocar um objeto, caminhar sobre uma superfície ou esbarrar em uma parede ou objeto?",
+  "senConsistentSensesLabel": "A informação provida aos diferentes sentidos (ex.: visão, audição, tato) pelo ambiente virtual foi consistente?",
+
+  "previousButtonLabel": "Anterior",
+  "resetButtonLabel": "Limpar página",
+  "nextButtonLabel": "Próxima",
+  "finishButtonLabel": "Finalizar avaliação",
+  
+  "submitTitle": "Respostas enviadas!",
+  "submitMessage": "Sua avaliação foi salva com sucesso."
+}

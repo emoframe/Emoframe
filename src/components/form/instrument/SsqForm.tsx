@@ -21,157 +21,105 @@ import { Steps, Step, StepConfig } from '@/components/ui/stepper';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-// Ajuste os imports dos tipos conforme sua arquitetura
-import { FillEvaluationForm, GamefulQuest } from '@/types/forms'; 
+import { FillEvaluationForm, Ssq } from '@/types/forms';
 import { useToast } from '@/components/ui/use-toast';
 import { useTranslation } from 'react-i18next';
 
 const steps: StepConfig[] = [
-    { label: 'Conquista' },
-    { label: 'Desafio' },
-    { label: 'Competição' },
-    { label: 'Condução' },
-    { label: 'Imersão' },
-    { label: 'Ludicidade' },
-    { label: 'Experiência Social' },
+    { label: 'Sintomas (1 a 6)' },
+    { label: 'Sintomas (7 a 11)' },
+    { label: 'Sintomas (12 a 16)' },
 ];
 
-const GamefulScaleProps = [
-    { value: '1', label: 'scaleOption1Label' },
-    { value: '2', label: 'scaleOption2Label' },
-    { value: '3', label: 'scaleOption3Label' },
-    { value: '4', label: 'scaleOption4Label' },
-    { value: '5', label: 'scaleOption5Label' },
-    { value: '6', label: 'scaleOption6Label' },
-    { value: '7', label: 'scaleOption7Label' },
+// Escala Likert de 0 a 3 (Esquerda para Direita)
+const SsqScaleProps = [
+    { value: '0', label: 'scaleOption0Label' }, // Ausente (Esquerda)
+    { value: '1', label: 'scaleOption1Label' }, // Leve
+    { value: '2', label: 'scaleOption2Label' }, // Moderado
+    { value: '3', label: 'scaleOption3Label' }, // Grave (Direita)
 ];
 
-const gamefulQuestionPages = [
-    // 1. Accomplishment / Conquista
+const ssqQuestionPages = [
+    // Parte 1
     [
-        { field: 'acc_complete_things', label: 'accCompleteThingsLabel' },
-        { field: 'acc_strive_accomplishments', label: 'accStriveAccomplishmentsLabel' },
-        { field: 'acc_maintain_standards', label: 'accMaintainStandardsLabel' },
-        { field: 'acc_success_accomplishments', label: 'accSuccessAccomplishmentsLabel' },
-        { field: 'acc_next_level', label: 'accNextLevelLabel' },
-        { field: 'acc_progress_better', label: 'accProgressBetterLabel' },
-        { field: 'acc_clear_goals', label: 'accClearGoalsLabel' },
-        { field: 'acc_reach_goals', label: 'accReachGoalsLabel' },
+        { field: 'general_discomfort', label: 'generalDiscomfortLabel' },
+        { field: 'fatigue', label: 'fatigueLabel' },
+        { field: 'headache', label: 'headacheLabel' },
+        { field: 'eyestrain', label: 'eyestrainLabel' },
+        { field: 'difficulty_focusing', label: 'difficultyFocusingLabel' },
+        { field: 'salivation_increase', label: 'salivationIncreaseLabel' },
     ],
+    // Parte 2
     [
-        { field: 'cha_push_limits', label: 'chaPushLimitsLabel' },
-        { field: 'cha_brink_give_up', label: 'chaBrinkGiveUpLabel' },
-        { field: 'cha_positive_pressure', label: 'chaPositivePressureLabel' },
-        { field: 'cha_challenges_me', label: 'chaChallengesMeLabel' },
-        { field: 'cha_lot_effort', label: 'chaLotEffortLabel' },
-        { field: 'cha_highly_demanding', label: 'chaHighlyDemandingLabel' },
-        { field: 'cha_continuously_improve', label: 'chaContinuouslyImproveLabel' },
-        { field: 'cha_close_capable', label: 'chaCloseCapableLabel' },
+        { field: 'sweating', label: 'sweatingLabel' },
+        { field: 'nausea', label: 'nauseaLabel' },
+        { field: 'difficulty_concentrating', label: 'difficultyConcentratingLabel' },
+        { field: 'attention_check_ssq', label: 'attentionCheckSsqLabel' }, // Pergunta de Atenção
+        { field: 'fullness_of_head', label: 'fullnessOfHeadLabel' },
+        { field: 'blurred_vision', label: 'blurredVisionLabel' },
     ],
+    // Parte 3
     [
-        { field: 'com_participate_competition', label: 'comParticipateCompetitionLabel' },
-        { field: 'com_inspires_compete', label: 'comInspiresCompeteLabel' },
-        { field: 'com_competitive_aspects', label: 'comCompetitiveAspectsLabel' },
-        { field: 'com_first_place', label: 'comFirstPlaceLabel' },
-        { field: 'com_victory_important', label: 'comVictoryImportantLabel' },
-        { field: 'com_feel_race', label: 'comFeelRaceLabel' },
-        { field: 'com_win_to_succeed', label: 'comWinToSucceedLabel' },
-    ],
-    [
-        { field: 'gui_feel_guided', label: 'guiFeelGuidedLabel' },
-        { field: 'gui_sense_directed', label: 'guiSenseDirectedLabel' },
-        { field: 'gui_keeping_track', label: 'guiKeepingTrackLabel' },
-        { field: 'gui_have_instructor', label: 'guiHaveInstructorLabel' },
-        { field: 'attention_check_4', label: 'attentionCheck4Label' }, 
-        { field: 'gui_structured_help', label: 'guiStructuredHelpLabel' },
-        { field: 'gui_know_do_better', label: 'guiKnowDoBetterLabel' },
-        { field: 'gui_useful_feedback', label: 'guiUsefulFeedbackLabel' },
-    ],
-    [
-        { field: 'imm_time_fast', label: 'immTimeFastLabel' },
-        { field: 'imm_grabs_attention', label: 'immGrabsAttentionLabel' },
-        { field: 'imm_separated_world', label: 'immSeparatedWorldLabel' },
-        { field: 'imm_lose_myself', label: 'immLoseMyselfLabel' },
-        { field: 'imm_actions_automatic', label: 'immActionsAutomaticLabel' },
-        { field: 'imm_stop_tired', label: 'immStopTiredLabel' },
-        { field: 'imm_forget_concerns', label: 'immForgetConcernsLabel' },
-        { field: 'imm_ignore_around', label: 'immIgnoreAroundLabel' },
-        { field: 'imm_emotionally_involved', label: 'immEmotionallyInvolvedLabel' },
-    ],
-    [
-        { field: 'pla_playful_experience', label: 'plaPlayfulExperienceLabel' },
-        { field: 'pla_room_spontaneous', label: 'plaRoomSpontaneousLabel' },
-        { field: 'pla_taps_imagination', label: 'plaTapsImaginationLabel' },
-        { field: 'pla_can_be_creative', label: 'plaCanBeCreativeLabel' },
-        { field: 'pla_explore_things', label: 'plaExploreThingsLabel' },
-        { field: 'pla_mystery_reveal', label: 'plaMysteryRevealLabel' },
-        { field: 'pla_what_comes_next', label: 'plaWhatComesNextLabel' },
-        { field: 'pla_discover_new', label: 'plaDiscoverNewLabel' },
-        { field: 'pla_appeals_curiosity', label: 'plaAppealsCuriosityLabel' },
-    ],
-    [
-        { field: 'soc_not_alone', label: 'socNotAloneLabel' },
-        { field: 'soc_social_support', label: 'socSocialSupportLabel' },
-        { field: 'soc_socially_involved', label: 'socSociallyInvolvedLabel' },
-        { field: 'soc_connected_others', label: 'socConnectedOthersLabel' },
-        { field: 'soc_social_experience', label: 'socSocialExperienceLabel' },
-        { field: 'soc_share_endeavors', label: 'socShareEndeavorsLabel' },
-        { field: 'soc_influences_social', label: 'socInfluencesSocialLabel' },
-        { field: 'soc_noticed_achieved', label: 'socNoticedAchievedLabel' },
+        { field: 'dizziness_eyes_open', label: 'dizzinessEyesOpenLabel' },
+        { field: 'dizziness_eyes_closed', label: 'dizzinessEyesClosedLabel' },
+        { field: 'vertigo', label: 'vertigoLabel' },
+        { field: 'stomach_awareness', label: 'stomachAwarenessLabel' },
+        { field: 'burping', label: 'burpingLabel' },
+        { field: 'other', label: 'otherLabel' },
     ],
 ] as const;
 
-const flatGamefulQuestions = gamefulQuestionPages.flat();
+const flatSsqQuestions = ssqQuestionPages.flat();
 
-const GamefulFormSchema = z.object(
+const SsqFormSchema = z.object(
     Object.fromEntries(
-        flatGamefulQuestions.map(item => [
+        flatSsqQuestions.map(item => [
             item.field,
             z.coerce.number({ invalid_type_error: "Escolha uma opção" })
-              .min(1, "A resposta mínima é 1")
-              .max(7, "A resposta máxima é 7")
+              .min(0, "A resposta mínima é 0 (Ausente)")
+              .max(3, "A resposta máxima é 3 (Grave)")
         ])
     )
 );
 
 type SubmitModeProps = FillEvaluationForm & { identification: string };
 type ViewModeProps = { isViewable: true; identification?: string };
-type GamefulFormProps = SubmitModeProps | ViewModeProps;
+type SsqFormProps = SubmitModeProps | ViewModeProps;
 
-const GamefulQuestForm = (params: GamefulFormProps) => {
-    const FormSchema = !("isViewable" in params) ? GamefulFormSchema : z.object({});
+const SsqForm = (params: SsqFormProps) => {
+    const FormSchema = !("isViewable" in params) ? SsqFormSchema : z.object({});
     
+    // ATENÇÃO: Iniciamos com -1 pois 0 é uma resposta válida ("Ausente")
     const defaultValues = Object.fromEntries(
-        flatGamefulQuestions.map(item => [item.field, 0])
+        flatSsqQuestions.map(item => [item.field, -1])
     );
 
-    const form = useForm<z.infer<typeof GamefulFormSchema>>({
+    const form = useForm<z.infer<typeof SsqFormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues,
     });
 
     const { push } = useRouter();
     const { toast } = useToast();
-    const { t } = useTranslation('specialist_services_instruments_gamefulquest');
+    const { t } = useTranslation('specialist_services_instruments_ssq');
 
     const { activeStep, nextStep, prevStep } = useStepper({
         initialStep: 0,
         steps,
     });
 
-    const onSubmit = async (values: z.infer<typeof GamefulFormSchema>) => {
+    const onSubmit = async (values: z.infer<typeof SsqFormSchema>) => {
         if (!("isViewable" in params)) {
             
-            if (values.attention_check_4 !== 4) {
+            if (values.attention_check_ssq !== 1) {
                 toast({
                     title: "Aviso de Qualidade",
-                    description: "Parece que você não leu todas as questões atentamente. Sua resposta não será contabilizada de forma válida.",
+                    description: "Parece que você não leu todas as questões atentamente. Sua resposta será sinalizada.",
                     variant: "destructive",
                 });
-                
             }
 
-            const payload = values as unknown as GamefulQuest;
+            const payload = values as unknown as Ssq;
             
             saveAnswer(payload, params.evaluationId, params.userId).then(() => {
                 toast({
@@ -203,7 +151,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
             </Steps>
 
             <div className="flex flex-col flex-wrap justify-center gap-6 pt-8">
-                <h1 className="font-bold text-4xl self-center">GamefulQuest - {params.identification || t('identificationExample')}</h1>
+                <h1 className="font-bold text-4xl self-center">SSQ - {params.identification || t('identificationExample')}</h1>
                 <Separator />
                 <h2 className="text-md self-center text-center"> {t('questionnaireAnswersDescription')} </h2>
                 
@@ -211,7 +159,7 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                     <Form key={activeStep} {...form}>
                         <form key={activeStep} onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-8'>
                             
-                            {gamefulQuestionPages[activeStep].map((question, index) => (
+                            {ssqQuestionPages[activeStep].map((question, index) => (
                                 <FormField
                                     key={"formField" + index}
                                     control={form.control}
@@ -226,11 +174,11 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                                     <FormControl>
                                                         <RadioGroup
                                                             onValueChange={field.onChange}
-                                                            defaultValue={field.value?.toString()}
-                                                            value={field.value?.toString()}
+                                                            defaultValue={field.value !== -1 ? field.value?.toString() : undefined}
+                                                            value={field.value !== -1 ? field.value?.toString() : undefined}
                                                             className="flex flex-row flex-wrap gap-y-6 gap-x-2 sm:gap-x-4 justify-between w-full">
                                                             
-                                                            {GamefulScaleProps.map((scaleProp, i) => (
+                                                            {SsqScaleProps.map((scaleProp, i) => (
                                                                 <FormItem className="flex flex-col-reverse items-center justify-between gap-4" key={i}>
                                                                     <FormControl>
                                                                         <RadioGroupItem value={scaleProp.value} />
@@ -263,8 +211,8 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                 }
 
                                 <Button className="basis-1/8 text-lg" type='button' size="lg" onClick={() => {
-                                    gamefulQuestionPages[activeStep].forEach((question) => {
-                                        form.setValue(question.field as any, 0);
+                                    ssqQuestionPages[activeStep].forEach((question) => {
+                                        form.setValue(question.field as any, -1);
                                     });
                                     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                                 }}>
@@ -274,11 +222,11 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
                                 {
                                     (activeStep < steps.length - 1) ?
                                         <Button className="basis-1/8 text-lg" type="button" size="lg" onClick={() => {
-                                            const stepFields = gamefulQuestionPages[activeStep].map(q => q.field);
+                                            const stepFields = ssqQuestionPages[activeStep].map(q => q.field);
                                             const values = form.getValues(stepFields as any);
                                             
                                             const hasNull = !("isViewable" in params) 
-                                                ? Object.values(values).some((value) => value === "" || value === 0 || value === undefined) 
+                                                ? Object.values(values).some((value) => value === -1 || value === undefined) 
                                                 : false;
 
                                             if (hasNull) {
@@ -307,4 +255,4 @@ const GamefulQuestForm = (params: GamefulFormProps) => {
     )
 }
 
-export default GamefulQuestForm;
+export default SsqForm;

@@ -243,7 +243,7 @@ export interface GamefulQuest {
     gui_sense_directed: number;
     gui_keeping_track: number;
     gui_have_instructor: number;
-    attention_check_4: number; // Questão de atenção
+    attention_check_4: number; 
     gui_structured_help: number;
     gui_know_do_better: number;
     gui_useful_feedback: number;
@@ -345,8 +345,28 @@ export interface Gamex {
     attention_check: number;
 }
 
+export interface Ssq {
+    general_discomfort: number;       
+    fatigue: number;                  
+    headache: number;                 
+    eyestrain: number;                
+    difficulty_focusing: number;      
+    salivation_increase: number;      
+    sweating: number;                 
+    nausea: number;                   
+    difficulty_concentrating: number; 
+    fullness_of_head: number;         
+    blurred_vision: number;           
+    dizziness_eyes_open: number;      
+    dizziness_eyes_closed: number;    
+    vertigo: number;                  
+    stomach_awareness: number;        
+    burping: number;                  
+    other: number;                    
+    attention_check_ssq: number;      
+}
+
 export const gamexQuestions = [
-    // Diversão (Enjoyment)
     { index: 1, field: "game_was_fun", label: "gameWasFunLabel" },
     { index: 2, field: "enjoyed_playing", label: "enjoyedPlayingLabel" },
     { index: 3, field: "enjoyed_a_lot", label: "enjoyedALotLabel" },
@@ -354,7 +374,6 @@ export const gamexQuestions = [
     { index: 5, field: "highly_engaging", label: "highlyEngagingLabel" },
     { index: 6, field: "play_voluntarily", label: "playVoluntarilyLabel" },
     
-    // Imersão (Immersion)
     { index: 7, field: "forgot_location", label: "forgotLocationLabel" },
     { index: 8, field: "forgot_surroundings", label: "forgotSurroundingsLabel" },
     { index: 9, field: "back_to_reality", label: "backToRealityLabel" },
@@ -362,30 +381,25 @@ export const gamexQuestions = [
     { index: 11, field: "ignored_surroundings", label: "ignoredSurroundingsLabel" },
     { index: 12, field: "lost_track_of_time", label: "lostTrackOfTimeLabel" },
     
-    // Pensamento Criativo (Creative Thinking)
     { index: 13, field: "stimulated_imagination", label: "stimulatedImaginationLabel" },
     { index: 14, field: "felt_creative", label: "feltCreativeLabel" },
     { index: 15, field: "sense_of_exploration", label: "senseOfExplorationLabel" },
     { index: 16, field: "felt_adventurous", label: "feltAdventurousLabel" },
     
-    // Ativação (Activation)
     { index: 17, field: "felt_active", label: "feltActiveLabel" },
     { index: 18, field: "felt_restless", label: "feltRestlessLabel" },
     { index: 19, field: "felt_frantic", label: "feltFranticLabel" },
     { index: 20, field: "felt_excited", label: "feltExcitedLabel" },
     
-    // Ausência de Afeto Negativo (Negative Affect)
     { index: 21, field: "felt_upset", label: "feltUpsetLabel" },
     { index: 22, field: "felt_nervous", label: "feltNervousLabel" },
     { index: 23, field: "felt_frustrated", label: "feltFrustratedLabel" },
     
-    // Dominância (Dominance)
     { index: 24, field: "felt_in_command", label: "feltInCommandLabel" },
     { index: 25, field: "felt_influential", label: "feltInfluentialLabel" },
     { index: 26, field: "felt_independent", label: "feltIndependentLabel" },
     { index: 27, field: "felt_confident", label: "feltConfidentLabel" },
     
-    // Pergunta de Checagem (Isca)
     { index: 28, field: "attention_check", label: "attentionCheckLabel" }
 ] as const;
 
@@ -439,6 +453,34 @@ export interface Brums {
     alert: string,
 }
 
+export interface Imiteq {
+    int_enjoyed_task: number;
+    int_interesting: number;
+    int_fun: number;
+    int_enjoyed_very_much: number;
+    int_boring_rev: number; 
+    int_enjoyable: number;
+
+    com_pretty_good: number;
+    com_did_well_compared: number;
+    com_satisfied_performance: number;
+    com_pretty_skilled: number;
+    com_pretty_competent: number;
+
+    cho_my_choice: number;
+    cho_no_choice_rev: number;
+    cho_did_what_wanted: number;
+    cho_had_to_do_rev: number;
+    cho_because_no_choice_rev: number;
+    attention_check_imiteq: number;
+
+    pre_not_nervous_rev: number;
+    pre_tense: number;
+    pre_relaxed_rev: number;
+    pre_anxious: number;
+    pre_pressured: number;
+}
+
 export interface Gds {
     satisfied: string,
     no_activities: string,
@@ -474,6 +516,76 @@ export const gdsQuestions = [
     { index: 14, field: "hopeless", score: "Affirmative", question: "question14Label" },
     { index: 15, field: "unlucky", score: "Affirmative", question: "question15Label" }
 ];
+
+export interface Hexad {
+    phi_help_others: number;
+    phi_orient_situations: number;
+    phi_share_knowledge: number;
+    phi_wellbeing_others: number;
+
+    soc_interacting_important: number;
+    soc_part_of_team: number;
+    soc_part_of_community: number;
+    soc_enjoy_group: number;
+
+    fre_own_path: number;
+    fre_curiosity_guide: number;
+    fre_independent: number;
+    fre_self_expression: number;
+
+    ach_defeating_obstacles: number;
+    ach_mastering_difficult: number;
+    ach_improve_skills: number;
+    ach_emerging_victorious: number;
+
+    pla_competitions_prize: number;
+    pla_rewards_motivate: number;
+    pla_roi_important: number;
+    pla_reward_effort: number;
+
+    dis_provoke: number;
+    dis_question_status_quo: number;
+    dis_rebel: number;
+    dis_dislike_rules: number;
+
+    attention_check_hexad: number;
+}
+
+export interface Pq {
+    ada_control_events: number;             
+    ada_anticipate_happen: number;
+    ada_survey_vision: number;              
+    ada_moving_around: number;              
+    ada_examine_objects: number;            
+    ada_examine_multiple_viewpoints: number;
+    ada_manipulate_objects: number;         
+    ada_adjust_experience: number;          
+    ada_proficient_moving: number;          
+    ada_adjust_control_devices: number;     
+
+    ifq_responsive_environment: number;     
+    ifq_delay_actions: number;              
+    ifq_visual_interfere: number;           
+    ifq_control_interfere: number;          
+    ifq_concentrate_tasks: number;          
+
+    inv_natural_interactions: number;       
+    inv_visual_involve: number;             
+    inv_natural_mechanism: number;          
+    inv_involved_experience: number;        
+    inv_senses_engaged: number;             
+    inv_focused_task: number;               
+    attention_check_pq: number;             
+
+    sen_auditory_involve: number;           
+    sen_compelling_objects: number;         
+    sen_consistent_real_world: number;      
+    sen_identify_sounds: number;            
+    sen_localize_sounds: number;            
+    sen_survey_touch: number;               
+    sen_identify_physical: number;          
+    sen_consistent_senses: number;          
+}
 
 export interface Leap {
     admiration: string,
@@ -561,6 +673,68 @@ export const leapQuestions = [
     { index: 40, field: 'satisfied', factor: 'Fator 9', question: "Estou cheio(a)." }
 ];
 
+export interface Tuq {
+    tuq_improves_access: number;
+    tuq_saves_time: number;
+    tuq_meets_needs: number;
+    tuq_simple_to_use: number;
+    tuq_easy_to_learn: number;
+    tuq_return_activities: number;
+    tuq_pleasant_interaction: number;
+    tuq_like_using_system: number;
+    tuq_simple_easy_understand: number;
+    tuq_does_what_i_want: number;
+    attention_check_tuq: number; // Questão de atenção
+    tuq_easily_talk_professional: number;
+    tuq_hear_clearly: number;
+    tuq_express_effectively: number;
+    tuq_see_well_as_person: number;
+    tuq_same_as_in_person: number;
+    tuq_easy_error_recovery: number;
+    tuq_clear_error_messages: number;
+    tuq_comfortable_communicating: number;
+    tuq_acceptable_way: number;
+    tuq_would_use_again: number;
+    tuq_overall_satisfied: number;
+}
+
+export interface Ues {
+    fa_lost_myself: number;
+    fa_lost_track_time: number;
+    fa_blocked_out_things: number;
+    fa_lost_track_world: number;
+    fa_time_slipped_away: number;
+    fa_absorbed: number;
+    fa_let_myself_go: number;
+    
+    pu_frustrated_rev: number;
+    pu_confusing_rev: number;
+    pu_annoyed_rev: number;
+    pu_discouraged_rev: number;
+    pu_taxing_rev: number;
+    pu_demanding_rev: number;
+    pu_in_control: number;
+    pu_could_not_do_rev: number;
+
+    ae_attractive: number;
+    ae_aesthetically_appealing: number;
+    ae_liked_graphics: number;
+    ae_appealed_visual: number;
+    ae_visually_pleasing: number;
+    attention_check_ues: number;
+
+    rw_worthwhile: number;
+    rw_success: number;
+    rw_did_not_work_out_rev: number;
+    rw_rewarding: number;
+    rw_recommend: number;
+    rw_continued_curiosity: number;
+    rw_incited_curiosity: number;
+    rw_drawn_in: number;
+    rw_involved: number;
+    rw_fun: number;
+}
+
 export const instruments: Instruments[] = [
     {  
         value: "panas",
@@ -614,6 +788,48 @@ export const instruments: Instruments[] = [
         value: "iuxrv",
         label: "IUXRV",
         description: "specialist_services_instruments:iuxrv",
+        locales: ["en", "pt"],
+    },
+    {  
+        value: "hexad",
+        label: "HEXAD",
+        description: "specialist_services_instruments:hexad",
+        locales: ["en", "pt"],
+    },
+    {  
+        value: "gameful",
+        label: "GAMEFULQUEST",
+        description: "specialist_services_instruments:gameful",
+        locales: ["en", "pt"],
+    },
+    {  
+        value: "imiteq",
+        label: "IMITEQ",
+        description: "specialist_services_instruments:imiteq",
+        locales: ["en", "pt"],
+    },
+    {  
+        value: "pq",
+        label: "PQ",
+        description: "specialist_services_instruments:pq",
+        locales: ["en", "pt"],
+    },
+    {  
+        value: "ssq",
+        label: "SSQ",
+        description: "specialist_services_instruments:ssq",
+        locales: ["en", "pt"],
+    },
+    {  
+        value: "tuq",
+        label: "TUQ",
+        description: "specialist_services_instruments:tuq",
+        locales: ["en", "pt"],
+    },
+    {  
+        value: "ues",
+        label: "UES",
+        description: "specialist_services_instruments:ues",
         locales: ["en", "pt"],
     },
 ];

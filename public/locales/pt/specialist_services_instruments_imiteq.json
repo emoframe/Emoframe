@@ -1,0 +1,46 @@
+{
+  "identificationExample": "Identificação",
+  "questionnaireAnswersDescription": "Para cada uma das afirmações a seguir, indique o quão verdadeira ela é para você, considerando a atividade realizada.",
+  
+  "scaleOption1Label": "De modo algum",
+  "scaleOption2Label": "",
+  "scaleOption3Label": "",
+  "scaleOption4Label": "Um pouco verdadeiro",
+  "scaleOption5Label": "",
+  "scaleOption6Label": "",
+  "scaleOption7Label": "Totalmente verdadeiro",
+
+  "intEnjoyedTaskLabel": "Ao {{task}}, eu pensava no quanto havia gostado de fazer isso.",
+  "intInterestingLabel": "Achei muito interessante {{task}}.",
+  "intFunLabel": "{{task}} foi divertido.",
+  "intEnjoyedVeryMuchLabel": "Curti muito {{task}}.",
+  "intBoringRevLabel": "Achei muito chato {{task}}.",
+  "intEnjoyableLabel": "Eu descreveria {{task}} como muito agradável.",
+
+  "comPrettyGoodLabel": "Acho que sou bom em {{task}}.",
+  "comDidWellComparedLabel": "Em comparação a outras pessoas, acho que me saí bem em {{task}}.",
+  "comSatisfiedPerformanceLabel": "Estou satisfeito com meu desempenho ao {{task}}.",
+  "comPrettySkilledLabel": "Eu me senti muito habilidoso ao {{task}}.",
+  "comPrettyCompetentLabel": "Depois de {{task}} por um tempo, me senti muito competente.",
+
+  "choMyChoiceLabel": "Senti que era minha escolha {{task}}.",
+  "choNoChoiceRevLabel": "Eu realmente não tive escolha quanto a {{task}}.",
+  "choDidWhatWantedLabel": "Ao {{task}}, senti que estava fazendo o que eu queria.",
+  "attentionCheckImiteqLabel": "Para garantir a qualidade das respostas, por favor, marque a opção 'Um pouco verdadeiro'.",
+  "choHadToDoRevLabel": "Senti que tinha que {{task}}.",
+  "choBecauseNoChoiceRevLabel": "{{task}} foi uma coisa que fiz porque não tive escolha.",
+
+  "preNotNervousRevLabel": "Não me senti nervoso de forma alguma em {{task}}.",
+  "preTenseLabel": "Eu me senti tenso ao {{task}}.",
+  "preRelaxedRevLabel": "Eu me senti relaxado ao {{task}}.",
+  "preAnxiousLabel": "Eu estava ansioso ao {{task}}.",
+  "prePressuredLabel": "Eu me senti pressionado ao {{task}}.",
+
+  "previousButtonLabel": "Anterior",
+  "resetButtonLabel": "Limpar página",
+  "nextButtonLabel": "Próxima",
+  "finishButtonLabel": "Finalizar avaliação",
+  
+  "submitTitle": "Respostas enviadas!",
+  "submitMessage": "Sua avaliação foi salva com sucesso."
+}

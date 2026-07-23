@@ -35,16 +35,15 @@ const steps: StepConfig[] = [
 ];
 
 const IuxrvScaleProps = [
-    { value: '7', label: 'scaleOption7Label' },
-    { value: '6', label: 'scaleOption6Label' },
-    { value: '5', label: 'scaleOption5Label' },
-    { value: '4', label: 'scaleOption4Label' },
-    { value: '3', label: 'scaleOption3Label' },
-    { value: '2', label: 'scaleOption2Label' },
     { value: '1', label: 'scaleOption1Label' },
+    { value: '2', label: 'scaleOption2Label' },
+    { value: '3', label: 'scaleOption3Label' },
+    { value: '4', label: 'scaleOption4Label' },
+    { value: '5', label: 'scaleOption5Label' },
+    { value: '6', label: 'scaleOption6Label' },
+    { value: '7', label: 'scaleOption7Label' },
 ];
 
-// Questões separadas por contexto (5 questões por tela)
 const iuxrvQuestionPages = [
     // 1. VR Sickness
     [
@@ -70,7 +69,6 @@ const iuxrvQuestionPages = [
         { field: 'fun_world', label: 'funWorldLabel' },
         { field: 'exciting_world', label: 'excitingWorldLabel' },
     ],
-    // 4. Presença
     [
         { field: 'forgot_it_was_virtual', label: 'forgotItWasVirtualLabel' },
         { field: 'forgot_vr_equipment', label: 'forgotVrEquipmentLabel' },
@@ -78,7 +76,6 @@ const iuxrvQuestionPages = [
         { field: 'forgot_real_world', label: 'forgotRealWorldLabel' },
         { field: 'felt_it_could_be_real', label: 'feltItCouldBeRealLabel' },
     ],
-    // 5. Emoções
     [
         { field: 'felt_good', label: 'feltGoodLabel' },
         { field: 'felt_content', label: 'feltContentLabel' },
@@ -108,7 +105,6 @@ type IuxrvFormProps = SubmitModeProps | ViewModeProps;
 const IuxrvForm = (params: IuxrvFormProps) => {
     const FormSchema = !("isViewable" in params) ? IuxrvFormSchema : z.object({});
     
-    // Inicia tudo vazio com zero (ou undefined)
     const defaultValues = Object.fromEntries(
         flatIuxrvQuestions.map(item => [item.field, 0])
     );
@@ -120,7 +116,6 @@ const IuxrvForm = (params: IuxrvFormProps) => {
 
     const { push } = useRouter();
     const { toast } = useToast();
-    // Altere para o namespace correto da tradução do iuxrv no seu i18next
     const { t } = useTranslation('specialist_services_instruments_iuxrv');
 
     const { activeStep, nextStep, prevStep } = useStepper({
@@ -144,14 +139,12 @@ const IuxrvForm = (params: IuxrvFormProps) => {
 
     return (
         <div>
-            {/* Cabecalho de Passos */}
             <Steps activeStep={activeStep}>
                 {steps.map((step, index) => (
                     <Step 
                         index={index} 
                         key={index} 
                         additionalClassName={{ label: "text-md" }} 
-                        // Caso queira traduzir o nome das abas, você pode usar t(step.label)
                         {...{ label: step.label }} 
                     />
                 ))}

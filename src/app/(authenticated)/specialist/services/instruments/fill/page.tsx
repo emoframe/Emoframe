@@ -8,6 +8,13 @@ import GdsForm from '@/components/form/instrument/GdsForm';
 import LeapForm from '@/components/form/instrument/LeapForm';
 import GamexForm from '@/components/form/instrument/GamexForm';
 import IuxrvForm from '@/components/form/instrument/IuxrvForm';
+import GamefulQuestForm from '@/components/form/instrument/GamefulQuestForm';
+import HexadForm from '@/components/form/instrument/HexadForm';
+import ImiteqForm from '@/components/form/instrument/ImiteqForm';
+import PqForm from '@/components/form/instrument/PqForm';
+import SsqForm from '@/components/form/instrument/SsqForm';
+import TuqForm from '@/components/form/instrument/TuqForm';
+import UesForm from '@/components/form/instrument/UesForm';
 
 const ViewInstrument = async ({
 	searchParams,
@@ -52,6 +59,34 @@ const ViewInstrument = async ({
       {
         value: "iuxrv",
         component: <IuxrvForm isViewable identification=""/>
+      },
+      {
+        value: "gameful",
+        component: <GamefulQuestForm isViewable identification=""/>
+      },
+      {
+        value: "hexad",
+        component: <HexadForm isViewable identification=""/>
+      },
+      {
+        value: "imiteq",
+        component: <ImiteqForm isViewable identification=""/>
+      },
+      {
+        value: "pq",
+        component: <PqForm isViewable identification=""/>
+      },
+      {
+        value: "ssq",
+        component: <SsqForm isViewable identification=""/>
+      },
+      {
+        value: "tuq",
+        component: <TuqForm isViewable identification=""/>
+      },
+      {
+        value: "ues",
+        component: <UesForm isViewable identification=""/>
       }
     ]
 

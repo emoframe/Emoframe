@@ -1,0 +1,47 @@
+{
+  "identificationExample": "Identificação",
+  "questionnaireAnswersDescription": "Avalie cada uma das afirmações a seguir referentes à sua experiência com o sistema de telessaúde. Selecione N/A se a frase não se aplicar ao seu caso.",
+  
+  "scaleOption0Label": "N/A",
+  "scaleOption1Label": "Discordo bastante",
+  "scaleOption2Label": "Discordo",
+  "scaleOption3Label": "Discordo parcialmente",
+  "scaleOption4Label": "Neutro",
+  "scaleOption5Label": "Concordo parcialmente",
+  "scaleOption6Label": "Concordo",
+  "scaleOption7Label": "Concordo bastante",
+
+  "tuqImprovesAccessLabel": "Telessaúde melhora meu acesso aos serviços de saúde.",
+  "tuqSavesTimeLabel": "Com a telesaúde eu ganho tempo por não precisar me deslocar a um hospital ou clínica especializada.",
+  "tuqMeetsNeedsLabel": "A telesaúde supre as minhas demandas de assistência de saúde.",
+  "tuqSimpleToUseLabel": "Foi simples usar esse sistema.",
+  "tuqEasyToLearnLabel": "Foi fácil aprender a usar o sistema.",
+  "tuqReturnActivitiesLabel": "Acredito que eu poderia retornar mais rapidamente às minhas atividades usando este sistema.",
+  
+  "tuqPleasantInteractionLabel": "A maneira como interajo com este sistema é agradável.",
+  "tuqLikeUsingSystemLabel": "Eu gosto de usar esse sistema.",
+  "tuqSimpleEasyUnderstandLabel": "O sistema é simples e fácil de entender.",
+  "tuqDoesWhatIWantLabel": "Este sistema é capaz de fazer tudo o que eu gostaria que ele fosse capaz de fazer.",
+  "attentionCheckTuqLabel": "Esta é uma afirmação de controle. Para confirmar que você está lendo atentamente, por favor selecione a opção N/A.",
+  "tuqEasilyTalkProfessionalLabel": "Posso facilmente conversar com o profissional de saúde usando o sistema de telessaúde.",
+  
+  "tuqHearClearlyLabel": "Eu consigo ouvir o profissional claramente usando esse sistema.",
+  "tuqExpressEffectivelyLabel": "Eu senti que consegui me expressar de forma efetiva.",
+  "tuqSeeWellAsPersonLabel": "Ao utilizar o sistema de telesaúde, eu consigo ver o profissional de saúde, tão bem quanto se estivéssemos nos vendo pessoalmente.",
+  "tuqSameAsInPersonLabel": "Eu acho que os atendimentos fornecidos pelo sistema de telessaúde são iguais aos atendimentos realizados pessoalmente.",
+  "tuqEasyErrorRecoveryLabel": "Sempre que eu errei utilizando o sistema, eu consegui corrigir o erro de forma fácil e rápida.",
+  
+  "tuqClearErrorMessagesLabel": "O sistema forneceu mensagens de erro que me disseram claramente como corrigir os problemas.",
+  "tuqComfortableCommunicatingLabel": "Eu me sinto a vontade para me comunicar com o profissional de saúde usando o sistema de telessaúde.",
+  "tuqAcceptableWayLabel": "Telessaúde é uma maneira aceitável de utilizar serviços de saúde.",
+  "tuqWouldUseAgainLabel": "Eu usaria serviços de telessaúde de novo.",
+  "tuqOverallSatisfiedLabel": "No geral, estou satisfeito com este sistema de telessaúde.",
+
+  "previousButtonLabel": "Anterior",
+  "resetButtonLabel": "Limpar página",
+  "nextButtonLabel": "Próxima",
+  "finishButtonLabel": "Finalizar avaliação",
+  
+  "submitTitle": "Respostas enviadas!",
+  "submitMessage": "Sua avaliação foi salva com sucesso."
+}

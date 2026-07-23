@@ -1,0 +1,36 @@
+{
+  "identificationExample": "Identificação",
+  "questionnaireAnswersDescription": "Por favor, indique a intensidade com que você vivenciou cada um dos sintomas a seguir durante ou após a experiência:",
+  
+  "scaleOption0Label": "Ausente",
+  "scaleOption1Label": "Leve",
+  "scaleOption2Label": "Moderado",
+  "scaleOption3Label": "Grave",
+
+  "generalDiscomfortLabel": "Mal-estar generalizado",
+  "fatigueLabel": "Cansaço",
+  "headacheLabel": "Dor de cabeça",
+  "eyestrainLabel": "Vista cansada",
+  "difficultyFocusingLabel": "Dificuldade de manter o foco",
+  "salivationIncreaseLabel": "Aumento de salivação",
+  "sweatingLabel": "Sudorese",
+  "nauseaLabel": "Náusea",
+  "difficultyConcentratingLabel": "Dificuldade de concentração",
+  "attentionCheckSsqLabel": "Esta é uma afirmação para checar sua atenção. Por favor, marque a opção 'Leve'.",
+  "fullnessOfHeadLabel": "\"Cabeça pesada\"",
+  "blurredVisionLabel": "Visão embaçada",
+  "dizzinessEyesOpenLabel": "Tontura com olhos abertos",
+  "dizzinessEyesClosedLabel": "Tontura com olhos fechados",
+  "vertigoLabel": "Vertigem",
+  "stomachAwarenessLabel": "Desconforto Abdominal",
+  "burpingLabel": "Arroto",
+  "otherLabel": "Outro sintoma",
+
+  "previousButtonLabel": "Anterior",
+  "resetButtonLabel": "Limpar página",
+  "nextButtonLabel": "Próxima",
+  "finishButtonLabel": "Finalizar avaliação",
+  
+  "submitTitle": "Respostas enviadas!",
+  "submitMessage": "Sua avaliação foi salva com sucesso."
+}
